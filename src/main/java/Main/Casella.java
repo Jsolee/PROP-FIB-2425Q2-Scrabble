@@ -2,7 +2,6 @@ package Main;
 
 public class Casella {
     int x, y;
-    int prova;
     int multiplicador_letra;
     int multiplicador_paraula;
     boolean ocupada;
