@@ -24,7 +24,7 @@ public class Fitxa {
         return esComodin;
     }
 
-    // For blank tiles.
+    // For blank tiles
     public void assignarLletra(char novaLletra) {
         if (esComodin) {
             this.lletra = novaLletra;

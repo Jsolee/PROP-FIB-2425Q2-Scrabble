@@ -18,7 +18,7 @@ public class Casella {
         this.esCasellaInicial = false;
     }
 
-    // Getters and Setters.
+    // Getters and Setters
     public int getX() { return x; }
     public int getY() { return y; }
     public int getMultiplicadorLetra() { return multiplicador_letra; }
