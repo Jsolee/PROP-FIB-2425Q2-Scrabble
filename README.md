@@ -20,6 +20,7 @@ src/main/java/
 
 A continuació es llisten algunes comandes útils per treballar amb aquest projecte utilitzant Gradle:
 
+- **`./gradlew build`**: Genera els arxius compilats i els executables. 
 - **`./gradlew test`**: Executa els tests unitaris.
 - **`./gradlew run`**: Executa l'aplicació en l'entorn de desenvolupament, útil per fer proves ràpides.
 - **`./gradlew jar`**: Genera un fitxer JAR amb el codi del projecte (sense incloure dependències) a:
