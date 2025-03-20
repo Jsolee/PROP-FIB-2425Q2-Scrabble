@@ -9,4 +9,18 @@ public class Persona extends Usuari {
         this.correu = correu;
         this.contrasenya = contrasenya;
     }
+
+    //getters
+    public String getCorreu() {
+        return this.correu;
+    }
+
+    public String getContrasenya() {
+        return this.contrasenya;
+    }
+
+    public boolean setContrasenya(String contrasenya) {
+        this.contrasenya = contrasenya;
+        return true;
+    }
 }
