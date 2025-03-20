@@ -142,19 +142,47 @@ public class Taulell {
     }
 
     public int calcularPuntuacioMoviment(List<Fitxa> fitxesColocades, List<int[]> posicions) {
-        // Aquesta és una implementació simplificada
-        int puntuacio = 0;
+        if (fitxesColocades.isEmpty() || posicions.isEmpty()) {
+            return 0;
+        }
+
+        // Determine if word is horizontal or vertical
+        boolean horitzontal = determinarDireccio(posicions);
+
+        // Calculate base score with letter multipliers and collect word multipliers
+        int puntuacioBase = 0;
+        int multiplicadorParaulaTotal = 1;
+
         for (int i = 0; i < fitxesColocades.size(); i++) {
             int x = posicions.get(i)[0];
             int y = posicions.get(i)[1];
             Casella casella = caselles[x][y];
 
-            // Aplicar multiplicador de lletra
-            puntuacio += fitxesColocades.get(i).getValor() * casella.getMultiplicadorLetra();
+            // Apply letter multiplier to this tile's value
+            puntuacioBase += fitxesColocades.get(i).getValor() * casella.getMultiplicadorLetra();
 
-            // Aplicar multiplicador de paraula es faria en una implementació més completa
+            // Collect word multiplier (will be applied later)
+            multiplicadorParaulaTotal *= casella.getMultiplicadorParaula();
         }
-        return puntuacio;
+
+        // Apply accumulated word multipliers to the total score
+        return puntuacioBase * multiplicadorParaulaTotal;
+    }
+
+    private boolean determinarDireccio(List<int[]> posicions) {
+        if (posicions.size() <= 1) {
+            return true; // Default to horizontal for single tile
+        }
+
+        // If all positions have the same X coordinate, word is vertical
+        // Otherwise, assume horizontal
+        int primerX = posicions.get(0)[0];
+        for (int i = 1; i < posicions.size(); i++) {
+            if (posicions.get(i)[0] != primerX) {
+                return true; // Horizontal
+            }
+        }
+        return false; // Vertical
     }
 
     public void mostrarTaulell() {
