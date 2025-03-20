@@ -113,5 +113,37 @@ public class ControladorUsuari {
         return false;
     }
 
+    public boolean veurePerfil(String username)
+    {
+        if (!existeixUsuari(username))
+            return false;
+
+        Usuari usuari = usuaris.get(username);
+        if (!usuari.teSessioIniciada())
+        {
+            System.out.println("Sessio no iniciada");
+            return false;
+        }
+        Persona persona = (Persona) usuari; //cast a Persona (hereda de Usuari)
+        System.out.println("Nom: " + persona.getNom());
+        System.out.println("Correu: " + persona.getCorreu());
+        System.out.println("Partides en curs: ");
+        for (Partida partida : persona.getPartidesEnCurs())
+        {
+            System.out.println(partida.getNom());
+        }
+        System.out.println("Estadistiques: ");
+
+        Estadistiques e = persona.getEstadistiques();
+        System.out.println("Partides guanyades: " + e.getPartidesGuanyades());
+        System.out.println("Partides perdudes: " + e.getPartidesPerdudes());    
+        System.out.println("Partides jugades: " + e.getPartidesJugades());
+        System.out.println("Puntuacio total: " + e.getPuntuacioTotal());
+        System.out.println("Puntuacio promig: " + e.getPuntuacioPromig());
+        System.out.println("Nivell de ranking: " + e.getNivellRanking());
+        return true;
+
+    }
+
 
 }
