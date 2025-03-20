@@ -146,7 +146,7 @@ public class Taulell {
             return 0;
         }
 
-        // Determine if word is horizontal or vertical
+        // Determine if word is horizontal or vertical.
         boolean horitzontal = determinarDireccio(posicions);
 
         // Calculate base score with letter multipliers and collect word multipliers
