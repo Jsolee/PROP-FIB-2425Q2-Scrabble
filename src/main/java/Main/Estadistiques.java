@@ -17,4 +17,30 @@ public class Estadistiques {
         this.puntuacioPromig = 0;
         this.nivellRanking = 0; //ultim? cal calcular
     }
+
+    public int getPartidesGuanyades() {
+        return this.partidesGuanyades;
+    }
+
+    public int getPartidesPerdudes() {
+        return this.partidesPerdudes;
+    }
+
+    public int getPartidesJugades() {
+        return this.partidesJugades;
+    }
+
+    public int getPuntuacioTotal() {
+        return this.puntuacioTotal;
+    }
+
+    public int getPuntuacioPromig() {
+        return this.puntuacioPromig;
+    }
+
+    public int getNivellRanking() {
+        return this.nivellRanking;
+    }
+
+    
 }
