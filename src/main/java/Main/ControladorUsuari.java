@@ -139,5 +139,4 @@ public class ControladorUsuari {
         return true;
 
     }
-
 }
