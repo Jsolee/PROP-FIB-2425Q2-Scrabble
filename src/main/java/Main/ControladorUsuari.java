@@ -127,11 +127,6 @@ public class ControladorUsuari {
         Persona persona = (Persona) usuari; //cast a Persona (hereda de Usuari)
         System.out.println("Nom: " + persona.getNom());
         System.out.println("Correu: " + persona.getCorreu());
-        System.out.println("Partides en curs: ");
-        for (Partida partida : persona.getPartidesEnCurs())
-        {
-            System.out.println(partida.getNom());
-        }
         System.out.println("Estadistiques: ");
 
         Estadistiques e = persona.getEstadistiques();
@@ -144,6 +139,4 @@ public class ControladorUsuari {
         return true;
 
     }
-
-
 }

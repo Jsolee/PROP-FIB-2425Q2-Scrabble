@@ -1,46 +1,88 @@
 package Main;
 
 public class Estadistiques {
-    int partidesGuanyades;
-    int partidesPerdudes;
-    int partidesJugades;
-    int puntuacioTotal;
-    int puntuacioPromig;
-    int nivellRanking;
-    
-    //al crear unes estadistiques d'un usuari te tot a 0 per defecte;
+    private int paraulesTotals;
+    private int puntTotal;
+    private int partidesJugades;
+    private int partidesGuanyades;
+
     public Estadistiques() {
-        this.partidesGuanyades = 0;
-        this.partidesPerdudes = 0;
+        this.paraulesTotals = 0;
+        this.puntTotal = 0;
         this.partidesJugades = 0;
-        this.puntuacioTotal = 0;
-        this.puntuacioPromig = 0;
-        this.nivellRanking = 0; //ultim? cal calcular
+        this.partidesGuanyades = 0;
     }
 
-    public int getPartidesGuanyades() {
-        return this.partidesGuanyades;
+    public void incrementarParaulesCreades() {
+        this.paraulesTotals++;
     }
 
-    public int getPartidesPerdudes() {
-        return this.partidesPerdudes;
+    public void incrementarPuntTotal(int punts) {
+        this.puntTotal += punts;
+    }
+
+    public void incrementarPartidesJugades() {
+        this.partidesJugades++;
+    }
+
+    public void incrementarPartidesGuanyades() {
+        this.partidesGuanyades++;
+    }
+
+    public int getParaulesTotals() {
+        return paraulesTotals;
+    }
+
+    public int getPuntTotal() {
+        return puntTotal;
     }
 
     public int getPartidesJugades() {
-        return this.partidesJugades;
+        return partidesJugades;
+    }
+
+    public int getPartidesGuanyades() {
+        return partidesGuanyades;
+    }
+
+    // Add the missing methods
+    public int getPartidesPerdudes() {
+        return partidesJugades - partidesGuanyades;
     }
 
     public int getPuntuacioTotal() {
-        return this.puntuacioTotal;
+        return puntTotal;
     }
 
-    public int getPuntuacioPromig() {
-        return this.puntuacioPromig;
+    public double getPuntuacioPromig() {
+        if (partidesJugades == 0) {
+            return 0.0;
+        }
+        return (double) puntTotal / partidesJugades;
     }
 
-    public int getNivellRanking() {
-        return this.nivellRanking;
+    public String getNivellRanking() {
+        // Calculate level based on points and win percentage
+        double winPercentage = getPercentatgeVictories();
+        int totalPoints = puntTotal;
+
+        if (partidesJugades < 5) {
+            return "Novell";
+        } else if (winPercentage > 70 && totalPoints > 1000) {
+            return "Expert";
+        } else if (winPercentage > 50 && totalPoints > 500) {
+            return "Avançat";
+        } else if (winPercentage > 30 && totalPoints > 200) {
+            return "Intermedi";
+        } else {
+            return "Principiant";
+        }
     }
 
-    
+    public double getPercentatgeVictories() {
+        if (partidesJugades == 0) {
+            return 0.0;
+        }
+        return (double) partidesGuanyades / partidesJugades * 100;
+    }
 }
