@@ -3,6 +3,7 @@ package Main;
 import java.util.*;
 
 public class Partida {
+    private String nom;
     private Taulell taulell;
     private List<Persona> jugadors;
     private int jugadorActual;
@@ -16,8 +17,9 @@ public class Partida {
     private Map<Persona, Integer> puntuacions;
     private Map<Persona, List<Fitxa>> fitxesJugadors;
 
-    public Partida(int timeout) {
+    public Partida(int timeout, String nom) {
         this.timeout = timeout;
+        this.nom = nom;
         this.taulell = new Taulell();
         this.jugadors = new ArrayList<>();
         this.jugadorActual = 0;
@@ -47,12 +49,24 @@ public class Partida {
         jugador.getPartidesEnCurs().add(this);
     }
 
+    public String getNom() {
+        return nom;
+    }
+
     private void afegirFitxa(Persona jugador, Fitxa fitxa) {
         fitxesJugadors.get(jugador).add(fitxa);
     }
 
     private void eliminarFitxa(Persona jugador, Fitxa fitxa) {
         fitxesJugadors.get(jugador).remove(fitxa);
+    }
+
+    public void setBossa(Bossa bossa) {
+        this.bossa = bossa;
+    }
+
+    public Bossa getBossa() {
+        return bossa;
     }
 
     private void incrementarPuntuacio(Persona jugador, int punts) {

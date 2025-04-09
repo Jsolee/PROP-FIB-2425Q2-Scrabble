@@ -7,8 +7,8 @@ public class ControladorPartida {
     private Timer timer;
     private TimerTask timeoutTask;
 
-    public ControladorPartida(int timeout, List<Persona> jugadors) {
-        partida = new Partida(timeout);
+    public ControladorPartida(int timeout, String nomPartida, List<Persona> jugadors) {
+        partida = new Partida(timeout, nomPartida);
         inicialitzarJugadors(jugadors);
         inicialitzarTimer();
     }
