@@ -48,7 +48,7 @@ public class Bossa {
         afegirFitxes('A', 1, 12);
         afegirFitxes('B', 3, 2);
         afegirFitxes('C', 2, 3);
-        afegirFitxes('Ç', 10, 1);
+        afegirFitxes("Ç", 10, 1);
         afegirFitxes('D', 2, 3);
         afegirFitxes('E', 1, 13);
         afegirFitxes('F', 4, 1);
@@ -91,7 +91,7 @@ public class Bossa {
         afegirFitxes("LL", 8, 1);   // Adding LL as a special tile
         afegirFitxes('M', 3, 2);
         afegirFitxes('N', 1, 5);
-        afegirFitxes('Ñ', 8, 1);    // Spanish specific: Ñ
+        afegirFitxes("Ñ", 8, 1);    // Spanish specific: Ñ
         afegirFitxes('O', 1, 9);
         afegirFitxes('P', 3, 2);
         afegirFitxes('Q', 5, 1);
