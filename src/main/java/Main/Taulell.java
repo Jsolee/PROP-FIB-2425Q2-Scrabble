@@ -207,4 +207,15 @@ public class Taulell {
         }
         return null;
     }
+
+    public Fitxa retirarFitxa(int x, int y) {
+        // Check if position is within board boundaries
+        if (x < 0 || x >= MIDA || y < 0 || y >= MIDA) {
+            return null;
+        }
+
+        // Get the cell and remove the tile if present
+        Casella casella = caselles[x][y];
+        return casella.retirarFitxa();
+    }
 }

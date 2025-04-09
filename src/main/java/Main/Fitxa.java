@@ -1,53 +1,40 @@
 package Main;
 
 public class Fitxa {
-    private char lletra;
+    private String lletres;  // Changed from char to String to support special tiles
     private int valor;
-    private boolean esComodin;
+    private boolean blank;
 
     public Fitxa(char lletra, int valor) {
-        this.lletra = lletra;
+        this.lletres = String.valueOf(lletra);
         this.valor = valor;
-        this.esComodin = (lletra == '*' || lletra == ' ');
+        this.blank = (lletra == ' ');
     }
 
-    // Getters
+    public Fitxa(String lletres, int valor) {
+        this.lletres = lletres;
+        this.valor = valor;
+        this.blank = false;  // Multi-character tiles are never blank
+    }
+
     public char getLletra() {
-        return lletra;
+        return !lletres.isEmpty() ? lletres.charAt(0) : ' ';
+    }
+
+    public String getValorLletra() {
+        return lletres;
     }
 
     public int getValor() {
         return valor;
     }
 
-    public boolean esComodin() {
-        return esComodin;
-    }
-
-    // For blank tiles
-    public void assignarLletra(char novaLletra) {
-        if (esComodin) {
-            this.lletra = novaLletra;
-        }
-    }
-
-    // Reset blank tile
-    public void resetComodin() {
-        if (esComodin) {
-            this.lletra = '*';
-        }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Fitxa fitxa = (Fitxa) o;
-        return lletra == fitxa.lletra && valor == fitxa.valor;
+    public boolean isBlank() {
+        return blank;
     }
 
     @Override
     public String toString() {
-        return String.valueOf(lletra) + "(" + valor + ")";
+        return blank ? "_" : lletres + "(" + valor + ")";
     }
 }
