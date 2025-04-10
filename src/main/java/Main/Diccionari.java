@@ -25,7 +25,7 @@ public class Diccionari {
             if (is == null) {
                 throw new RuntimeException("No se encontró el recurso: " + ruta);
             }
-            BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_16LE));
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             String linea;
             while ((linea = br.readLine()) != null) {
                 System.out.println(linea);

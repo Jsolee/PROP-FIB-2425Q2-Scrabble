@@ -30,7 +30,9 @@ public class DiccionariTest {
     public void setUp() {
         // Se ejecuta antes de cada test.
         // Configura el entorno de prueba.
-        dic = new Diccionari("english");
+        String nom_dic = "catalan";
+        System.out.println("Crear el diccionari " + nom_dic + ".");
+        dic = new Diccionari(nom_dic);
     }
 
     // aixo s'executa després de cada test
@@ -46,7 +48,7 @@ public class DiccionariTest {
     @Test
     public void testGetNom() {
         // Comprueba que el nombre se ha asignado correctamente
-        assertEquals("english", dic.getNom());
+        assertEquals("catalan", dic.getNom());
     }
 
 }
