@@ -11,8 +11,9 @@ ext {
 }
 
 application {
-    mainClassName = javaMainClass
+    mainClass.set(javaMainClass) // Reemplaza con tu clase principal completa
 }
+
 
 jar {
     manifest {

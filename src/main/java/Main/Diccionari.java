@@ -3,35 +3,62 @@ package Main;
 
 import java.util.HashMap;
 import java.util.Map;
+// per llegir els fitxers del diccionari
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public class Diccionari {
 
+
     // constructora
-    public Diccionari(String nom, String idioma) {
+    public Diccionari(String nom) {
         this.nom = nom;
-        this.idioma = idioma;
+        // en la ruta relativa resources/ ha d'haver-hi un directori amb el nom del diccionari, i un fitxer <nom-diccionari>.txt
+        // amb la llista de paraules ordenades del diccionari, en la seguent instrucció carreguem el fitxer, el llegim y creem el DAWG.
+        String ruta = "/" + nom + "/" + nom + ".txt";
+        try (InputStream is = Diccionari.class.getResourceAsStream(ruta)) {
+            if (is == null) {
+                throw new RuntimeException("No se encontró el recurso: " + ruta);
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                System.out.println(linea);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.arrel = new DAWGnode();
+        this.bossa = new Bossa();
     }
 
     // atributs
     private String nom;
-    private String idioma;
     private DAWGnode arrel;
+    private Bossa bossa;
 
     // getters i setters
     public String getNom() {
         return this.nom;
     }
-    public String getIdioma() {
-        return this.idioma;
+
+    public Bossa getBossa() {
+        return this.bossa;
     }
 
     public void setNom(String nom) {
         this.nom = nom;
     }
-    public void setIdioma(String idioma) {
-        this.idioma = idioma;
+
+    public void setBossa(Bossa bossa) {
+        this.bossa = bossa;
     }
+
 
     // classe per implementar el DAWG
     private class DAWGnode {
@@ -49,6 +76,7 @@ public class Diccionari {
         public Boolean getEsParaula() {
             return this.esParaula;
         }
+
         public String getSignatura() {
             return this.signatura;
         }
@@ -56,77 +84,11 @@ public class Diccionari {
         public void setEsParaula(Boolean esParaula) {
             this.esParaula = esParaula;
         }
+
         public void setSignatura(String signatura) {
             this.signatura = signatura;
         }
 
-        // mètodes
-        public void calcularSignatura() {
-            // calcula la signatura del node y actualitza el atribut
-        }
-    }
-
-    public boolean buscarParaula(String paraula) {
-        DAWGnode node = NodeDePrefix();
-        return node != null && node.esParaula;
-    }
-
-    public boolean buscarPrefix(String prefix) {
-        DAWGnode node = NodeDePrefix(prefix);
-        return node != null;
-    }
-
-    public void afegirParaula(String paraula) {
-        afegirParaulaTrie(paraula);
-        minimitzar();
-    }
-
-    // Utilitzar aquesta funció per afegir moltes paraules seguides ja que t'estalvies la minimització.
-    public void afegirParaulaTrie(String paraula) { // afegeix paraula com si fos un trie en comptes d'un DAWG, per tant s'haura de minimitzar després
-        DAWGnode node = arrel;
-        for (char lletra : paraula.toCharArray()) {
-            if (!node.produccions.containsKey(lletra)) {
-                node.produccions.put(lletra, new DAWGnode());
-            }
-            node = node.produccions.get(lletra);
-        }
-        node.setEsParaula(true);
-    }
-
-    public void eliminarParaula(String paraula) {
-        eliminarParaulaTrie(paraula);
-        minimitzar();
-    }
-
-    public void eliminarParaulaTrie(String paraula) {
-        DAWGnode node = arrel;
-        for (char lletra : paraula.toCharArray()) {
-            if (!node.produccions.containsKey(lletra)) {
-                return;
-            }
-            node = node.produccions.get(lletra);
-        }
-        node.setEsParaula(false);
-    }
-
-    private void minimitzar() {
-        // minimitza el trie per obtenir el DAWG
-
-        // eliminar nodes unicos, inaccesibles(aunque creo que no hay), ramas inutiles,
-
-        // minimizar a partir de la signatura.
 
     }
-
-    private DAWGnode NodeDePrefix(String prefix) {
-        DAWGnode node = new DAWGnode();
-        for (char lletra : prefix.toCharArray()) {
-            if (!node.produccions.containsKey(lletra)) {
-                return null;
-            }
-            node = node.produccions.get(lletra);
-        }
-        return node;
-    }
-
 }
