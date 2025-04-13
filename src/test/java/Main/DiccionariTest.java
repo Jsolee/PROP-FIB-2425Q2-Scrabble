@@ -34,6 +34,13 @@ public class DiccionariTest {
     }
 
     @Test
+    public void testQuantsEstats () {
+        int estats = dic.getNumeroNodes();
+        System.out.println("El diccionari " + dic.getNom() + " conté " + estats + " estats.");
+        assertTrue(estats > 0);
+    }
+
+    @Test
     public void testConteParaules() {
         String nom = dic.getNom();
         String ruta = "src/main/resources/" + nom + "/" + nom + ".txt";
@@ -50,12 +57,6 @@ public class DiccionariTest {
         }
     }
 
-    @Test
-    public void testQuantsEstats () {
-        int estats = dic.getNumeroNodes();
-        System.out.println("El diccionari " + dic.getNom() + " conté " + estats + " estats.");
-        assertTrue(estats > 0);
-    }
 
     @Test
     public void testParaulaQueNoEsta () {
