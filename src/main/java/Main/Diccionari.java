@@ -15,9 +15,9 @@ public class Diccionari {
         this.nom = nom;
         this.registre = new HashMap<>();
         this.arrel = new DAWGnode();
-        this.bossa = new Bossa();
+        this.bossa = new Bossa(nom);
 
-        cargarDiccionari(nom);
+        carregarDiccionari(nom);
     }
 
     // atributs
@@ -79,7 +79,7 @@ public class Diccionari {
 
     // metodes privats per implementar el DAWG
 
-    private void cargarDiccionari(String nom) {
+    private void carregarDiccionari(String nom) {
 
         // llegim el fitxer del diccionari
         String ruta = "src/main/resources/" + nom + "/" + nom + ".txt";
