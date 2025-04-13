@@ -3,6 +3,7 @@ package Main;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Main {
   private ControladorUsuari controladorUsuari;
@@ -129,6 +130,10 @@ public class Main {
       }
     }
 
+    // Show initial board state
+    System.out.println("\nInitial board:");
+    partida.getTaulell().mostrarTaulell();
+
     boolean playing = true;
     while (playing) {
       System.out.println("\nYour hand:");
@@ -170,22 +175,104 @@ public class Main {
         default:
           System.out.println("Invalid option.");
       }
+      // Show the board after each action
+      if (playing) {
+        System.out.println("\nCurrent board state:");
+        partida.getTaulell().mostrarTaulell();
+      }
     }
   }
 
   private void playWord(Scanner scanner, List<Fitxa> hand) {
+    System.out.println("Enter coordinates to play (format: row column direction)");
+    System.out.println("Direction: H for horizontal, V for vertical");
+    System.out.print("> ");
+
+    int row, col;
+    String direction;
+    try {
+      String[] input = scanner.nextLine().split(" ");
+      row = Integer.parseInt(input[0]);
+      col = Integer.parseInt(input[1]);
+      direction = input[2].toUpperCase();
+    } catch (Exception e) {
+      System.out.println("Invalid input format. Please try again.");
+      return;
+    }
+
     System.out.print("Enter word to play: ");
     String word = scanner.nextLine().toUpperCase();
-    System.out.println("You played: " + word);
 
-    // Mock implementation - in a real game, validate the word and update the board
-    System.out.println("Word played successfully! Score: 10");
+    // Validate if player has the tiles for this word
+    boolean canForm = true;
+    List<Fitxa> usedTiles = new ArrayList<>();
+    List<Integer> usedIndices = new ArrayList<>();
 
-    // Replace used tiles
-    for (int i = 0; i < word.length() && !partida.getBossa().esBuida(); i++) {
-      Fitxa fitxa = partida.getBossa().agafarFitxa();
-      if (fitxa != null) {
-        hand.add(fitxa);
+    for (char c : word.toCharArray()) {
+      boolean found = false;
+      for (int i = 0; i < hand.size(); i++) {
+        if (!usedIndices.contains(i) && hand.get(i).getLletra() == c) {
+          usedTiles.add(hand.get(i));
+          usedIndices.add(i);
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        canForm = false;
+        break;
+      }
+    }
+
+    if (!canForm) {
+      System.out.println("You don't have the necessary tiles to form this word.");
+      return;
+    }
+
+    // Try to place the word on the board
+    Taulell board = partida.getTaulell();
+    boolean placed = true;
+    List<int[]> positions = new ArrayList<>();
+
+    for (int i = 0; i < word.length(); i++) {
+      int r = row;
+      int c = col;
+      if (direction.equals("H")) {
+        c += i;
+      } else {
+        r += i;
+      }
+
+      if (!board.colocarFitxa(r, c, usedTiles.get(i))) {
+        placed = false;
+        break;
+      }
+      positions.add(new int[]{r, c});
+    }
+
+    if (placed) {
+      // Remove used tiles from hand
+      usedIndices.sort(Collections.reverseOrder());
+      for (int idx : usedIndices) {
+        hand.remove(idx);
+      }
+
+      // Calculate score
+      int score = board.calcularPuntuacioMoviment(usedTiles, positions);
+      System.out.println("Word played successfully! Score: " + score);
+
+      // Draw new tiles
+      for (int i = 0; i < usedTiles.size() && !partida.getBossa().esBuida(); i++) {
+        Fitxa newTile = partida.getBossa().agafarFitxa();
+        if (newTile != null) {
+          hand.add(newTile);
+        }
+      }
+    } else {
+      System.out.println("Cannot place word at that position. Please try again.");
+      // If placement failed, remove any tiles that were placed
+      for (int[] pos : positions) {
+        board.retirarFitxa(pos[0], pos[1]);
       }
     }
   }
