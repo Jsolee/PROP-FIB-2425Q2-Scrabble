@@ -41,7 +41,7 @@ public class Bossa {
             while ((linia = br.readLine()) != null) {
                 // cada linia del fitxer conté una lletra, la quantitat de fitxes i el valor de la lletra
                 String[] data = linia.split("\\s+");
-                char lletra = data[0].charAt(0);
+                String lletra = data[0];
                 int quantitat = Integer.parseInt(data[1]);
                 int valor = Integer.parseInt(data[2]);
 
@@ -56,7 +56,7 @@ public class Bossa {
     }
 
 
-    private void afegirFitxa(char lletra, int quantitat, int valor) {
+    private void afegirFitxa(String lletra, int quantitat, int valor) {
         for (int i = 0; i < quantitat; i++) {
             fitxes.add(new Fitxa(lletra, valor));
         }

@@ -18,7 +18,7 @@ public class BossaTest {
     public static void setUpClass() {
         // Se ejecuta una vez antes de todos los tests
         System.out.println("Iniciando pruebas de Bossa...");
-        String nom_bossa = "english";
+        String nom_bossa = "castellano";
         System.out.println("Crear la bossa " + nom_bossa + ".");
         bossa = new Bossa(nom_bossa);
     }
