@@ -15,35 +15,24 @@ public class Diccionari {
         this.nom = nom;
         this.registre = new HashMap<>();
         this.arrel = new DAWGnode();
-        this.bossa = new Bossa(nom);
 
         carregarDiccionari(nom);
     }
 
     // atributs
     private String nom;
-    private DAWGnode arrel;
-    private Bossa bossa;
-
+    private final DAWGnode arrel;
     // abans utilitzava un ArrayList, pero aixo provocava que comprovar si un node estava registrat fos O(n) i no O(1)
     // d'aquesta manera vaig aconseguir que el diccionari english cargues en 1 segon y no en 1 minut.
-    private Map<DAWGnode, DAWGnode> registre;
+    private final Map<DAWGnode, DAWGnode> registre;
 
     // getters i setters
     public String getNom() {
         return this.nom;
     }
 
-    public Bossa getBossa() {
-        return this.bossa;
-    }
-
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public void setBossa(Bossa bossa) {
-        this.bossa = bossa;
     }
 
 
