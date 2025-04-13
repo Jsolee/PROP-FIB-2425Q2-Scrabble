@@ -23,7 +23,7 @@ public class Partida {
         this.taulell = new Taulell();
         this.jugadors = new ArrayList<>();
         this.jugadorActual = 0;
-        this.bossa = new Bossa();
+        this.bossa = new Bossa("english.txt");
         this.partidaAcabada = false;
         this.fitxesActuals = new ArrayList<>();
         this.posicionsActuals = new ArrayList<>();
