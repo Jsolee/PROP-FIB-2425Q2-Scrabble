@@ -5,17 +5,25 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.AfterClass;
 import org.junit.Test;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class DiccionariTest {
 
-    private Diccionari dic;
+    private static Diccionari dic;
 
     // això s'executa una vegada abans de tots els tests
     @BeforeClass
     public static void setUpClass() {
         // Se ejecuta una vez antes de todos los tests
         System.out.println("Iniciando pruebas de Diccionari...");
+        String nom_dic = "castellano";
+        System.out.println("Crear el diccionari " + nom_dic + ".");
+        dic = new Diccionari(nom_dic);
     }
 
     // això s'executa una vegada després de tots els tests
@@ -25,31 +33,28 @@ public class DiccionariTest {
         System.out.println("Finalizadas las pruebas de Diccionari.");
     }
 
-    // aixo s'executa abans de cada test
-    @Before
-    public void setUp() {
-        // Se ejecuta antes de cada test.
-        // Configura el entorno de prueba.
-        String nom_dic = "catalan";
-        System.out.println("Crear el diccionari " + nom_dic + ".");
-        dic = new Diccionari(nom_dic);
+    @Test
+    public void testConteParaules() {
+        String nom = dic.getNom();
+        String ruta = "src/main/resources/" + nom + "/" + nom + ".txt";
+        int count = 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
+            String paraula;
+            while ((paraula = br.readLine()) != null) {
+                assertTrue(dic.esParaula(paraula));
+                count = count + 1;
+            }
+            System.out.println("El diccionari " + nom + " conté " + count + " paraules.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
-    // aixo s'executa després de cada test
-    @After
-    public void tearDown() {
-        // Se ejecuta después de cada test.
-        // Se pueden liberar recursos aquí.
-        dic = null;
-    }
-
-    //tests
 
     @Test
-    public void testGetNom() {
-        // Comprueba que el nombre se ha asignado correctamente
-        assertEquals("catalan", dic.getNom());
+    public void testQuantsEstats () {
+        int estats = dic.getNumeroNodes();
+        System.out.println("El diccionari " + dic.getNom() + " conté " + estats + " estats.");
+        assertTrue(estats > 0);
     }
-
 }
 
