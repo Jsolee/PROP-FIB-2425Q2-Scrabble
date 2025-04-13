@@ -167,8 +167,8 @@ public class Main {
 
       switch (choice) {
         case 1:
-          playWord(scanner, atrilActual, partida);
-          partida.passarTorn();
+          if (playWord(scanner, atrilActual, partida))
+            partida.passarTorn();
           break;
         case 2:
           exchangeTiles(scanner, atrilActual, partida);
@@ -187,7 +187,6 @@ public class Main {
           System.out.println("Game saved.");
           partida.guardarPartida();
           playing = false;
-          // Implement save logic here
           break;
         default:
           System.out.println("Invalid option.");
@@ -200,7 +199,8 @@ public class Main {
     }
   }
 
-  private void playWord(Scanner scanner, List<Fitxa> hand, Partida partida) {
+  //returns true if the word played was valid
+  private boolean playWord(Scanner scanner, List<Fitxa> hand, Partida partida) {
     System.out.println("Enter coordinates to play (format: row column direction)");
     System.out.println("Direction: H for horizontal, V for vertical");
     System.out.print("> ");
@@ -214,7 +214,7 @@ public class Main {
       direction = input[2].toUpperCase();
     } catch (Exception e) {
       System.out.println("Invalid input format. Please try again.");
-      return;
+      return false;
     }
 
     System.out.print("Enter word to play: ");
@@ -225,16 +225,20 @@ public class Main {
     List<Fitxa> usedTiles = new ArrayList<>();
     List<Integer> usedIndices = new ArrayList<>();
 
-    for (char c : word.toCharArray()) {
+    for (char c : word.toCharArray()) 
+    {
       boolean found = false;
-      for (int i = 0; i < hand.size(); i++) {
-        if (!usedIndices.contains(i) && hand.get(i).getLletra() == c) {
+      for (int i = 0; i < hand.size(); i++) 
+      {
+        if (!usedIndices.contains(i) && hand.get(i).getLletra() == c) 
+        {
           usedTiles.add(hand.get(i));
           usedIndices.add(i);
           found = true;
           break;
         }
       }
+
       if (!found) {
         canForm = false;
         break;
@@ -243,7 +247,7 @@ public class Main {
 
     if (!canForm) {
       System.out.println("You don't have the necessary tiles to form this word.");
-      return;
+      return false;
     }
 
     // Try to place the word on the board
@@ -251,14 +255,14 @@ public class Main {
     boolean placed = true;
     List<int[]> positions = new ArrayList<>();
 
-    for (int i = 0; i < word.length(); i++) {
+    for (int i = 0; i < word.length(); i++) 
+    {
       int r = row;
       int c = col;
-      if (direction.equals("H")) {
+      if (direction.equals("H")) 
         c += i;
-      } else {
+      else 
         r += i;
-      }
 
       if (!board.colocarFitxa(r, c, usedTiles.get(i))) {
         placed = false;
@@ -267,7 +271,8 @@ public class Main {
       positions.add(new int[]{r, c});
     }
 
-    if (placed) {
+    if (placed) 
+    {
       // Remove used tiles from hand
       usedIndices.sort(Collections.reverseOrder());
       for (int idx : usedIndices) {
@@ -285,13 +290,18 @@ public class Main {
           hand.add(newTile);
         }
       }
-    } else {
+    } 
+    else 
+    {
       System.out.println("Cannot place word at that position. Please try again.");
       // If placement failed, remove any tiles that were placed
       for (int[] pos : positions) {
         board.retirarFitxa(pos[0], pos[1]);
       }
+      return false;
     }
+
+    return true;
   }
 
   private void exchangeTiles(Scanner scanner, List<Fitxa> hand, Partida partida) {
