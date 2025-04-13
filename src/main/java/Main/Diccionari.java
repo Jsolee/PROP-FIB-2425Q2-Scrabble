@@ -13,7 +13,7 @@ public class Diccionari {
     // constructora
     public Diccionari(String nom) {
         this.nom = nom;
-        this.registre = new ArrayList<DAWGnode>();
+        this.registre = new HashMap<>();
         this.arrel = new DAWGnode();
         this.bossa = new Bossa();
 
@@ -25,8 +25,9 @@ public class Diccionari {
     private DAWGnode arrel;
     private Bossa bossa;
 
-    // vector per guardar els estats únics del DAWG
-    private ArrayList<DAWGnode> registre;
+    // abans utilitzava un ArrayList, pero aixo provocava que comprovar si un node estava registrat fos O(n) i no O(1)
+    // d'aquesta manera vaig aconseguir que el diccionari english cargues en 1 segon y no en 1 minut.
+    private Map<DAWGnode, DAWGnode> registre;
 
     // getters i setters
     public String getNom() {
@@ -158,14 +159,12 @@ public class Diccionari {
         }
 
         // si el fill esta en el register, el fill es pot intercanviar per el node
-        for (DAWGnode n : registre) {
-            if (fill.esEquivalent(n)) {
-                node.afegirTransicio(transicioMesGran.getKey(), n);
-                return;
-            }
+        DAWGnode existent = registre.get(fill);
+        if (existent != null) {
+            node.afegirTransicio(transicioMesGran.getKey(), existent);
+        } else {
+            registre.put(fill, fill);
         }
-        // cas en el que no s'ha trobat un node equivalent en el registre.
-        registre.add(fill);
     }
 
 
@@ -247,6 +246,7 @@ public class Diccionari {
             return true;
         }
 
+        // fer override d'aquestes funcions serveix per saber quants estats té el DAWG en el test pertinent, pero no afecta al algorisme que comprova una paraula
         @Override
         public boolean equals(Object obj) {
             if (this == obj) return true;

@@ -56,5 +56,12 @@ public class DiccionariTest {
         System.out.println("El diccionari " + dic.getNom() + " conté " + estats + " estats.");
         assertTrue(estats > 0);
     }
+
+    @Test
+    public void testParaulaQueNoEsta () {
+        String paraula = "noexisteix"; // els diccionaris estan en mayuscules, per tant aixo no existeix
+        assertFalse(dic.esParaula(paraula));
+        System.out.println("La paraula " + paraula + " no existeix al diccionari.");
+    }
 }
 
