@@ -7,11 +7,13 @@ import java.util.Collections;
 
 public class Main {
   private ControladorUsuari controladorUsuari;
-  private Partida partida;
+  private ControladorPartida controladorPartida;
+  //private Partida partida;
   private String selectedLanguage;
 
   public Main() {
     controladorUsuari = new ControladorUsuari();
+    controladorPartida = new ControladorPartida();
     selectedLanguage = Bossa.CATALA; // Default language
   }
 
@@ -97,7 +99,8 @@ public class Main {
     System.out.println("Language set to: " + selectedLanguage);
   }
 
-  private void startNewGame(Scanner scanner) {
+  private void startNewGame(Scanner scanner) 
+  {
     System.out.println("\n==== NEW GAME ====");
     System.out.print("Enter the game name: ");
     String gameName = scanner.nextLine();
@@ -111,41 +114,45 @@ public class Main {
       timeout = 60;
     }
 
-    partida = new Partida(timeout, gameName);
-    partida.setBossa(new Bossa(selectedLanguage));
+    //partida = new Partida(timeout, gameName);
+    List<Usuari> players = new ArrayList<>();
+    players.add(new Persona("Player 1", "aaaa", "aaaa"));
+    players.add(new Persona("Player 2", "bbbb", "bbbb"));
 
+    controladorPartida.crearPartida(timeout, gameName, players, selectedLanguage);
     System.out.println("Game '" + gameName + "' started with language: " + selectedLanguage);
-    playGame(scanner);
+    playGame(scanner, gameName);
   }
 
-  private void playGame(Scanner scanner) {
+  private void playGame(Scanner scanner, String nomPartida) 
+  {
     System.out.println("\n==== PLAYING GAME ====");
-    List<Fitxa> hand = new ArrayList<>();
-
-    // Draw initial tiles
-    for (int i = 0; i < 7; i++) {
-      Fitxa fitxa = partida.getBossa().agafarFitxa();
-      if (fitxa != null) {
-        hand.add(fitxa);
-      }
-    }
-
+    Partida partida = controladorPartida.getPartida(nomPartida);    
     // Show initial board state
     System.out.println("\nInitial board:");
     partida.getTaulell().mostrarTaulell();
 
     boolean playing = true;
-    while (playing) {
+    while (playing) 
+    {
+      System.out.println("\nTiles remaining: " + partida.getBossa().getQuantitatFitxes());
+      System.out.println("\nCurrent player: " + partida.getJugadorActual().getNom());
       System.out.println("\nYour hand:");
-      for (int i = 0; i < hand.size(); i++) {
-        System.out.println((i + 1) + ". " + hand.get(i));
-      }
+      List<Fitxa> atrilActual = partida.getAtril();
 
+      int i = 0;
+      for (Fitxa f : atrilActual)
+      {
+        System.out.println(i + ": " + f.getLletra() + " (" + f.getValor() + ")");
+        ++i;
+      }
+      
       System.out.println("\nGame options:");
       System.out.println("1. Play a word");
       System.out.println("2. Exchange tiles");
       System.out.println("3. Skip turn");
       System.out.println("4. End game");
+      System.out.println("5. Save game");
       System.out.print("Choose an option: ");
 
       int choice;
@@ -160,17 +167,27 @@ public class Main {
 
       switch (choice) {
         case 1:
-          playWord(scanner, hand);
+          playWord(scanner, atrilActual, partida);
+          partida.passarTorn();
           break;
         case 2:
-          exchangeTiles(scanner, hand);
+          exchangeTiles(scanner, atrilActual, partida);
+          partida.passarTorn();
           break;
         case 3:
           System.out.println("Turn skipped.");
+          partida.passarTorn();
           break;
         case 4:
           playing = false;
+          partida.acabarPartida(); 
           System.out.println("Game ended.");
+          break;
+        case 5:
+          System.out.println("Game saved.");
+          partida.guardarPartida();
+          playing = false;
+          // Implement save logic here
           break;
         default:
           System.out.println("Invalid option.");
@@ -183,7 +200,7 @@ public class Main {
     }
   }
 
-  private void playWord(Scanner scanner, List<Fitxa> hand) {
+  private void playWord(Scanner scanner, List<Fitxa> hand, Partida partida) {
     System.out.println("Enter coordinates to play (format: row column direction)");
     System.out.println("Direction: H for horizontal, V for vertical");
     System.out.print("> ");
@@ -277,7 +294,7 @@ public class Main {
     }
   }
 
-  private void exchangeTiles(Scanner scanner, List<Fitxa> hand) {
+  private void exchangeTiles(Scanner scanner, List<Fitxa> hand, Partida partida) {
     if (partida.getBossa().getQuantitatFitxes() < 7) {
       System.out.println("Not enough tiles in the bag to exchange.");
       return;
@@ -379,10 +396,14 @@ public class Main {
 
     switch (choice) {
       case 1:
+        System.out.print("Enter game name: ");
+        String gameName = scanner.nextLine();
+        Partida partida = controladorPartida.getPartida(gameName);
         if (partida != null) {
           System.out.println("Current game: " + partida.getNom());
           System.out.println("Tiles remaining: " + partida.getBossa().getQuantitatFitxes());
           System.out.println("Language: " + partida.getBossa().getIdioma());
+          System.out.println("Partida acabadada?: " + partida.getPartidaAcabada());
         } else {
           System.out.println("No active game found.");
         }

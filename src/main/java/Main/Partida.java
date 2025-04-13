@@ -5,45 +5,35 @@ import java.util.*;
 public class Partida {
     private String nom;
     private Taulell taulell;
-    private List<Persona> jugadors;
+    private List<Usuari> jugadors;
     private int jugadorActual;
     private Bossa bossa;
     private boolean partidaAcabada;
     private int timeout;
     private List<Fitxa> fitxesActuals;
     private List<int[]> posicionsActuals; //posicions de les fitxes colocades al taulell en cada torn
-    //private List<Fitxa> atrilJugador1;
-    //private List<Fitxa> atrilJugador2;
     private List<List<Fitxa>> atrils;
-    //private int puntuacioJugador1;
-    //private int puntuacioJugador2;
     private List<Integer> puntuacioJugadors;
+    private String idioma;
+    private boolean partidaPausada;
 
-    // Map to track players' scores and tiles since Persona doesn't have these fields
-    //private Map<Persona, Integer> puntuacions;
-    //private Map<Persona, List<Fitxa>> fitxesJugadors;
-
-    public Partida(int timeout, String nom) {
+    public Partida(int timeout, String nom, String idioma) {
         this.timeout = timeout;
         this.nom = nom;
         this.taulell = new Taulell();
         this.jugadors = new ArrayList<>();
         this.jugadorActual = 0;
-        this.bossa = new Bossa();
+        this.bossa = new Bossa(idioma);
         this.partidaAcabada = false;
         this.fitxesActuals = new ArrayList<>();
         this.posicionsActuals = new ArrayList<>();
-        //this.puntuacions = new HashMap<>();
-        //this.atrilJugador1 = new ArrayList<>();
-        //this.atrilJugador2 = new ArrayList<>();
         this.atrils = new ArrayList<>();
-        //this.puntuacioJugador1 = 0;
-        //this.puntuacioJugador2 = 0;
-        //this.fitxesJugadors = new HashMap<>();
         this.puntuacioJugadors = new ArrayList<>();
+        this.idioma = idioma;
+        this.partidaPausada = false;
     }
 
-    public void afegirJugador(Persona jugador) 
+    public void afegirJugador(Usuari jugador) 
     {
         jugadors.add(jugador);
         // Repartir fitxes inicials
@@ -56,24 +46,6 @@ public class Partida {
 
     private void omplirAtril(int index) 
     {
-        /*if (jugador == 0) 
-        {
-            for (int i = atrilJugador1.size()-1; i < 7; i++) 
-            {
-                Fitxa fitxa = bossa.agafarFitxa();
-                if (fitxa != null)
-                    atrilJugador1.add(fitxa);
-            }
-        } 
-        else 
-        {
-            for (int i = atrilJugador2.size()-1; i < 7; i++) 
-            {
-                Fitxa fitxa = bossa.agafarFitxa();
-                if (fitxa != null)
-                    atrilJugador2.add(fitxa);
-            }  
-        }*/
         if (index < 0) //if per a quan necessitem crear un atril a l'inici
         {
             List<Fitxa> atril = new ArrayList<>();
@@ -172,10 +144,13 @@ public class Partida {
 
         omplirAtril(jugadorActual);
 
-        // Actualitzar estadístiques del jugador
-        Persona jugadorActiu = getJugadorActual();
-        jugadorActiu.getEstadistiques().incrementarParaulesCreades();
-        jugadorActiu.getEstadistiques().incrementarPuntTotal(puntuacioJugada);
+        // Actualitzar estadístiques del jugador si no es un bot
+        Usuari jugadorActiu = getJugadorActual();
+        if (jugadorActiu instanceof Persona) 
+        {
+            jugadorActiu.getEstadistiques().incrementarParaulesCreades();
+            jugadorActiu.getEstadistiques().incrementarPuntTotal(puntuacioJugada);
+        }
 
         // Netejar les fitxes actuals i passar al següent jugador
         fitxesActuals.clear();
@@ -215,12 +190,6 @@ public class Partida {
 
         passarTorn();
         return true;
-    }
-
-    private void afegirFitxa(Fitxa fitxa) 
-    {
-        List<Fitxa> atril = atrils.get(jugadorActual);
-        atril.add(fitxa);
     }
 
     private boolean conteLaFitxa(Fitxa f)
@@ -268,7 +237,7 @@ public class Partida {
 
     private void actualitzarEstadistiques() 
     {
-        Persona guanyador = determinarGuanyador();
+        Usuari guanyador = determinarGuanyador();
 
         // Update winner's statistics
         if (guanyador != null)
@@ -277,14 +246,14 @@ public class Partida {
         // Update all players' statistics
         for (int i = 0; i < jugadors.size();++i) 
         {
-            Persona jugador = jugadors.get(i);
+            Usuari jugador = jugadors.get(i);
             jugador.getEstadistiques().incrementarPartidesJugades();
             jugador.borrarPartidaEnCurs(this);
             jugador.getEstadistiques().incrementarPuntTotal(puntuacioJugadors.get(i));
         }
     }
 
-    public Persona determinarGuanyador() 
+    public Usuari determinarGuanyador() 
     {
         int puntuacioMaxima = -1;
         int indexGuanyador = -1;
@@ -304,7 +273,7 @@ public class Partida {
         return partidaAcabada;
     }
 
-    public Persona getJugadorActual() 
+    public Usuari getJugadorActual() 
     {
         return jugadors.get(jugadorActual);
     }
@@ -313,11 +282,35 @@ public class Partida {
         return taulell;
     }
 
-    public List<Persona> getJugadors() {
+    public List<Usuari> getJugadors() {
         return jugadors;
     }
 
     public int getTimeout() {
         return timeout;
+    }
+
+    public List<Integer> getPuntuacions() {
+        return puntuacioJugadors;
+    }
+
+    public List<Fitxa> getAtril(){
+        return atrils.get(jugadorActual);
+    }
+
+    public boolean getPartidaPausada() {
+        return partidaPausada;
+    }  
+    
+    public void guardarPartida() {
+        partidaPausada = true;
+    }
+
+    public boolean getPartidaAcabada() {
+        return partidaAcabada;
+    }
+
+    public void acabarPartida() {
+        partidaAcabada = true;
     }
 }
