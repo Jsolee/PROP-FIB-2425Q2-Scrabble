@@ -185,15 +185,66 @@ public class Taulell {
         return false; // Vertical
     }
 
-    public void mostrarTaulell() {
+    public void mostrarTaulell() 
+    {
         System.out.print("  ");
         for (int i = 0; i < MIDA; i++) {
-            System.out.print(" " + i + " ");
+            switch (i) {
+                case 0:
+                    System.out.print("  " + i);
+                    break;
+                case 1:
+                    System.out.print("    " + i);
+                    break;
+                case 2:
+                    System.out.print("    " + i);
+                    break;
+                case 3:
+                    System.out.print("    " + i);
+                    break;
+                case 4:
+                    System.out.print("    " + i);
+                    break;
+                case 5:
+                    System.out.print("    " + i);
+                    break;
+                case 6:
+                    System.out.print("    " + i);
+                    break; 
+                case 7:
+                    System.out.print("    " + i);
+                    break;
+                case 8:
+                    System.out.print("    " + i);
+                    break;
+                case 9:
+                    System.out.print("    " + i);
+                    break; 
+                case 10:
+                    System.out.print("   " + i);
+                    break;
+                case 11:
+                    System.out.print("   " + i);
+                    break;
+                case 12:
+                    System.out.print("   " + i);
+                    break;
+                case 13:    
+                    System.out.print("   " + i);
+                    break;
+                case 14:
+                    System.out.print("   " + i);
+                    break; 
+            }
         }
         System.out.println();
 
-        for (int i = 0; i < MIDA; i++) {
-            System.out.print(i + " ");
+        for (int i = 0; i < MIDA; i++) 
+        {
+            if (i < 10)
+                System.out.print(" " + i);
+            else
+                System.out.print(i);
             for (int j = 0; j < MIDA; j++) {
                 System.out.print(caselles[i][j].toString() + " ");
             }

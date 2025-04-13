@@ -60,7 +60,7 @@ public class Casella {
     @Override
     public String toString() {
         if (ocupada) {
-            return "[" + fitxa.getLletra() + "]";
+            return "[" + fitxa.getLletra() + " ]";
         } else if (isDobleLetra()) {
             return "[DL]";
         } else if (isTripleLetra()) {
@@ -70,9 +70,9 @@ public class Casella {
         } else if (isTripleParaula()) {
             return "[TP]";
         } else if (esCasellaInicial) {
-            return "[★]";
+            return "[★ ]";
         } else {
-            return "[ ]";
+            return "[  ]";
         }
     }
 }
