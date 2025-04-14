@@ -12,8 +12,8 @@ public class ControladorDomini {
     }
 
     //gestio d'usuaris
-    public void crearUsuari(String nom, String username, String contrasenya) {
-        controladorUsuari.registrarPersona(nom, username, contrasenya);
+    public Usuari crearUsuari(String nom, String username, String contrasenya) {
+        return controladorUsuari.registrarPersona(nom, username, contrasenya);
     }
 
     public void iniciarSessio(String username, String contrasenya) {
@@ -37,8 +37,8 @@ public class ControladorDomini {
     }
 
     //gestio de partides
-    public void crearPartida(String nomPartida, List<Usuari> jugadors, String idioma) {
-        controladorPartida.crearPartida(nomPartida, jugadors, idioma);
+    public Partida crearPartida(String nomPartida, List<Usuari> jugadors, String idioma) {
+        return controladorPartida.crearPartida(nomPartida, jugadors, idioma);
     }
 
     public void finalitzarPartida(String nomPartida) {
@@ -67,8 +67,18 @@ public class ControladorDomini {
         controladorPartida.esFinalPartida(nomPartida);
     }
 
-    public void tornDelJugador(String nomPartida)
+    public Usuari tornDelJugador(String nomPartida)
     {
-        controladorPartida.tornDe(nomPartida);
+        return controladorPartida.tornDe(nomPartida);
+    }
+
+    public Taulell getTaulell(String nomPartida)
+    {
+        return controladorPartida.getPartida(nomPartida).getTaulell();
+    }
+
+    public List<Fitxa> getAtril(String nomPartida)
+    {
+        return controladorPartida.getPartida(nomPartida).getAtril();
     }
 }

@@ -22,7 +22,7 @@ public class ControladorPartida {
         return partida.getJugadorActual();
     }
 
-    public void crearPartida(String nomPartida, List<Usuari> jugadors, String idioma) 
+    public Partida crearPartida(String nomPartida, List<Usuari> jugadors, String idioma) 
     {
         if (partides.containsKey(nomPartida)) 
             throw new IllegalArgumentException("Ja existeix una partida amb el nom: " + nomPartida);
@@ -30,6 +30,7 @@ public class ControladorPartida {
         Partida partida = new Partida(nomPartida, idioma);
         inicialitzarJugadors(jugadors, partida);
         partides.put(nomPartida, partida);
+        return partida;
     }
 
     private void inicialitzarJugadors(List<Usuari> jugadors, Partida partida) 
@@ -109,7 +110,7 @@ public class ControladorPartida {
     public void finalitzarPartida(String nomPartida) 
     {
         Partida partida = getPartida(nomPartida);
-        
+        partida.acabarPartida();
 
         Usuari guanyador = partida.determinarGuanyador();
         System.out.println("Partida finalitzada!");
@@ -135,4 +136,9 @@ public class ControladorPartida {
         partida.getTaulell().mostrarTaulell();
     }
 
+    public Taulell getTaulell(String nomPartida) 
+    {
+        Partida partida = getPartida(nomPartida);
+        return partida.getTaulell();
+    }
 }
