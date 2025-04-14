@@ -1,5 +1,7 @@
 package Main;
 
+import java.util.List;
+
 public class Casella {
     private int x, y;
     private int multiplicador_letra;
@@ -7,6 +9,11 @@ public class Casella {
     private boolean ocupada;
     private Fitxa fitxa;
     private boolean esCasellaInicial;
+
+    // parametres que utilitza l'algorisme
+    private boolean esAnchor;
+    // cross-checks de la casella, s'inicialitzaran quan es fagi l'algorisme
+    private List<String> cross_checks;
 
     public Casella(int x, int y, int multiplicador_letra, int multiplicador_paraula) {
         this.x = x;
