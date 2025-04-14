@@ -62,7 +62,7 @@ public class ControladorUsuari {
 
         Usuari usuari = usuaris.get(username);
 
-        if (usuari.teSessioIniciada())
+        if (((Persona)usuari).teSessioIniciada())
         {
             usuaris.remove(username);
             System.out.println("Compte eliminat correctament");
@@ -77,9 +77,9 @@ public class ControladorUsuari {
             return false;
 
         Usuari usuari = usuaris.get(username);
-        if (usuari.teSessioIniciada())
+        if (((Persona)usuari).teSessioIniciada())
         {
-            usuari.tancarSessio();
+            ((Persona)usuari).tancarSessio();
             System.out.println("Sessio tancada correctament");
             return true;
         }
@@ -119,7 +119,7 @@ public class ControladorUsuari {
             return false;
 
         Usuari usuari = usuaris.get(username);
-        if (!usuari.teSessioIniciada())
+        if (!((Persona)usuari).teSessioIniciada())
         {
             System.out.println("Sessio no iniciada");
             return false;

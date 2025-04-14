@@ -43,7 +43,7 @@ public class Partida {
         puntuacioJugadors.add(0);
     
         // Add game to player's active games
-        jugador.getPartidesEnCurs().add(this);
+        ((Persona)jugador).getPartidesEnCurs().add(this);
     }
 
     private void omplirAtril(int index) 

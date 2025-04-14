@@ -3,7 +3,6 @@ package Main;
 import java.util.ArrayList;
 
 public class Persona extends Usuari {
-    private String nom;
     private String correu;
     private String contrasenya;
     private Estadistiques estadistiques;
@@ -11,7 +10,7 @@ public class Persona extends Usuari {
     private ArrayList<Partida> partidesEnCurs ;
 
     public Persona(String nom, String correu, String contrasenya) {
-        this.nom = nom;
+        super(nom);
         this.SessioIniciada = true;
         this.partidesEnCurs = new ArrayList<>();
         this.correu = correu;
@@ -20,10 +19,6 @@ public class Persona extends Usuari {
     }
 
     //getters
-    public String getNom() {
-        return this.nom;
-    }
-
     public ArrayList<Partida> getPartidesEnCurs() {
         return this.partidesEnCurs;
     }
