@@ -30,6 +30,10 @@ public class Fitxa {
         return (lletra.equals("#"));
     }
 
+    public void setLletra(String lletra) {
+        this.lletra = lletra;
+    }
+
     @Override
     public String toString() {
         return blank ? "_" : lletra + "(" + valor + ")";

@@ -22,17 +22,17 @@ public class ControladorUsuari {
         return true;
 
     }
-    public boolean registrarPersona(String nom, String username, String password)
+    public Persona registrarPersona(String nom, String username, String password)
     {
         if (usuaris.containsKey(username))
         {
             System.out.println("Usuari ja existeix");
-            return false;
+            return null;
         }
 
         Persona persona = new Persona(nom, username, password);
         usuaris.put(username, persona);
-        return true;
+        return persona;
     }
 
     public boolean iniciarSessio(String username, String password)
