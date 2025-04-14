@@ -9,16 +9,16 @@ public class Partida {
     private int jugadorActual;
     private Bossa bossa;
     private boolean partidaAcabada;
-    private int timeout;
     private List<Fitxa> fitxesActuals;
     private List<int[]> posicionsActuals; //posicions de les fitxes colocades al taulell en cada torn
+    private List<Integer> indexsActuals;
     private List<List<Fitxa>> atrils;
     private List<Integer> puntuacioJugadors;
     private String idioma;
     private boolean partidaPausada;
+    private Diccionari diccionari;
 
-    public Partida(int timeout, String nom, String idioma) {
-        this.timeout = timeout;
+    public Partida(String nom, String idioma) {
         this.nom = nom;
         this.taulell = new Taulell();
         this.jugadors = new ArrayList<>();
@@ -27,10 +27,12 @@ public class Partida {
         this.partidaAcabada = false;
         this.fitxesActuals = new ArrayList<>();
         this.posicionsActuals = new ArrayList<>();
+        this.indexsActuals = new ArrayList<>();
         this.atrils = new ArrayList<>();
         this.puntuacioJugadors = new ArrayList<>();
         this.idioma = idioma;
         this.partidaPausada = false;
+        this.diccionari = new Diccionari(idioma);
     }
 
     public void afegirJugador(Usuari jugador) 
@@ -75,12 +77,6 @@ public class Partida {
     }
 
 
-    private void eliminarFitxa(Fitxa fitxa) 
-    {
-        List<Fitxa> atril = atrils.get(jugadorActual);
-        atril.remove(fitxa);
-    }
-
     public void setBossa(Bossa bossa) 
     {
         this.bossa = bossa;
@@ -91,32 +87,9 @@ public class Partida {
         return bossa;
     }
 
-    private void incrementarPuntuacio(int punts) 
-    {
-        int puntuacio = puntuacioJugadors.get(jugadorActual);
-        puntuacio += punts;
-        puntuacioJugadors.set(jugadorActual, puntuacio);
-        //int puntuacioActual = puntuacions.get(jugador);
-        //puntuacions.put(jugador, puntuacioActual + punts);
-    }
 
     public boolean colocarFitxa(int x, int y, Fitxa fitxa) 
     {
-        // Verify player has this tile
-        /*if (!fitxesJugadors.get(getJugadorActual()).contains(fitxa)) {
-            return false;
-        }*/
-
-        /*if (jugadorActual == 0) 
-        {
-            if (!atrilJugador1.contains(fitxa)) 
-                return false;
-        } 
-        else 
-        {
-            if (!atrilJugador2.contains(fitxa)) 
-                return false;
-        }*/
         List<Fitxa> atril = atrils.get(jugadorActual);
         if (!atril.contains(fitxa)) 
             return false;
@@ -130,127 +103,11 @@ public class Partida {
         return false;
     }
 
-    public boolean confirmarJugada() 
-    {
-        if (fitxesActuals.isEmpty())
-            return false;
 
-        int puntuacioJugada = taulell.calcularPuntuacioMoviment(fitxesActuals, posicionsActuals);
-        incrementarPuntuacio(puntuacioJugada);
-        List<Fitxa> atril = atrils.get(jugadorActual);
-
-        for (Fitxa f : fitxesActuals) 
-            atril.remove(f);
-
-        omplirAtril(jugadorActual);
-
-        // Actualitzar estadístiques del jugador si no es un bot
-        Usuari jugadorActiu = getJugadorActual();
-        if (jugadorActiu instanceof Persona) 
-        {
-            jugadorActiu.getEstadistiques().incrementarParaulesCreades();
-            jugadorActiu.getEstadistiques().incrementarPuntTotal(puntuacioJugada);
-        }
-
-        // Netejar les fitxes actuals i passar al següent jugador
-        fitxesActuals.clear();
-        posicionsActuals.clear();
-        passarTorn();
-
-        // Verificar si la partida ha acabat
-        comprovarFinalPartida();
-
-        return true;
-    }
 
     public boolean passarTorn() {
         jugadorActual = (jugadorActual + 1) % jugadors.size();
         return true;
-    }
-
-    public boolean intercanviarFitxes(List<Fitxa> fitxes) 
-    {
-        if (bossa.getQuantitatFitxes() < fitxes.size())
-            return false;
-
-        // Verify player has all these tiles
-        for (Fitxa fitxa : fitxes) 
-        {
-            if (!conteLaFitxa(fitxa))
-                return false;
-        }
-
-        for (Fitxa fitxa : fitxes) 
-        {
-            eliminarFitxa(fitxa);
-            bossa.retornarFitxa(fitxa);
-        }
-
-        omplirAtril(jugadorActual);
-
-        passarTorn();
-        return true;
-    }
-
-    private boolean conteLaFitxa(Fitxa f)
-    {
-        List<Fitxa> atril = atrils.get(jugadorActual);
-        for (Fitxa fitxa : atril) 
-        {
-            if (fitxa.equals(f)) 
-                return true;
-        }
-        return false;
-    }
-
-    private void comprovarFinalPartida() 
-    {
-        // La partida acaba quan la bossa està buida i algun jugador s'ha quedat sense fitxes
-        if (bossa.esBuida()) 
-        {
-            /*if (atrilJugador1.isEmpty() || atrilJugador2.isEmpty()) 
-            {
-                partidaAcabada = true;
-                actualitzarEstadistiques();
-            }*/
-            for (List<Fitxa> atril : atrils) 
-            {
-                if (atril.isEmpty()) 
-                {
-                    partidaAcabada = true;
-                    actualitzarEstadistiques();
-                    break;
-                }
-            }
-            /*for (int i = 0; i < jugadors.size(); i++) 
-            {
-                if (fitxesJugadors.get(jugador).isEmpty()) 
-                {
-                    partidaAcabada = true;
-                    actualitzarEstadistiques();
-                    break;
-                }
-    
-            }*/
-        }
-    }
-
-    private void actualitzarEstadistiques() 
-    {
-        Usuari guanyador = determinarGuanyador();
-
-        // Update winner's statistics
-        if (guanyador != null)
-            guanyador.getEstadistiques().incrementarPartidesGuanyades();
-
-        // Update all players' statistics
-        for (int i = 0; i < jugadors.size();++i) 
-        {
-            Usuari jugador = jugadors.get(i);
-            jugador.getEstadistiques().incrementarPartidesJugades();
-            jugador.borrarPartidaEnCurs(this);
-            jugador.getEstadistiques().incrementarPuntTotal(puntuacioJugadors.get(i));
-        }
     }
 
     public Usuari determinarGuanyador() 
@@ -269,10 +126,6 @@ public class Partida {
         return jugadors.get(indexGuanyador);
     }
 
-    public boolean isPartidaAcabada() {
-        return partidaAcabada;
-    }
-
     public Usuari getJugadorActual() 
     {
         return jugadors.get(jugadorActual);
@@ -284,10 +137,6 @@ public class Partida {
 
     public List<Usuari> getJugadors() {
         return jugadors;
-    }
-
-    public int getTimeout() {
-        return timeout;
     }
 
     public List<Integer> getPuntuacions() {
@@ -312,5 +161,136 @@ public class Partida {
 
     public void acabarPartida() {
         partidaAcabada = true;
+    }
+
+    public List<Integer> getIndexsActuals()
+    {
+        return indexsActuals;
+    }
+
+    public String getIdioma()
+    {
+        return idioma;
+    }
+
+    public List<List<Fitxa>> getAtrils()
+    {
+        return atrils;
+    }
+
+    public boolean paraulaEnAtril(String paraula) 
+    {
+        boolean valida = true;
+        List<Fitxa> atril = atrils.get(jugadorActual);
+        indexsActuals.clear();
+        fitxesActuals.clear();
+        posicionsActuals.clear();
+
+        for (char c : paraula.toCharArray()) 
+        {
+            boolean found = false;
+            for (int i = 0; i < atril.size(); i++) 
+            {
+                if (!indexsActuals.contains(i) && (atril.get(i).getLletra() == c || atril.get(i).getLletra() == '#'))
+                {
+                fitxesActuals.add(atril.get(i));
+                indexsActuals.add(i);
+                found = true;
+                break;
+                }
+            }
+
+            if (!found) 
+            {
+                valida = false;
+                break;
+            }
+        }
+
+        if (!valida) 
+        {
+            System.out.println("You don't have the necessary tiles to form this word.");
+            return false;
+        }
+        else return true;
+    }
+
+    public boolean existeixParaula(String paraula) 
+    {
+        return diccionari.esParaula(paraula);
+    }
+
+    public boolean validaEnTaulell(String paraula, int f, int col, String orientacio) 
+    {
+        boolean placed = true;
+
+        for (int i = 0; i < paraula.length(); i++) 
+        {
+            int r = f;
+            int c = col;
+            if (orientacio.equals("H")) 
+                c += i;
+            else 
+                r += i;
+
+            if (!taulell.colocarFitxa(r, c, fitxesActuals.get(i))) {
+                placed = false;
+                break;
+            }
+            posicionsActuals.add(new int[]{r, c});
+        }
+
+        return placed;
+    }
+
+    public void retiraFitxesAtril()
+    {
+        List<Fitxa> atril = atrils.get(jugadorActual);
+        indexsActuals.sort(Collections.reverseOrder());
+        for (int idx : indexsActuals)
+            atril.remove(idx);
+    }
+
+    public int calculaPuntuacioJugada()
+    {
+        // Calculate score
+        return taulell.calcularPuntuacioMoviment(fitxesActuals, posicionsActuals);
+    }
+
+    public void completarAtril() 
+    {
+        omplirAtril(jugadorActual);
+    }
+
+    public void retiraFitxesJugades()
+    {
+        for (int[] pos : posicionsActuals) {
+            taulell.retirarFitxa(pos[0], pos[1]);
+        }
+    }
+
+    public boolean canviFitxesAtril(String [] posicions)
+    {
+        List<Fitxa> atril = atrils.get(jugadorActual);
+        indexsActuals.clear();
+        posicionsActuals.clear();
+        fitxesActuals.clear();
+
+        for (String s : posicions) {
+            int index = Integer.parseInt(s) - 1;
+            if (index >= 0 && index < atril.size())
+              indexsActuals.add(index);
+        }
+    
+        indexsActuals.sort((a, b) -> b - a); //ordenar per evitar problemes de shifting
+    
+        // Exchange tiles
+        for (int index : indexsActuals){
+            Fitxa f = atril.remove(index);
+            bossa.retornarFitxa(f);
+        }
+        
+        omplirAtril(jugadorActual);
+        return true;
     }
 }
