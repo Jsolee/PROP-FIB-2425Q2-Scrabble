@@ -6,5 +6,7 @@ public class Bot extends Usuari {
     public Bot(String nom) {
         super(nom);
     }
-    
+
+
+
 }

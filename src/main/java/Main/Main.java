@@ -9,12 +9,10 @@ public class Main {
   private ControladorUsuari controladorUsuari;
   private ControladorPartida controladorPartida;
   //private Partida partida;
-  private String selectedLanguage;
 
   public Main() {
     controladorUsuari = new ControladorUsuari();
     controladorPartida = new ControladorPartida();
-    selectedLanguage = Bossa.CATALA; // Default language
   }
 
   public void start() {
@@ -26,7 +24,6 @@ public class Main {
       System.out.println("1. Start a new game");
       System.out.println("2. Manage users");
       System.out.println("3. View statistics");
-      System.out.println("4. Select language (" + selectedLanguage + ")");
       System.out.println("5. Exit");
       System.out.print("Choose an option: ");
 
@@ -50,9 +47,6 @@ public class Main {
         case 3:
           viewStatistics(scanner);
           break;
-        case 4:
-          selectLanguage(scanner);
-          break;
         case 5:
           exit = true;
           System.out.println("Thank you for playing Scrabble!");
@@ -66,37 +60,6 @@ public class Main {
   }
 
   private void selectLanguage(Scanner scanner) {
-    System.out.println("\n==== SELECT LANGUAGE ====");
-    System.out.println("1. Català");
-    System.out.println("2. Español");
-    System.out.println("3. English");
-    System.out.print("Choose language: ");
-
-    int choice;
-    try {
-      choice = scanner.nextInt();
-      scanner.nextLine(); // Consume newline
-    } catch (Exception e) {
-      scanner.nextLine(); // Clear invalid input
-      System.out.println("Please enter a valid number.");
-      return;
-    }
-
-    switch (choice) {
-      case 1:
-        selectedLanguage = Bossa.CATALA;
-        break;
-      case 2:
-        selectedLanguage = Bossa.ESPANYOL;
-        break;
-      case 3:
-        selectedLanguage = Bossa.ANGLES;
-        break;
-      default:
-        System.out.println("Invalid option. Language not changed.");
-        return;
-    }
-    System.out.println("Language set to: " + selectedLanguage);
   }
 
   private void startNewGame(Scanner scanner) 
@@ -119,8 +82,7 @@ public class Main {
     players.add(new Persona("Player 1", "aaaa", "aaaa"));
     players.add(new Persona("Player 2", "bbbb", "bbbb"));
 
-    controladorPartida.crearPartida(timeout, gameName, players, selectedLanguage);
-    System.out.println("Game '" + gameName + "' started with language: " + selectedLanguage);
+
     playGame(scanner, gameName);
   }
 
@@ -228,16 +190,16 @@ public class Main {
     for (char c : word.toCharArray()) 
     {
       boolean found = false;
-      for (int i = 0; i < hand.size(); i++) 
-      {
-        if (!usedIndices.contains(i) && hand.get(i).getLletra() == c) 
-        {
-          usedTiles.add(hand.get(i));
-          usedIndices.add(i);
-          found = true;
-          break;
-        }
-      }
+//      for (int i = 0; i < hand.size(); i++)
+//      {
+//        if (!usedIndices.contains(i) && hand.get(i).getLletra() == c)
+//        {
+//          usedTiles.add(hand.get(i));
+//          usedIndices.add(i);
+//          found = true;
+//          break;
+//        }
+//      }
 
       if (!found) {
         canForm = false;
@@ -412,7 +374,6 @@ public class Main {
         if (partida != null) {
           System.out.println("Current game: " + partida.getNom());
           System.out.println("Tiles remaining: " + partida.getBossa().getQuantitatFitxes());
-          System.out.println("Language: " + partida.getBossa().getIdioma());
           System.out.println("Partida acabadada?: " + partida.getPartidaAcabada());
         } else {
           System.out.println("No active game found.");
