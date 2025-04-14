@@ -191,12 +191,12 @@ public class Partida {
             boolean found = false;
             for (int i = 0; i < atril.size(); i++) 
             {
-                if (!indexsActuals.contains(i) && (atril.get(i).getLletra() == c || atril.get(i).getLletra() == '#'))
+                if (!indexsActuals.contains(i) && (atril.get(i).getLletra().equals(String.valueOf(c)) || atril.get(i).getLletra().equals("#")))
                 {
-                fitxesActuals.add(atril.get(i));
-                indexsActuals.add(i);
-                found = true;
-                break;
+                    fitxesActuals.add(atril.get(i));
+                    indexsActuals.add(i);
+                    found = true;
+                    break;
                 }
             }
 
@@ -233,7 +233,18 @@ public class Partida {
             else 
                 r += i;
 
-            if (!taulell.colocarFitxa(r, c, fitxesActuals.get(i))) {
+            Fitxa fitxa = fitxesActuals.get(i);
+            if (fitxa.getLletra().equals("#")) 
+            {
+                fitxa.setLletra(String.valueOf(paraula.charAt(i)));
+            } //canvi de valor si es un comodin
+
+            else if (!fitxa.getLletra().equals(String.valueOf(paraula.charAt(i)))) 
+            {
+                placed = false;
+                break;
+            }
+            if (!taulell.colocarFitxa(r, c, fitxa)) {
                 placed = false;
                 break;
             }
