@@ -15,9 +15,8 @@ public abstract class Usuari {
         this.estadistiques = new Estadistiques();
     }
 
-    //getters
     public String getNom() {
-        return this.nom;
+        return nom;
     }
     
     public Ranking getRanking() {

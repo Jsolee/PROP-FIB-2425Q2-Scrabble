@@ -8,14 +8,16 @@ import java.util.*;
 // aquesta clase es una clase que representa una bossa de fitxes per a un joc de Scrabble, es carrega desde un fitxer en resources.
 public class Bossa {
 
-    private LinkedList<Fitxa> fitxes;
     private String nom;
+    private LinkedList<Fitxa> fitxes;
 
+    private final Set<String> alfabet;
 
     public Bossa(String nom) {
         this.nom = nom;
         this.fitxes = new LinkedList<Fitxa>();
-        carregarFitxes();
+        this.alfabet = new HashSet<String>();
+        carregarFitxesIAlfabet();
         barrejar();
     }
 
@@ -26,6 +28,9 @@ public class Bossa {
     public LinkedList<Fitxa> getFitxes() {
         return fitxes;
     }
+    public Set<String> getAlfabet() {
+        return this.alfabet;
+    }
 
     public void setNom(String nom) {
         this.nom = nom;
@@ -34,7 +39,8 @@ public class Bossa {
         this.fitxes = fitxes;
     }
 
-    private void carregarFitxes() {
+
+    private void carregarFitxesIAlfabet() {
         String ruta = "src/main/resources/" + nom + "/letras_" + nom + ".txt";
         try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
             String linia;
@@ -49,6 +55,9 @@ public class Bossa {
                 if (quantitat > 0) {
                     afegirFitxa(lletra, quantitat, valor);
                 }
+                // afegim lletra a l'alfabet
+                alfabet.add(lletra);
+
             }
         } catch (IOException e) {
             e.printStackTrace();

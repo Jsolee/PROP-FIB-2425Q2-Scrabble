@@ -10,6 +10,8 @@ public class Persona extends Usuari {
 
     public Persona(String nom, String correu, String contrasenya) {
         super(nom);
+        this.SessioIniciada = true;
+        this.partidesEnCurs = new ArrayList<>();
         this.correu = correu;
         this.contrasenya = contrasenya;
         this.estadistiques = new Estadistiques();
@@ -17,6 +19,26 @@ public class Persona extends Usuari {
     }
 
     //getters
+    public ArrayList<Partida> getPartidesEnCurs() {
+        return this.partidesEnCurs;
+    }
+
+    public void borrarPartidaEnCurs(Partida partida) {
+        this.partidesEnCurs.remove(partida);
+    }
+
+    public boolean teSessioIniciada() {
+        return this.SessioIniciada;
+    }
+
+    public void tancarSessio() {
+        this.SessioIniciada = false;
+    }
+
+    public void iniciarSessio() {
+        this.SessioIniciada = true;
+    }
+
     public String getCorreu() {
         return this.correu;
     }

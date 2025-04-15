@@ -55,7 +55,7 @@ public class ControladorUsuari {
 
         Usuari usuari = existeixUsuari(username);
 
-        if (usuari.teSessioIniciada())
+        if (((Persona)usuari).teSessioIniciada())
         {
             usuaris.remove(username);
             System.out.println("Compte eliminat correctament");
@@ -69,7 +69,7 @@ public class ControladorUsuari {
         Usuari usuari = existeixUsuari(username);
         if (usuari.teSessioIniciada())
         {
-            usuari.tancarSessio();
+            ((Persona)usuari).tancarSessio();
             System.out.println("Sessio tancada correctament");
             return true;
         }
