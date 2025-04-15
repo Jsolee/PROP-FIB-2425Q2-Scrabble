@@ -1,6 +1,6 @@
 package Main;
 
-import java.util.ArrayList;
+import java.util.*;
 
 // Aquesta és una clase singleton, ja que només hi haurà una instància del bot al llarg de l'execució del programa.
 public class Bot extends Usuari{
@@ -18,7 +18,7 @@ public class Bot extends Usuari{
         return instancia;
     }
 
-    public void getMillorJugada(Taulell taulell, Diccionari diccionari, ArrayList<Fitxa> atril, ArrayList<String> alfabet) {
+    public Map<List<Fitxa>, List<int[]>> getMillorJugada(Taulell taulell, Diccionari diccionari, ArrayList<Fitxa> atril, ArrayList<String> alfabet) {
         // calcular anchors y cross-checks de taulell
         calcularAnchorsICrossChecks(taulell, alfabet);
     }
@@ -41,7 +41,7 @@ public class Bot extends Usuari{
 
                             // comprovar si es anchor i setejar
                             Casella casella_a_la_esquerra = taulell.getCasella(casella.getX()-1, casella.getY());
-                            // si la casella a la esquerra és null(esta a la vora del taulell) o la casella a la esquerra no és un anchor, la casella si és un anchor.
+                            // si la casella a la esquerra és null(esta a la vora del taulell) o la casella a la esquerra no és un anchor, llavors la casella si és un anchor.
                             casella.setEsAnchor(casella_a_la_esquerra == null || !casella_a_la_esquerra.isEsAnchor());
 
                             // comprovar el crossCecks
@@ -57,7 +57,7 @@ public class Bot extends Usuari{
     }
 
     private void calcularCrossChecks(Taulell taulell, int x, int y, ArrayList<String> alfabet) {
-
+        for
     }
 
 }
