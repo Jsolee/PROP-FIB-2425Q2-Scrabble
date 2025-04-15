@@ -21,6 +21,7 @@ public class Bot extends Usuari{
     public Map<List<Fitxa>, List<int[]>> getMillorJugada(Taulell taulell, Diccionari diccionari, ArrayList<Fitxa> atril, ArrayList<String> alfabet) {
         // calcular anchors y cross-checks de taulell
         calcularAnchorsICrossChecks(taulell, alfabet);
+        return null;
     }
 
     private void calcularAnchorsICrossChecks(Taulell taulell, ArrayList<String> alfabet) {
@@ -37,7 +38,7 @@ public class Bot extends Usuari{
                     for (Casella casella : c) {
                         // si la casella esta buida y te alguna fitxa adjacent, es una candidata a anchor.
                         if (!casella.isOcupada() &&taulell.teFitxaAdjacent(casella.getX(), casella.getY())) {
-                            casella.setTeFitxaAdjacent(True);
+                            casella.setTeFitxaAdjacent(true);
 
                             // comprovar si es anchor i setejar
                             Casella casella_a_la_esquerra = taulell.getCasella(casella.getX()-1, casella.getY());
@@ -57,7 +58,7 @@ public class Bot extends Usuari{
     }
 
     private void calcularCrossChecks(Taulell taulell, int x, int y, ArrayList<String> alfabet) {
-        for
+
     }
 
 }
