@@ -5,6 +5,9 @@ public class Posicio implements Comparable<Posicio>{
     private int y;
 
     public Posicio(int x, int y) {
+        if (x < 1 || y < 1 || x > 15 || y > 15) {
+            throw new IllegalArgumentException("Les coordenades estan fora del taulell");
+        }
         this.x = x;
         this.y = y;
     }
@@ -15,6 +18,19 @@ public class Posicio implements Comparable<Posicio>{
 
     public int getY() {
         return y;
+    }
+
+    public void setX(int x) {
+        if (x < 1 || x > 15) {
+            throw new IllegalArgumentException("La coordenada X esta fora del taulell");
+        }
+        this.x = x;
+    }
+    public void setY(int y) {
+        if (y < 1 || y > 15) {
+            throw new IllegalArgumentException("La coordenada Y esta fora del taulell");
+        }
+        this.y = y;
     }
 
     @Override
