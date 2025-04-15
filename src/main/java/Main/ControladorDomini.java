@@ -16,8 +16,8 @@ public class ControladorDomini {
         return controladorUsuari.registrarPersona(nom, username, contrasenya);
     }
 
-    public void iniciarSessio(String username, String contrasenya) {
-        controladorUsuari.iniciarSessio(username, contrasenya);
+    public boolean iniciarSessio(String username, String contrasenya) {
+        return controladorUsuari.iniciarSessio(username, contrasenya);
     }
 
     public void eliminarCompte(String username) {
@@ -36,35 +36,31 @@ public class ControladorDomini {
         controladorUsuari.veurePerfil(username);
     }
 
+    public Usuari getUsuari(String username) {
+        return controladorUsuari.existeixUsuari(username);
+    }
+
     //gestio de partides
     public Partida crearPartida(String nomPartida, List<Usuari> jugadors, String idioma) {
         return controladorPartida.crearPartida(nomPartida, jugadors, idioma);
-    }
-
-    public void finalitzarPartida(String nomPartida) {
-        controladorPartida.finalitzarPartida(nomPartida);
     }
 
     public void getPartida(String nomPartida) {
         controladorPartida.getPartida(nomPartida);
     }
 
-    public void mostrarEstatPartida(String nomPartida) {
-        controladorPartida.mostrarEstatPartida(nomPartida);
+    public int jugarParaula(Partida partida, String paraula, int f, int col, String orientacion) {
+        return controladorPartida.jugarParaula(partida, paraula, f, col, orientacion);
     }
 
-    public void jugarParaula(String nomPartida, String paraula, int f, int col, String orientacion) {
-        controladorPartida.jugarParaula(nomPartida, paraula, f, col, orientacion);
-    }
-
-    public void canviDeFitxes(String nomPartida, String[] fitxes)
+    public void canviDeFitxes(Partida partida, String[] fitxes)
     {
-        controladorPartida.canviDeFitxes(nomPartida, fitxes);
+        controladorPartida.canviDeFitxes(partida, fitxes);
     }
 
-    public void esFinalPartida(String nomPartida)
+    public boolean esFinalPartida(Partida partida)
     {
-        controladorPartida.esFinalPartida(nomPartida);
+        return controladorPartida.esFinalPartida(partida);
     }
 
     public Usuari tornDelJugador(String nomPartida)
@@ -81,4 +77,10 @@ public class ControladorDomini {
     {
         return controladorPartida.getPartida(nomPartida).getAtril();
     }
+
+    public void acabarPartida(Partida partida)
+    {
+        controladorPartida.acabarPartida(partida);
+    }
+
 }

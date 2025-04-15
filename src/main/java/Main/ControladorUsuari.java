@@ -13,13 +13,12 @@ public class ControladorUsuari {
         return usuaris;
     }
 
-    private boolean existeixUsuari(String username)
+    public Usuari existeixUsuari(String username)
     {
-        if (!usuaris.containsKey(username)){
-            System.out.println("Usuari no existeix");
-            return false;
-        }
-        return true;
+        if (!usuaris.containsKey(username))
+            throw new IllegalArgumentException("No existeix l'usuari amb el nom: " + username);
+        
+        return usuaris.get(username);
 
     }
     public Persona registrarPersona(String nom, String username, String password)
@@ -37,30 +36,24 @@ public class ControladorUsuari {
 
     public boolean iniciarSessio(String username, String password)
     {
-        if (!existeixUsuari(username))
-            return false;
-        
-        Usuari usuari = usuaris.get(username);
+        Usuari usuari = existeixUsuari(username);
 
         if (usuari instanceof Persona) {
             Persona persona = (Persona) usuari; //cast a Persona (hereda de Usuari)
             if (persona.getContrasenya().equals(password))
             {
                 persona.iniciarSessio();
-                System.out.println("Sessio iniciada correctament");
                 return true;
             }
-            System.out.println("Contrasenya incorrecta");
+            else throw new IllegalArgumentException("Contrasenya incorrecta");
         }
         return false;
     }
 
     public boolean eliminarCompte(String username)
     {
-        if (!existeixUsuari(username))
-            return false;
 
-        Usuari usuari = usuaris.get(username);
+        Usuari usuari = existeixUsuari(username);
 
         if (((Persona)usuari).teSessioIniciada())
         {
@@ -73,11 +66,8 @@ public class ControladorUsuari {
 
     public boolean tancarSessio(String username)
     {
-        if (!existeixUsuari(username))
-            return false;
-
-        Usuari usuari = usuaris.get(username);
-        if (((Persona)usuari).teSessioIniciada())
+        Usuari usuari = existeixUsuari(username);
+        if (usuari.teSessioIniciada())
         {
             ((Persona)usuari).tancarSessio();
             System.out.println("Sessio tancada correctament");
@@ -88,10 +78,7 @@ public class ControladorUsuari {
 
     public boolean restablirContrasenya(String username, String password, String password_nova)
     {
-        if (!existeixUsuari(username))
-            return false;
-
-        Usuari usuari = usuaris.get(username);
+        Usuari usuari = existeixUsuari(username);
 
         if (usuari instanceof Persona) {
             Persona persona = (Persona) usuari; //cast a Persona (hereda de Usuari)
@@ -115,15 +102,10 @@ public class ControladorUsuari {
 
     public boolean veurePerfil(String username)
     {
-        if (!existeixUsuari(username))
-            return false;
-
-        Usuari usuari = usuaris.get(username);
-        if (!((Persona)usuari).teSessioIniciada())
-        {
-            System.out.println("Sessio no iniciada");
-            return false;
-        }
+        Usuari usuari = existeixUsuari(username);
+        if (!usuari.teSessioIniciada())
+            throw new IllegalArgumentException("No hi ha cap sessio iniciada amb aquest usuari");
+            
         Persona persona = (Persona) usuari; //cast a Persona (hereda de Usuari)
         System.out.println("Nom: " + persona.getNom());
         System.out.println("Correu: " + persona.getCorreu());

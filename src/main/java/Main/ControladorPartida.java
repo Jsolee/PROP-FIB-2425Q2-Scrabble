@@ -26,6 +26,9 @@ public class ControladorPartida {
     {
         if (partides.containsKey(nomPartida)) 
             throw new IllegalArgumentException("Ja existeix una partida amb el nom: " + nomPartida);
+        
+        if (!idioma.equals("catalan") && !idioma.equals("castellano") && !idioma.equals("english"))
+            throw new IllegalArgumentException("L'idioma ha de ser 'catalan', 'castellano' o 'english'.");
 
         Partida partida = new Partida(nomPartida, idioma);
         inicialitzarJugadors(jugadors, partida);
@@ -40,10 +43,16 @@ public class ControladorPartida {
     }
     
 
-    public int jugarParaula(String nomPartida, String paraula, int f, int col, String orientacion)
+    public int jugarParaula(Partida partida, String paraula, int f, int col, String orientacion)
     {
-        Partida partida = getPartida(nomPartida);
+        if (f < 0 || f >= 15 || col < 0 || col >= 15) 
+            throw new IllegalArgumentException("La fila i columna han de ser entre 0 i 14.");
 
+        orientacion = orientacion.toUpperCase();
+        if ((!orientacion.equals("H") && !orientacion.equals("V")))
+            throw new IllegalArgumentException("L'orientacio ha de ser 'H' (horitzontal) o 'V' (vertical).");
+
+        paraula = paraula.toUpperCase();
         boolean valid = partida.existeixParaula(paraula);
         if (!valid)
             throw new IllegalArgumentException("La paraula no es troba al diccionari en l'idioma " + partida.getIdioma() + ".");
@@ -60,6 +69,7 @@ public class ControladorPartida {
             partida.retiraFitxesAtril();
 
             int puntuacio = partida.calculaPuntuacioJugada();
+            partida.actualitzaPuntuacio(puntuacio);
 
             partida.completarAtril();
             partida.passarTorn();
@@ -73,23 +83,18 @@ public class ControladorPartida {
         }
     }
 
-    public void canviDeFitxes(String nomParaula, String[] indexsACanviar)
+    public void canviDeFitxes(Partida partida, String[] indexsACanviar)
     {
-        Partida partida = getPartida(nomParaula);
-
         if (partida.getBossa().getQuantitatFitxes() < 7) 
-          throw new IllegalArgumentException("No hi ha prou fitxes a la bossa per intercanviar.");
+          throw new IllegalArgumentException("No hi ha prou fitxes a la bossa per intercanviar. No es por canviar de fitxes.");
     
         partida.canviFitxesAtril(indexsACanviar);
     
-        System.out.println(partida.getIndexsActuals().size() + " fitxes canviades.");
         partida.passarTorn();
     }
 
-    public boolean esFinalPartida(String nomPartida)
-    {
-        Partida partida = getPartida(nomPartida);
-        
+    public boolean esFinalPartida(Partida partida)
+    {   
         if (partida.getBossa().getQuantitatFitxes() == 0) 
         {
             List<List<Fitxa>> atrils = partida.getAtrils();
@@ -103,42 +108,31 @@ public class ControladorPartida {
                 }
             }
         }
+        else if (partida.getPartidaAcabada() == true)
+            return true;
+        else if (partida.getPartidaPausada() == true)
+            return true;
         return false;
     }
-
-    //EL QUE IMPRIMEIX AQUESTA FUNCIO HA DE FER-HO EL MAIN
-    public void finalitzarPartida(String nomPartida) 
-    {
-        Partida partida = getPartida(nomPartida);
-        partida.acabarPartida();
-
-        Usuari guanyador = partida.determinarGuanyador();
-        System.out.println("Partida finalitzada!");
-        System.out.println("Guanyador: " + guanyador.getNom());
-
-        List<Integer> puntuacions = partida.getPuntuacions();
-        System.out.println("Puntuacions finals:");
-
-        for (int i = 0; i < puntuacions.size(); i++) 
-            System.out.println("Jugador " + (i + 1) + ": " + puntuacions.get(i) + " punts");
-    } 
-
-    //EL QUE IMPRIMEIX AQUESTA FUNCIO HA DE FER-HO EL MAIN
-    public void mostrarEstatPartida(String nomPartida) 
-    {
-        Partida partida = getPartida(nomPartida);
-
-        System.out.println("\n=== Estat actual de la partida ===");
-        Usuari jugadorActual = partida.getJugadorActual();
-        System.out.println("Torn del jugador: " + jugadorActual.getNom());
-        //System.out.println("Puntuació: " + partida.getPuntuacioJugador(jugadorActual));
-        //System.out.println("Fitxes disponibles: " + partida.getFitxesJugador(jugadorActual));
-        partida.getTaulell().mostrarTaulell();
-    }
+    
 
     public Taulell getTaulell(String nomPartida) 
     {
         Partida partida = getPartida(nomPartida);
         return partida.getTaulell();
+    }
+
+    public void acabarPartida(Partida partida)
+    {
+        partida.acabarPartida();
+        List<Usuari> jugadors = partida.getJugadors();
+        for (Usuari jugador : jugadors) 
+        {
+            if (jugador instanceof Persona)
+            {
+                Persona persona = (Persona) jugador;
+                persona.eliminarPartidaEnCurs(partida);
+            }
+        }
     }
 }
