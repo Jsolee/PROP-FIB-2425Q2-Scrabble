@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public abstract class Usuari {
     private String nom;
-    private ArrayList<Partida> partidesEnCurs ;
     private Ranking ranking;
     private boolean SessioIniciada;
     private Estadistiques estadistiques;
@@ -12,7 +11,6 @@ public abstract class Usuari {
     public Usuari(String nom) {
         this.nom = nom;
         this.SessioIniciada = true;
-        this.partidesEnCurs = new ArrayList<>();
         this.ranking = new Ranking();
         this.estadistiques = new Estadistiques();
     }
@@ -21,17 +19,9 @@ public abstract class Usuari {
     public String getNom() {
         return this.nom;
     }
-
-    public ArrayList<Partida> getPartidesEnCurs() {
-        return this.partidesEnCurs;
-    }
     
     public Ranking getRanking() {
         return this.ranking;
-    }
-    
-    public void borrarPartidaEnCurs(Partida partida) {
-        this.partidesEnCurs.remove(partida);
     }
 
     public boolean teSessioIniciada() {

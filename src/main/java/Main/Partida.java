@@ -43,7 +43,12 @@ public class Partida {
         puntuacioJugadors.add(0);
     
         // Add game to player's active games
-        jugador.getPartidesEnCurs().add(this);
+        if (jugador instanceof Persona)
+        {
+            Persona persona = (Persona) jugador;
+            persona.getPartidesEnCurs().add(this);
+
+        }
     }
 
     private void omplirAtril(int index) 
@@ -303,5 +308,10 @@ public class Partida {
         
         omplirAtril(jugadorActual);
         return true;
+    }
+
+    public void actualitzaPuntuacio(int puntuacio)
+    {
+        puntuacioJugadors.set(jugadorActual, puntuacioJugadors.get(jugadorActual) + puntuacio);
     }
 }
