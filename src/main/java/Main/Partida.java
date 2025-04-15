@@ -3,114 +3,127 @@ package Main;
 import java.util.*;
 
 public class Partida {
-    private String nom;
-    private Taulell taulell;
-    private List<Usuari> jugadors;
-    private int jugadorActual;
-    private Bossa bossa;
+    private final String nom;
+    private final Taulell taulell;
+    private final Jugador jugador1;
+    private final Jugador jugador2;
+    private Jugador jugadorActual;
     private boolean partidaAcabada;
-    private List<Fitxa> fitxesActuals;
-    private List<int[]> posicionsActuals; //posicions de les fitxes colocades al taulell en cada torn
-    private List<Integer> indexsActuals;
-    private List<List<Fitxa>> atrils;
-    private List<Integer> puntuacioJugadors;
-    private String idioma;
     private boolean partidaPausada;
-    private Diccionari diccionari;
+    private final Bossa bossa;
+    private final Diccionari diccionari;
 
-    public Partida(String nom, String idioma) {
+    public Partida(String nom, String nomDiccionari, Usuari usuari1, Usuari usuari2) {
         this.nom = nom;
         this.taulell = new Taulell();
-        this.jugadors = new ArrayList<>();
-        this.jugadorActual = 0;
-        this.bossa = new Bossa(idioma);
         this.partidaAcabada = false;
-        this.fitxesActuals = new ArrayList<>();
-        this.posicionsActuals = new ArrayList<>();
-        this.indexsActuals = new ArrayList<>();
-        this.atrils = new ArrayList<>();
-        this.puntuacioJugadors = new ArrayList<>();
-        this.idioma = idioma;
         this.partidaPausada = false;
-        this.diccionari = new Diccionari(idioma);
+        this.bossa = new Bossa(nomDiccionari);
+        this.diccionari = new Diccionari(nomDiccionari);
+
+        this.jugador1 = new Jugador(usuari1, bossa.agafarFitxes(7));
+        this.jugador2 = new Jugador(usuari2, bossa.agafarFitxes(7));
+        this.jugadorActual = jugador1;
     }
 
-    public void afegirJugador(Usuari jugador) 
-    {
-        jugadors.add(jugador);
-        // Repartir fitxes inicials
-        omplirAtril(-1);
-        puntuacioJugadors.add(0);
-    
-        // Add game to player's active games
-        ((Persona)jugador).getPartidesEnCurs().add(this);
-    }
 
-    private void omplirAtril(int index) 
-    {
-        if (index < 0) //if per a quan necessitem crear un atril a l'inici
-        {
-            List<Fitxa> atril = new ArrayList<>();
-            for (int i = 0; i < 7; i++) 
-            {
-                Fitxa fitxa = bossa.agafarFitxa();
-                if (fitxa != null)
-                    atril.add(fitxa);
-            }
-            atrils.add(atril);
-        }
-        else 
-        {
-            List<Fitxa> atril = atrils.get(index);
-            for (int i = atril.size(); i < 7; i++) 
-            {
-                Fitxa fitxa = bossa.agafarFitxa();
-                if (fitxa != null)
-                    atril.add(fitxa);
-            }   
-        }
-    }
-
-    public String getNom() 
-    {
+    // Getters
+    public String getNom() {
         return nom;
     }
-
-
-    public void setBossa(Bossa bossa) 
-    {
-        this.bossa = bossa;
+    public Taulell getTaulell() {
+        return taulell;
+    }
+    public Usuari getJugador1() {
+        return jugador1.getUsuari();
+    }
+    public Usuari getJugador2() {
+        return jugador2.getUsuari();
+    }
+    public Usuari getJugadorActual() {
+        return jugadorActual.getUsuari();
+    }
+    public List<Fitxa> getAtrilJugador(Usuari usuari) {
+        if (usuari == jugador1.getUsuari()) {
+            return jugador1.getAtril();
+        } else if (usuari == jugador2.getUsuari()) {
+            return jugador2.getAtril();
+        } else {
+            throw new IllegalArgumentException("Usuari no trobat");
+        }
+    }
+    public int getPuntuacioJugador(Usuari usuari) {
+        if (usuari == jugador1.getUsuari()) {
+            return jugador1.getPuntuacio();
+        } else if (usuari == jugador2.getUsuari()) {
+            return jugador2.getPuntuacio();
+        } else {
+            throw new IllegalArgumentException("Usuari no trobat");
+        }
+    }
+    public Jugada getJugadaJugador(Usuari usuari) {
+        if (usuari == jugador1.getUsuari()) {
+            return jugador1.jugada;
+        } else if (usuari == jugador2.getUsuari()) {
+            return jugador2.jugada;
+        } else {
+            throw new IllegalArgumentException("Usuari no trobat");
+        }
     }
 
-    public Bossa getBossa() 
-    {
+    public boolean isPartidaAcabada() {
+        return partidaAcabada;
+    }
+    public boolean isPartidaPausada() {
+        return partidaPausada;
+    }
+    public Bossa getBossa() {
         return bossa;
     }
+    public Diccionari getDiccionari() {
+        return diccionari;
+    }
+
+    // Setters
+    public void setPartidaAcabada(boolean partidaAcabada) {
+        this.partidaAcabada = partidaAcabada;
+    }
+    public void setPartidaPausada(boolean partidaPausada) {
+        this.partidaPausada = partidaPausada;
+    }
 
 
-    public boolean colocarFitxa(int x, int y, Fitxa fitxa) 
-    {
-        List<Fitxa> atril = atrils.get(jugadorActual);
-        if (!atril.contains(fitxa)) 
-            return false;
+    public void omplirAtril() {
+        int fitxesNecesaries = jugadorActual.fitxesNecesaries();
+        jugadorActual.afegirFitxesAlAtril(bossa.agafarFitxes(fitxesNecesaries));
+    }
 
-        if (taulell.colocarFitxa(x, y, fitxa)) 
-        {
-            fitxesActuals.add(fitxa);
-            posicionsActuals.add(new int[]{x, y});
-            return true;
+    public boolean afegirFitxaJugada(Posicio posicio, Fitxa fitxa) {
+        jugadorActual.
+    }
+
+
+
+    public void canviTorn() {
+        // si el jugador te fitxes a la jugada, les col·loca de volta el seu atril ja que ha canviat el torn sense jugar
+        if (!jugadorActual.jugada.getFitxes().isEmpty()) {
+            TreeMap<Posicio, Fitxa> fitxesJugada = jugadorActual.jugada.getFitxes();
+            for (Map.Entry<Posicio, Fitxa> entry : fitxesJugada.entrySet()) {
+                Fitxa fitxa = entry.getValue();
+                jugadorActual.afegirFitxesAlAtril();
+            }
+        } else {
+            jugadorActual.jugada = new Jugada();
         }
-        return false;
+
+        if (jugadorActual == jugador1) {
+            jugadorActual = jugador2;
+        } else {
+            jugadorActual = jugador1;
+        }
     }
 
-
-
-    public boolean passarTorn() {
-        jugadorActual = (jugadorActual + 1) % jugadors.size();
-        return true;
-    }
-
-    public Usuari determinarGuanyador() 
+    public Usuari guanyador()
     {
         int puntuacioMaxima = -1;
         int indexGuanyador = -1;
@@ -126,26 +139,8 @@ public class Partida {
         return jugadors.get(indexGuanyador);
     }
 
-    public Usuari getJugadorActual() 
-    {
-        return jugadors.get(jugadorActual);
-    }
 
-    public Taulell getTaulell() {
-        return taulell;
-    }
 
-    public List<Usuari> getJugadors() {
-        return jugadors;
-    }
-
-    public List<Integer> getPuntuacions() {
-        return puntuacioJugadors;
-    }
-
-    public List<Fitxa> getAtril(){
-        return atrils.get(jugadorActual);
-    }
 
     public boolean getPartidaPausada() {
         return partidaPausada;
@@ -163,20 +158,6 @@ public class Partida {
         partidaAcabada = true;
     }
 
-    public List<Integer> getIndexsActuals()
-    {
-        return indexsActuals;
-    }
-
-    public String getIdioma()
-    {
-        return idioma;
-    }
-
-    public List<List<Fitxa>> getAtrils()
-    {
-        return atrils;
-    }
 
     public boolean paraulaEnAtril(String paraula) 
     {
@@ -304,4 +285,74 @@ public class Partida {
         omplirAtril(jugadorActual);
         return true;
     }
+
+    private class Jugador {
+        private final Usuari usuari;
+        private int puntuacio;
+        private List<Fitxa> atril;
+        private Jugada jugada;
+
+        public Jugador(Usuari usuari) {
+            this.usuari = usuari;
+            this.puntuacio = 0;
+            this.atril = new ArrayList<Fitxa>();
+            this.jugada = new Jugada();
+        }
+        // contructor amb atril
+        public Jugador(Usuari usuari, ArrayList<Fitxa> atril) {
+            this.usuari = usuari;
+            this.puntuacio = 0;
+            this.atril = atril;
+            this.jugada = new Jugada();
+        }
+
+        //getters i setters
+        public Usuari getUsuari() {
+            return usuari;
+        }
+        public int getPuntuacio() {
+            return puntuacio;
+        }
+        public List<Fitxa> getAtril() {
+            return atril;
+        }
+        public Jugada getJugada() {
+            return jugada;
+        }
+
+
+        public void setPuntuacio(int puntuacio) {
+            this.puntuacio = puntuacio;
+        }
+        public void setAtril(List<Fitxa> atril) {
+            this.atril = atril;
+        }
+        public void setJugada(Jugada jugada) {
+            this.jugada = jugada;
+        }
+
+        public int fitxesNecesaries() {
+            // com un atril ha de tenir 7 fitxes:
+            return 7 - atril.size();
+        }
+
+        public void afegirFitxa(Fitxa fitxa) {
+            if (atril.size() > 7)
+                throw new IllegalArgumentException("Atril ple");
+            atril.add(fitxa);
+        }
+        public void afegirFitxesAlAtril(List<Fitxa> fitxes) {
+            for (Fitxa fitxa : fitxes)
+            {
+                if (atril.size() > 7)
+                    throw new IllegalArgumentException("Atril ple");
+                atril.add(fitxa);
+            }
+        }
+
+        public void afegirFitxesJugada(List<Fitxa> fitxes) {
+
+        }
+    }
+
 }

@@ -11,7 +11,7 @@ public class ControladorPartida {
 
     public Partida getPartida(String nomPartida) 
     {
-        if (!partides.containsKey(nomPartida)) 
+        if (!partides.containsKey(nomPartida))
             throw new IllegalArgumentException("No existeix la partida amb el nom: " + nomPartida);
         return partides.get(nomPartida);
     }
@@ -22,7 +22,7 @@ public class ControladorPartida {
         return partida.getJugadorActual();
     }
 
-    public Partida crearPartida(String nomPartida, List<Usuari> jugadors, String idioma) 
+    public Partida crearPartida(String nomPartida, Usuari usuari1, Usuari usuari2, String idioma)
     {
         if (partides.containsKey(nomPartida)) 
             throw new IllegalArgumentException("Ja existeix una partida amb el nom: " + nomPartida);
@@ -33,9 +33,9 @@ public class ControladorPartida {
         return partida;
     }
 
-    private void inicialitzarJugadors(List<Usuari> jugadors, Partida partida) 
+    private void inicialitzarJugadors(List<Usuari> jugadors, Partida partida)
     {
-        for (Usuari jugador : jugadors) 
+        for (Usuari jugador : jugadors)
             partida.afegirJugador(jugador);
     }
     
