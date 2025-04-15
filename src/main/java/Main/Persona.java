@@ -6,7 +6,8 @@ public class Persona extends Usuari {
     private String correu;
     private String contrasenya;
     private Estadistiques estadistiques;
-    private ArrayList<Partida> partidesEnCurs;
+    private boolean SessioIniciada;
+    private ArrayList<Partida> partidesEnCurs ;
 
     public Persona(String nom, String correu, String contrasenya) {
         super(nom);
@@ -15,7 +16,6 @@ public class Persona extends Usuari {
         this.correu = correu;
         this.contrasenya = contrasenya;
         this.estadistiques = new Estadistiques();
-        this.partidesEnCurs = new ArrayList<>();
     }
 
     //getters
@@ -51,23 +51,10 @@ public class Persona extends Usuari {
         return this.estadistiques;
     }
 
-    public ArrayList<Partida> getPartidesEnCurs() {
-        return this.partidesEnCurs;
-    }
-
     public boolean setContrasenya(String contrasenya) {
         this.contrasenya = contrasenya;
         return true;
     }
-
-    public void addPartidaEnCurs(Partida partida) {
-        partidesEnCurs.add(partida);
-    }
-
-    public void eliminarPartidaEnCurs(Partida partida) {
-        partidesEnCurs.remove(partida);
-    }
-
 
 
 }
