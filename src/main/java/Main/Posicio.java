@@ -1,6 +1,6 @@
 package Main;
 
-public class Posicio {
+public class Posicio implements Comparable<Posicio>{
     private int x;
     private int y;
 
@@ -15,6 +15,14 @@ public class Posicio {
 
     public int getY() {
         return y;
+    }
+
+    @Override
+    public int compareTo(Posicio other) {
+        if (this.x != other.x) {
+            return Integer.compare(this.x, other.x);
+        }
+        return Integer.compare(this.y, other.y);
     }
 
     @Override

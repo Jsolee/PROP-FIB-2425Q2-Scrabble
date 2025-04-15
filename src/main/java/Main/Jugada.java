@@ -4,14 +4,20 @@ import java.util.*;
 
 public class Jugada {
     private String paraula;
-    private List<Fitxa> fitxes;
-    private Posicio posicio;
+    // fitxes y posiciones
+    TreeMap<Posicio, Fitxa> fitxes;
     private boolean across; // si no es across, sera down.
 
-    public Jugada(String paraula, ArrayList<Fitxa> fitxes, Posicio posicio, boolean across) {
+
+    public Jugada() {
+        this.paraula = "";
+        this.fitxes = new TreeMap<Posicio, Fitxa>();
+        this.across = true;
+    }
+
+    public Jugada(String paraula, TreeMap<Posicio, Fitxa> fitxes, boolean across) {
         this.paraula = paraula;
         this.fitxes = fitxes;
-        this.posicio = posicio;
         this.across = across;
     }
 
@@ -19,11 +25,8 @@ public class Jugada {
     public String getParaula() {
         return paraula;
     }
-    public List<Fitxa> getFitxes() {
+    public TreeMap<Posicio, Fitxa> getFitxes() {
         return fitxes;
-    }
-    public Posicio getPosicio() {
-        return posicio;
     }
     public boolean isAcross() {
         return across;
@@ -32,17 +35,16 @@ public class Jugada {
     public void setParaula(String paraula) {
         this.paraula = paraula;
     }
-    public void setFitxes(ArrayList<Fitxa> fitxes) {
+    public void setFitxes(TreeMap<Posicio, Fitxa> fitxes) {
         this.fitxes = fitxes;
-    }
-    public void setPosicio(Posicio posicio) {
-        this.posicio = posicio;
-    }
-    public void setPosicio(int x, int y) {
-        this.posicio = new Posicio(x, y);
     }
     public void setAcross(boolean across) {
         this.across = across;
+    }
+
+
+    public void afegirFitxa(Fitxa fitxa, Posicio posicio) {
+        fitxes.put(posicio, fitxa);
     }
 
 }
