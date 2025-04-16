@@ -183,35 +183,95 @@ public class Partida {
         return atrils;
     }
 
-    public boolean paraulaEnAtril(String paraula) 
-    {
+    public boolean paraulaEnAtril(String paraula) {
         boolean valida = true;
         List<Fitxa> atril = atrils.get(jugadorActual);
         indexsActuals.clear();
         fitxesActuals.clear();
         posicionsActuals.clear();
-
-        for (char c : paraula.toCharArray()) 
-        {
+        paraula = paraula.toUpperCase(); // Normalizar a mayúsculas
+    
+        List<String> possiblesDigrafs = new ArrayList<>();
+    
+        if (idioma.equals("catalan")) {
+            possiblesDigrafs.add("NY");
+            possiblesDigrafs.add("L·L");
+        } 
+        else if (idioma.equals("castellano")) {
+            possiblesDigrafs.add("CH");
+            possiblesDigrafs.add("LL");
+            possiblesDigrafs.add("RR");
+        }
+    
+        for (int i = 0; i < paraula.length(); i++) {
             boolean found = false;
-            for (int i = 0; i < atril.size(); i++) 
-            {
-                if (!indexsActuals.contains(i) && (atril.get(i).getLletra().equals(String.valueOf(c)) || atril.get(i).getLletra().equals("#")))
-                {
-                    fitxesActuals.add(atril.get(i));
-                    indexsActuals.add(i);
-                    found = true;
-                    break;
+            char a = paraula.charAt(i);
+            String c = String.valueOf(a);
+            
+            // Buscar posibles dígrafos
+            if (idioma.equals("catalan")) {
+                if (c.equals("N") && i + 1 < paraula.length()) {
+                    String nextChar = String.valueOf(paraula.charAt(i + 1));
+                    if (nextChar.equals("Y") && possiblesDigrafs.contains("NY")) {
+                        c = "NY"; // Usamos el dígrafo completo
+                        i++; // Avanzamos para saltar la 'Y'
+                    }
+                } 
+                else if (c.equals("L") && i + 2 < paraula.length()) {
+                    String nextChar = String.valueOf(paraula.charAt(i + 1));
+                    String nextChar2 = String.valueOf(paraula.charAt(i + 2));
+                    if (nextChar.equals("·") && nextChar2.equals("L") && 
+                        possiblesDigrafs.contains("L·L")) {
+                        c = "L·L"; // Usamos el dígrafo completo
+                        i += 2; // Avanzamos para saltar '·' y 'L'
+                    }
+                }
+            } 
+            else if (idioma.equals("castellano")) {
+                if (c.equals("C") && i + 1 < paraula.length()) {
+                    String nextChar = String.valueOf(paraula.charAt(i + 1));
+                    if (nextChar.equals("H") && possiblesDigrafs.contains("CH")) {
+                        c = "CH";
+                        i++;
+                    }
+                } 
+                else if (c.equals("L") && i + 1 < paraula.length()) {
+                    String nextChar = String.valueOf(paraula.charAt(i + 1));
+                    if (nextChar.equals("L") && possiblesDigrafs.contains("LL")) {
+                        c = "LL";
+                        i++;
+                    }
+                } 
+                else if (c.equals("R") && i + 1 < paraula.length()) {
+                    String nextChar = String.valueOf(paraula.charAt(i + 1));
+                    if (nextChar.equals("R") && possiblesDigrafs.contains("RR")) {
+                        c = "RR";
+                        i++;
+                    }
                 }
             }
-
-            if (!found) 
-            {
+    
+            // Buscar la letra o dígrafo en el atril
+            for (int j = 0; j < atril.size(); j++) {
+                if (!indexsActuals.contains(j)) {
+                    Fitxa fitxa = atril.get(j);
+                    
+                    if (fitxa.getLletra().equals(c) || fitxa.getLletra().equals("#")) {
+                        fitxesActuals.add(fitxa);
+                        indexsActuals.add(j);
+                        found = true;
+                        break;
+                    }
+                }
+            }
+    
+            // Si no se encontró la letra o dígrafo
+            if (!found) {
                 valida = false;
                 break;
             }
         }
-
+    
         return valida;
     }
 
@@ -223,7 +283,8 @@ public class Partida {
     public boolean validaEnTaulell(String paraula, int f, int col, String orientacio) 
     {
         boolean placed = true;
-
+        List<Fitxa> comodins = new ArrayList<>();
+        
         for (int i = 0; i < paraula.length(); i++) 
         {
             int r = f;
@@ -236,14 +297,15 @@ public class Partida {
             Fitxa fitxa = fitxesActuals.get(i);
             if (fitxa.getLletra().equals("#")) 
             {
+                comodins.add(fitxa);
                 fitxa.setLletra(String.valueOf(paraula.charAt(i)));
             } //canvi de valor si es un comodin
-
             else if (!fitxa.getLletra().equals(String.valueOf(paraula.charAt(i)))) 
             {
                 placed = false;
                 break;
             }
+
             if (!taulell.colocarFitxa(r, c, fitxa)) {
                 placed = false;
                 break;
@@ -251,6 +313,12 @@ public class Partida {
             posicionsActuals.add(new int[]{r, c});
         }
 
+        if (!placed)
+        {
+            for (Fitxa c : comodins)
+                c.setLletra("#");
+            retiraFitxesJugades();
+        }
         return placed;
     }
 
@@ -308,5 +376,10 @@ public class Partida {
     public void actualitzaPuntuacio(int puntuacio)
     {
         puntuacioJugadors.set(jugadorActual, puntuacioJugadors.get(jugadorActual) + puntuacio);
+    }
+
+    public void setNoGuardada()
+    {
+        partidaPausada = false;
     }
 }

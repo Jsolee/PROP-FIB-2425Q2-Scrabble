@@ -1,6 +1,7 @@
 package Main;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class ControladorUsuari {
     private final HashMap<String, Usuari> usuaris;
@@ -106,6 +107,14 @@ public class ControladorUsuari {
         System.out.println("Puntuacio promig: " + e.getPuntuacioPromig());
         System.out.println("Nivell de ranking: " + e.getNivellRanking());
         return true;
+    }
 
+    public List<Partida> getPartides(Usuari usuari)
+    {
+        if (usuari instanceof Persona) {
+            Persona persona = (Persona) usuari; //cast a Persona (hereda de Usuari)
+            return persona.getPartidesEnCurs();
+        }
+        return null;
     }
 }
