@@ -43,8 +43,9 @@ public class ControladorPartida {
     }
     
 
-    public int jugarParaula(Partida partida, String paraula, int f, int col, String orientacion)
+    /*public int jugarParaula(Partida partida, String paraula, int f, int col, String orientacion)
     {
+        
         if (f < 0 || f >= 15 || col < 0 || col >= 15) 
             throw new IllegalArgumentException("La fila i columna han de ser entre 0 i 14.");
 
@@ -53,17 +54,27 @@ public class ControladorPartida {
             throw new IllegalArgumentException("L'orientacio ha de ser 'H' (horitzontal) o 'V' (vertical).");
 
         paraula = paraula.toUpperCase();
-        boolean valid = partida.existeixParaula(paraula);
-        if (!valid)
-            throw new IllegalArgumentException("La paraula no es troba al diccionari en l'idioma " + partida.getIdioma() + ".");
-
-        valid = valid && partida.paraulaEnAtril(paraula);
-
+        //boolean valid = partida.existeixParaula(paraula);
+        boolean valid = partida.paraulaEnAtril(paraula);
         if (!valid)
             throw new IllegalArgumentException("La paraula no es pot jugar amb les fitxes de l'atril.");
 
         valid = valid && partida.validaEnTaulell(paraula, f, col, orientacion);
-
+        if (!valid)
+            throw new IllegalArgumentException("La paraula no es pot posar a la posicio desitjada.");
+                
+        Taulell taulell = partida.getTaulell();
+        List<String> paraules = taulell.obtenerParaulesAdjacents(paraula, f, col, orientacion);
+        for (String p : paraules) 
+        {
+            p = p.toUpperCase();
+            if (!partida.existeixParaula(p))
+            {
+                partida.retiraFitxesJugades();
+                throw new IllegalArgumentException("La paraula " + p + " no es troba al diccionari en l'idioma " + partida.getIdioma() + ".");
+            }
+        }
+        
         if (valid) 
         {
             partida.retiraFitxesAtril();
@@ -81,6 +92,22 @@ public class ControladorPartida {
             partida.retiraFitxesJugades();
             throw new IllegalArgumentException("No pots posar aquesta paraula al taulell en la ubicacio solicitada.");
         }
+    }*/
+
+    //Retorna la puntuacio de la jugada. El LinkedHashMap conte les posicions (fila i col) de les fitxes jugades. 
+    //per exemple: la Fitxa 'A' a la posicio (0,0) es representaria com [0,0] -> 'A'
+    public int jugarParaula(Partida partida, LinkedHashMap<int[], Fitxa> jugades)
+    {
+        //las fichas ya estan en el atril (paso 0)
+        //1 verificar que es pot posar al taulell (funcion en el tablero)
+        //1.5 calcular palabras nuevas (list<list<fitxa>>)
+        //2 verificar que las palabras formadas existen
+        //3 calcular la puntuacion total
+
+        return partida.jugarParaula(jugades);
+
+
+
     }
 
     public void canviDeFitxes(Partida partida, String[] indexsACanviar)
