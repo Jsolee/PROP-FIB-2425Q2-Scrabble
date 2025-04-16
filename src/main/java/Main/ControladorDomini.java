@@ -40,13 +40,17 @@ public class ControladorDomini {
         return controladorUsuari.existeixUsuari(username);
     }
 
+    public List<Partida> getPartidesEnCurs(Usuari jugador) {
+        return controladorUsuari.getPartides(jugador);
+    }
+
     //gestio de partides
     public Partida crearPartida(String nomPartida, List<Usuari> jugadors, String idioma) {
         return controladorPartida.crearPartida(nomPartida, jugadors, idioma);
     }
 
-    public void getPartida(String nomPartida) {
-        controladorPartida.getPartida(nomPartida);
+    public Partida getPartida(String nomPartida) {
+       return controladorPartida.getPartida(nomPartida);
     }
 
     public int jugarParaula(Partida partida, String paraula, int f, int col, String orientacion) {

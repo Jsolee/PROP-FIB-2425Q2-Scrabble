@@ -25,46 +25,148 @@ public class Main {
       scanner.nextLine(); // Consumir el salt de línia
       while (opcio != 3) 
       {
-        System.out.println("Has seleccionat jugar una partida!");
-        mostrarOpcionsJugarPartida();
-        int opcioPartida = scanner.nextInt();
-        scanner.nextLine(); // Consumir el salt de línia
 
-        switch (opcioPartida) 
+        switch (opcio)
         {
           case 1:
-            System.out.println("Has seleccionat jugar una partida 1 vs 1");
-            System.out.println("Inicia sessio del jugador 2:");
-            Usuari Jugador2 = inputIniciarSessio(scanner);
-            System.out.println("Es jugara una partida entre " + Jugador1.getNom() + " i " + Jugador2.getNom());
-            Partida partida = inputJugarPartida(scanner, List.of(Jugador1, Jugador2));
-            System.out.println("Partida amb nom  " + partida.getNom() +  " creada correctament");
-            inputPartidaEnJoc(scanner, partida);
-            break;
           case 2:
-
-            break;
-          case 3:
-
+            opcioJugarPartida(scanner, Jugador1);
             break;
           default:
-
+            System.out.println("Opcio no valida");
             break;
         }
+        mostrarComandes();
+        opcio = scanner.nextInt();
+        scanner.nextLine(); // Consumir el salt de línia
+        
       }
 
       scanner.close();  
     }
         
 
+  private Usuari registrarUsuari(Scanner scanner)
+  {
+    System.out.println("Has seleccionat registrar un nou usuari!");
+    boolean registrat = false;
+    Usuari Jugador2 = null;
+    while (!registrat)
+    {
+      System.out.println("escriu EXIT per sortir del registre");
+      System.out.println("Introdueix el nom d'usuari:");
+      System.out.print("> ");
+      String nomUsuari = scanner.nextLine();
+      if (nomUsuari.equals("EXIT")) 
+      {
+        System.out.println("Sortint del registre...");
+        return Jugador2;
+      }
+      System.out.println("Introdueix el nom:");
+      System.out.print("> ");
+      String nom = scanner.nextLine();
+      System.out.println("Introdueix la contrasenya:");
+      System.out.print("> ");
+      String contrasenya = scanner.nextLine();
+  
+      try {
+        Jugador2 = cd.crearUsuari(nom, nomUsuari, contrasenya);
+        System.out.println("Usuari creat correctament");
+        registrat = true;
+      } catch (IllegalArgumentException e) {
+        System.out.println(e.getMessage());
+      }
+    }
+    return Jugador2;
+  }
+
+  private void opcioJugarPartida(Scanner scanner, Usuari Jugador1)
+  {
+    System.out.println("Has seleccionat jugar una partida!");
+    mostrarOpcionsJugarPartida();
+    int opcioPartida = scanner.nextInt();
+    scanner.nextLine(); // Consumir el salt de línia
+
+    switch (opcioPartida) 
+    {
+      case 1:
+        System.out.println("Has seleccionat jugar una partida 1 vs 1");
+        partida1vs1(scanner, Jugador1);
+        break;
+      case 2:
+
+        break;
+      case 3:
+        List<Partida> partides = cd.getPartidesEnCurs(Jugador1);
+        System.out.println("Aquestes son les partides actives de " + Jugador1.getNom() + " Total disponible: " + partides.size());
+        if (partides.size() > 0){
+          for (Partida partida : partides) 
+          System.out.println(partida.getNom());
+
+          System.out.println("Introdueix el nom de la partida a carregar:");
+          System.out.print("> ");
+          String nomPartida = scanner.nextLine();
+          seleccionarIJugarPartida(scanner, nomPartida);
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  private void seleccionarIJugarPartida(Scanner scanner, String nomPartida)
+  {
+    System.out.println("Has seleccionat carregar la partida " + nomPartida);
+    try {
+      Partida partida = cd.getPartida(nomPartida);
+      System.out.println("Partida carregada correctament");
+      partida.setNoGuardada();
+      inputPartidaEnJoc(scanner, partida);
+    } catch (IllegalArgumentException e) {
+      System.out.println(e.getMessage());
+    }
+  }
+
   private void mostrarComandes()
   {
     System.out.println("Comandes disponibles (introdueix el numero):");
     System.out.println("1. Crear Usuari");
     System.out.println("2. Crear Partida");
-    System.out.println("3. Sortir");
+    System.out.println("3. Sortir del joc");
     System.out.print("> ");
   }
+
+  private void partida1vs1(Scanner scanner, Usuari Jugador1)
+  {
+    System.out.println("1. Registrar al segon jugador");
+    System.out.println("2. Iniciar sessio del segon jugador");
+    System.out.println(">= 3. Enrere");
+    System.out.print("> ");
+    int opcioJugador2 = scanner.nextInt();
+    scanner.nextLine(); // Consumir el salt de línia
+    Usuari Jugador2 = null;
+    switch (opcioJugador2) 
+    {
+      case 1:
+        Jugador2 = registrarUsuari(scanner);
+        break;
+      case 2:
+        Jugador2 = inputIniciarSessio(scanner);
+        break;
+      default:
+        return;
+    }
+
+    if (Jugador2 == null)
+      return;
+  
+    System.out.println("Es jugara una partida entre " + Jugador1.getNom() + " i " + Jugador2.getNom());
+    Partida partida = inputJugarPartida(scanner, List.of(Jugador1, Jugador2));
+    System.out.println("Partida amb nom  " + partida.getNom() +  " creada correctament");
+    inputPartidaEnJoc(scanner, partida);
+    return;
+  }
+
 
   private void mostrarOpcionsJugarPartida()
   {
@@ -72,18 +174,28 @@ public class Main {
     System.out.println("1. Nova partida 1 vs 1");
     System.out.println("2. Nova partida 1 vs BOT");
     System.out.println("3. Carregar partida");
+    System.out.println(">= 4. Enrere");
     System.out.print("> ");
   }
 
   private Usuari inputIniciarSessio(Scanner scanner)
   {
+    System.out.println("Has seleccionat iniciar sessio!");
     boolean sessioIniciada = false;
     String nomUsuari = "";
     while (!sessioIniciada)
     {
+      System.out.println("escriu EXIT per sortir de l'inici de sessio");
       System.out.println("Introdueix el nom d'usuari:");
       System.out.print("> ");
       nomUsuari = scanner.nextLine();
+
+      if (nomUsuari.equals("EXIT")) 
+      {
+        System.out.println("Sortint de l'inici de sessio...");
+        return null;
+      }
+
       System.out.println("Introdueix la contrasenya:");
       System.out.print("> ");
       String contrasenya = scanner.nextLine();
@@ -94,7 +206,6 @@ public class Main {
         System.out.println(e.getMessage());
       }
     }
-    
     return cd.getUsuari(nomUsuari);
   }
 

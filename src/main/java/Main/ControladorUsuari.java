@@ -1,6 +1,7 @@
 package Main;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class ControladorUsuari {
     private final HashMap<String, Usuari> usuaris;
@@ -24,11 +25,8 @@ public class ControladorUsuari {
     public Persona registrarPersona(String nom, String username, String password)
     {
         if (usuaris.containsKey(username))
-        {
-            System.out.println("Usuari ja existeix");
-            return null;
-        }
-
+            throw new IllegalArgumentException("Ja existeix un usuari amb el nom: " + username);
+            
         Persona persona = new Persona(nom, username, password);
         usuaris.put(username, persona);
         return persona;
@@ -55,12 +53,7 @@ public class ControladorUsuari {
 
         Usuari usuari = existeixUsuari(username);
 
-        if (((Persona)usuari).teSessioIniciada())
-        {
-            usuaris.remove(username);
-            System.out.println("Compte eliminat correctament");
-            return true;
-        }
+        usuaris.remove(username);
         return false;
     }
 
@@ -82,17 +75,12 @@ public class ControladorUsuari {
         if (usuari instanceof Persona) {
             Persona persona = (Persona) usuari; //cast a Persona (hereda de Usuari)
             if (!persona.getContrasenya().equals(password))
-            {
-                System.out.println("Contrasenya incorrecta");
-                return false;
-            }
+                throw new IllegalArgumentException("Contrasenya incorrecta");
+                
             if (password.equals(password_nova))
-            {
-                System.out.println("La contrasenya nova no pot ser igual a l'anterior");
-                return false;
-            }
+                throw new IllegalArgumentException("La nova contrasenya no pot ser la mateixa que l'anterior");
+
             persona.setContrasenya(password_nova);
-            System.out.println("Contrasenya canviada correctament");
             return true;
             
         } 
@@ -116,6 +104,14 @@ public class ControladorUsuari {
         System.out.println("Puntuacio promig: " + e.getPuntuacioPromig());
         System.out.println("Nivell de ranking: " + e.getNivellRanking());
         return true;
+    }
 
+    public List<Partida> getPartides(Usuari usuari)
+    {
+        if (usuari instanceof Persona) {
+            Persona persona = (Persona) usuari; //cast a Persona (hereda de Usuari)
+            return persona.getPartidesEnCurs();
+        }
+        return null;
     }
 }
