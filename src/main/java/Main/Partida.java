@@ -212,12 +212,7 @@ public class Partida {
             }
         }
 
-        if (!valida) 
-        {
-            System.out.println("You don't have the necessary tiles to form this word.");
-            return false;
-        }
-        else return true;
+        return valida;
     }
 
     public boolean existeixParaula(String paraula) 

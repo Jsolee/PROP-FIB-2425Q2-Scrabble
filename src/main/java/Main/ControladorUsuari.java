@@ -24,11 +24,8 @@ public class ControladorUsuari {
     public Persona registrarPersona(String nom, String username, String password)
     {
         if (usuaris.containsKey(username))
-        {
-            System.out.println("Usuari ja existeix");
-            return null;
-        }
-
+            throw new IllegalArgumentException("Ja existeix un usuari amb el nom: " + username);
+            
         Persona persona = new Persona(nom, username, password);
         usuaris.put(username, persona);
         return persona;
