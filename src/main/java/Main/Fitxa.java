@@ -1,11 +1,41 @@
 package Main;
 
-public class Fitxa {
-    char letra;
-    int valor;
+import java.util.Objects;
 
-    public Fitxa(char letra, int valor) {
-        this.letra = letra;
+public class Fitxa {
+    private String lletra;  // Changed from char to String to support special tiles
+    private int valor;
+    private boolean blank;
+
+
+    public Fitxa(String lletra, int valor) {
+        this.lletra = lletra;
         this.valor = valor;
+        this.blank = false;  // Multi-character tiles are never blank
+    }
+
+    public String getLletra() {
+        return lletra;
+    }
+
+    public String getValorLletra() {
+        return lletra;
+    }
+
+    public int getValor() {
+        return valor;
+    }
+
+    public boolean isBlank() {
+        return (lletra.equals("#"));
+    }
+
+    public void setLletra(String lletra) {
+        this.lletra = lletra;
+    }
+
+    @Override
+    public String toString() {
+        return blank ? "_" : lletra + "(" + valor + ")";
     }
 }
