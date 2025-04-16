@@ -1,7 +1,9 @@
 package Main;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
 
@@ -49,6 +51,8 @@ public class Taulell {
         caselles = new Casella[MIDA][MIDA];
         inicialitzarTaulell();
     }
+
+    
 
     private void inicialitzarTaulell() {
         for (int i = 0; i < MIDA; i++) {
@@ -148,6 +152,7 @@ public class Taulell {
 
         return false;
     }
+ 
 
     public int calcularPuntuacioMoviment(List<Fitxa> fitxesColocades, List<int[]> posicions) {
         if (fitxesColocades.isEmpty() || posicions.isEmpty()) {
@@ -193,72 +198,6 @@ public class Taulell {
         return false; // Vertical
     }
 
-    public void mostrarTaulell() 
-    {
-        System.out.print("  ");
-        for (int i = 0; i < MIDA; i++) {
-            switch (i) {
-                case 0:
-                    System.out.print("  " + i);
-                    break;
-                case 1:
-                    System.out.print("    " + i);
-                    break;
-                case 2:
-                    System.out.print("    " + i);
-                    break;
-                case 3:
-                    System.out.print("    " + i);
-                    break;
-                case 4:
-                    System.out.print("    " + i);
-                    break;
-                case 5:
-                    System.out.print("    " + i);
-                    break;
-                case 6:
-                    System.out.print("    " + i);
-                    break; 
-                case 7:
-                    System.out.print("    " + i);
-                    break;
-                case 8:
-                    System.out.print("    " + i);
-                    break;
-                case 9:
-                    System.out.print("    " + i);
-                    break; 
-                case 10:
-                    System.out.print("   " + i);
-                    break;
-                case 11:
-                    System.out.print("   " + i);
-                    break;
-                case 12:
-                    System.out.print("   " + i);
-                    break;
-                case 13:    
-                    System.out.print("   " + i);
-                    break;
-                case 14:
-                    System.out.print("   " + i);
-                    break; 
-            }
-        }
-        System.out.println();
-
-        for (int i = 0; i < MIDA; i++) 
-        {
-            if (i < 10)
-                System.out.print(" " + i);
-            else
-                System.out.print(i);
-            for (int j = 0; j < MIDA; j++) {
-                System.out.print(caselles[i][j].toString() + " ");
-            }
-            System.out.println();
-        }
-    }
 
     public Casella getCasella(int x, int y) {
         if (x >= 0 && x < MIDA && y >= 0 && y < MIDA) {
@@ -356,4 +295,198 @@ public class Taulell {
 
         return paraules;
     }
+    /*----------------------------------------------------- */
+    public boolean verificarFitxes(LinkedHashMap<int[], Fitxa> jugades, boolean across)
+    {
+        //iterar por la palabra
+        for (var entry : jugades.entrySet()) {
+            int[] posicio = entry.getKey();
+            if (caselles[posicio[0]][posicio[1]].isOcupada()) 
+                return false; // La casella ja està ocupada
+        }
+
+        if (jugades.size() != 1) {
+            // Comprovar si la jugada és horitzontal o vertical
+            if (across) {
+                // Comprovar si totes les posicions tenen la mateixa fila
+                int fila = jugades.keySet().iterator().next()[0];
+                for (int[] pos : jugades.keySet()) {
+                    if (pos[0] != fila) {
+                        return false; // No és horitzontal
+                    }
+                }
+            } else {
+                // Comprovar si totes les posicions tenen la mateixa columna
+                int columna = jugades.keySet().iterator().next()[1];
+                for (int[] pos : jugades.keySet()) {
+                    if (pos[1] != columna) {
+                        return false; // No és vertical
+                    }
+                }
+            }
+        } 
+
+        return true;
+        
+    }
+
+
+    public int validesaYPuntuacioJugada(LinkedHashMap<int[], Fitxa> jugada, Diccionari diccionari, boolean across, boolean colocarFitxes)
+    {        
+        // afegir fitxes al taulell
+        boolean [][] fitxesNoves = new boolean[MIDA][MIDA];
+        for (int i = 0; i < MIDA; i++) 
+        {
+            for (int j = 0; j < MIDA; j++) {
+                fitxesNoves[i][j] = false;
+            }
+        }
+
+        Taulell backup = this;
+        for (var entry : jugada.entrySet()) 
+        {
+            int[] posicio = entry.getKey();
+            Fitxa fitxa = entry.getValue();
+            this.colocarFitxa(posicio[0], posicio[1], fitxa);
+            fitxesNoves[posicio[0]][posicio[1]] = true;
+        }
+        
+        int[] pos = jugada.keySet().iterator().next();  
+        int puntuacio = -1;
+        if (across)
+        {
+            puntuacio = getPuntuacioParaulaHorizontal(pos, fitxesNoves, diccionari);
+            if (puntuacio == -1) 
+            {
+                this.caselles = backup.caselles;
+                return -1; // La paraula no és vàlida
+            }
+
+            // mirar paraules verticals
+            int fila = pos[0];
+            for (int i = 0; i < fitxesNoves[fila].length; i++) { 
+                if (fitxesNoves[fila][i]) {
+                    // Si la casella es nova, mirar les paraules verticals noves posibles y afegir puntuacio
+                    int puntuacioVertical = getPuntuacioParaulaVertical(pos, fitxesNoves, diccionari);
+                    if (puntuacioVertical == -1) 
+                    {
+                        this.caselles = backup.caselles;
+                        return -1; // La paraula no és vàlida
+                    }
+                    puntuacio += puntuacioVertical;
+                }
+            }
+        }
+        else 
+        {
+            puntuacio = getPuntuacioParaulaVertical(pos, fitxesNoves, diccionari);
+            if (puntuacio == -1) 
+            {
+                this.caselles = backup.caselles;
+                return -1; // La paraula no és vàlida
+            }
+
+            // mirar paraules horitzontals
+            int col = pos[1];
+            for (int j = 0; j < fitxesNoves.length; j++) {
+                if (fitxesNoves[j][col]) {
+                    // Si la casella es nova, mirar les paraules horitzontals noves possibles i afegir puntuacio
+                    int puntuacioHorizontal = getPuntuacioParaulaHorizontal(pos, fitxesNoves, diccionari);
+                    if (puntuacioHorizontal == -1) 
+                    {
+                        this.caselles = backup.caselles;
+                        return -1; // La paraula no és vàlida
+                    }
+                    puntuacio += puntuacioHorizontal;
+                }
+            }
+        }
+        return puntuacio;
+    }
+
+    
+    // retorna la fitxa que ja este colocada lo mes a la esquerra posible, si la paraula no existeix retorna -1
+    private int getPuntuacioParaulaHorizontal(int[] pos, boolean[][] fitxesNoves, Diccionari diccionari)
+    {
+        int fila = pos[0];
+        int col = pos[1];
+        col--;
+        while (col >= 0 && caselles[fila][col].isOcupada()) 
+            col--;
+        // ;No hi ha fitxa a l'esquerra
+
+        col++;
+        List<Fitxa> paraula = new ArrayList<>();
+        
+
+        // calcular puntuacio
+        int puntuacio = 0;
+        int multiplicador_paraula = 1;
+        while (col < 15 && caselles[fila][col].isOcupada()) 
+        {
+            paraula.add(caselles[fila][col].getFitxa());
+            if (fitxesNoves[fila][col])
+            {
+                int multiplicador_letra = caselles[fila][col].getMultiplicadorLetra();
+                puntuacio += multiplicador_letra*caselles[fila][col].getFitxa().getValor();
+                multiplicador_paraula *= caselles[fila][col].getMultiplicadorParaula();
+            }
+            else 
+            {
+                puntuacio += caselles[fila][col].getFitxa().getValor();
+            }
+
+            col++;
+        }
+        if (!diccionari.esParaula(FitxesToString(paraula))) return -1;
+
+        return puntuacio*multiplicador_paraula;
+    }
+
+    private int getPuntuacioParaulaVertical(int[] pos, boolean[][] fitxesNoves, Diccionari diccionari)
+    {
+        int fila = pos[0];
+        int col = pos[1];
+        fila--;
+        while (fila >= 0 && caselles[fila][col].isOcupada()) 
+            fila--;
+        // ;No hi ha fitxa a l'esquerra
+
+        fila++;
+        List<Fitxa> paraula = new ArrayList<>();
+        
+        int puntuacio = 0;
+        int multiplicador_paraula = 1;
+        while (fila < 15 && caselles[fila][col].isOcupada()) 
+        {
+            paraula.add(caselles[fila][col].getFitxa());
+            if (fitxesNoves[fila][col])
+            {
+                int multiplicador_letra = caselles[fila][col].getMultiplicadorLetra();
+                puntuacio += multiplicador_letra*caselles[fila][col].getFitxa().getValor();
+                multiplicador_paraula *= caselles[fila][col].getMultiplicadorParaula();
+            }
+            else 
+            {
+                puntuacio += caselles[fila][col].getFitxa().getValor();
+            }
+            fila++;
+        }
+        if (!diccionari.esParaula(FitxesToString(paraula))) return -1;
+        
+        return puntuacio*multiplicador_paraula;
+    }
+
+    private String FitxesToString(List<Fitxa> fitxes)
+    {
+        String paraula = "";
+        for (int i = 0; i < fitxes.size(); i++) 
+        {
+            paraula += fitxes.get(i).getLletra();
+        }
+        return paraula;
+    }
+
 }
+
+

@@ -126,11 +126,21 @@ public class Partida {
                 puntuacioMaxima = p;
                 indexGuanyador = puntuacioJugadors.indexOf(p);
             }
+            else if (p == puntuacioMaxima) 
+            {
+                indexGuanyador = -1; // Empat
+            }
         }
 
+        if (indexGuanyador == -1) 
+            return null; // Empat
         return jugadors.get(indexGuanyador);
     }
 
+    public Usuari getTornActual() 
+    {
+        return jugadors.get(jugadorActual);
+    }
     public Usuari getJugadorActual() 
     {
         return jugadors.get(jugadorActual);
@@ -148,6 +158,10 @@ public class Partida {
         return puntuacioJugadors;
     }
 
+    public List<int[]> getPosicionsActuals() {
+        return posicionsActuals;
+    }
+
     public List<Fitxa> getAtril(){
         return atrils.get(jugadorActual);
     }
@@ -162,6 +176,10 @@ public class Partida {
 
     public boolean getPartidaAcabada() {
         return partidaAcabada;
+    }
+
+    public List<Fitxa> getFitxesActuals() {
+        return fitxesActuals;
     }
 
     public void acabarPartida() {
@@ -181,6 +199,11 @@ public class Partida {
     public List<List<Fitxa>> getAtrils()
     {
         return atrils;
+    }
+
+    public void setPuntuacio(int puntuacio, int index) 
+    {
+        puntuacioJugadors.set(index, puntuacio);
     }
 
     public boolean paraulaEnAtril(String paraula) {
@@ -381,5 +404,28 @@ public class Partida {
     public void setNoGuardada()
     {
         partidaPausada = false;
+    }
+
+    /*-------------------------------------------------------------*/
+
+    public int jugarParaula(LinkedHashMap<int[], Fitxa> jugades, String across)
+    {
+        //las fichas ya estan en el atril (paso 0)
+        //1 verificar que es pot posar al taulell (funcion en el tablero)
+        if (jugades.isEmpty())
+            throw new IllegalArgumentException("No hi ha fitxes per jugar.");
+
+        across = across.toUpperCase();
+        if (!across.equals("H") && !across.equals("V"))
+            throw new IllegalArgumentException("La orientacio ha de ser H o V");
+
+        if (!taulell.verificarFitxes(jugades, across.equals("H")))
+            throw new IllegalArgumentException("No es pot posar la paraula al taulell en la ubicacio solicitada.");
+
+        //1.5 calcular palabras nuevas (list<list<fitxa>>)
+        return taulell.validesaYPuntuacioJugada(jugades, diccionari, across.equals("H"), true);
+        //2 verificar que las palabras formadas existen
+        //3 calcular la puntuacion total
+
     }
 }
