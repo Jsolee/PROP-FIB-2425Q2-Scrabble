@@ -142,7 +142,7 @@ public class ControladorPartida {
             if (jugador instanceof Persona)
             {
                 Persona persona = (Persona) jugador;
-                persona.eliminarPartidaEnCurs(partida);
+                persona.borrarPartidaEnCurs(partida);
             }
         }
     }

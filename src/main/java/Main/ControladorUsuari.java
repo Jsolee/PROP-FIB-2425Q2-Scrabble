@@ -60,11 +60,10 @@ public class ControladorUsuari {
     public boolean tancarSessio(String username)
     {
         Usuari usuari = existeixUsuari(username);
-        if (usuari.teSessioIniciada())
+        if (usuari instanceof Persona)
         {
-            usuari.tancarSessio();
-            System.out.println("Sessio tancada correctament");
-            return true;
+            Persona persona = (Persona) usuari;
+            persona.tancarSessio();
         }
         return false;
     }
@@ -91,8 +90,6 @@ public class ControladorUsuari {
     public boolean veurePerfil(String username)
     {
         Usuari usuari = existeixUsuari(username);
-        if (!usuari.teSessioIniciada())
-            throw new IllegalArgumentException("No hi ha cap sessio iniciada amb aquest usuari");
             
         Persona persona = (Persona) usuari; //cast a Persona (hereda de Usuari)
         System.out.println("Nom: " + persona.getNom());

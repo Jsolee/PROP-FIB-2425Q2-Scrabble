@@ -102,6 +102,14 @@ public class Taulell {
         return 1; // Sense multiplicador
     }
 
+    public boolean esPrimerMoviment() {
+        return primerMoviment;
+    }
+
+    public Casella[][] getCaselles() {
+        return caselles;
+    }
+
     public boolean colocarFitxa(int x, int y, Fitxa fitxa) {
         if (esMovimentValid(x, y, fitxa)) {
             boolean resultat = caselles[x][y].colocarFitxa(fitxa);
@@ -131,7 +139,7 @@ public class Taulell {
         return teFitxaAdjacent(x, y);
     }
 
-    private boolean teFitxaAdjacent(int x, int y) {
+    public boolean teFitxaAdjacent(int x, int y) {
         // Comprovar les quatre direccions
         if (x > 0 && caselles[x-1][y].isOcupada()) return true;
         if (x < MIDA-1 && caselles[x+1][y].isOcupada()) return true;
