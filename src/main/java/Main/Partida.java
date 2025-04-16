@@ -126,11 +126,21 @@ public class Partida {
                 puntuacioMaxima = p;
                 indexGuanyador = puntuacioJugadors.indexOf(p);
             }
+            else if (p == puntuacioMaxima) 
+            {
+                indexGuanyador = -1; // Empat
+            }
         }
 
+        if (indexGuanyador == -1) 
+            return null; // Empat
         return jugadors.get(indexGuanyador);
     }
 
+    public Usuari getTornActual() 
+    {
+        return jugadors.get(jugadorActual);
+    }
     public Usuari getJugadorActual() 
     {
         return jugadors.get(jugadorActual);
@@ -148,6 +158,10 @@ public class Partida {
         return puntuacioJugadors;
     }
 
+    public List<int[]> getPosicionsActuals() {
+        return posicionsActuals;
+    }
+
     public List<Fitxa> getAtril(){
         return atrils.get(jugadorActual);
     }
@@ -162,6 +176,10 @@ public class Partida {
 
     public boolean getPartidaAcabada() {
         return partidaAcabada;
+    }
+
+    public List<Fitxa> getFitxesActuals() {
+        return fitxesActuals;
     }
 
     public void acabarPartida() {
@@ -181,6 +199,11 @@ public class Partida {
     public List<List<Fitxa>> getAtrils()
     {
         return atrils;
+    }
+
+    public void setPuntuacio(int puntuacio, int index) 
+    {
+        puntuacioJugadors.set(index, puntuacio);
     }
 
     public boolean paraulaEnAtril(String paraula) {
