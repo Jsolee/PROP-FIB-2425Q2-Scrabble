@@ -405,4 +405,27 @@ public class Partida {
     {
         partidaPausada = false;
     }
+
+    /*-------------------------------------------------------------*/
+
+    public int jugarParaula(LinkedHashMap<int[], Fitxa> jugades, String across)
+    {
+        //las fichas ya estan en el atril (paso 0)
+        //1 verificar que es pot posar al taulell (funcion en el tablero)
+        if (jugades.isEmpty())
+            throw new IllegalArgumentException("No hi ha fitxes per jugar.");
+
+        across = across.toUpperCase();
+        if (!across.equals("H") && !across.equals("V"))
+            throw new IllegalArgumentException("La orientacio ha de ser H o V");
+
+        if (!taulell.verificarFitxes(jugades, across.equals("H")))
+            throw new IllegalArgumentException("No es pot posar la paraula al taulell en la ubicacio solicitada.");
+
+        //1.5 calcular palabras nuevas (list<list<fitxa>>)
+        return taulell.validesaYPuntuacioJugada(jugades, diccionari, across.equals("H"), true);
+        //2 verificar que las palabras formadas existen
+        //3 calcular la puntuacion total
+
+    }
 }
