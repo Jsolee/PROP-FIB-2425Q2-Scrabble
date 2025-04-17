@@ -96,7 +96,7 @@ public class ControladorPartida {
 
     //Retorna la puntuacio de la jugada. El LinkedHashMap conte les posicions (fila i col) de les fitxes jugades. 
     //per exemple: la Fitxa 'A' a la posicio (0,0) es representaria com [0,0] -> 'A'
-    public int jugarParaula(Partida partida, LinkedHashMap<int[], Fitxa> jugades)
+    public int jugarParaula(Partida partida, LinkedHashMap<int[], Fitxa> jugades, String across)
     {
         //las fichas ya estan en el atril (paso 0)
         //1 verificar que es pot posar al taulell (funcion en el tablero)
@@ -104,10 +104,7 @@ public class ControladorPartida {
         //2 verificar que las palabras formadas existen
         //3 calcular la puntuacion total
 
-        return partida.jugarParaula(jugades);
-
-
-
+        return partida.jugarParaula(jugades, across);
     }
 
     public void canviDeFitxes(Partida partida, String[] indexsACanviar)
