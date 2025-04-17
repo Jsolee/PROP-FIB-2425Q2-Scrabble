@@ -345,11 +345,10 @@ public class Partida {
         return placed;
     }
 
-    public void retiraFitxesAtril()
+    public void retiraFitxaAtril(List<Integer> indexs)
     {
         List<Fitxa> atril = atrils.get(jugadorActual);
-        indexsActuals.sort(Collections.reverseOrder());
-        for (int idx : indexsActuals)
+        for (int idx : indexs)
             atril.remove(idx);
     }
 
@@ -415,6 +414,7 @@ public class Partida {
         if (jugades.isEmpty())
             throw new IllegalArgumentException("No hi ha fitxes per jugar.");
 
+        
         across = across.toUpperCase();
         if (!across.equals("H") && !across.equals("V"))
             throw new IllegalArgumentException("La orientacio ha de ser H o V");
@@ -423,9 +423,24 @@ public class Partida {
             throw new IllegalArgumentException("No es pot posar la paraula al taulell en la ubicacio solicitada.");
 
         //1.5 calcular palabras nuevas (list<list<fitxa>>)
-        return taulell.validesaYPuntuacioJugada(jugades, diccionari, across.equals("H"), true);
+        int puntuacio =  taulell.validesaYPuntuacioJugada(jugades, diccionari, across.equals("H"), true);
+
+
+        if (puntuacio == -1)
+            throw new IllegalArgumentException("La/es paraula/es formada/es no es troba/en al diccionari.");
         //2 verificar que las palabras formadas existen
         //3 calcular la puntuacion total
-
+        puntuacioJugadors.set(jugadorActual, puntuacioJugadors.get(jugadorActual) + puntuacio);
+        // Remove used tiles from the player's rack
+        List<Fitxa> atril = atrils.get(jugadorActual);
+        for (Fitxa fitxa : jugades.values()) {
+            int index = atril.indexOf(fitxa);
+            if (index != -1) {
+                atril.remove(index);
+            }
+        }
+        completarAtril();
+        passarTorn();
+        return puntuacio;
     }
 }
