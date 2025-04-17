@@ -24,7 +24,8 @@ public class Bot extends Usuari{
         infoCasella[][] info = new infoCasella[taulell.getCaselles().length][taulell.getCaselles()[0].length];
 
         // calcular anchors y cross-checks de taulell
-        calcularAnchorsICrossChecks(taulell, diccionari, alfabet);
+        calcularAnchorsICrossChecks(taulell, info , diccionari, alfabet);
+
         return null;
     }
 
@@ -64,7 +65,7 @@ public class Bot extends Usuari{
     }
 
     private  ArrayList<String> calcularCrossChecks(Taulell taulell, int x, int y, ArrayList<String> alfabet) {
-
+        return new ArrayList<String>();
     }
 
     private class infoCasella {
