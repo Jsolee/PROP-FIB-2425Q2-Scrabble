@@ -18,7 +18,8 @@ public class Bot extends Usuari{
         return instancia;
     }
 
-    public LinkedHashMap<int[], Fitxa> getMillorJugada(Taulell taulell, Diccionari diccionari, ArrayList<Fitxa> atril, ArrayList<String> alfabet) {
+    // retorna la millor jugada possible per al bot, amb boolean que indica si es across
+    public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, ArrayList<Fitxa> atril, ArrayList<String> alfabet) {
         // calcular anchors y cross-checks de taulell
         calcularAnchorsICrossChecks(taulell, alfabet);
         return null;
