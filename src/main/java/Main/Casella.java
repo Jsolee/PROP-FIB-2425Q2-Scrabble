@@ -1,5 +1,8 @@
 package Main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Casella {
     private int x, y;
     private int multiplicador_letra;

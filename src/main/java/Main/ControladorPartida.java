@@ -3,15 +3,15 @@ package Main;
 import java.util.*;
 
 public class ControladorPartida {
-    private HashMap<String, Partida> partides; 
+    private HashMap<String, Partida> partides;
 
     public ControladorPartida() {
         partides = new HashMap<>();
     }
 
-    public Partida getPartida(String nomPartida) 
+    public Partida getPartida(String nomPartida)
     {
-        if (!partides.containsKey(nomPartida)) 
+        if (!partides.containsKey(nomPartida))
             throw new IllegalArgumentException("No existeix la partida amb el nom: " + nomPartida);
         return partides.get(nomPartida);
     }
@@ -22,11 +22,11 @@ public class ControladorPartida {
         return partida.getJugadorActual();
     }
 
-    public Partida crearPartida(String nomPartida, List<Usuari> jugadors, String idioma) 
+    public Partida crearPartida(String nomPartida, List<Usuari> jugadors, String idioma)
     {
-        if (partides.containsKey(nomPartida)) 
+        if (partides.containsKey(nomPartida))
             throw new IllegalArgumentException("Ja existeix una partida amb el nom: " + nomPartida);
-        
+
         if (!idioma.equals("catalan") && !idioma.equals("castellano") && !idioma.equals("english"))
             throw new IllegalArgumentException("L'idioma ha de ser 'catalan', 'castellano' o 'english'.");
 
@@ -36,9 +36,9 @@ public class ControladorPartida {
         return partida;
     }
 
-    private void inicialitzarJugadors(List<Usuari> jugadors, Partida partida) 
+    private void inicialitzarJugadors(List<Usuari> jugadors, Partida partida)
     {
-        for (Usuari jugador : jugadors) 
+        for (Usuari jugador : jugadors)
             partida.afegirJugador(jugador);
     }
     
@@ -113,18 +113,18 @@ public class ControladorPartida {
           throw new IllegalArgumentException("No hi ha prou fitxes a la bossa per intercanviar. No es por canviar de fitxes.");
     
         partida.canviFitxesAtril(indexsACanviar);
-    
+
         partida.passarTorn();
     }
 
     public boolean esFinalPartida(Partida partida)
-    {   
-        if (partida.getBossa().getQuantitatFitxes() == 0) 
+    {
+        if (partida.getBossa().getQuantitatFitxes() == 0)
         {
             List<List<Fitxa>> atrils = partida.getAtrils();
-            for (List<Fitxa> atril : atrils) 
+            for (List<Fitxa> atril : atrils)
             {
-                if (atril.isEmpty()) 
+                if (atril.isEmpty())
                 {
                     partida.acabarPartida();
 
@@ -138,9 +138,9 @@ public class ControladorPartida {
             return true;
         return false;
     }
-    
 
-    public Taulell getTaulell(String nomPartida) 
+
+    public Taulell getTaulell(String nomPartida)
     {
         Partida partida = getPartida(nomPartida);
         return partida.getTaulell();
@@ -150,12 +150,12 @@ public class ControladorPartida {
     {
         partida.acabarPartida();
         List<Usuari> jugadors = partida.getJugadors();
-        for (Usuari jugador : jugadors) 
+        for (Usuari jugador : jugadors)
         {
             if (jugador instanceof Persona)
             {
                 Persona persona = (Persona) jugador;
-                persona.eliminarPartidaEnCurs(partida);
+                persona.borrarPartidaEnCurs(partida);
             }
         }
     }

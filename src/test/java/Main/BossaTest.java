@@ -7,6 +7,7 @@ import org.junit.AfterClass;
 import org.junit.Test;
 
 import java.util.LinkedList;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -28,6 +29,14 @@ public class BossaTest {
     public static void tearDownClass() {
         // Se ejecuta una vez al terminar todos los tests
         System.out.println("Finalizadas las pruebas de Bossa.");
+    }
+
+    @Test
+    public void testAlfabet() {
+        Set<String> alfabet = bossa.getAlfabet();
+        assertNotNull(alfabet);
+        assertFalse(alfabet.isEmpty());
+        System.out.println("Alfabet: " + alfabet);
     }
 
     @Test

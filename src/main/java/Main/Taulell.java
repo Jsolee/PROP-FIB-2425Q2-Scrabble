@@ -106,6 +106,14 @@ public class Taulell {
         return 1; // Sense multiplicador
     }
 
+    public boolean esPrimerMoviment() {
+        return primerMoviment;
+    }
+
+    public Casella[][] getCaselles() {
+        return caselles;
+    }
+
     public boolean colocarFitxa(int x, int y, Fitxa fitxa) {
         if (esMovimentValid(x, y, fitxa)) {
             boolean resultat = caselles[x][y].colocarFitxa(fitxa);
@@ -135,7 +143,7 @@ public class Taulell {
         return teFitxaAdjacent(x, y);
     }
 
-    private boolean teFitxaAdjacent(int x, int y) {
+    public boolean teFitxaAdjacent(int x, int y) {
         // Comprovar les quatre direccions
         if (x > 0 && caselles[x-1][y].isOcupada()) return true;
         if (x < MIDA-1 && caselles[x+1][y].isOcupada()) return true;
@@ -144,7 +152,13 @@ public class Taulell {
 
         return false;
     }
- 
+
+    public  boolean teFitxaSuperiorOInferior(int x, int y) {
+        if (y > 0 && caselles[x][y-1].isOcupada()) return true;
+        if (y < MIDA-1 && caselles[x][y+1].isOcupada()) return true;
+
+        return false;
+    }
 
     public int calcularPuntuacioMoviment(List<Fitxa> fitxesColocades, List<int[]> posicions) {
         if (fitxesColocades.isEmpty() || posicions.isEmpty()) {
@@ -339,19 +353,9 @@ public class Taulell {
 
     public int validesaYPuntuacioJugada(LinkedHashMap<int[], Fitxa> jugada, Diccionari diccionari, boolean across, boolean colocarFitxes)
     {        
-    // Guardar el estado inicial de las posiciones a modificar
-        boolean estadoPrimerMoviment = this.primerMoviment;
-        List<int[]> posicionesModificadas = new ArrayList<>();
-        List<Fitxa> fichasOriginales = new ArrayList<>();
-        
-        // Registrar estado original de cada posición a modificar
-        for (var entry : jugada.entrySet()) {
-            int[] posicio = entry.getKey();
-            posicionesModificadas.add(posicio);
-            // Guardar la ficha original (null si la casilla estaba vacía)
-            fichasOriginales.add(caselles[posicio[0]][posicio[1]].isOcupada() ? 
-                                caselles[posicio[0]][posicio[1]].getFitxa() : null);
-        }
+        //Guardar l'estat inicial
+        Casella[][] backup = this.caselles;
+
         
         // afegir fitxes al taulell
         boolean[][] fitxesNoves = new boolean[MIDA][MIDA];
@@ -375,7 +379,7 @@ public class Taulell {
             puntuacio = getPuntuacioParaulaHorizontal(pos, fitxesNoves, diccionari);
             if (puntuacio == -1) {
                 // Deshacer los cambios
-                deshacer(posicionesModificadas, fichasOriginales, estadoPrimerMoviment);
+                this.caselles = backup;
                 return -1; // La paraula no és vàlida
             }
 
@@ -388,7 +392,7 @@ public class Taulell {
                     int puntuacioVertical = getPuntuacioParaulaVertical(posVertical, fitxesNoves, diccionari);
                     if (puntuacioVertical == -1) {
                         // Deshacer los cambios
-                        deshacer(posicionesModificadas, fichasOriginales, estadoPrimerMoviment);
+                        this.caselles = backup;
                         return -1; // La paraula no és vàlida
                     }
                     puntuacio += puntuacioVertical;
@@ -400,7 +404,7 @@ public class Taulell {
             puntuacio = getPuntuacioParaulaVertical(pos, fitxesNoves, diccionari);
             if (puntuacio == -1) {
                 // Deshacer los cambios
-                deshacer(posicionesModificadas, fichasOriginales, estadoPrimerMoviment);
+                this.caselles = backup;
                 return -1; // La paraula no és vàlida
             }
 
@@ -413,7 +417,7 @@ public class Taulell {
                     int puntuacioHorizontal = getPuntuacioParaulaHorizontal(posHorizontal, fitxesNoves, diccionari);
                     if (puntuacioHorizontal == -1) {
                         // Deshacer los cambios
-                        deshacer(posicionesModificadas, fichasOriginales, estadoPrimerMoviment);
+                        this.caselles = backup;
                         return -1; // La paraula no és vàlida
                     }
                     puntuacio += puntuacioHorizontal;
@@ -421,28 +425,16 @@ public class Taulell {
             }
         }
     
-        // Si estamos solo validando o hubo un problema, deshacer cambios
+        // Si nomes es volia validar i no colocar, restaurem
         if (!colocarFitxes) {
-            deshacer(posicionesModificadas, fichasOriginales, estadoPrimerMoviment);
-        }
-        
-        return puntuacio;
-    }
-
-    // Método auxiliar para deshacer los cambios
-    private void deshacer(List<int[]> posiciones, List<Fitxa> fichasOriginales, boolean estadoPrimerMoviment) {
-        // Restaurar cada ficha a su estado original
-        for (int i = 0; i < posiciones.size(); i++) {
-            int[] pos = posiciones.get(i);
-            // Eliminar la ficha colocada
-            caselles[pos[0]][pos[1]].retirarFitxa();
-            // Si había una ficha original, volver a colocarla
-            if (fichasOriginales.get(i) != null) {
-                caselles[pos[0]][pos[1]].colocarFitxa(fichasOriginales.get(i));
+            this.caselles = backup;
+        } else {
+            // Si es vol colocar, el primer moviment ja s'ha fet
+            if (this.primerMoviment) {
+                this.primerMoviment = false;
             }
         }
-        // Restaurar el estado de primerMoviment
-        this.primerMoviment = estadoPrimerMoviment;
+        return puntuacio;
     }
 
     
@@ -480,8 +472,8 @@ public class Taulell {
             col++;
         }
 
-        if (paraula.size() < 2)
-            return 0; //nomes hi ha una fitxa colocada
+        if (paraula.size() <= 1)
+            return 0; //nomes hi ha una fitxa colocada, per tant no es forma paraula
             
         if (!diccionari.esParaula(FitxesToString(paraula))) {
             System.out.println("Paraula no vàlida: " + FitxesToString(paraula));
@@ -521,8 +513,8 @@ public class Taulell {
             fila++;
         }
 
-        if (paraula.size() < 2)
-            return 0; //nomes hi ha una fitxa colocada
+        if (paraula.size() <= 1)
+            return 0; //nomes hi ha una fitxa colocada, per tant no es forma paraula
 
         if (!diccionari.esParaula(FitxesToString(paraula)))
         {
@@ -536,9 +528,8 @@ public class Taulell {
     private String FitxesToString(List<Fitxa> fitxes)
     {
         String paraula = "";
-        for (int i = 0; i < fitxes.size(); i++) 
-        {
-            paraula += fitxes.get(i).getLletra();
+        for (Fitxa fitx : fitxes) {
+            paraula += fitx.getLletra();
         }
         return paraula;
     }
