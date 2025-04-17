@@ -1,5 +1,6 @@
 package Main;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -266,6 +267,7 @@ public class Main {
       System.out.println("4. Veure perfil rival");
       System.out.println("5. Guardar partida");
       System.out.println("6. Rendir-se");
+      System.out.println("7. Veure el taulell");
       System.out.print("> ");
 
       int opcio = scanner.nextInt();
@@ -293,6 +295,9 @@ public class Main {
         case 6:
           rendirse(scanner, partida);
           noMostrarDetallsFinals = true;
+          break;
+        case 7:
+          mostrarTaulell(taulell);
           break;
         default:
           System.out.println("Opcio no valida");
@@ -349,29 +354,53 @@ public class Main {
 
   private void jugarParaula(Scanner scanner, Partida partida)
   {
-    boolean paraulaJugada = false;
     
-    while (!paraulaJugada)
-    {
-      System.out.println("Introdueix la paraula a jugar:");
-      System.out.print("> ");
-      String paraula = scanner.nextLine();
-      System.out.println("Introdueix la fila i columna de la primera lletra de la paraula:");
-      System.out.print("> ");
-      int fila = scanner.nextInt();
-      int columna = scanner.nextInt();
-      scanner.nextLine(); // Consumir el salt de línia
-      System.out.println("Introdueix l'orientacio (H/V):");
-      System.out.print("> ");
-      String orientacio = scanner.nextLine();
-      try {
-        int puntuacio = cd.jugarParaula(partida, paraula, fila, columna, orientacio);
-        System.out.println("Paraula jugada correctament. Puntuacio total de la jugada: " + puntuacio);
-        paraulaJugada = true;
-      } catch (IllegalArgumentException e) {
-        System.out.println(e.getMessage());
+    /*System.out.println("Introdueix la paraula a jugar:");
+    System.out.print("> ");
+    String paraula = scanner.nextLine();
+    System.out.println("Introdueix la fila i columna de la primera lletra de la paraula:");
+    System.out.print("> ");
+    int fila = scanner.nextInt();
+    int columna = scanner.nextInt();*/
+    System.out.println("Introdueix el numero de l'atril corresponent a la fitxa que vols jugar. Una vegada decideixis parar de afegir introdueix -1:");
+    System.out.print("> ");
+    int posicio = scanner.nextInt();
+    LinkedHashMap<int[], Fitxa> jugades = new LinkedHashMap<>();
+    List<Fitxa> atril = partida.getAtril();
+
+    while (posicio >= 0)
+    { 
+      if (posicio >= atril.size())
+      {
+        System.out.println("Fitxa no disponible");
+        continue;
       }
+      else 
+      {
+        System.out.println("Introdueix la posicio on vols colocar la fitxa: " + atril.get(posicio).getLletra() + "  (format: primer numero de la fila i despres la columna): ");
+        System.out.print("> ");
+        int fila = scanner.nextInt();
+        int columna = scanner.nextInt();
+        int[] posicioFitxa = {fila, columna};
+        Fitxa fitxa = atril.get(posicio);
+        jugades.put(posicioFitxa, fitxa);
+      }
+      System.out.println("Introdueix el numero de l'atril corresponent a la fitxa que vols jugar. Una vegada decideixis parar de afegir introdueix -1:");
+      System.out.print("> ");
+      posicio = scanner.nextInt();
     }
+
+    scanner.nextLine(); // Consumir el salt de línia
+    System.out.println("Introdueix l'orientacio (H/V):");
+    System.out.print("> ");
+    String orientacio = scanner.nextLine();
+    try {
+      int puntuacio = cd.jugarParaula(partida, jugades, orientacio);
+      System.out.println("Paraula jugada correctament. Puntuacio total de la jugada: " + puntuacio);
+    } catch (IllegalArgumentException e) {
+      System.out.println(e.getMessage());
+    }
+    
   }
 
   private void mostrarAtrilActual(Partida partida)
