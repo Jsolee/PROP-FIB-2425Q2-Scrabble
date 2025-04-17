@@ -152,7 +152,13 @@ public class Taulell {
 
         return false;
     }
- 
+
+    public  boolean teFitxaSuperiorOInferior(int x, int y) {
+        if (y > 0 && caselles[x][y-1].isOcupada()) return true;
+        if (y < MIDA-1 && caselles[x][y+1].isOcupada()) return true;
+
+        return false;
+    }
 
     public int calcularPuntuacioMoviment(List<Fitxa> fitxesColocades, List<int[]> posicions) {
         if (fitxesColocades.isEmpty() || posicions.isEmpty()) {

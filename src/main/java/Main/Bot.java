@@ -20,46 +20,92 @@ public class Bot extends Usuari{
 
     // retorna la millor jugada possible per al bot, amb boolean que indica si es across
     public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, ArrayList<Fitxa> atril, ArrayList<String> alfabet) {
+        // inicialitzem el taulell amb la informació extra
+        infoCasella[][] info = new infoCasella[taulell.getCaselles().length][taulell.getCaselles()[0].length];
+
         // calcular anchors y cross-checks de taulell
-        calcularAnchorsICrossChecks(taulell, alfabet);
+        calcularAnchorsICrossChecks(taulell, diccionari, alfabet);
         return null;
     }
 
-    private void calcularAnchorsICrossChecks(Taulell taulell, ArrayList<String> alfabet) {
+    private void calcularAnchorsICrossChecks(Taulell taulell, infoCasella[][] info,  Diccionari diccionari, ArrayList<String> alfabet) {
             // si es el primer moviment, només la casella inicial és anchor, y no hi han fitxes adjacents ni cross-checks.
             if (taulell.esPrimerMoviment()) {
                 for (Casella[] c : taulell.getCaselles()) {
                     for (Casella casella : c) {
-                        casella.setEsAnchor(casella.isEsCasellaInicial());
-                        casella.setTeFitxaAdjacent(false);
+                        info[casella.getX()][casella.getY()].setAnchor(casella.isEsCasellaInicial());
+                        // si la casella es la inicial, no hi ha cross-checks
                     }
                 }
             } else {
+                // si no es el primer moviment, busquem les anchors i cross-checks
                 for (Casella[] c : taulell.getCaselles()) {
                     for (Casella casella : c) {
                         // si la casella esta buida y te alguna fitxa adjacent, es una candidata a anchor.
-                        if (!casella.isOcupada() &&taulell.teFitxaAdjacent(casella.getX(), casella.getY())) {
-                            casella.setTeFitxaAdjacent(true);
+                        if (!casella.isOcupada() && taulell.teFitxaAdjacent(casella.getX(), casella.getY())) {
+                            info[casella.getX()][casella.getY()].setAnchor(true);
 
-                            // comprovar si es anchor i setejar
-                            Casella casella_a_la_esquerra = taulell.getCasella(casella.getX()-1, casella.getY());
-                            // si la casella a la esquerra és null(esta a la vora del taulell) o la casella a la esquerra no és un anchor, llavors la casella si és un anchor.
-                            casella.setEsAnchor(casella_a_la_esquerra == null || !casella_a_la_esquerra.isEsAnchor());
-
-                            // comprovar el crossCecks
-                            calcularCrossChecks(taulell, casella.getX(), casella.getY(), alfabet);
+                            // si la casella te fitxa superior o inferior, al colocar una fitxa, es pot formar una paraula vertical, per tant necesitem cross-checks
+                            if (taulell.teFitxaSuperiorOInferior(casella.getX(), casella.getY())) {
+                                info[casella.getX()][casella.getY()].setNecessita_cross_check(true);
+                                info[casella.getX()][casella.getY()].setCrossChecks(calcularCrossChecks(taulell, casella.getX(), casella.getY(), alfabet));
+                            }
+                            else {
+                                info[casella.getX()][casella.getY()].setNecessita_cross_check(false);
+                            }
 
                         } else {
-                            casella.setTeFitxaAdjacent(false);
-                            casella.setEsAnchor(false);
+                            info[casella.getX()][casella.getY()].setAnchor(false);
+                            info[casella.getX()][casella.getY()].setNecessita_cross_check(false);
                         }
                     }
                 }
             }
     }
 
-    private void calcularCrossChecks(Taulell taulell, int x, int y, ArrayList<String> alfabet) {
+    private  ArrayList<String> calcularCrossChecks(Taulell taulell, int x, int y, ArrayList<String> alfabet) {
 
     }
+
+    private class infoCasella {
+        private boolean anchor;
+        private boolean necessita_cross_check;
+        private List<String> cross_checks;
+
+        public infoCasella(boolean anchor, boolean necessita_cross_check) {
+            this.anchor = anchor;
+            this.necessita_cross_check = necessita_cross_check;
+            this.cross_checks = new ArrayList<>();
+        }
+
+        public boolean isAnchor() {
+            return anchor;
+        }
+
+        public boolean Necessita_cross_check() {
+            return necessita_cross_check;
+        }
+
+        public List<String> CrossChecks() {
+            return cross_checks;
+        }
+
+
+        public void setAnchor(boolean anchor) {
+            this.anchor = anchor;
+        }
+        public void setNecessita_cross_check(boolean necessita_cross_check) {
+            this.necessita_cross_check = necessita_cross_check;
+        }
+        public void setCrossChecks(List<String> cross_checks) {
+            this.cross_checks = cross_checks;
+        }
+
+        public void afegirCrossCheck(String cross_check) {
+            this.cross_checks.add(cross_check);
+        }
+    }
+
+
 
 }
