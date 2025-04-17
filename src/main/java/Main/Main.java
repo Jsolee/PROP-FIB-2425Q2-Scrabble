@@ -95,7 +95,8 @@ public class Main {
         partida1vs1(scanner, Jugador1);
         break;
       case 2:
-
+        System.out.println("Has seleccionat jugar una partida 1 vs BOT");
+        partida1vsbot(scanner, Jugador1);
         break;
       case 3:
         List<Partida> partides = cd.getPartidesEnCurs(Jugador1);
@@ -113,6 +114,17 @@ public class Main {
       default:
         break;
     }
+  }
+
+  private void partida1vsbot(Scanner scanner, Usuari Jugador1)
+  {
+    Usuari Jugador2 = cd.getBot();
+    System.out.println("Es jugara una partida entre " + Jugador1.getNom() + " i el BOT." );
+    List<Usuari> Jugadors = List.of(Jugador1, Jugador2);
+    Partida partida = inputJugarPartida(scanner, Jugadors);
+    System.out.println("Partida amb nom  " + partida.getNom() +  " creada correctament");
+    inputPartidaEnJoc(scanner, partida);
+    return;
   }
 
   private void seleccionarIJugarPartida(Scanner scanner, String nomPartida)
@@ -256,6 +268,12 @@ public class Main {
 
       System.out.println("Torn de: " + partida.getJugadorActual().getNom());
       System.out.println();
+
+      if (partida.getJugadorActual() instanceof Bot) 
+      {
+        cd.posarParaulaBot(partida, partida.getJugadorActual());
+        continue;
+      }
 
       mostrarAtrilActual(partida);
       System.out.println();
