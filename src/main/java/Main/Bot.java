@@ -14,7 +14,7 @@ public class Bot extends Usuari{
         super("bot");
     }
 
-    public static Bot getInstancia() {
+    public static Bot getInstance() {
         if (instancia == null) {
             instancia = new Bot();
         }
@@ -22,9 +22,19 @@ public class Bot extends Usuari{
     }
 
     // retorna la millor jugada possible per al bot, amb boolean que indica si es across
-    public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, ArrayList<Fitxa> atril, ArrayList<String> alfabet) {
+    public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet) {
         // inicialitzem el taulell amb la informació extra
-        infoCasella[][] info = new infoCasella[taulell.getCaselles().length][taulell.getCaselles()[0].length];
+        int rows = taulell.getCaselles().length;
+        int cols = taulell.getCaselles()[0].length;
+        infoCasella[][] info = new infoCasella[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                info[i][j] = new infoCasella();   // <-- populate each slot
+            }
+        }
+
+        this.millorJugadaAcross = new AbstractMap.SimpleEntry<>(new LinkedHashMap<>(), 0);
 
         // calcular anchors y cross-checks de taulell
         calcularAnchorsICrossChecks(taulell, info , diccionari, alfabet);
@@ -34,8 +44,7 @@ public class Bot extends Usuari{
         return new AbstractMap.SimpleEntry<>(millorJugadaAcross.getKey(), true);
     }
 
-    private void getMillorJugadaAux(Taulell taulell, infoCasella[][] info, Diccionari diccionari, ArrayList<Fitxa> atril, ArrayList<String> alfabet, boolean across) {
-        Map.Entry<LinkedHashMap<int[], Fitxa>, Integer> millorJugada = new AbstractMap.SimpleEntry<>(new LinkedHashMap<>(), 0);
+    private void getMillorJugadaAux(Taulell taulell, infoCasella[][] info, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, boolean across) {
 
         for (Casella[] c : taulell.getCaselles()) {
             // per cada fila
@@ -64,7 +73,7 @@ public class Bot extends Usuari{
         }
     }
 
-    private void extendreEsquerra(LinkedHashMap<int[], Fitxa> prefix, Taulell taulell, infoCasella[][] info, Casella casellaAnchor, Casella anterior, Diccionari diccionari, ArrayList<Fitxa> atril, ArrayList<String> alfabet, boolean across) {
+    private void extendreEsquerra(LinkedHashMap<int[], Fitxa> prefix, Taulell taulell, infoCasella[][] info, Casella casellaAnchor, Casella anterior, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, boolean across) {
 
         DAWGnode nodeActual = diccionari.getNode(paraulaToString(prefix)); // aconseguir el node a partir del qual s'ha d'extendre.
         // exten per la dreta y va trobant paraules amb aquest prefix.
@@ -116,7 +125,12 @@ public class Bot extends Usuari{
         }
     }
 
-    private void extendreDreta(LinkedHashMap<int[], Fitxa> prefix, Taulell taulell, infoCasella[][] info, Casella casella ,DAWGnode node, Diccionari diccionari, ArrayList<Fitxa> atril, ArrayList<String> alfabet, boolean across) {
+    private void extendreDreta(LinkedHashMap<int[], Fitxa> prefix, Taulell taulell, infoCasella[][] info, Casella casella ,DAWGnode node, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, boolean across) {
+        // if the prefix so far isn’t in the DAWG, bail out
+        if (node == null) {
+            return;
+        }
+
         if (casella == null) {
             if (node.getEsParaula())
                 mirarJugada(prefix, taulell, diccionari, across);
@@ -125,7 +139,9 @@ public class Bot extends Usuari{
 
         if (casella.isOcupada()) {
             DAWGnode nouNode = getNode(casella.getFitxa().getLletra(), node);
-            extendreDreta(prefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), nouNode, diccionari,  atril, alfabet, across);
+            if (nouNode != null) {
+                extendreDreta(prefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), nouNode, diccionari, atril, alfabet, across);
+            }
             return;
         }
 
@@ -148,7 +164,6 @@ public class Bot extends Usuari{
                                 Fitxa blank = new Fitxa(lletra2, 0);
                                 prefix.put(new int[]{casella.getX(), casella.getY()}, blank);
                                 extendreDreta(prefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), nouNode, diccionari, atril, alfabet, across);
-                                extendreDreta(prefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), node, diccionari, atril, alfabet, across);
                                 prefix.remove(new int[]{casella.getX(), casella.getY()});
                                 atril.add(i, removed);
                             }
@@ -162,7 +177,6 @@ public class Bot extends Usuari{
                             Fitxa blank = new Fitxa(lletra2, 0);
                             prefix.put(new int[]{casella.getX(), casella.getY()}, blank);
                             extendreDreta(prefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), nouNode, diccionari, atril, alfabet, across);
-                            extendreDreta(prefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), node, diccionari, atril, alfabet, across);
                             prefix.remove(new int[]{casella.getX(), casella.getY()});
                             atril.add(i, removed);
                         }
@@ -175,7 +189,7 @@ public class Bot extends Usuari{
                         DAWGnode nouNode = getNode(lletra, node);
                         if (nouNode != null) {
                             Fitxa removed = atril.remove(i);
-                            prefix.put(new int[]{casella.getX(), casella.getY()}, atril.get(i));
+                            prefix.put(new int[]{casella.getX(), casella.getY()}, removed);
                             extendreDreta(prefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), nouNode, diccionari, atril, alfabet, across);
                             prefix.remove(new int[]{casella.getX(), casella.getY()});
                             atril.add(i, removed);
@@ -185,7 +199,7 @@ public class Bot extends Usuari{
                     DAWGnode nouNode = getNode(lletra, node);
                     if (nouNode != null) {
                         Fitxa removed = atril.remove(i);
-                        prefix.put(new int[]{casella.getX(), casella.getY()}, atril.get(i));
+                        prefix.put(new int[]{casella.getX(), casella.getY()}, removed);
                         extendreDreta(prefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), nouNode, diccionari, atril, alfabet, across);
                         extendreDreta(prefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), node, diccionari, atril, alfabet, across);
                         prefix.remove(new int[]{casella.getX(), casella.getY()});
@@ -218,7 +232,7 @@ public class Bot extends Usuari{
         return nouNode;
     }
 
-    private void calcularAnchorsICrossChecks(Taulell taulell, infoCasella[][] info,  Diccionari diccionari, ArrayList<String> alfabet) {
+    private void calcularAnchorsICrossChecks(Taulell taulell, infoCasella[][] info,  Diccionari diccionari, Set<String> alfabet) {
             // si es el primer moviment, només la casella inicial és anchor, y no hi han fitxes adjacents ni cross-checks.
             if (taulell.esPrimerMoviment()) {
                 for (Casella[] c : taulell.getCaselles()) {
@@ -252,7 +266,7 @@ public class Bot extends Usuari{
             }
     }
 
-    private  ArrayList<String> calcularCrossChecks(Taulell taulell, int x, int y, Diccionari diccionari, ArrayList<String> alfabet) {
+    private  ArrayList<String> calcularCrossChecks(Taulell taulell, int x, int y, Diccionari diccionari, Set<String> alfabet) {
         String superior = getParaulaSuperior(taulell, x, y);
         String inferior = getParaulaInferior(taulell, x, y);
 
@@ -312,6 +326,12 @@ public class Bot extends Usuari{
         public infoCasella(boolean anchor, boolean necessita_cross_check) {
             this.anchor = anchor;
             this.necessita_cross_check = necessita_cross_check;
+            this.cross_checks = new ArrayList<>();
+        }
+
+        public infoCasella() {
+            this.anchor = false;
+            this.necessita_cross_check = false;
             this.cross_checks = new ArrayList<>();
         }
 

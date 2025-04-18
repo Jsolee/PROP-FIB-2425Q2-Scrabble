@@ -6,30 +6,30 @@ import static org.junit.Assert.*;
 public class BotTest {
 
     @Test
-    public void getInstanciaReturnsSameInstance() {
-        Bot instance1 = Bot.getInstancia();
-        Bot instance2 = Bot.getInstancia();
+    public void getInstanceReturnsSameInstance() {
+        Bot instance1 = Bot.getInstance();
+        Bot instance2 = Bot.getInstance();
 
-        assertSame("getInstancia should always return the same instance", instance1, instance2);
+        assertSame("getInstance should always return the same instance", instance1, instance2);
     }
 
     @Test
     public void botIsInstanceOfUsuari() {
-        Bot bot = Bot.getInstancia();
+        Bot bot = Bot.getInstance();
 
         assertTrue("Bot should be an instance of Usuari", bot instanceof Usuari);
     }
 
     @Test
     public void botNameIsSetCorrectly() {
-        Bot bot = Bot.getInstancia();
+        Bot bot = Bot.getInstance();
 
         assertEquals("Bot should be initialized with name 'bot'", "bot", bot.getNom());
     }
 
     @Test
     public void millorJugadaAcrossIsInitiallyNull() {
-        Bot bot = Bot.getInstancia();
+        Bot bot = Bot.getInstance();
 
         // Using reflection to access private field for testing
         java.lang.reflect.Field field;
