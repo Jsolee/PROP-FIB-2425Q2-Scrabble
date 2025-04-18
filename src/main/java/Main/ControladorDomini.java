@@ -2,6 +2,7 @@ package Main;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ControladorDomini {
     private ControladorUsuari controladorUsuari;
@@ -45,6 +46,15 @@ public class ControladorDomini {
         return controladorUsuari.getPartides(jugador);
     }
 
+    public Usuari getBot()
+    {
+        return Bot.getInstance();
+    }
+
+    
+
+    /* public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, ArrayList<Fitxa> atril, ArrayList<String> alfabet) */
+
     //gestio de partides
     public Partida crearPartida(String nomPartida, List<Usuari> jugadors, String idioma) {
         return controladorPartida.crearPartida(nomPartida, jugadors, idioma);
@@ -86,6 +96,11 @@ public class ControladorDomini {
     public void acabarPartida(Partida partida)
     {
         controladorPartida.acabarPartida(partida);
+    }
+
+    public void posarParaulaBot(Partida partida, Usuari bot)
+    {
+        controladorPartida.getMillorJugada(partida, bot);
     }
 
 }

@@ -109,9 +109,9 @@ public class ControladorPartida {
 
     public void canviDeFitxes(Partida partida, String[] indexsACanviar)
     {
-        if (partida.getBossa().getQuantitatFitxes() < 7)
-            throw new IllegalArgumentException("No hi ha prou fitxes a la bossa per intercanviar. No es por canviar de fitxes.");
-
+        if (partida.getBossa().getQuantitatFitxes() < indexsACanviar.length) 
+          throw new IllegalArgumentException("No hi ha prou fitxes a la bossa per intercanviar. No es por canviar de fitxes.");
+    
         partida.canviFitxesAtril(indexsACanviar);
 
         partida.passarTorn();
@@ -159,4 +159,19 @@ public class ControladorPartida {
             }
         }
     }
+
+    public void getMillorJugada(Partida partida, Usuari bot)
+    {
+        boolean posada = partida.getMillorJugada(bot);
+        if (posada)
+            partida.passarTorn();
+        else {
+            String[] indices = {"0", "1", "2", "3", "4", "5", "6"};
+            try {canviDeFitxes(partida, indices);}
+            catch (IllegalArgumentException e) 
+            {
+                partida.passarTorn();
+            }            
+        }
+    }   
 }
