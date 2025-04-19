@@ -3,44 +3,7 @@ package Main;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-/*
-
-    0   1   2   3   4   5   6   7   8   9  10  11  12  13  14
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-0 |TP | · | · |DL | · | · | · |TP | · | · | · |DL | · | · |TP |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-1 | · |DP | · | · | · |TL | · | · | · |TL | · | · | · |DP | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-2 | · | · |DP | · | · | · |DL | · |DL | · | · | · |DP | · | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-3 |DL | · | · |DP | · | · | · |DL | · | · | · |DP | · | · |DL |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-4 | · | · | · | · |DP | · | · | · | · | · |DP | · | · | · | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-5 | · |TL | · | · | · |TL | · | · | · |TL | · | · | · |TL | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-6 | · | · |DL | · | · | · |DL | · |DL | · | · | · |DL | · | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-7 |TP | · | · |DL | · | · | · |★ | · | · | · |DL | · | · |TP |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-8 | · | · |DL | · | · | · |DL | · |DL | · | · | · |DL | · | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-9 | · |TL | · | · | · |TL | · | · | · |TL | · | · | · |TL | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-10| · | · | · | · |DP | · | · | · | · | · |DP | · | · | · | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-11|DL | · | · |DP | · | · | · |DL | · | · | · |DP | · | · |DL |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-12| · | · |DP | · | · | · |DL | · |DL | · | · | · |DP | · | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-13| · |DP | · | · | · |TL | · | · | · |TL | · | · | · |DP | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-14|TP | · | · |DL | · | · | · |TP | · | · | · |DL | · | · |TP |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-
- */
 
 public class Taulell {
     private Casella[][] caselles;
@@ -52,7 +15,6 @@ public class Taulell {
         inicialitzarTaulell();
     }
 
-    
 
     private void inicialitzarTaulell() {
         for (int i = 0; i < MIDA; i++) {
@@ -153,56 +115,6 @@ public class Taulell {
         return false;
     }
 
-    public  boolean teFitxaSuperiorOInferior(int x, int y) {
-        if (y > 0 && caselles[x][y-1].isOcupada()) return true;
-        if (y < MIDA-1 && caselles[x][y+1].isOcupada()) return true;
-
-        return false;
-    }
-
-    public int calcularPuntuacioMoviment(List<Fitxa> fitxesColocades, List<int[]> posicions) {
-        if (fitxesColocades.isEmpty() || posicions.isEmpty()) {
-            return 0;
-        }
-
-        // Determine if word is horizontal or vertical.
-        boolean horitzontal = determinarDireccio(posicions);
-
-        // Calculate base score with letter multipliers and collect word multipliers
-        int puntuacioBase = 0;
-        int multiplicadorParaulaTotal = 1;
-
-        for (int i = 0; i < fitxesColocades.size(); i++) {
-            int x = posicions.get(i)[0];
-            int y = posicions.get(i)[1];
-            Casella casella = caselles[x][y];
-
-            // Apply letter multiplier to this tile's value
-            puntuacioBase += fitxesColocades.get(i).getValor() * casella.getMultiplicadorLetra();
-
-            // Collect word multiplier (will be applied later)
-            multiplicadorParaulaTotal *= casella.getMultiplicadorParaula();
-        }
-
-        // Apply accumulated word multipliers to the total score
-        return puntuacioBase * multiplicadorParaulaTotal;
-    }
-
-    private boolean determinarDireccio(List<int[]> posicions) {
-        if (posicions.size() <= 1) {
-            return true; // Default to horizontal for single tile
-        }
-
-        // If all positions have the same X coordinate, word is vertical
-        // Otherwise, assume horizontal
-        int primerX = posicions.get(0)[0];
-        for (int i = 1; i < posicions.size(); i++) {
-            if (posicions.get(i)[0] != primerX) {
-                return true; // Horizontal
-            }
-        }
-        return false; // Vertical
-    }
 
 
     public Casella getCasella(int x, int y) {
@@ -223,85 +135,6 @@ public class Taulell {
         return casella.retirarFitxa();
     }
 
-    public List<String> obtenerParaulesAdjacents(String palabra, int fila, int col, String orientacion)
-    {
-        List<String> paraules = new ArrayList<>();
-        int sizePal = palabra.length();
-        if (orientacion.equals("V"))
-        {
-            int fMesUp = fila - 1;
-            while (fMesUp >= 0 && caselles[fMesUp][col].isOcupada()) 
-            {
-                palabra = caselles[fMesUp][col].getFitxa().getLletra() + palabra; //concatenar letras a la palabra
-                fMesUp--;
-            }
-
-            int fMesDown = fila + sizePal;
-            while (fMesDown < 15 && caselles[fMesDown][col].isOcupada()) 
-            {
-                palabra = palabra + caselles[fMesDown][col].getFitxa().getLletra(); //concatenar letras a la palabra
-                fMesDown++;
-            }
-            paraules.add(palabra);
-            
-            for (int i = fila; i < fila + sizePal; i++) 
-            {
-                String aux = String.valueOf(palabra.charAt(i-fila));
-                int mostLeft = col - 1;
-                while (mostLeft >= 0 && caselles[i][mostLeft].isOcupada()) 
-                {
-                    aux = caselles[i][mostLeft].getFitxa().getLletra() + aux; //concatenar letras a la palabra
-                    mostLeft--;
-                }
-                int mostRight = col + 1;
-                while (mostRight < 15 && caselles[i][mostRight].isOcupada()) 
-                {
-                    aux = aux + caselles[i][mostRight].getFitxa().getLletra(); //concatenar letras a la palabra
-                    mostRight++;
-                }
-
-               if (aux.length() > 1) paraules.add(aux);
-            }
-        }
-        else 
-        {
-            int cMesUp = col - 1;
-            while (cMesUp >= 0 && caselles[fila][cMesUp].isOcupada()) 
-            {
-                palabra = caselles[fila][cMesUp].getFitxa().getLletra() + palabra; //concatenar letras a la palabra
-                cMesUp--;
-            }
-
-            int cMesDown = col + sizePal;
-            while (cMesDown < 15 && caselles[fila][cMesDown].isOcupada()) 
-            {
-                palabra = palabra + caselles[fila][cMesDown].getFitxa().getLletra(); //concatenar letras a la palabra
-                cMesDown++;
-            }
-            paraules.add(palabra);
-            
-            for (int i = col; i < col + sizePal; i++) 
-            {
-                String aux = String.valueOf(palabra.charAt(i-col));
-                int mostUp = fila - 1;
-                while (mostUp >= 0 && caselles[mostUp][i].isOcupada()) 
-                {
-                    aux = caselles[mostUp][i].getFitxa().getLletra() + aux; //concatenar letras a la palabra
-                    mostUp--;
-                }
-                int mostDown = fila + 1;
-                while (mostDown < 15 && caselles[mostDown][i].isOcupada()) 
-                {
-                    aux = aux + caselles[mostDown][i].getFitxa().getLletra(); //concatenar letras a la palabra
-                    mostDown++;
-                }
-                if (aux.length() > 1) paraules.add(aux);
-            }
-        }
-
-        return paraules;
-    }
-    /*----------------------------------------------------- */
 
     public boolean isEmpty() {
         for (int i = 0; i < MIDA; i++) {
@@ -353,6 +186,7 @@ public class Taulell {
 
     public int validesaYPuntuacioJugada(LinkedHashMap<int[], Fitxa> jugada, Diccionari diccionari, boolean across, boolean colocarFitxes)
     {        
+        
         //Guardar l'estat inicial
         Casella[][] backup = this.caselles;
 
