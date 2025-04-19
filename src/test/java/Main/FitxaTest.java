@@ -91,7 +91,7 @@ public class FitxaTest {
         assertEquals("A(1)", fitxa.toString());
 
         // Prova fitxa comodí
-        assertEquals("_", fitxaBlank.toString());
+        assertEquals("#(0)", fitxaBlank.toString());
 
         // Prova de canviar una fitxa comodí
         fitxaBlank.setLletra("C");

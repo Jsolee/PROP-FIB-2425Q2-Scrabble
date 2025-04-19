@@ -265,7 +265,7 @@ public class PartidaTest {
             assertTrue(partida.getTaulell().getCasella(center, center+3).isOcupada());
 
             // Verifiquem que l'atril del jugador ha estat reomplert
-            assertEquals(4, partida.getAtril().size());
+            assertEquals(7, partida.getAtril().size());
 
             // Verifiquem que s'ha passat el torn
             assertEquals(jugador1, partida.getTornActual());

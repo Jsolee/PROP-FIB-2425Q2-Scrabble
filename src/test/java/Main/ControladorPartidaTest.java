@@ -148,12 +148,12 @@ public class ControladorPartidaTest {
 
         // Buidem la bossa fins que quedin menys de 7 fitxes
         Bossa bossa = partida.getBossa();
-        while (bossa.getQuantitatFitxes() >= 7) {
+        while (bossa.getQuantitatFitxes() >= 3) {
             bossa.agafarFitxa();
         }
 
         // Intentem intercanviar fitxes
-        String[] indexsACanviar = {"0", "1"};
+        String[] indexsACanviar = {"0", "1", "2", "3", "4", "5", "6"};
         controladorPartida.canviDeFitxes(partida, indexsACanviar);
     }
 

@@ -119,7 +119,7 @@ public class ControladorDominiTest {
         jugadors.add(usuari1);
 
         // Creem una partida
-        Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "Català");
+        Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "catalan");
 
         assertNotNull(partida);
         assertEquals("Test Game", partida.getNom());
@@ -134,7 +134,7 @@ public class ControladorDominiTest {
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
 
-        Partida created = controladorDomini.crearPartida("Test Game", jugadors, "Català");
+        Partida created = controladorDomini.crearPartida("Test Game", jugadors, "catalan");
 
         // Recuperem la partida
         Partida retrieved = controladorDomini.getPartida("Test Game");
@@ -151,7 +151,7 @@ public class ControladorDominiTest {
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
 
-        Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "Català");
+        Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "catalan");
 
         // Intentem jugar una paraula
         // Nota: Això és una prova simplificada ja que no podem predir quines fitxes hi haurà disponibles
@@ -185,7 +185,7 @@ public class ControladorDominiTest {
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
 
-        Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "Català");
+        Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "catalan");
 
         // Intentem intercanviar fitxes
         try {
@@ -206,7 +206,7 @@ public class ControladorDominiTest {
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
 
-        Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "Català");
+        Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "catalan");
 
         // Una partida nova no hauria d'estar finalitzada
         boolean isFinal = controladorDomini.esFinalPartida(partida);
@@ -226,7 +226,7 @@ public class ControladorDominiTest {
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
 
-        Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "Català");
+        Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "catalan");
 
         // Comprovem de qui és el torn
         Usuari currentPlayer = controladorDomini.tornDelJugador("Test Game");
@@ -243,7 +243,7 @@ public class ControladorDominiTest {
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
 
-        controladorDomini.crearPartida("Test Game", jugadors, "Català");
+        controladorDomini.crearPartida("Test Game", jugadors, "catalan");
 
         // Obtenim el taulell
         Taulell taulell = controladorDomini.getTaulell("Test Game");
@@ -260,7 +260,7 @@ public class ControladorDominiTest {
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
 
-        controladorDomini.crearPartida("Test Game", jugadors, "Català");
+        controladorDomini.crearPartida("Test Game", jugadors, "catalan");
 
         // Obtenim l'atril
         List<Fitxa> atril = controladorDomini.getAtril("Test Game");
@@ -278,7 +278,7 @@ public class ControladorDominiTest {
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
 
-        Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "Català");
+        Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "catalan");
 
         // Acabem la partida
         controladorDomini.acabarPartida(partida);
