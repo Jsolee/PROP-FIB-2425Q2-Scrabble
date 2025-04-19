@@ -478,17 +478,9 @@ public class Taulell {
         if (paraula.size() <= 1)
             return 0; //nomes hi ha una fitxa colocada, per tant no es forma paraula
             
-        try 
-        {
-            if (diccionari.esParaula(FitxesToString(paraula))) {
-                System.out.println("Paraula vàlida: " + FitxesToString(paraula));
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
-            return -1;
-        }
-
-        return puntuacio*multiplicador_paraula;
+        if (diccionari.esParaula(FitxesToString(paraula))) 
+            return puntuacio*multiplicador_paraula;
+        return -1;
     }
 
     private int getPuntuacioParaulaVertical(int[] pos, boolean[][] fitxesNoves, Diccionari diccionari)
