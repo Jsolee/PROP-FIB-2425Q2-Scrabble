@@ -372,14 +372,6 @@ public class Main {
 
   private void jugarParaula(Scanner scanner, Partida partida)
   {
-    
-    /*System.out.println("Introdueix la paraula a jugar:");
-    System.out.print("> ");
-    String paraula = scanner.nextLine();
-    System.out.println("Introdueix la fila i columna de la primera lletra de la paraula:");
-    System.out.print("> ");
-    int fila = scanner.nextInt();
-    int columna = scanner.nextInt();*/
     System.out.println("Introdueix el numero de l'atril corresponent a la fitxa que vols jugar. Una vegada decideixis parar de afegir introdueix -1:");
     System.out.print("> ");
     int posicio = scanner.nextInt();
@@ -395,12 +387,21 @@ public class Main {
       }
       else 
       {
+        Fitxa fitxa = atril.get(posicio);
+        if (fitxa.getLletra() == "#")
+        {
+          System.out.println("Especifica quina lletra vols que sigui el comodin:");
+          System.out.print("> ");
+          String lletra = scanner.nextLine();
+          fitxa.setLletra(lletra);;
+        }
+
         System.out.println("Introdueix la posicio on vols colocar la fitxa: " + atril.get(posicio).getLletra() + "  (format: primer numero de la fila i despres la columna): ");
         System.out.print("> ");
         int fila = scanner.nextInt();
         int columna = scanner.nextInt();
         int[] posicioFitxa = {fila, columna};
-        Fitxa fitxa = atril.get(posicio);
+        
         jugades.put(posicioFitxa, fitxa);
       }
       System.out.println("Introdueix el numero de l'atril corresponent a la fitxa que vols jugar. Una vegada decideixis parar de afegir introdueix -1:");
@@ -416,6 +417,11 @@ public class Main {
       int puntuacio = cd.jugarParaula(partida, jugades, orientacio);
       System.out.println("Paraula jugada correctament. Puntuacio total de la jugada: " + puntuacio);
     } catch (IllegalArgumentException e) {
+      List<Fitxa> atrilActual = partida.getAtril();
+      for (Fitxa fitxa : atrilActual) {
+        if (fitxa.getValor() == 0) 
+          fitxa.setLletra("#");
+      }
       System.out.println(e.getMessage());
     }
     
