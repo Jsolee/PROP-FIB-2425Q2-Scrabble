@@ -68,9 +68,9 @@ public class ControladorDomini {
         return controladorPartida.jugarParaula(partida, jugades, across);
     }
 
-    public void canviDeFitxes(Partida partida, String[] fitxes)
+    public boolean canviDeFitxes(Partida partida, String[] fitxes)
     {
-        controladorPartida.canviDeFitxes(partida, fitxes);
+        return controladorPartida.canviDeFitxes(partida, fitxes);
     }
 
     public boolean esFinalPartida(Partida partida)

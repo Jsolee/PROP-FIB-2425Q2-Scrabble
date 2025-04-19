@@ -1,5 +1,6 @@
 package Main;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -371,55 +372,65 @@ public class Main {
   }
 
   private void jugarParaula(Scanner scanner, Partida partida)
-  {
-    
-    /*System.out.println("Introdueix la paraula a jugar:");
-    System.out.print("> ");
-    String paraula = scanner.nextLine();
-    System.out.println("Introdueix la fila i columna de la primera lletra de la paraula:");
-    System.out.print("> ");
-    int fila = scanner.nextInt();
-    int columna = scanner.nextInt();*/
-    System.out.println("Introdueix el numero de l'atril corresponent a la fitxa que vols jugar. Una vegada decideixis parar de afegir introdueix -1:");
-    System.out.print("> ");
-    int posicio = scanner.nextInt();
-    LinkedHashMap<int[], Fitxa> jugades = new LinkedHashMap<>();
-    List<Fitxa> atril = partida.getAtril();
+{
+  System.out.println("Introdueix el numero de l'atril corresponent a la fitxa que vols jugar. Una vegada decideixis parar de afegir introdueix -1:");
+  System.out.print("> ");
+  int posicio = scanner.nextInt();
+  LinkedHashMap<int[], Fitxa> jugades = new LinkedHashMap<>();
+  List<Fitxa> atril = partida.getAtril();
+  // Guardar una referencia a los comodines modificados para poder restaurarlos
+  List<Fitxa> comodinesModificados = new ArrayList<>();
 
-    while (posicio >= 0)
-    { 
-      if (posicio >= atril.size())
-      {
-        System.out.println("Fitxa no disponible");
-        continue;
-      }
-      else 
-      {
-        System.out.println("Introdueix la posicio on vols colocar la fitxa: " + atril.get(posicio).getLletra() + "  (format: primer numero de la fila i despres la columna): ");
-        System.out.print("> ");
-        int fila = scanner.nextInt();
-        int columna = scanner.nextInt();
-        int[] posicioFitxa = {fila, columna};
-        Fitxa fitxa = atril.get(posicio);
-        jugades.put(posicioFitxa, fitxa);
-      }
-      System.out.println("Introdueix el numero de l'atril corresponent a la fitxa que vols jugar. Una vegada decideixis parar de afegir introdueix -1:");
+  while (posicio >= 0)
+  { 
+    if (posicio >= atril.size() || posicio < 0)
+    {
+      System.out.println("Fitxa no disponible");
       System.out.print("> ");
       posicio = scanner.nextInt();
+      continue;
     }
+    else 
+    {
+      Fitxa fitxa = atril.get(posicio);
+      if (fitxa.getLletra().equals("#")) // Corregido: usar equals() en lugar de ==
+      {
+        scanner.nextLine(); // Consumir el salto de línea pendiente
+        System.out.println("Especifica quina lletra vols que sigui el comodin:");
+        System.out.print("> ");
+        String lletra = scanner.nextLine().toUpperCase(); // Convertir a mayúsculas
+        fitxa.setLletra(lletra); // Eliminar punto y coma duplicado
+        comodinesModificados.add(fitxa); // Registrar que modificamos este comodín
+      }
 
-    scanner.nextLine(); // Consumir el salt de línia
-    System.out.println("Introdueix l'orientacio (H/V):");
-    System.out.print("> ");
-    String orientacio = scanner.nextLine();
-    try {
-      int puntuacio = cd.jugarParaula(partida, jugades, orientacio);
-      System.out.println("Paraula jugada correctament. Puntuacio total de la jugada: " + puntuacio);
-    } catch (IllegalArgumentException e) {
-      System.out.println(e.getMessage());
+      System.out.println("Introdueix la posicio on vols colocar la fitxa: " + atril.get(posicio).getLletra() + "  (format: primer numero de la fila i despres la columna): ");
+      System.out.print("> ");
+      int fila = scanner.nextInt();
+      int columna = scanner.nextInt();
+      int[] posicioFitxa = {fila, columna};
+      
+      jugades.put(posicioFitxa, fitxa);
     }
-    
+    System.out.println("Introdueix el numero de l'atril corresponent a la fitxa que vols jugar. Una vegada decideixis parar de afegir introdueix -1:");
+    System.out.print("> ");
+    posicio = scanner.nextInt();
   }
+
+  scanner.nextLine(); // Consumir el salt de línia
+  System.out.println("Introdueix l'orientacio (H/V):");
+  System.out.print("> ");
+  String orientacio = scanner.nextLine();
+  try {
+    int puntuacio = cd.jugarParaula(partida, jugades, orientacio);
+    System.out.println("Paraula jugada correctament. Puntuacio total de la jugada: " + puntuacio);
+  } catch (IllegalArgumentException e) {
+    // Restaurar solo los comodines que modificamos
+    for (Fitxa fitxa : comodinesModificados) {
+      fitxa.setLletra("#");
+    }
+    System.out.println(e.getMessage());
+  }
+}
 
   private void mostrarAtrilActual(Partida partida)
   {
