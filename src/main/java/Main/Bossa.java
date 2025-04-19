@@ -3,19 +3,22 @@ package Main;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 
 // aquesta clase es una clase que representa una bossa de fitxes per a un joc de Scrabble, es carrega desde un fitxer en resources.
 public class Bossa {
 
-    private LinkedList<Fitxa> fitxes;
     private String nom;
+    private LinkedList<Fitxa> fitxes;
 
+    private final Set<String> alfabet;
 
     public Bossa(String nom) {
         this.nom = nom;
         this.fitxes = new LinkedList<Fitxa>();
-        carregarFitxes();
+        this.alfabet = new HashSet<String>();
+        carregarFitxesIAlfabet();
         barrejar();
     }
 
@@ -26,6 +29,9 @@ public class Bossa {
     public LinkedList<Fitxa> getFitxes() {
         return fitxes;
     }
+    public Set<String> getAlfabet() {
+        return this.alfabet;
+    }
 
     public void setNom(String nom) {
         this.nom = nom;
@@ -34,7 +40,8 @@ public class Bossa {
         this.fitxes = fitxes;
     }
 
-    private void carregarFitxes() {
+
+    private void carregarFitxesIAlfabet() {
         String ruta = "src/main/resources/" + nom + "/letras_" + nom + ".txt";
         try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
             String linia;
@@ -49,6 +56,9 @@ public class Bossa {
                 if (quantitat > 0) {
                     afegirFitxa(lletra, quantitat, valor);
                 }
+                // afegim lletra a l'alfabet
+                alfabet.add(lletra);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,6 +81,19 @@ public class Bossa {
             return null;
         }
         return fitxes.pollFirst();
+    }
+
+    public ArrayList<Fitxa> agafarFitxes(int quantitat) {
+        ArrayList<Fitxa> fitxesAgafades = new ArrayList<>();
+        for (int i = 0; i < quantitat; i++) {
+            Fitxa fitxa = agafarFitxa();
+            if (fitxa != null) {
+                fitxesAgafades.add(fitxa);
+            } else {
+                break;
+            }
+        }
+        return fitxesAgafades;
     }
 
     public void retornarFitxa(Fitxa fitxa) {
