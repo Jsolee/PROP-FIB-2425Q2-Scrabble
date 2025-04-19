@@ -140,7 +140,7 @@ public class RankingTest {
         ranking.afegirPuntuacio(100);
         ranking.afegirPuntuacio(200);
 
-        String expected = "Ranking [partidesJugades=2, recordPersonal=200, mitjana=150.00]";
+        String expected = "Ranking [partidesJugades=2, recordPersonal=200, mitjana=150,00]";
         assertEquals(expected, ranking.toString());
     }
 }
