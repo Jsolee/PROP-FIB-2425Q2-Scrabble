@@ -447,7 +447,7 @@ public class Partida {
     //retorna true si posa una paraula al taulell, false si no (ha de demanar fitxes)
     public boolean getMillorJugada(Usuari bot)
     {
-        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> resultat =  bot.getMillorJugada(taulell, diccionari, atrils.get(jugadorActual), bossa.getAlfabet());
+        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> resultat =  ((Bot)bot).getMillorJugada(taulell, diccionari, atrils.get(jugadorActual), bossa.getAlfabet());
         LinkedHashMap<int[], Fitxa> jugades = resultat.getKey();
         Boolean across = resultat.getValue();
         String orientacio = across ? "H" : "V";

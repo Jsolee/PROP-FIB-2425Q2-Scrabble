@@ -187,6 +187,10 @@ public class Taulell {
     public int validesaYPuntuacioJugada(LinkedHashMap<int[], Fitxa> jugada, Diccionari diccionari, boolean across, boolean colocarFitxes)
     {        
         
+    
+        if (jugada.isEmpty()) {
+            return -1;   // o la señal que uses para “no hay palabra válida”
+        }
         //Guardar l'estat inicial
         Casella[][] backup = this.caselles;
 
