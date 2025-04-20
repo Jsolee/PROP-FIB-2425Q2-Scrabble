@@ -11,29 +11,29 @@ import static org.junit.Assert.*;
 public class BotTest {
 
     @Test
-    public void getInstanceReturnsSameInstance() {
+    public void getInstanceRetornaElMateixBot() {
         Bot instance1 = Bot.getInstance();
         Bot instance2 = Bot.getInstance();
 
-        assertSame("getInstance should always return the same instance", instance1, instance2);
+        assertSame("getInstance ha de retornar sempre la mateixa instància", instance1, instance2);
     }
 
     @Test
-    public void botIsInstanceOfUsuari() {
+    public void botEsInstanciaDUsuari() {
         Bot bot = Bot.getInstance();
 
-        assertTrue("Bot should be an instance of Usuari", bot instanceof Usuari);
+        assertTrue("Bot ha de ser una instancia d'usuari", bot instanceof Usuari);
     }
 
     @Test
-    public void botNameIsSetCorrectly() {
+    public void botNomEsCorrecte() {
         Bot bot = Bot.getInstance();
 
-        assertEquals("Bot should be initialized with name 'bot'", "bot", bot.getNom());
+        assertEquals("Bot ha de dir-se 'bot'", "bot", bot.getNom());
     }
 
     @Test
-    public void getMillorJugadaEnTaulellVacio() {
+    public void getMillorJugadaEnTaulellBuit() {
         Bot bot = Bot.getInstance();
 
         Taulell taulell = new Taulell();
@@ -59,4 +59,35 @@ public class BotTest {
 
 
     }
+
+    @Test
+public void getMillorJugadaEnTaulellNoBuit() {
+    Bot bot = Bot.getInstance();
+
+    Taulell taulell = new Taulell();
+    Diccionari diccionari = new Diccionari("castellano");
+    ArrayList<Fitxa> atril = new ArrayList<>();
+    Bossa bossa = new Bossa("castellano");
+
+    // Primera jugada: colocar "ES" en el tablero
+    taulell.colocarFitxa(7, 7, new Fitxa("E", 1));
+    taulell.colocarFitxa(7, 8, new Fitxa("S", 1));
+
+    // Fichas del bot para la segunda jugada
+    atril.add(new Fitxa("O", 1));
+    atril.add(new Fitxa("S", 1));
+    atril.add(new Fitxa("A", 1));
+    atril.add(new Fitxa("R", 1));
+    atril.add(new Fitxa("T", 1));
+    atril.add(new Fitxa("L", 1));
+
+    // El bot realiza su jugada
+    Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> result = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
+
+    for (Map.Entry<int[], Fitxa> entry : result.getKey().entrySet()) {
+        int[] pos = entry.getKey();
+        Fitxa fitxa = entry.getValue();
+        System.out.println("Posició: " + pos[0] + ", " + pos[1] + " - Fitxa: " + fitxa);
+    }
+}
 }

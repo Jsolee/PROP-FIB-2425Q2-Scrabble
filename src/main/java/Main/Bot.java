@@ -23,6 +23,14 @@ public class Bot extends Usuari{
 
     // retorna la millor jugada possible per al bot, amb boolean que indica si es across
     public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet) {
+
+        // imprimit atril para debuggejar
+        System.out.print("Atril bot: ");
+        for (Fitxa fitxa : atril) {
+            System.out.print(fitxa.getLletra() + " ");
+        }
+        System.out.println();
+
         // inicialitzem el taulell amb la informació extra
         int rows = taulell.getCaselles().length;
         int cols = taulell.getCaselles()[0].length;
@@ -56,16 +64,18 @@ public class Bot extends Usuari{
                     Casella anterior = taulell.getCasella(casella.getX(), casella.getY()-1);
                     if (anterior != null && anterior.isOcupada()) {
                         // si la casella anterior està ocupada, tenim un prefix definit per caselles anteriors (suposem que la paraula anterior es correcta)
-                        SequencedMap<int[], Fitxa> prefix = new LinkedHashMap<>();
+                        LinkedHashMap<int[], Fitxa> prefix = new LinkedHashMap<>();
                         String paraula = getParulaAnterior(taulell, anterior);
                         DAWGnode nodeActual = diccionari.getNode(paraula);
                         extendreDreta(prefix, taulell, info, casella, nodeActual, diccionari, atril, alfabet, across);
-                        break;
+                        continue;
                     }
                     else {
-                        SequencedMap<int[], Fitxa> prefix = new LinkedHashMap<>();
+                        int limit = getPosicionsSenseAnchors(taulell, info, anterior);
+                        ArrayList<Fitxa> prefix = new ArrayList<>();
 
-                        extendreEsquerra(prefix, taulell, info, casella, anterior, diccionari, atril, alfabet, across);
+                        DAWGnode node = diccionari.getArrel();
+                        extendreEsquerra(prefix, taulell, info, node, casella, diccionari, atril, alfabet, limit, across);
                     }
 
                 }
@@ -74,19 +84,17 @@ public class Bot extends Usuari{
         }
     }
 
-    private void extendreEsquerra(SequencedMap<int[], Fitxa> prefix, Taulell taulell, infoCasella[][] info, Casella casellaAnchor, Casella anterior, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, boolean across) {
+    private void extendreEsquerra(ArrayList<Fitxa> prefix, Taulell taulell, infoCasella[][] info, DAWGnode node, Casella casellaAnchor, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, int limit, boolean across) {
 
-        DAWGnode nodeActual = diccionari.getNode(paraulaToString(prefix)); // aconseguir el node a partir del qual s'ha d'extendre.
+
         // exten per la dreta y va trobant paraules amb aquest prefix.
         ArrayList<Fitxa> atrilCopy = new ArrayList<>(atril);
-        LinkedHashMap<int[], Fitxa> prefixCopy = new LinkedHashMap<>(prefix);
-        extendreDreta(prefixCopy, taulell, info, casellaAnchor, nodeActual, diccionari, atrilCopy, alfabet, across);
+        LinkedHashMap<int[], Fitxa> prefixCopy = ArrayToJugada(prefix, casellaAnchor, prefix.size());
+        extendreDreta(prefixCopy, taulell, info, casellaAnchor, node, diccionari, atrilCopy, alfabet, across);
 
-        if (anterior == null || info[anterior.getX()][anterior.getY()].isAnchor()) {;
-            // si la casella anterior es null o es una anchor, no podem continuar
+        if (limit == 0) {
             return;
         }
-
 
         for (int i = 0; i < atril.size(); i++) {
             String lletra = atril.get(i).getLletra();
@@ -95,40 +103,35 @@ public class Bot extends Usuari{
             if (lletra.equals("#")) {
                 for (String lletra2 : alfabet) {
                     if (lletra2.equals("#")) continue;
-                    LinkedHashMap<int[], Fitxa> nouPrefix = new LinkedHashMap<int[], Fitxa>();
                     Fitxa blank = new Fitxa(lletra2, 0);
-                    nouPrefix.put(new int[]{anterior.getX(), anterior.getY()}, blank);
-                    nouPrefix.putAll(prefix);
-                    DAWGnode nouNode = diccionari.getNode(paraulaToString(nouPrefix));
+                    DAWGnode nouNode = getNode(blank.getLletra(), node);
 
                     if (nouNode != null) {
+                        ArrayList<Fitxa> nouPrefix  = new ArrayList<>(prefix);
+                        nouPrefix.add(blank);
                         ArrayList<Fitxa> atrilActual = new ArrayList<>(atril); // con Fitxa en vez de Main.Fitxa me daba error :(
                         atrilActual.remove(i);// eliminem la fitxa de l'atril que hem utilitzat
-
                         // crea nous prefixos a partir d'aquest nou prefix
-                        extendreEsquerra(nouPrefix, taulell, info, casellaAnchor, taulell.getCasella(anterior.getX(), anterior.getY()-1), diccionari, atrilActual, alfabet, across);
+                        extendreEsquerra(nouPrefix, taulell, info, nouNode, casellaAnchor, diccionari, atrilActual, alfabet, limit-1, across);
                     }
                 }
             }
             else {
-                LinkedHashMap<int[], Fitxa> nouPrefix = new LinkedHashMap<int[], Fitxa>();
-                nouPrefix.put(new int[]{anterior.getX(), anterior.getY()}, atril.get(i));
-                nouPrefix.putAll(prefix);
-                DAWGnode nouNode = diccionari.getNode(paraulaToString(nouPrefix));
+                DAWGnode nouNode = getNode(lletra, node);
 
                 if (nouNode != null) {
+                    ArrayList<Fitxa> nouPrefix  = new ArrayList<>(prefix);
+                    nouPrefix.add(atril.get(i));
                     ArrayList<Fitxa> atrilActual = new ArrayList<>(atril); // con Fitxa en vez de Main.Fitxa me daba error :(
                     atrilActual.remove(i);// eliminem la fitxa de l'atril que hem utilitzat
-
                     // crea nous prefixos a partir d'aquest nou prefix
-                    extendreEsquerra(nouPrefix, taulell, info, casellaAnchor, taulell.getCasella(anterior.getX(), anterior.getY()-1), diccionari, atrilActual, alfabet, across);
+                    extendreEsquerra(nouPrefix, taulell, info, nouNode, casellaAnchor, diccionari, atrilActual, alfabet, limit-1, across);
                 }
             }
         }
     }
 
-    private void extendreDreta(SequencedMap<int[], Fitxa> prefix, Taulell taulell, infoCasella[][] info, Casella casella ,DAWGnode node, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, boolean across) {
-        // if the prefix so far isn’t in the DAWG, bail out
+    private void extendreDreta(LinkedHashMap<int[], Fitxa> prefix, Taulell taulell, infoCasella[][] info, Casella casella ,DAWGnode node, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, boolean across) {
         if (node == null) {
             return;
         }
@@ -165,9 +168,9 @@ public class Bot extends Usuari{
                                 ArrayList<Fitxa> atrilActual = new ArrayList<>(atril);
                                 atrilActual.remove(i);
                                 Fitxa blank = new Fitxa(lletra2, 0);
-                                SequencedMap<int[], Fitxa> nouPrefix = new LinkedHashMap<int[], Fitxa>();
+                                LinkedHashMap<int[], Fitxa> nouPrefix = new LinkedHashMap<int[], Fitxa>(prefix);
                                 nouPrefix.put(new int[]{casella.getX(), casella.getY()}, blank);
-                                extendreDreta(prefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), nouNode, diccionari, atril, alfabet, across);
+                                extendreDreta(nouPrefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), nouNode, diccionari, atrilActual, alfabet, across);
                             }
 
                         }
@@ -178,7 +181,7 @@ public class Bot extends Usuari{
                             ArrayList<Fitxa> atrilActual = new ArrayList<>(atril);
                             atrilActual.remove(i);
                             Fitxa blank = new Fitxa(lletra2, 0);
-                            SequencedMap<int[], Fitxa> nouPrefix = new LinkedHashMap<int[], Fitxa>();
+                            LinkedHashMap<int[], Fitxa> nouPrefix = new LinkedHashMap<int[], Fitxa>(prefix);
                             nouPrefix.put(new int[]{casella.getX(), casella.getY()}, blank);
                             extendreDreta(nouPrefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), nouNode, diccionari, atrilActual, alfabet, across);
                         }
@@ -190,30 +193,48 @@ public class Bot extends Usuari{
                     if (info[casella.getX()][casella.getY()].crossChecks().contains(lletra)) {
                         DAWGnode nouNode = getNode(lletra, node);
                         if (nouNode != null) {
-                            Fitxa removed = atril.remove(i);
-                            prefix.put(new int[]{casella.getX(), casella.getY()}, removed);
-                            extendreDreta(prefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), nouNode, diccionari, atril, alfabet, across);
-                            prefix.remove(new int[]{casella.getX(), casella.getY()});
-                            atril.add(i, removed);
+                            ArrayList<Fitxa> atrilActual = new ArrayList<>(atril);
+                            atrilActual.remove(i);
+                            LinkedHashMap<int[], Fitxa> nouPrefix = new LinkedHashMap<int[], Fitxa>(prefix);
+                            nouPrefix.put(new int[]{casella.getX(), casella.getY()}, atril.get(i));
+                            extendreDreta(nouPrefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), nouNode, diccionari, atrilActual, alfabet, across);
                         }
                     }
                 } else {
                     DAWGnode nouNode = getNode(lletra, node);
                     if (nouNode != null) {
-                        Fitxa removed = atril.remove(i);
-                        prefix.put(new int[]{casella.getX(), casella.getY()}, removed);
-                        extendreDreta(prefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), nouNode, diccionari, atril, alfabet, across);
-                        extendreDreta(prefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), node, diccionari, atril, alfabet, across);
-                        prefix.remove(new int[]{casella.getX(), casella.getY()});
-                        atril.add(i, removed);
+                        ArrayList<Fitxa> atrilActual = new ArrayList<>(atril);
+                        atrilActual.remove(i);
+                        LinkedHashMap<int[], Fitxa> nouPrefix = new LinkedHashMap<int[], Fitxa>(prefix);
+                        nouPrefix.put(new int[]{casella.getX(), casella.getY()}, atril.get(i));
+                        extendreDreta(nouPrefix, taulell, info, taulell.getCasella(casella.getX(), casella.getY()+1), nouNode, diccionari, atrilActual, alfabet, across);
                     }
                 }
             }
         }
     }
 
-    private void mirarJugada(SequencedMap<int[], Fitxa> jugada, Taulell taulell, Diccionari diccionari, boolean across) {
-        System.out.println(jugada);
+    private LinkedHashMap<int[], Fitxa> ArrayToJugada(ArrayList<Fitxa> prefix, Casella casella, int limit) {
+        int count = 0;
+        LinkedHashMap<int[], Fitxa> jugada = new LinkedHashMap<>();
+        for (int j = casella.getY()-limit; j < casella.getY(); j++) {
+            jugada.put(new int[]{casella.getX(), j}, prefix.get(count));
+            count++;
+        }
+
+        return jugada;
+    }
+
+    private void mirarJugada(LinkedHashMap<int[], Fitxa> jugada, Taulell taulell, Diccionari diccionari, boolean across) {
+
+        //imprimir jugada
+        for (Map.Entry<int[], Fitxa> entry : jugada.entrySet()) {
+            int[] pos = entry.getKey();
+            Fitxa fitxa = entry.getValue();
+            System.out.print(fitxa.getLletra() + " ");
+        }
+        System.out.println();
+
         if (across) {
             LinkedHashMap<int[], Fitxa> jugadaCopy = new LinkedHashMap<>(jugada);
             int puntuacio = taulell.validesaYPuntuacioJugada(jugadaCopy, diccionari, across, false);
@@ -237,37 +258,37 @@ public class Bot extends Usuari{
     }
 
     private void calcularAnchorsICrossChecks(Taulell taulell, infoCasella[][] info,  Diccionari diccionari, Set<String> alfabet) {
-            // si es el primer moviment, només la casella inicial és anchor, y no hi han fitxes adjacents ni cross-checks.
-            if (taulell.esPrimerMoviment()) {
-                for (Casella[] c : taulell.getCaselles()) {
-                    for (Casella casella : c) {
-                        info[casella.getX()][casella.getY()].setAnchor(casella.isEsCasellaInicial());
-                        // si la casella es la inicial, no hi ha cross-checks
-                    }
+        // si es el primer moviment, només la casella inicial és anchor, y no hi han fitxes adjacents ni cross-checks.
+        if (taulell.esPrimerMoviment()) {
+            for (Casella[] c : taulell.getCaselles()) {
+                for (Casella casella : c) {
+                    info[casella.getX()][casella.getY()].setAnchor(casella.isEsCasellaInicial());
+                    // si la casella es la inicial, no hi ha cross-checks
                 }
-            } else {
-                // si no es el primer moviment, busquem les anchors i cross-checks
-                for (Casella[] c : taulell.getCaselles()) {
-                    for (Casella casella : c) {
-                        // si la casella esta buida y te alguna fitxa adjacent, es una candidata a anchor.
-                        if (!casella.isOcupada() && taulell.teFitxaAdjacent(casella.getX(), casella.getY())) {
-                            info[casella.getX()][casella.getY()].setAnchor(true);
+            }
+        } else {
+            // si no es el primer moviment, busquem les anchors i cross-checks
+            for (Casella[] c : taulell.getCaselles()) {
+                for (Casella casella : c) {
+                    // si la casella esta buida y te alguna fitxa adjacent, es una candidata a anchor.
+                    if (!casella.isOcupada() && taulell.teFitxaAdjacent(casella.getX(), casella.getY())) {
+                        info[casella.getX()][casella.getY()].setAnchor(true);
 
-                            // si la casella te fitxa superior o inferior, al colocar una fitxa, es pot formar una paraula vertical, per tant necesitem cross-checks
-                            if (taulell.teFitxaSuperiorOInferior(casella.getX(), casella.getY())) {
-                                info[casella.getX()][casella.getY()].setNecessita_cross_check(true);
-                                info[casella.getX()][casella.getY()].setCrossChecks(calcularCrossChecks(taulell, casella.getX(), casella.getY(), diccionari, alfabet));
-                            }
-                            else {
-                                info[casella.getX()][casella.getY()].setNecessita_cross_check(false);
-                            }
-                        } else {
-                            info[casella.getX()][casella.getY()].setAnchor(false);
+                        // si la casella te fitxa superior o inferior, al colocar una fitxa, es pot formar una paraula vertical, per tant necesitem cross-checks
+                        if (taulell.teFitxaSuperiorOInferior(casella.getX(), casella.getY())) {
+                            info[casella.getX()][casella.getY()].setNecessita_cross_check(true);
+                            info[casella.getX()][casella.getY()].setCrossChecks(calcularCrossChecks(taulell, casella.getX(), casella.getY(), diccionari, alfabet));
+                        }
+                        else {
                             info[casella.getX()][casella.getY()].setNecessita_cross_check(false);
                         }
+                    } else {
+                        info[casella.getX()][casella.getY()].setAnchor(false);
+                        info[casella.getX()][casella.getY()].setNecessita_cross_check(false);
                     }
                 }
             }
+        }
     }
 
     private  ArrayList<String> calcularCrossChecks(Taulell taulell, int x, int y, Diccionari diccionari, Set<String> alfabet) {
@@ -304,7 +325,7 @@ public class Bot extends Usuari{
         return inferior.toString();
     }
 
-    private String paraulaToString(SequencedMap<int[], Fitxa> jugada) {
+    private String paraulaToString(LinkedHashMap<int[], Fitxa> jugada) {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<int[], Fitxa> entry : jugada.entrySet()) {
             Fitxa fitxa = entry.getValue();
@@ -320,6 +341,15 @@ public class Bot extends Usuari{
             anterior = taulell.getCasella(anterior.getX(), anterior.getY() - 1);
         }
         return paraula.toString();
+    }
+
+    private int getPosicionsSenseAnchors(Taulell taulell, infoCasella[][] info,  Casella anterior) {
+        int limit = 0;
+        while (anterior != null && !info[anterior.getX()][anterior.getY()].isAnchor() && !anterior.isOcupada()) {
+            limit++;
+            anterior = taulell.getCasella(anterior.getX(), anterior.getY() - 1);
+        }
+        return limit;
     }
 
     private class infoCasella {
