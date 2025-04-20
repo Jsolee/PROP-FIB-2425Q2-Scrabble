@@ -478,12 +478,9 @@ public class Taulell {
         if (paraula.size() <= 1)
             return 0; //nomes hi ha una fitxa colocada, per tant no es forma paraula
             
-        if (!diccionari.esParaula(FitxesToString(paraula))) {
-            System.out.println("Paraula no vàlida: " + FitxesToString(paraula));
-            return -1;
-        }
-
-        return puntuacio*multiplicador_paraula;
+        if (diccionari.esParaula(FitxesToString(paraula))) 
+            return puntuacio*multiplicador_paraula;
+        return -1;
     }
 
     private int getPuntuacioParaulaVertical(int[] pos, boolean[][] fitxesNoves, Diccionari diccionari)
@@ -516,12 +513,16 @@ public class Taulell {
             fila++;
         }
 
-        if (paraula.size() <= 1)
-            return 0; //nomes hi ha una fitxa colocada, per tant no es forma paraula
+        if (paraula.size() < 2)
+            return 0; //nomes hi ha una fitxa colocada
 
-        if (!diccionari.esParaula(FitxesToString(paraula)))
+        try 
         {
-            System.out.println("Paraula no vàlida: " + FitxesToString(paraula));
+            if (diccionari.esParaula(FitxesToString(paraula))) {
+                System.out.println("Paraula vàlida: " + FitxesToString(paraula));
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
             return -1;
         }
         
@@ -531,8 +532,29 @@ public class Taulell {
     private String FitxesToString(List<Fitxa> fitxes)
     {
         String paraula = "";
-        for (Fitxa fitx : fitxes) {
-            paraula += fitx.getLletra();
+        for (int i = 0; i < fitxes.size(); i++) 
+        {
+            String lletra = fitxes.get(i).getLletra();
+            if (i < fitxes.size() - 1) {
+                String siguienteLetra = fitxes.get(i + 1).getLletra();
+                
+                // Comprobar dígrafos en español
+                if ((lletra.equals("C") && siguienteLetra.equals("H")) ||
+                    (lletra.equals("L") && siguienteLetra.equals("L")) ||
+                    (lletra.equals("R") && siguienteLetra.equals("R"))) {
+                    throw new IllegalArgumentException("Error: No es pot formar el dígraf '" + 
+                        lletra + siguienteLetra + "' amb fitxes separades. Utilitza una fitxa específica de dígraf.");
+                }
+                
+                // Comprobar dígrafos en catalán
+                if ((lletra.equals("N") && siguienteLetra.equals("Y")) ||
+                    (lletra.equals("L") && siguienteLetra.equals("·L"))) {
+                    throw new IllegalArgumentException("Error: No es pot formar el dígraf '" + 
+                        lletra + siguienteLetra + "' amb fitxes separades. Utilitza una fitxa específica de dígraf.");
+                }
+            }
+
+            paraula += lletra;
         }
         return paraula;
     }

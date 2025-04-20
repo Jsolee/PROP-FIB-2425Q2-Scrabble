@@ -2,7 +2,6 @@ package Main;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ControladorDomini {
     private ControladorUsuari controladorUsuari;
@@ -68,9 +67,9 @@ public class ControladorDomini {
         return controladorPartida.jugarParaula(partida, jugades, across);
     }
 
-    public void canviDeFitxes(Partida partida, String[] fitxes)
+    public boolean canviDeFitxes(Partida partida, String[] fitxes)
     {
-        controladorPartida.canviDeFitxes(partida, fitxes);
+        return controladorPartida.canviDeFitxes(partida, fitxes);
     }
 
     public boolean esFinalPartida(Partida partida)
