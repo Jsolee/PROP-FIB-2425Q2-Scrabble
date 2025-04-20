@@ -412,22 +412,26 @@ public class Partida {
         //las fichas ya estan en el atril (paso 0)
         //1 verificar que es pot posar al taulell (funcion en el tablero)
         if (jugades.isEmpty())
-            throw new IllegalArgumentException("No hi ha fitxes per jugar.");
+            return -1;
+//            throw new IllegalArgumentException("No hi ha fitxes per jugar.");
 
         
         across = across.toUpperCase();
         if (!across.equals("H") && !across.equals("V"))
-            throw new IllegalArgumentException("La orientacio ha de ser H o V");
+            return -1;
+//            throw new IllegalArgumentException("La orientacio ha de ser H o V");
 
         if (!taulell.verificarFitxes(jugades, across.equals("H")))
-            throw new IllegalArgumentException("No es pot posar la paraula al taulell en la ubicacio solicitada.");
+            return -1;
+//            throw new IllegalArgumentException("No es pot posar la paraula al taulell en la ubicacio solicitada.");
 
         //1.5 calcular palabras nuevas (list<list<fitxa>>)
         int puntuacio =  taulell.validesaYPuntuacioJugada(jugades, diccionari, across.equals("H"), true);
 
 
         if (puntuacio == -1)
-            throw new IllegalArgumentException("La/es paraula/es formada/es no es troba/en al diccionari.");
+            return -1;
+            //throw new IllegalArgumentException("La/es paraula/es formada/es no es troba/en al diccionari.");
         //2 verificar que las palabras formadas existen
         //3 calcular la puntuacion total
         puntuacioJugadors.set(jugadorActual, puntuacioJugadors.get(jugadorActual) + puntuacio);
