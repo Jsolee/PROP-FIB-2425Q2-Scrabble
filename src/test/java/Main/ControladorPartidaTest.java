@@ -148,7 +148,7 @@ public class ControladorPartidaTest {
 
         // Buidem la bossa fins que quedin menys de 7 fitxes
         Bossa bossa = partida.getBossa();
-        while (bossa.getQuantitatFitxes() >= 2) {
+        while (bossa.getQuantitatFitxes() >= 3) {
             bossa.agafarFitxa();
         }
 
