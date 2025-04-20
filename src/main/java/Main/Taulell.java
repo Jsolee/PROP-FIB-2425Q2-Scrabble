@@ -223,6 +223,8 @@ public class Taulell {
         return casella.retirarFitxa();
     }
 
+    public void setCaselles(Casella[][] caselles) {this.caselles = caselles;}
+
     public List<String> obtenerParaulesAdjacents(String palabra, int fila, int col, String orientacion)
     {
         List<String> paraules = new ArrayList<>();

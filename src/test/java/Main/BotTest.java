@@ -61,33 +61,54 @@ public class BotTest {
     }
 
     @Test
-public void getMillorJugadaEnTaulellNoBuit() {
-    Bot bot = Bot.getInstance();
+    public void getMillorJugadaAcrossEnTaulellNoBuit() {
+        Bot bot = Bot.getInstance();
 
-    Taulell taulell = new Taulell();
-    Diccionari diccionari = new Diccionari("castellano");
-    ArrayList<Fitxa> atril = new ArrayList<>();
-    Bossa bossa = new Bossa("castellano");
+        Taulell taulell = new Taulell();
+        Diccionari diccionari = new Diccionari("castellano");
+        ArrayList<Fitxa> atril = new ArrayList<>();
+        Bossa bossa = new Bossa("castellano");
 
-    // Primera jugada: colocar "ES" en el tablero
-    taulell.colocarFitxa(7, 7, new Fitxa("E", 1));
-    taulell.colocarFitxa(7, 8, new Fitxa("S", 1));
+        // Primera jugada: colocar "ES" en el tablero
+        taulell.colocarFitxa(7, 7, new Fitxa("E", 1));
+        taulell.colocarFitxa(7, 8, new Fitxa("S", 1));
 
-    // Fichas del bot para la segunda jugada
-    atril.add(new Fitxa("O", 1));
-    atril.add(new Fitxa("S", 1));
-    atril.add(new Fitxa("A", 1));
-    atril.add(new Fitxa("R", 1));
-    atril.add(new Fitxa("T", 1));
-    atril.add(new Fitxa("L", 1));
+        // Fichas del bot para la segunda jugada
+        atril.add(new Fitxa("O", 1));
 
-    // El bot realiza su jugada
-    Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> result = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
+        // El bot realiza su jugada
+        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> result = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
 
-    for (Map.Entry<int[], Fitxa> entry : result.getKey().entrySet()) {
-        int[] pos = entry.getKey();
-        Fitxa fitxa = entry.getValue();
-        System.out.println("Posició: " + pos[0] + ", " + pos[1] + " - Fitxa: " + fitxa);
+        for (Map.Entry<int[], Fitxa> entry : result.getKey().entrySet()) {
+            int[] pos = entry.getKey();
+            Fitxa fitxa = entry.getValue();
+            System.out.println("Posició: " + pos[0] + ", " + pos[1] + " - Fitxa: " + fitxa);
+        }
     }
-}
+
+    @Test
+    public void getMillorJugadaDownEnTaulellNoBuit() {
+        Bot bot = Bot.getInstance();
+
+        Taulell taulell = new Taulell();
+        Diccionari diccionari = new Diccionari("castellano");
+        ArrayList<Fitxa> atril = new ArrayList<>();
+        Bossa bossa = new Bossa("castellano");
+
+        // Primera jugada: colocar "ES" en el tablero
+        taulell.colocarFitxa(7, 7, new Fitxa("E", 1));
+        taulell.colocarFitxa(8, 7, new Fitxa("S", 1));
+
+        // Fichas del bot para la segunda jugada
+        atril.add(new Fitxa("O", 1));
+
+        // El bot realiza su jugada
+        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> result = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
+
+        for (Map.Entry<int[], Fitxa> entry : result.getKey().entrySet()) {
+            int[] pos = entry.getKey();
+            Fitxa fitxa = entry.getValue();
+            System.out.println("Posició: " + pos[0] + ", " + pos[1] + " - Fitxa: " + fitxa);
+        }
+    }
 }

@@ -9,6 +9,8 @@ public class Bot extends Usuari{
     private static Bot instancia;
 
     private Map.Entry<LinkedHashMap<int[], Fitxa>, Integer> millorJugadaAcross; // jugades possibles ordenades per puntuació, si hi han dues jugades amb la mateixa puntuació, només es guardara 1
+    private Map.Entry<LinkedHashMap<int[], Fitxa>, Integer> millorJugadaDown; // jugades possibles ordenades per puntuació, si hi han dues jugades amb la mateixa puntuació, només es guardara 1
+
 
     private Bot() {
         super("bot");
@@ -24,12 +26,12 @@ public class Bot extends Usuari{
     // retorna la millor jugada possible per al bot, amb boolean que indica si es across
     public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet) {
 
-        // imprimit atril para debuggejar
-        System.out.print("Atril bot: ");
-        for (Fitxa fitxa : atril) {
-            System.out.print(fitxa.getLletra() + " ");
-        }
-        System.out.println();
+//        // imprimit atril para debuggejar
+//        System.out.print("Atril bot: ");
+//        for (Fitxa fitxa : atril) {
+//            System.out.print(fitxa.getLletra() + " ");
+//        }
+//        System.out.println();
 
         // inicialitzem el taulell amb la informació extra
         int rows = taulell.getCaselles().length;
@@ -50,7 +52,27 @@ public class Bot extends Usuari{
         getMillorJugadaAux(taulell, info, diccionari, atril, alfabet, true);
 
 
-        return new AbstractMap.SimpleEntry<>(millorJugadaAcross.getKey(), true);
+        // Taulell transposat per a la jugada vertical
+        Taulell taulellTransposat = transposarTaulell(taulell);
+
+        // inicialitzem el taulell transposat amb la informació extra
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                info[i][j] = new infoCasella();
+            }
+        }
+
+        this.millorJugadaDown = new AbstractMap.SimpleEntry<>(new LinkedHashMap<>(), 0);
+
+        calcularAnchorsICrossChecks(taulellTransposat, info , diccionari, alfabet);
+        getMillorJugadaAux(taulellTransposat, info, diccionari, atril, alfabet, false);
+
+        // comparem les dues jugades i retornem la millor
+        if (millorJugadaAcross.getValue() >= millorJugadaDown.getValue()) {
+            return new AbstractMap.SimpleEntry<>(millorJugadaAcross.getKey(), true);
+        } else {
+            return new AbstractMap.SimpleEntry<>(millorJugadaDown.getKey(), false);
+        }
     }
 
     private void getMillorJugadaAux(Taulell taulell, infoCasella[][] info, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, boolean across) {
@@ -227,19 +249,32 @@ public class Bot extends Usuari{
 
     private void mirarJugada(LinkedHashMap<int[], Fitxa> jugada, Taulell taulell, Diccionari diccionari, boolean across) {
 
-        //imprimir jugada
-        for (Map.Entry<int[], Fitxa> entry : jugada.entrySet()) {
-            int[] pos = entry.getKey();
-            Fitxa fitxa = entry.getValue();
-            System.out.print(fitxa.getLletra() + " ");
-        }
-        System.out.println();
+        //imprimir jugada per debuggar
+//        for (Map.Entry<int[], Fitxa> entry : jugada.entrySet()) {
+//            int[] pos = entry.getKey();
+//            Fitxa fitxa = entry.getValue();
+//           System.out.print(fitxa.getLletra() + " ");
+//        }
+//        System.out.println();
 
         if (across) {
             LinkedHashMap<int[], Fitxa> jugadaCopy = new LinkedHashMap<>(jugada);
             int puntuacio = taulell.validesaYPuntuacioJugada(jugadaCopy, diccionari, across, false);
             if (puntuacio >= 0 && puntuacio > millorJugadaAcross.getValue()) {
                 millorJugadaAcross = new AbstractMap.SimpleEntry<>(jugadaCopy, puntuacio);
+            }
+        } else {
+            LinkedHashMap<int[], Fitxa> jugadaCopy = new LinkedHashMap<>(jugada);
+            int puntuacio = taulell.validesaYPuntuacioJugada(jugadaCopy, diccionari, across, true);
+            if (puntuacio >= 0 && puntuacio > millorJugadaDown.getValue()) {
+                //transposar la jugada per guardar-la
+                LinkedHashMap<int[], Fitxa> jugadaTransposada = new LinkedHashMap<>();
+                for (Map.Entry<int[], Fitxa> entry : jugada.entrySet()) {
+                    int[] pos = entry.getKey();
+                    Fitxa fitxa = entry.getValue();
+                    jugadaTransposada.put(new int[]{pos[1], pos[0]}, fitxa);
+                }
+                millorJugadaDown = new AbstractMap.SimpleEntry<>(jugadaTransposada, puntuacio);
             }
         }
     }
@@ -350,6 +385,23 @@ public class Bot extends Usuari{
             anterior = taulell.getCasella(anterior.getX(), anterior.getY() - 1);
         }
         return limit;
+    }
+
+    private Taulell transposarTaulell(Taulell taulell) {
+        int rows = taulell.getCaselles().length;
+        int cols = taulell.getCaselles()[0].length;
+        Casella[][] transposat = new Casella[cols][rows];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                transposat[j][i] = taulell.getCasella(i, j);
+            }
+        }
+
+        Taulell taulellTransposat = new Taulell();
+        taulellTransposat.setCaselles(transposat);
+
+        return taulellTransposat;
     }
 
     private class infoCasella {
