@@ -1,5 +1,6 @@
 package Main;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ControladorDomini {
@@ -12,8 +13,8 @@ public class ControladorDomini {
     }
 
     //gestio d'usuaris
-    public Usuari crearUsuari(String nom, String username, String contrasenya) {
-        return controladorUsuari.registrarPersona(nom, username, contrasenya);
+    public Usuari crearUsuari(String nom, String username, String contrasenya, String edat, String pais) {
+        return controladorUsuari.registrarPersona(nom, username, contrasenya,edat, pais);
     }
 
     public boolean iniciarSessio(String username, String contrasenya) {
@@ -44,22 +45,31 @@ public class ControladorDomini {
         return controladorUsuari.getPartides(jugador);
     }
 
+    public Usuari getBot()
+    {
+        return Bot.getInstance();
+    }
+
+
+
+    /* public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, ArrayList<Fitxa> atril, ArrayList<String> alfabet) */
+
     //gestio de partides
     public Partida crearPartida(String nomPartida, List<Usuari> jugadors, String idioma) {
         return controladorPartida.crearPartida(nomPartida, jugadors, idioma);
     }
 
     public Partida getPartida(String nomPartida) {
-       return controladorPartida.getPartida(nomPartida);
+        return controladorPartida.getPartida(nomPartida);
     }
 
-    public int jugarParaula(Partida partida, String paraula, int f, int col, String orientacion) {
-        return controladorPartida.jugarParaula(partida, paraula, f, col, orientacion);
+    public int jugarParaula(Partida partida, LinkedHashMap<int[], Fitxa> jugades, String across) {
+        return controladorPartida.jugarParaula(partida, jugades, across);
     }
 
-    public void canviDeFitxes(Partida partida, String[] fitxes)
+    public boolean canviDeFitxes(Partida partida, String[] fitxes)
     {
-        controladorPartida.canviDeFitxes(partida, fitxes);
+        return controladorPartida.canviDeFitxes(partida, fitxes);
     }
 
     public boolean esFinalPartida(Partida partida)
@@ -85,6 +95,11 @@ public class ControladorDomini {
     public void acabarPartida(Partida partida)
     {
         controladorPartida.acabarPartida(partida);
+    }
+
+    public void posarParaulaBot(Partida partida, Usuari bot)
+    {
+        controladorPartida.getMillorJugada(partida, bot);
     }
 
 }

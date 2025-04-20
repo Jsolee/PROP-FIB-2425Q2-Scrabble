@@ -11,13 +11,6 @@ public class Casella {
     private Fitxa fitxa;
     private boolean esCasellaInicial;
 
-    // atributs que son utils per l'algorisme
-    private boolean esAnchor;
-    // cross-checks de la casella, s'inicialitzaran quan es fagi l'algorisme
-    // si te fitxa adjacent, será lógic mirar els cross-checks, altrament, no
-    private boolean teFitxaAdjacent;
-    private List<String> cross_checks;
-
     public Casella(int x, int y, int multiplicador_letra, int multiplicador_paraula) {
         this.x = x;
         this.y = y;
@@ -26,9 +19,6 @@ public class Casella {
         this.ocupada = false;
         this.fitxa = null;
         this.esCasellaInicial = false;
-        this.esAnchor = false;
-        this.cross_checks = new ArrayList<>();
-        this.teFitxaAdjacent = false;
     }
 
     // Getters and Setters
@@ -39,10 +29,6 @@ public class Casella {
     public boolean isOcupada() { return ocupada; }
     public Fitxa getFitxa() { return fitxa; }
     public boolean isEsCasellaInicial() { return esCasellaInicial; }
-    public boolean isEsAnchor() { return esAnchor; }
-    public void setEsAnchor(boolean esAnchor) { this.esAnchor = esAnchor; }
-    public boolean isTeFitxaAdjacent() { return teFitxaAdjacent; }
-    public void setTeFitxaAdjacent(boolean teFitxaAdjacent) { this.teFitxaAdjacent = teFitxaAdjacent; }
 
     public void setEsCasellaInicial(boolean esCasellaInicial) {
         this.esCasellaInicial = esCasellaInicial;

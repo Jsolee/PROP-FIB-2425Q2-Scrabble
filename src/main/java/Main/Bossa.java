@@ -3,6 +3,7 @@ package Main;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 
 // aquesta clase es una clase que representa una bossa de fitxes per a un joc de Scrabble, es carrega desde un fitxer en resources.
@@ -80,6 +81,19 @@ public class Bossa {
             return null;
         }
         return fitxes.pollFirst();
+    }
+
+    public ArrayList<Fitxa> agafarFitxes(int quantitat) {
+        ArrayList<Fitxa> fitxesAgafades = new ArrayList<>();
+        for (int i = 0; i < quantitat; i++) {
+            Fitxa fitxa = agafarFitxa();
+            if (fitxa != null) {
+                fitxesAgafades.add(fitxa);
+            } else {
+                break;
+            }
+        }
+        return fitxesAgafades;
     }
 
     public void retornarFitxa(Fitxa fitxa) {

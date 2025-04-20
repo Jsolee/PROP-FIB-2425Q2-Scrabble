@@ -18,16 +18,17 @@ public class ControladorUsuari {
     {
         if (!usuaris.containsKey(username))
             throw new IllegalArgumentException("No existeix l'usuari amb el nom: " + username);
-        
+
         return usuaris.get(username);
 
     }
-    public Persona registrarPersona(String nom, String username, String password)
+
+    public Persona registrarPersona(String username, String correu, String password, String edat, String pais)
     {
         if (usuaris.containsKey(username))
             throw new IllegalArgumentException("Ja existeix un usuari amb el nom: " + username);
-            
-        Persona persona = new Persona(nom, username, password);
+
+        Persona persona = new Persona(username, correu, password, edat, pais);
         usuaris.put(username, persona);
         return persona;
     }
@@ -76,21 +77,21 @@ public class ControladorUsuari {
             Persona persona = (Persona) usuari; //cast a Persona (hereda de Usuari)
             if (!persona.getContrasenya().equals(password))
                 throw new IllegalArgumentException("Contrasenya incorrecta");
-                
+
             if (password.equals(password_nova))
                 throw new IllegalArgumentException("La nova contrasenya no pot ser la mateixa que l'anterior");
 
             persona.setContrasenya(password_nova);
             return true;
-            
-        } 
+
+        }
         return false;
     }
 
     public boolean veurePerfil(String username)
     {
         Usuari usuari = existeixUsuari(username);
-            
+
         Persona persona = (Persona) usuari; //cast a Persona (hereda de Usuari)
         System.out.println("Nom: " + persona.getNom());
         System.out.println("Correu: " + persona.getCorreu());
@@ -98,10 +99,9 @@ public class ControladorUsuari {
 
         Estadistiques e = persona.getEstadistiques();
         System.out.println("Partides guanyades: " + e.getPartidesGuanyades());
-        System.out.println("Partides perdudes: " + e.getPartidesPerdudes());    
+        System.out.println("Partides perdudes: " + e.getPartidesPerdudes());
         System.out.println("Partides jugades: " + e.getPartidesJugades());
         System.out.println("Puntuacio total: " + e.getPuntuacioTotal());
-        System.out.println("Puntuacio promig: " + e.getPuntuacioPromig());
         System.out.println("Nivell de ranking: " + e.getNivellRanking());
         return true;
     }
