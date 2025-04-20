@@ -2,18 +2,18 @@ package Main;
 
 
 public abstract class Usuari {
-    private String nom;
+    private String username;
 
     public Usuari(String nom) {
-        this.nom = nom;
+        this.username = nom;
     }
 
     public String getNom() {
-        return nom;
+        return username;
     }
 
     public void setNom(String nom) {
-        this.nom = nom;
+        this.username = nom;
     }
 
 }
