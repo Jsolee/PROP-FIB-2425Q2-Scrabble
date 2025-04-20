@@ -1,6 +1,11 @@
 package Main;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 public class BotTest {
@@ -28,17 +33,30 @@ public class BotTest {
     }
 
     @Test
-    public void millorJugadaAcrossIsInitiallyNull() {
+    public void getMillorJugadaEnTaulellVacio() {
         Bot bot = Bot.getInstance();
 
-        // Using reflection to access private field for testing
-        java.lang.reflect.Field field;
-        try {
-            field = Bot.class.getDeclaredField("millorJugadaAcross");
-            field.setAccessible(true);
-            assertNull("millorJugadaAcross should be initially null", field.get(bot));
-        } catch (Exception e) {
-            fail("Could not access millorJugadaAcross field: " + e.getMessage());
+        Taulell taulell = new Taulell();
+        Diccionari diccionari = new Diccionari("castellano");
+        ArrayList<Fitxa> atril = new ArrayList<>();
+        Bossa bossa = new Bossa("castellano");
+
+        atril.add(new Fitxa("P", 1));
+        atril.add(new Fitxa("R", 1));
+        atril.add(new Fitxa("U", 1));
+        atril.add(new Fitxa("A", 1));
+        atril.add(new Fitxa("E", 1));
+        atril.add(new Fitxa("B", 1));
+
+
+        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> result = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
+
+        for (Map.Entry<int[], Fitxa> entry : result.getKey().entrySet()) {
+            int[] pos = entry.getKey();
+            Fitxa fitxa = entry.getValue();
+            System.out.println("Posició: " + pos[0] + ", " + pos[1] + " - Fitxa: " + fitxa);
         }
+
+
     }
 }

@@ -126,6 +126,10 @@ public class Diccionari {
         return node;
     }
 
+    public DAWGnode getArrel() {
+        return this.arrel;
+    }
+
     private void afegirSufix(DAWGnode ultimNode, String sufixActual) {
         DAWGnode node = ultimNode;
         for (int i = 0; i < sufixActual.length(); i++) {
