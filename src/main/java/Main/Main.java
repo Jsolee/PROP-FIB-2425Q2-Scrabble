@@ -225,6 +225,7 @@ public class Main {
             System.out.print("> ");
             nomUsuari = scanner.nextLine();
             System.out.println();
+            
 
             if (nomUsuari.equals("EXIT"))
             {
