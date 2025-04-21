@@ -1,6 +1,7 @@
 package Main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,7 @@ public class Taulell {
         inicialitzarTaulell();
     }
 
-
+    
 
     private void inicialitzarTaulell() {
         for (int i = 0; i < MIDA; i++) {
@@ -223,6 +224,8 @@ public class Taulell {
         return casella.retirarFitxa();
     }
 
+    public void setCaselles(Casella[][] caselles) {this.caselles = caselles;}
+
     public List<String> obtenerParaulesAdjacents(String palabra, int fila, int col, String orientacion)
     {
         List<String> paraules = new ArrayList<>();
@@ -321,7 +324,7 @@ public class Taulell {
         //iterar por la palabra
         for (var entry : jugades.entrySet()) {
             int[] posicio = entry.getKey();
-            if (caselles[posicio[0]][posicio[1]].isOcupada())
+            if (caselles[posicio[0]][posicio[1]].isOcupada()) 
                 return false; // La casella ja està ocupada
         }
 
@@ -344,10 +347,10 @@ public class Taulell {
                     }
                 }
             }
-        }
+        } 
 
         return true;
-
+        
     }
 
 
@@ -357,9 +360,21 @@ public class Taulell {
             return -1;   // o la señal que uses para “no hay palabra válida”
         }
         //Guardar l'estat inicial
-        Casella[][] backup = this.caselles;
+        Map<int[], Fitxa> fitxesAnteriors = new HashMap<>();
+    
+        // Registrar el estado de las casillas que vamos a modificar (vacías o con fichas previas)
+        for (var entry : jugada.entrySet()) {
+            int[] posicio = entry.getKey();
+            if (caselles[posicio[0]][posicio[1]].isOcupada()) {
+                // Si ya hay ficha (aunque esto no debería ocurrir si verificarFitxes funciona bien)
+                fitxesAnteriors.put(posicio, caselles[posicio[0]][posicio[1]].getFitxa());
+            } else {
+                // Si la casilla está vacía
+                fitxesAnteriors.put(posicio, null);
+            }
+        }
 
-
+        
         // afegir fitxes al taulell
         boolean[][] fitxesNoves = new boolean[MIDA][MIDA];
         for (int i = 0; i < MIDA; i++) {
@@ -374,40 +389,40 @@ public class Taulell {
             this.colocarFitxa(posicio[0], posicio[1], fitxa);
             fitxesNoves[posicio[0]][posicio[1]] = true;
         }
-
-        int[] pos = jugada.keySet().iterator().next();
+        
+        int[] pos = jugada.keySet().iterator().next();  
         int puntuacio = -1;
-        if (across)
+        if (across) 
         {
             puntuacio = getPuntuacioParaulaHorizontal(pos, fitxesNoves, diccionari);
             if (puntuacio == -1) {
                 // Deshacer los cambios
-                this.caselles = backup;
+                restaurarTaulell(fitxesAnteriors, jugada);
                 return -1; // La paraula no és vàlida
             }
 
             // mirar paraules verticals
             int fila = pos[0];
-            for (int i = 0; i < MIDA; i++) {
+            for (int i = 0; i < MIDA; i++) { 
                 if (fitxesNoves[fila][i]) {
                     // Si la casella es nova, mirar les paraules verticals noves posibles
                     int[] posVertical = {fila, i};
                     int puntuacioVertical = getPuntuacioParaulaVertical(posVertical, fitxesNoves, diccionari);
                     if (puntuacioVertical == -1) {
                         // Deshacer los cambios
-                        this.caselles = backup;
+                        restaurarTaulell(fitxesAnteriors, jugada);
                         return -1; // La paraula no és vàlida
                     }
                     puntuacio += puntuacioVertical;
                 }
             }
         }
-        else
+        else 
         {
             puntuacio = getPuntuacioParaulaVertical(pos, fitxesNoves, diccionari);
             if (puntuacio == -1) {
                 // Deshacer los cambios
-                this.caselles = backup;
+                restaurarTaulell(fitxesAnteriors, jugada);
                 return -1; // La paraula no és vàlida
             }
 
@@ -417,20 +432,21 @@ public class Taulell {
                 if (fitxesNoves[j][col]) {
                     // Si la casella es nova, mirar les paraules horitzontals
                     int[] posHorizontal = {j, col};
+                    
                     int puntuacioHorizontal = getPuntuacioParaulaHorizontal(posHorizontal, fitxesNoves, diccionari);
                     if (puntuacioHorizontal == -1) {
                         // Deshacer los cambios
-                        this.caselles = backup;
+                        restaurarTaulell(fitxesAnteriors, jugada);
                         return -1; // La paraula no és vàlida
                     }
                     puntuacio += puntuacioHorizontal;
                 }
             }
         }
-
+    
         // Si nomes es volia validar i no colocar, restaurem
         if (!colocarFitxes) {
-            this.caselles = backup;
+            restaurarTaulell(fitxesAnteriors, jugada);
         } else {
             // Si es vol colocar, el primer moviment ja s'ha fet
             if (this.primerMoviment) {
@@ -440,25 +456,39 @@ public class Taulell {
         return puntuacio;
     }
 
-
+    void restaurarTaulell(Map<int[], Fitxa> fitxesARetirar, LinkedHashMap<int[], Fitxa> jugada)
+    {
+        for (var entry : jugada.entrySet()) {
+            int[] posicio = entry.getKey();
+            // Primero retirar la ficha que colocamos
+            caselles[posicio[0]][posicio[1]].retirarFitxa();
+            
+            // Restaurar la ficha anterior si existía
+            Fitxa fitxaAnterior = fitxesARetirar.get(posicio);
+            if (fitxaAnterior != null) {
+                caselles[posicio[0]][posicio[1]].colocarFitxa(fitxaAnterior);
+            }
+        }
+    }
+    
     // retorna la fitxa que ja este colocada lo mes a la esquerra posible, si la paraula no existeix retorna -1
     private int getPuntuacioParaulaHorizontal(int[] pos, boolean[][] fitxesNoves, Diccionari diccionari)
     {
         int fila = pos[0];
         int col = pos[1];
         col--;
-        while (col >= 0 && caselles[fila][col].isOcupada())
+        while (col >= 0 && caselles[fila][col].isOcupada()) 
             col--;
         // ;No hi ha fitxa a l'esquerra
 
         col++;
         List<Fitxa> paraula = new ArrayList<>();
-
+        
 
         // calcular puntuacio
         int puntuacio = 0;
         int multiplicador_paraula = 1;
-        while (col < 15 && caselles[fila][col].isOcupada())
+        while (col < 15 && caselles[fila][col].isOcupada()) 
         {
             paraula.add(caselles[fila][col].getFitxa());
             if (fitxesNoves[fila][col])
@@ -467,7 +497,7 @@ public class Taulell {
                 puntuacio += multiplicador_letra*caselles[fila][col].getFitxa().getValor();
                 multiplicador_paraula *= caselles[fila][col].getMultiplicadorParaula();
             }
-            else
+            else 
             {
                 puntuacio += caselles[fila][col].getFitxa().getValor();
             }
@@ -477,8 +507,17 @@ public class Taulell {
 
         if (paraula.size() <= 1)
             return 0; //nomes hi ha una fitxa colocada, per tant no es forma paraula
+            
 
-        if (diccionari.esParaula(FitxesToString(paraula)))
+        boolean b;
+
+        try 
+        {
+            b = diccionari.esParaula(FitxesToString(paraula));
+        } catch (IllegalArgumentException e) {
+            return -1;
+        }
+        if (b) 
             return puntuacio*multiplicador_paraula;
         return -1;
     }
@@ -488,16 +527,16 @@ public class Taulell {
         int fila = pos[0];
         int col = pos[1];
         fila--;
-        while (fila >= 0 && caselles[fila][col].isOcupada())
+        while (fila >= 0 && caselles[fila][col].isOcupada()) 
             fila--;
         // ;No hi ha fitxa a l'esquerra
 
         fila++;
         List<Fitxa> paraula = new ArrayList<>();
-
+        
         int puntuacio = 0;
         int multiplicador_paraula = 1;
-        while (fila < 15 && caselles[fila][col].isOcupada())
+        while (fila < 15 && caselles[fila][col].isOcupada()) 
         {
             paraula.add(caselles[fila][col].getFitxa());
             if (fitxesNoves[fila][col])
@@ -506,7 +545,7 @@ public class Taulell {
                 puntuacio += multiplicador_letra*caselles[fila][col].getFitxa().getValor();
                 multiplicador_paraula *= caselles[fila][col].getMultiplicadorParaula();
             }
-            else
+            else 
             {
                 puntuacio += caselles[fila][col].getFitxa().getValor();
             }
@@ -516,7 +555,7 @@ public class Taulell {
         if (paraula.size() < 2)
             return 0; //nomes hi ha una fitxa colocada
 
-        try
+        try 
         {
             if (diccionari.esParaula(FitxesToString(paraula))) {
                 System.out.println("Paraula vàlida: " + FitxesToString(paraula));
@@ -525,32 +564,32 @@ public class Taulell {
             System.out.println("Error: " + e.getMessage());
             return -1;
         }
-
+        
         return puntuacio*multiplicador_paraula;
     }
 
     private String FitxesToString(List<Fitxa> fitxes)
     {
         String paraula = "";
-        for (int i = 0; i < fitxes.size(); i++)
+        for (int i = 0; i < fitxes.size(); i++) 
         {
             String lletra = fitxes.get(i).getLletra();
             if (i < fitxes.size() - 1) {
                 String siguienteLetra = fitxes.get(i + 1).getLletra();
-
+                
                 // Comprobar dígrafos en español
                 if ((lletra.equals("C") && siguienteLetra.equals("H")) ||
-                        (lletra.equals("L") && siguienteLetra.equals("L")) ||
-                        (lletra.equals("R") && siguienteLetra.equals("R"))) {
-                    throw new IllegalArgumentException("Error: No es pot formar el dígraf '" +
-                            lletra + siguienteLetra + "' amb fitxes separades. Utilitza una fitxa específica de dígraf.");
+                    (lletra.equals("L") && siguienteLetra.equals("L")) ||
+                    (lletra.equals("R") && siguienteLetra.equals("R"))) {
+                    throw new IllegalArgumentException("Error: No es pot formar el dígraf '" + 
+                        lletra + siguienteLetra + "' amb fitxes separades. Utilitza una fitxa específica de dígraf.");
                 }
-
+                
                 // Comprobar dígrafos en catalán
                 if ((lletra.equals("N") && siguienteLetra.equals("Y")) ||
-                        (lletra.equals("L") && siguienteLetra.equals("·L"))) {
-                    throw new IllegalArgumentException("Error: No es pot formar el dígraf '" +
-                            lletra + siguienteLetra + "' amb fitxes separades. Utilitza una fitxa específica de dígraf.");
+                    (lletra.equals("L") && siguienteLetra.equals("·L"))) {
+                    throw new IllegalArgumentException("Error: No es pot formar el dígraf '" + 
+                        lletra + siguienteLetra + "' amb fitxes separades. Utilitza una fitxa específica de dígraf.");
                 }
             }
 

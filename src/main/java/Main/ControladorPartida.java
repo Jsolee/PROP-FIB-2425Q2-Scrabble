@@ -42,8 +42,7 @@ public class ControladorPartida {
             partida.afegirJugador(jugador);
     }
 
-
-    //Retorna la puntuacio de la jugada. El LinkedHashMap conte les posicions (fila i col) de les fitxes jugades.
+    //Retorna la puntuacio de la jugada. El LinkedHashMap conte les posicions (fila i col) de les fitxes jugades. 
     //per exemple: la Fitxa 'A' a la posicio (0,0) es representaria com [0,0] -> 'A'
     public int jugarParaula(Partida partida, LinkedHashMap<int[], Fitxa> jugades, String across)
     {
@@ -58,9 +57,9 @@ public class ControladorPartida {
 
     public boolean canviDeFitxes(Partida partida, String[] indexsACanviar)
     {
-        if (partida.getBossa().getQuantitatFitxes() < indexsACanviar.length)
-            throw new IllegalArgumentException("No hi ha prou fitxes a la bossa per intercanviar. No es por canviar de fitxes.");
-
+        if (partida.getBossa().getQuantitatFitxes() < indexsACanviar.length) 
+          throw new IllegalArgumentException("No hi ha prou fitxes a la bossa per intercanviar. No es por canviar de fitxes.");
+    
         partida.canviFitxesAtril(indexsACanviar);
 
         partida.passarTorn();
@@ -118,10 +117,10 @@ public class ControladorPartida {
         else {
             String[] indices = {"0", "1", "2", "3", "4", "5", "6"};
             try {canviDeFitxes(partida, indices);}
-            catch (IllegalArgumentException e)
+            catch (IllegalArgumentException e) 
             {
                 partida.passarTorn();
-            }
+            }            
         }
-    }
+    }   
 }

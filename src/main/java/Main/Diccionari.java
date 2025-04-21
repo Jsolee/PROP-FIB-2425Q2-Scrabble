@@ -1,11 +1,10 @@
 package Main;
 
-
+import java.nio.charset.StandardCharsets;
+import java.io.*;
 import java.util.*;
 // per llegir els fitxers del diccionari
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+
 
 public class Diccionari {
 
@@ -70,29 +69,36 @@ public class Diccionari {
 
     private void carregarDiccionari(String nom) {
 
-        // llegim el fitxer del diccionari
-        String ruta = "src/main/resources/" + nom + "/" + nom + ".txt";
-        try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
-            String paraula;
-            while ((paraula = br.readLine()) != null) {
-
-                // algorisme per afegir la paraula al DAWG
-                String prefixComu = getPrefixComu(paraula);
-                DAWGnode ultimNode = getNode(prefixComu);
-
-
-                // aquest if saltarà si la nova palabra té un sufix diferent al de les paraules que s'estaven afegint previament
-                if (ultimNode.teFills()) {
-                    minimitzarAPartirDe(ultimNode);
-                }
-                // es crea una nova branca amb el sufix que difereix de les paraules anteriors, aquesta branca es minimitzara quan entri una paraula amb un sufix diferent a aquest.
-                String sufixActual = paraula.substring(prefixComu.length());
-                afegirSufix(ultimNode, sufixActual);
-
+        // Dentro de una clase de tu paquete Main, por ejemplo:
+        String resourcePath = "/" + nom + "/" + nom + ".txt";
+        // Aixo de l'InputStream es per a que funciona l'execucio amb un .jar
+        try (InputStream is = getClass().getResourceAsStream(resourcePath)) {
+            if (is == null) {
+                throw new IOException("No encontré el recurso: " + resourcePath);
             }
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(is, StandardCharsets.UTF_8))) {
+                String paraula;
+                while ((paraula = br.readLine()) != null) {
 
-            //s'ha de executar aquesta funció perque l'última branca afegida no es minimitza perquè no hi ha cap paraula després que tingui un sufix diferent
-            minimitzarAPartirDe(arrel);
+                    // algorisme per afegir la paraula al DAWG
+                    String prefixComu = getPrefixComu(paraula);
+                    DAWGnode ultimNode = getNode(prefixComu);
+
+
+                    // aquest if saltarà si la nova palabra té un sufix diferent al de les paraules que s'estaven afegint previament
+                    if (ultimNode.teFills()) {
+                        minimitzarAPartirDe(ultimNode);
+                    }
+                    // es crea una nova branca amb el sufix que difereix de les paraules anteriors, aquesta branca es minimitzara quan entri una paraula amb un sufix diferent a aquest.
+                    String sufixActual = paraula.substring(prefixComu.length());
+                    afegirSufix(ultimNode, sufixActual);
+
+                }
+
+                //s'ha de executar aquesta funció perque l'última branca afegida no es minimitza perquè no hi ha cap paraula després que tingui un sufix diferent
+                minimitzarAPartirDe(arrel);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -124,6 +130,10 @@ public class Diccionari {
             }
         }
         return node;
+    }
+
+    public DAWGnode getArrel() {
+        return this.arrel;
     }
 
     private void afegirSufix(DAWGnode ultimNode, String sufixActual) {
