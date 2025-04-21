@@ -53,8 +53,6 @@ public class Taulell {
         inicialitzarTaulell();
     }
 
-    
-
     private void inicialitzarTaulell() {
         for (int i = 0; i < MIDA; i++) {
             for (int j = 0; j < MIDA; j++) {
@@ -133,6 +131,13 @@ public class Taulell {
         return false;
     }
 
+    /**
+     * Comprova si el moviment es vàlid.
+     * @param x fila del taulell
+     * @param y columna del taulell
+     * @param fitxa Fitxa a col·locar
+     * @return true si el moviment es vàlid, false en cas contrari
+     */
     private boolean esMovimentValid(int x, int y, Fitxa fitxa) {
         // Verificar límits del taulell i si la casella ja està ocupada
         if (x < 0 || x >= MIDA || y < 0 || y >= MIDA) {
@@ -151,6 +156,12 @@ public class Taulell {
         return teFitxaAdjacent(x, y);
     }
 
+    /**
+     * Comprova si hi ha fitxes adjacents a la posició especificada.
+     * @param x fila del taulell
+     * @param y columna del taulell
+     * @return true si hi ha fitxes adjacents, false en cas contrari
+     */
     public boolean teFitxaAdjacent(int x, int y) {
         // Comprovar les quatre direccions
         if (x > 0 && caselles[x-1][y].isOcupada()) return true;
@@ -168,50 +179,6 @@ public class Taulell {
         return false;
     }
 
-    public int calcularPuntuacioMoviment(List<Fitxa> fitxesColocades, List<int[]> posicions) {
-        if (fitxesColocades.isEmpty() || posicions.isEmpty()) {
-            return 0;
-        }
-
-        // Determine if word is horizontal or vertical.
-        boolean horitzontal = determinarDireccio(posicions);
-
-        // Calculate base score with letter multipliers and collect word multipliers
-        int puntuacioBase = 0;
-        int multiplicadorParaulaTotal = 1;
-
-        for (int i = 0; i < fitxesColocades.size(); i++) {
-            int x = posicions.get(i)[0];
-            int y = posicions.get(i)[1];
-            Casella casella = caselles[x][y];
-
-            // Apply letter multiplier to this tile's value
-            puntuacioBase += fitxesColocades.get(i).getValor() * casella.getMultiplicadorLetra();
-
-            // Collect word multiplier (will be applied later)
-            multiplicadorParaulaTotal *= casella.getMultiplicadorParaula();
-        }
-
-        // Apply accumulated word multipliers to the total score
-        return puntuacioBase * multiplicadorParaulaTotal;
-    }
-
-    private boolean determinarDireccio(List<int[]> posicions) {
-        if (posicions.size() <= 1) {
-            return true; // Default to horizontal for single tile
-        }
-
-        // If all positions have the same X coordinate, word is vertical
-        // Otherwise, assume horizontal
-        int primerX = posicions.get(0)[0];
-        for (int i = 1; i < posicions.size(); i++) {
-            if (posicions.get(i)[0] != primerX) {
-                return true; // Horizontal
-            }
-        }
-        return false; // Vertical
-    }
-
 
     public Casella getCasella(int x, int y) {
         if (x >= 0 && x < MIDA && y >= 0 && y < MIDA) {
@@ -220,6 +187,12 @@ public class Taulell {
         return null;
     }
 
+    /**
+     * Retira una fitxa de la posició especificada.
+     * @param x fila del taulell
+     * @param y columna del taulell
+     * @return la fitxa retirada, o null si no hi havia cap fitxa
+     */
     public Fitxa retirarFitxa(int x, int y) {
         // Check if position is within board boundaries
         if (x < 0 || x >= MIDA || y < 0 || y >= MIDA) {
