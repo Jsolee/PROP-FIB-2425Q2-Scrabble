@@ -105,9 +105,16 @@ public class Diccionari {
         // Dentro de una clase de tu paquete Main, por ejemplo:
         String resourcePath = "/" + nom + "/" + nom + ".txt";
         // Aixo de l'InputStream es per a que funciona l'execucio amb un .jar
-        try (InputStream is = getClass().getResourceAsStream(resourcePath)) {
+        try {
+            InputStream is = getClass().getResourceAsStream(resourcePath);
             if (is == null) {
-                throw new IOException("No encontré el recurso: " + resourcePath);
+                // Si no se encuentra en el JAR, intentamos cargarlo desde el sistema de archivos
+                File file = new File("src/main/resources" + resourcePath);
+                if (file.exists()) {
+                    is = new FileInputStream(file);
+                } else {
+                    throw new IOException("No encontré el recurso: " + resourcePath);
+                }
             }
             try (BufferedReader br = new BufferedReader(
                     new InputStreamReader(is, StandardCharsets.UTF_8))) {
@@ -117,7 +124,6 @@ public class Diccionari {
                     // algorisme per afegir la paraula al DAWG
                     String prefixComu = getPrefixComu(paraula);
                     DAWGnode ultimNode = getNode(prefixComu);
-
 
                     // aquest if saltarà si la nova palabra té un sufix diferent al de les paraules que s'estaven afegint previament
                     if (ultimNode.teFills()) {
