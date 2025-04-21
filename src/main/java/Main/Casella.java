@@ -53,6 +53,10 @@ public class Casella {
         return false;
     }
 
+    /**
+     * Retira la fitxa de la casella.
+     * @return La fitxa retirada, o null si la casella estava buida.
+     */
     public Fitxa retirarFitxa() {
         if (ocupada) {
             Fitxa f = fitxa;

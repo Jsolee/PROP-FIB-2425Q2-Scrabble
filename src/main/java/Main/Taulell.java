@@ -115,6 +115,13 @@ public class Taulell {
         return caselles;
     }
 
+    /**
+     * Col·loca una fitxa al taulell.
+     * @param x fila del taulell
+     * @param y columna del taulell
+     * @param fitxa Fitxa a col·locar
+     * @return true si la fitxa s'ha col·locat correctament, false en cas contrari
+     */
     public boolean colocarFitxa(int x, int y, Fitxa fitxa) {
         if (esMovimentValid(x, y, fitxa)) {
             boolean resultat = caselles[x][y].colocarFitxa(fitxa);
@@ -317,6 +324,12 @@ public class Taulell {
         return true;
     }
 
+    /**
+     * Verifica si les fitxes que es volen col·locar en el taulell son valides. Verifica si les posicions no estan ocupades
+     * @param jugades llista de jugades a jugar. Cada jugada es un objecte Fitxa amb la seva posicio al taulell. La clau representa la posicio i el valor la fitxa.
+     * @param across valor bolean que indica si la jugada es horitzontal o vertical
+     * @return true si les fitxes es poden colocar al taulell, false en cas contrari
+     */
     public boolean verificarFitxes(LinkedHashMap<int[], Fitxa> jugades, boolean across)
     {
         if (jugades.size() == 1 && isEmpty())
@@ -354,6 +367,14 @@ public class Taulell {
     }
 
 
+    /**
+     * Verifica si la jugada es valida i calcula la puntuacio de la jugada.
+     * @param jugada llista de jugades a jugar. Cada jugada es un objecte Fitxa amb la seva posicio al taulell. La clau representa la posicio i el valor la fitxa.
+     * @param diccionari diccionari on es troben les paraules que son acceptades en l'idioma en que es juga la Partida.
+     * @param across boolean que indica si la jugada es horitzontal o vertical
+     * @param colocarFitxes boolean que indica si es volen col·locar les fitxes al taulell o no
+     * @return la puntuacio de la jugada, -1 si la jugada no es valida
+     */
     public int validesaYPuntuacioJugada(LinkedHashMap<int[], Fitxa> jugada, Diccionari diccionari, boolean across, boolean colocarFitxes)
     {
         if (jugada.isEmpty()) {
@@ -386,7 +407,7 @@ public class Taulell {
         for (var entry : jugada.entrySet()) {
             int[] posicio = entry.getKey();
             Fitxa fitxa = entry.getValue();
-            this.colocarFitxa(posicio[0], posicio[1], fitxa);
+            colocarFitxa(posicio[0], posicio[1], fitxa);
             fitxesNoves[posicio[0]][posicio[1]] = true;
         }
         
@@ -456,7 +477,12 @@ public class Taulell {
         return puntuacio;
     }
 
-    void restaurarTaulell(Map<int[], Fitxa> fitxesARetirar, LinkedHashMap<int[], Fitxa> jugada)
+    /**
+     * Restaura el taulell a l'estat anterior a la jugada.
+     * @param fitxesARetirar mapa amb les fitxes que es volen restaurar
+     * @param jugada mapa amb les fitxes que es volen retirar i les posicions on es volen retirar
+     */
+    private void restaurarTaulell(Map<int[], Fitxa> fitxesARetirar, LinkedHashMap<int[], Fitxa> jugada)
     {
         for (var entry : jugada.entrySet()) {
             int[] posicio = entry.getKey();
@@ -471,7 +497,13 @@ public class Taulell {
         }
     }
     
-    // retorna la fitxa que ja este colocada lo mes a la esquerra posible, si la paraula no existeix retorna -1
+    /**
+     * Calcula la puntuacio de la paraula horitzontal que es forma a partir de les fitxes noves col·locades.
+     * @param pos posicio de la primera fitxa col·locada
+     * @param fitxesNoves matriu de booleans que indica si la casella es nova o no (hi havia previament una fitxa colocada)
+     * @param diccionari Diccionari que verifica si la paraula formada existeix o no
+     * @return la puntuacio de la jugada, -1 en cas contrari.
+     */
     private int getPuntuacioParaulaHorizontal(int[] pos, boolean[][] fitxesNoves, Diccionari diccionari)
     {
         int fila = pos[0];
@@ -522,6 +554,13 @@ public class Taulell {
         return -1;
     }
 
+    /**
+     * Calcula la puntuacio de la paraula vertical que es forma a partir de les fitxes noves col·locades.
+     * @param pos posicio de la primera fitxa col·locada
+     * @param fitxesNoves matriu de booleans que indica si la casella es nova o no (hi havia previament una fitxa colocada)
+     * @param diccionari Diccionari que verifica si la paraula formada existeix o no
+     * @return la puntuacio de la jugada, -1 en cas contrari.
+     */
     private int getPuntuacioParaulaVertical(int[] pos, boolean[][] fitxesNoves, Diccionari diccionari)
     {
         int fila = pos[0];
