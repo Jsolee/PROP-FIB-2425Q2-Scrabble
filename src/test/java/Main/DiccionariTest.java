@@ -26,12 +26,6 @@ public class DiccionariTest {
         dic = new Diccionari(nom_dic);
     }
 
-    // això s'executa una vegada després de tots els tests
-    @AfterClass
-    public static void tearDownClass() {
-        // Se ejecuta una vez al terminar todos los tests
-        System.out.println("Finalizadas las pruebas de Diccionari.");
-    }
 
     @Test
     public void testQuantsEstats () {
