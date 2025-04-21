@@ -51,7 +51,7 @@ public class Bot extends Usuari{
 
         getMillorJugadaAux(taulell, info, diccionari, atril, alfabet, true);
 
-
+//
         // Taulell transposat per a la jugada vertical
         Taulell taulellTransposat = transposarTaulell(taulell);
 
@@ -256,25 +256,32 @@ public class Bot extends Usuari{
 //           System.out.print(fitxa.getLletra() + " ");
 //        }
 //        System.out.println();
-
+        if (!millorJugadaAcross.getKey().isEmpty()) { // (per testejar i fer que nomes miri la primera jugada que troba)
+            return;
+        }
         if (across) {
             LinkedHashMap<int[], Fitxa> jugadaCopy = new LinkedHashMap<>(jugada);
-            int puntuacio = taulell.validesaYPuntuacioJugada(jugadaCopy, diccionari, across, false);
-            if (puntuacio >= 0 && puntuacio > millorJugadaAcross.getValue()) {
-                millorJugadaAcross = new AbstractMap.SimpleEntry<>(jugadaCopy, puntuacio);
+            if (taulell.verificarFitxes(jugadaCopy, across)) {
+                int puntuacio = taulell.validesaYPuntuacioJugada(jugadaCopy, diccionari, across, false);
+                if (puntuacio >= 0 && puntuacio > millorJugadaAcross.getValue()) {
+                    millorJugadaAcross = new AbstractMap.SimpleEntry<>(jugadaCopy, puntuacio);
+                }
             }
         } else {
             LinkedHashMap<int[], Fitxa> jugadaCopy = new LinkedHashMap<>(jugada);
-            int puntuacio = taulell.validesaYPuntuacioJugada(jugadaCopy, diccionari, across, false);
-            if (puntuacio >= 0 && puntuacio > millorJugadaDown.getValue()) {
-                //transposar la jugada per guardar-la
-                LinkedHashMap<int[], Fitxa> jugadaTransposada = new LinkedHashMap<>();
-                for (Map.Entry<int[], Fitxa> entry : jugada.entrySet()) {
-                    int[] pos = entry.getKey();
-                    Fitxa fitxa = entry.getValue();
-                    jugadaTransposada.put(new int[]{pos[1], pos[0]}, fitxa);
+            if (taulell.verificarFitxes(jugadaCopy, across)) {
+                int puntuacio = taulell.validesaYPuntuacioJugada(jugadaCopy, diccionari, across, false);
+                if (puntuacio >= 0 && puntuacio > millorJugadaDown.getValue()) {
+                    //transposar la jugada per guardar-la
+                    LinkedHashMap<int[], Fitxa> jugadaTransposada = new LinkedHashMap<>();
+                    for (Map.Entry<int[], Fitxa> entry : jugada.entrySet()) {
+                        int[] pos = entry.getKey();
+                        Fitxa fitxa = entry.getValue();
+                        jugadaTransposada.put(new int[]{pos[1], pos[0]}, fitxa);
+                    }
+
+                    millorJugadaDown = new AbstractMap.SimpleEntry<>(jugadaTransposada, puntuacio);
                 }
-                millorJugadaDown = new AbstractMap.SimpleEntry<>(jugadaTransposada, puntuacio);
             }
         }
     }
