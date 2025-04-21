@@ -5,14 +5,22 @@ import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-// aquesta clase es una clase que representa una bossa de fitxes per a un joc de Scrabble, es carrega desde un fitxer en resources.
+/**
+ * Classe que representa una bossa de fitxes per a un joc de Scrabble.
+ * Carrega les fitxes des d'un recurs del classpath i permet agafar-les,
+ * retornar-les i consultar-ne l'estat.
+ */
 public class Bossa {
 
     private String nom;
     private LinkedList<Fitxa> fitxes;
-
     private final Set<String> alfabet;
 
+    /**
+     * Crea una bossa amb el nom indicat, carregant-hi les fitxes
+     * i barrejant-les.
+     * @param nom nom de la bossa i carpeta de recursos (per exemple "english")
+     */
     public Bossa(String nom) {
         this.nom = nom;
         this.fitxes = new LinkedList<Fitxa>();
@@ -21,25 +29,56 @@ public class Bossa {
         barrejar();
     }
 
-    // getters i setters
+    //getters i setters
+
+    /**
+     * Retorna el nom de la bossa.
+     * @return nom de la bossa
+     */
     public String getNom() {
         return nom;
     }
+
+    /**
+     * Retorna la llista de fitxes actuals.
+     * @return llista de fitxes
+     */
     public LinkedList<Fitxa> getFitxes() {
         return fitxes;
     }
+
+
+    /**
+     * Retorna el conjunt de tots els caràcters disponibles.
+     * @return conjunt de lletres de l'alfabet
+     */
     public Set<String> getAlfabet() {
         return this.alfabet;
     }
 
+
+    /**
+     * Canvia el nom de la bossa.
+     * @param nom nou nom de la bossa
+     */
     public void setNom(String nom) {
         this.nom = nom;
     }
+
+
+    /**
+     * Estableix una nova llista de fitxes.
+     * @param fitxes llista de fitxes a assignar
+     */
     public void setFitxes(LinkedList<Fitxa> fitxes) {
         this.fitxes = fitxes;
     }
 
 
+    /**
+     * Llegeix les fitxes i l'alfabet des del recurs
+     * "/{nom}/letras_{nom}.txt" dins del JAR.
+     */
     private void carregarFitxesIAlfabet() {
 
         // Dentro de una clase de tu paquete Main, por ejemplo:
@@ -97,17 +136,30 @@ public class Bossa {
 
     }
 
-
+    /**
+     * Afegeix un nombre de fitxes amb la mateixa lletra i valor.
+     * @param lletra símbol de la fitxa
+     * @param quantitat quantes fitxes afegir
+     * @param valor puntuació de cada fitxa
+     */
     private void afegirFitxa(String lletra, int quantitat, int valor) {
         for (int i = 0; i < quantitat; i++) {
             fitxes.add(new Fitxa(lletra, valor));
         }
     }
 
+
+    /**
+     * Barreja l'ordre de les fitxes a l'atzar.
+     */
     private void barrejar() {
         Collections.shuffle(fitxes);
     }
 
+    /**
+     * Agafa una fitxa de la bossa i la retorna.
+     * @return fitxa agafada, o null si la bossa és buida
+     */
     public Fitxa agafarFitxa() {
         if (fitxes.isEmpty()) {
             return null;
@@ -115,6 +167,11 @@ public class Bossa {
         return fitxes.pollFirst();
     }
 
+    /**
+     * Agafa vàries fitxes de la bossa.
+     * @param quantitat nombre de fitxes a agafar
+     * @return llista de fitxes agafades (pot ser més curta si s'acaben)
+     */
     public ArrayList<Fitxa> agafarFitxes(int quantitat) {
         ArrayList<Fitxa> fitxesAgafades = new ArrayList<>();
         for (int i = 0; i < quantitat; i++) {
@@ -128,19 +185,37 @@ public class Bossa {
         return fitxesAgafades;
     }
 
+
+    /**
+     * Retorna una fitxa a la bossa i torna a barrejar.
+     * @param fitxa fitxa a retornar
+     */
     public void retornarFitxa(Fitxa fitxa) {
         fitxes.add(fitxa);
         barrejar();
     }
 
+    /**
+     * Comprueba si la bossa està buida.
+     * @return true si no queden fitxes, false en cas contrari
+     */
     public boolean esBuida() {
         return fitxes.isEmpty();
     }
 
+    /**
+     * Retorna el nombre de fitxes restants.
+     * @return quantitat de fitxes actuals
+     */
     public int getQuantitatFitxes() {
         return fitxes.size();
     }
 
+
+    /**
+     * Representació en cadena de la bossa.
+     * @return string amb nom i quantitat de fitxes
+     */
     @Override
     public String toString() {
         return "Bossa [nom=" + nom + ", quantitat=" + getQuantitatFitxes() + "]";
