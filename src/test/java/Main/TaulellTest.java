@@ -248,10 +248,12 @@ public class TaulellTest {
             new int[][]{{7, 7}, {7, 8}, {7, 9}, {7, 10}, {7, 11}},
             new int[]{3, 1, 3, 4, 1}
         );
+        Taulell t = taulell;
         
         // La validación debería fallar por intentar formar CH con letras separadas
-        int puntuacion = taulell.validesaYPuntuacioJugada(jugada, diccionariCastellano, true, false);
+        int puntuacion = taulell.validesaYPuntuacioJugada(jugada, diccionariCastellano, true, true);
         assertEquals(-1, puntuacion);
+        assertEquals(taulell, t);
     }
     
     @Test

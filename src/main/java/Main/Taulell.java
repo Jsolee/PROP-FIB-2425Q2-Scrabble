@@ -432,6 +432,7 @@ public class Taulell {
                 if (fitxesNoves[j][col]) {
                     // Si la casella es nova, mirar les paraules horitzontals
                     int[] posHorizontal = {j, col};
+                    
                     int puntuacioHorizontal = getPuntuacioParaulaHorizontal(posHorizontal, fitxesNoves, diccionari);
                     if (puntuacioHorizontal == -1) {
                         // Deshacer los cambios
@@ -507,7 +508,16 @@ public class Taulell {
         if (paraula.size() <= 1)
             return 0; //nomes hi ha una fitxa colocada, per tant no es forma paraula
             
-        if (diccionari.esParaula(FitxesToString(paraula))) 
+
+        boolean b;
+
+        try 
+        {
+            b = diccionari.esParaula(FitxesToString(paraula));
+        } catch (IllegalArgumentException e) {
+            return -1;
+        }
+        if (b) 
             return puntuacio*multiplicador_paraula;
         return -1;
     }
