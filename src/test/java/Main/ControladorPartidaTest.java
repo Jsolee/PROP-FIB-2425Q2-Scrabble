@@ -109,7 +109,10 @@ public class ControladorPartidaTest {
         try {
             LinkedHashMap<int[], Fitxa> jugades = new LinkedHashMap<>();
             int[] pos = new int[]{7, 7};
-            Fitxa fitxa = new Fitxa("A", 1);
+            Fitxa fitxa = new Fitxa("L", 1);
+            jugades.put(pos, fitxa);
+            pos = new int[]{7, 8};
+            fitxa = new Fitxa("A", 1);
             jugades.put(pos, fitxa);
 
             int score = controladorPartida.jugarParaula(partida, jugades, "H");
