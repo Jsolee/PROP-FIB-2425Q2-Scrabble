@@ -8,12 +8,10 @@ import java.util.Scanner;
 
 public class Main {
     private ControladorDomini cd;
-    private Ranking rk;
     //private Partida partida;
 
     public Main() {
         cd = new ControladorDomini();
-        rk = new Ranking();
     }
 
     public void start()
@@ -21,68 +19,230 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Iniciant Scrabble...");
 
-
-        //crear ranking
-
-
         System.out.println("BENVINGUT A SCRABBLE!!");
         mostrarComandesInicials(); //veiem que podem fer
         int opcio = scanner.nextInt();
         scanner.nextLine(); // Consumir el salt de línia
+        System.out.println();
+
         while(true) {
             if(opcio != 1 && opcio != 2) {
                 System.out.println("Opcio no valida");
+                System.out.println();
             }
+            //OPCIÓ 1: INICIAR SESSIO
             else if(opcio == 1){
-                System.out.println("Iniciant sessio...");
+                Usuari user = inputIniciarSessio(scanner);
+                if(user != null) {
+                    System.out.println("Benvingut " + user.getNom());
+                    System.out.println("___________________________");
+                    System.out.println();
+                    System.out.println("Per sortir de l'inici de sessio escriu EXIT");
+                    mostrarComandesSecundaries();
+                    String opcio2 = scanner.nextLine();
+                    System.out.println();
+                    while(true) {
+                        //OPCIÓ: TANCAR SESIÓ
+                        if(opcio2.equals("EXIT")) {
+                            System.out.println("Estas sortint de l'inici de sessio...");
+                            System.out.print("> ");
+                            System.out.println("Estas segur? (S/N)");
+                            String resposta = scanner.nextLine();
+                            if(resposta.equals("S") || resposta.equals("s")) {
+                                cd.tancarSessio(user.getNom());
+                                System.out.println("Sortint de l'inici de sessio...");
+                                break;
+                            }
+                            else {
+                                System.out.println("No s'ha tancat la sessio");
+                            }
+                        }
+                        //OPCIÓ: JUGAR PARTIDA
+                        else if(opcio2.equals("1")) {
+                            opcioJugarPartida(scanner,user);
+                        }
+                        //OPCIÓ: VEURE PERFIL
+                        else if(opcio2.equals("2")) {
+                            mostrarComandesPerfil();
+                            String opcio3 = scanner.nextLine();
+                            System.out.println();
+                            while(true) {
+                                if(opcio3.equals("EXIT") || opcio3.equals("3")) {
+                                    System.out.println("Estas sortint del perfil...");
+                                    break;
+                                }
+                                //OPCIÓ: VEURE ESTADISTIQUES
+                                else if(opcio3.equals("1")) {
+                                    veurePerfil(scanner,user);
+                                }
+                                //OPCIÓ: VEURE RANKING
+                                else if(opcio3.equals("2")) {
+                                    mostrarRanking(scanner);
+                                }
+                                else {
+                                    System.out.println("Opcio no valida");
+                                    System.out.println();
+                                    mostrarComandesPerfil();
+                                }
+                                mostrarComandesPerfil();
+                                opcio3 = scanner.nextLine();
+                                System.out.println();
+                            }
+                        }
+                        //OPCIÓ: EDITAR PERFIL
+                        else if(opcio2.equals("3")) {
+                            mostrarComandesOpcions();
+                            String opcio3 = scanner.nextLine();
+                            System.out.println();
+                            while(true) {
+                                if(opcio3.equals("EXIT") || opcio3.equals("3")) {
+                                    System.out.println("Estas sortint de les opcions del perfil...");
+                                    break;
+                                }
+                                //CAMBIAR CONTRASEÑA
+                                else if(opcio3.equals("1")) {
+                                    System.out.println("Introdueix la contrasenya actual:");
+                                    System.out.print("> ");
+                                    String contrasenya = scanner.nextLine();
+                                    System.out.println();
+                                    System.out.println("Introdueix la nova contrasenya:");
+                                    System.out.print("> ");
+                                    String contrasenya2 = scanner.nextLine();
+                                    System.out.println();
+                                    try {
+                                        cd.restablirContrasenya(user.getNom(), contrasenya, contrasenya2);
+                                        System.out.println("Contrasenya canviada correctament");
+                                        break;
+                                    } catch (IllegalArgumentException e) {
+                                        System.out.println(e.getMessage());
+                                    }
+                                }
+                                //ELIMINAR COMPTE
+                                else if(opcio3.equals("2")) {
+                                    System.out.println("Estas segur que vols eliminar el compte? (S/N)");
+                                    String resposta = scanner.nextLine();
+                                    if(resposta.equals("S") || resposta.equals("s")) {
+                                        cd.eliminarCompte(user.getNom());
+                                        System.out.println("Compte eliminat correctament");
+                                        break;
+                                    }
+                                    else {
+                                        System.out.println("No s'ha eliminat el compte");
+                                    }
+                                }
+                                else {
+                                    System.out.println("Opcio no valida");
+                                    System.out.println();
+                                }
+                                mostrarComandesOpcions();
+                                opcio3 = scanner.nextLine();
+                                System.out.println();
+                            }
+                        }
+                        else {
+                            System.out.println("Opcio no valida");
+                            System.out.println();
+                            mostrarComandesSecundaries();
 
+                        }
+                        mostrarComandesSecundaries();
+                        opcio2 = scanner.nextLine();
+                        System.out.println();
+                    }//
+                }
             }
+            //OPCIÓ 2: REGISTRAR NOU USUARI
             else {
-                registrarUsuari(scanner);
+                Usuari registrat = registrarUsuari(scanner);
+                if(registrat != null && registrat instanceof Persona) {
+                    Persona persona = (Persona) registrat;
+                    cd.afegirNouUsuariRanking(persona);
+                }
             }
             mostrarComandesInicials();
             opcio = scanner.nextInt();
             scanner.nextLine();
+            System.out.println();
         }
-
-
-
-       /*
-
-        System.out.println("BENVINGUT A LA PARTIDA DE L'SCRABBLE!!");
-        mostrarComandes();
-        int opcio = scanner.nextInt();
-        scanner.nextLine(); // Consumir el salt de línia
-        while (opcio != 3)
-        {
-
-            switch (opcio)
-            {
-                case 1:
-                case 2:
-                    opcioJugarPartida(scanner, Jugador1);
-                    break;
-                default:
-                    System.out.println("Opcio no valida");
-                    break;
-            }
-            mostrarComandes();
-            opcio = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salt de línia
-
-        }
-        */
-
     }
 
     private void mostrarComandesInicials()
     {
+        System.out.println("Per tirar enrere escriu EXIT");
         System.out.println("Comandes disponibles (introdueix el numero):");
         System.out.println("1. Iniciar Sessió");
         System.out.println("2. Registrar nou Usuari");
         System.out.print("> ");
     }
 
+    private void mostrarComandesSecundaries()
+    {
+        System.out.println("Per tirar enrere escriu EXIT");
+        System.out.println("Comandes disponibles (introdueix el numero):");
+        System.out.println("1. Jugar Partida");
+        System.out.println("2. Veure Perfil");
+        System.out.println("3. Opcions del Perfil");
+        System.out.print("> ");
+    }
+
+    private void mostrarComandesPerfil()
+    {
+        System.out.println("Per tirar enrere escriu EXIT");
+        System.out.println("Comandes disponibles (introdueix el numero):");
+        System.out.println("1. Veure Estadististiques");
+        System.out.println("2. Veure Ranking");
+        System.out.println("3. Sortir");
+        System.out.print("> ");
+    }
+
+    private void mostrarComandesOpcions()
+    {
+        System.out.println("Per tirar enrere escriu EXIT");
+        System.out.println("Comandes disponibles (introdueix el numero):");
+        System.out.println("1. Cambiar Contrasenya");
+        System.out.println("2. Eliminar Compte");
+        System.out.println("3. Sortir");
+        System.out.print("> ");
+    }
+
+
+    private Usuari inputIniciarSessio(Scanner scanner)
+    {
+        System.out.println("Has seleccionat iniciar sessio!");
+        boolean sessioIniciada = false;
+        String nomUsuari = "";
+        int count = 0;
+        while (!sessioIniciada)
+        {
+            System.out.println("o escriu EXIT per sortir de l'inici de sessio");
+            System.out.println();
+            System.out.println("Introdueix el nom d'usuari:");
+            System.out.print("> ");
+            nomUsuari = scanner.nextLine();
+            System.out.println();
+
+            if (nomUsuari.equals("EXIT"))
+            {
+                System.out.println("Sortint de l'inici de sessio...");
+                System.out.println();
+                return null;
+            }
+
+            System.out.println("Introdueix la contrasenya:");
+            System.out.print("> ");
+            String contrasenya = scanner.nextLine();
+            System.out.println();
+
+            try {
+                sessioIniciada = cd.iniciarSessio(nomUsuari, contrasenya);
+                System.out.println("Sessio iniciada correctament");
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+            System.out.println();
+        }
+        return cd.getUsuari(nomUsuari);
+    }
 
 
     private Usuari registrarUsuari(Scanner scanner) {
@@ -94,13 +254,17 @@ public class Main {
             System.out.println("Introdueix el nom d'usuari:");
             System.out.print("> ");
             String nomUsuari = scanner.nextLine();
+            System.out.println();
             if (nomUsuari.equals("EXIT")) {
                 System.out.println("Sortint del registre...");
                 return Jugador2;
             }
-            System.out.println("Introdueix el correu:");
+
+            System.out.println("Introdueix el correu per al usuari /" + nomUsuari +"/ :");
             System.out.print("> ");
             String correu = scanner.nextLine();
+            System.out.println();
+
             if (correu.equals("EXIT")) {
                 System.out.println("Sortint del registre...");
                 return Jugador2;
@@ -108,6 +272,8 @@ public class Main {
             System.out.println("Introdueix l'edat:");
             System.out.print("> ");
             String edat = scanner.nextLine();
+            System.out.println();
+
             if (edat.equals("EXIT")) {
                 System.out.println("Sortint del registre...");
                 return Jugador2;
@@ -115,6 +281,8 @@ public class Main {
             System.out.println("Introdueix el país:");
             System.out.print("> ");
             String pais = scanner.nextLine();
+            System.out.println();
+
             if (pais.equals("EXIT")) {
                 System.out.println("Sortint del registre...");
                 return Jugador2;
@@ -125,6 +293,8 @@ public class Main {
                 System.out.println("Introdueix la contrasenya:");
                 System.out.print("> ");
                 contrasenya = scanner.nextLine();
+                System.out.println();
+
                 if (contrasenya.equals("EXIT")) {
                     System.out.println("Sortint del registre...");
                     return Jugador2;
@@ -132,15 +302,23 @@ public class Main {
                 System.out.println("Torna a introduir la contrasenya:");
                 System.out.print("> ");
                 String contrasenya2 = scanner.nextLine();
+                System.out.println();
+
                 if (contrasenya2.equals("EXIT")) {
                     contrasenya = null;
                 } else if (contrasenya2.equals(contrasenya)) {
                     validpasword = true;
                 }
+                else {
+                    System.out.println("Les contrasenyes no coincideixen. Torna a intentar-ho.");
+                }
             }
             try {
                 Jugador2 = cd.crearUsuari(nomUsuari, correu, contrasenya, edat, pais);
+                System.out.println("___________________________");
                 System.out.println("Usuari creat correctament");
+                System.out.println("___________________________");
+                System.out.println();
                 registrat = true;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -149,7 +327,96 @@ public class Main {
         return Jugador2;
     }
 
+    private void veurePerfil(Scanner scanner, Usuari Jugador1) {
+        Persona persona = (Persona) Jugador1;
+        System.out.println("========== Perfil de l'Usuari ==========");
+        System.out.println("Nom: " + Jugador1.getNom());
+        System.out.println("Correu: " + persona.getCorreu());
+        System.out.println("Edat: " + persona.getEdat());
+        System.out.println("País: " + persona.getPais());
+        System.out.println("========== Estadístiques de l'Usuari ==========");
+        Estadistiques j1 = persona.getEstadistiques();
+        System.out.println("Partides jugades: " + j1.getPartidesJugades());
+        System.out.println("Partides guanyades: " + j1.getPartidesGuanyades());
+        System.out.println("Partides perdudes: " + j1.getPartidesPerdudes());
+        System.out.println("RecordPersonal: " + j1.getRecordPersonal());
+        System.out.println("===========================================");
+        System.out.println();
+    }
 
+    private void mostrarFiltresRanking() {
+        System.out.println("EXIT per sortir del ranking");
+        System.out.println("Filtres disponibles (introdueix el numero):");
+        System.out.println("1. Punts totals");
+        System.out.println("2. Partides Jugades");
+        System.out.println("3. Partides Guanyades");
+        System.out.println("4. Record Personal");
+        System.out.println("5. Paraules totals");
+        System.out.println("6. EXIT");
+        System.out.print("> ");
+    }
+
+
+    private void mostrarRanking(Scanner scanner) {
+        System.out.println("Has seleccionat veure el ranking!");
+        System.out.println();
+        mostrarFiltresRanking();
+        int n = scanner.nextInt();
+        scanner.nextLine();
+        while(true) {
+            if(n < 1 || n > 6) {
+                System.out.println("Opcio no valida");
+                System.out.println();
+            }
+            else if(n == 6) {
+                break;
+            }
+            else {
+                List<Persona> ranking = cd.getRanking(n);
+                outputRanking(scanner,n);
+                for (int i = 0; i < ranking.size(); i++) {
+                    Persona persona = ranking.get(i);
+                    System.out.println((i + 1) + ". " + persona.getNom() + " - : " + outputValorsRanking(scanner,n, persona));
+                }
+                System.out.println();            }
+            mostrarFiltresRanking();
+            n = scanner.nextInt();
+            System.out.println();
+            scanner.nextLine();
+        }
+    }
+
+    private void outputRanking(Scanner scanner, int num) {
+        switch(num) {
+            case 1:
+                System.out.println("Ranking per número de punts totals:");
+                break;
+            case 2:
+                System.out.println("Ranking per número de partides jugades totals:");
+                break;
+            case 3:
+                System.out.println("Ranking per número de partides guanyades totals:");
+                break;
+            case 4:
+                System.out.println("Ranking per récord personal totals:");
+                break;
+            case 5:
+                System.out.println("Ranking per número de paraules totals:");
+                break;
+            default:
+                System.out.println("Número de ranking no vàlid.");
+                return;
+        }
+    }
+
+    private int outputValorsRanking(Scanner scanner, int num, Persona p) {
+        try {
+            return p.getValorEstaditiques(num);
+        } catch (IllegalArgumentException e) {
+            // Default value if the ranking criteria is invalid
+            return -1;
+        }
+    }
 
     private void opcioJugarPartida(Scanner scanner, Usuari Jugador1)
     {
@@ -261,36 +528,6 @@ public class Main {
         System.out.print("> ");
     }
 
-    private Usuari inputIniciarSessio(Scanner scanner)
-    {
-        System.out.println("Has seleccionat iniciar sessio!");
-        boolean sessioIniciada = false;
-        String nomUsuari = "";
-        while (!sessioIniciada)
-        {
-            System.out.println("escriu EXIT per sortir de l'inici de sessio");
-            System.out.println("Introdueix el nom d'usuari:");
-            System.out.print("> ");
-            nomUsuari = scanner.nextLine();
-
-            if (nomUsuari.equals("EXIT"))
-            {
-                System.out.println("Sortint de l'inici de sessio...");
-                return null;
-            }
-
-            System.out.println("Introdueix la contrasenya:");
-            System.out.print("> ");
-            String contrasenya = scanner.nextLine();
-            try {
-                sessioIniciada = cd.iniciarSessio(nomUsuari, contrasenya);
-                System.out.println("Sessio iniciada correctament");
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return cd.getUsuari(nomUsuari);
-    }
 
     private Partida inputJugarPartida(Scanner scanner, List<Usuari> Jugadors)
     {

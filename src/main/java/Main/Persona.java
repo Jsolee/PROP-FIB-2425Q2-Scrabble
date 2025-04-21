@@ -11,7 +11,7 @@ public class Persona extends Usuari {
     private boolean SessioIniciada;
     private ArrayList<Partida> partidesEnCurs;
 
-    public Persona(String nom, String correu, String contrasenya,String edat, String pais) {
+    public Persona(String nom, String correu, String contrasenya, String edat, String pais) {
         super(nom);
         this.SessioIniciada = true;
         this.partidesEnCurs = new ArrayList<>();

@@ -79,4 +79,21 @@ public class Ranking {
             System.out.println((i + 1) + ". " + persona.getNom() + " - " + persona.getValorEstaditiques(num));
         }
     }
+
+    public List<Persona> getRankingPuntsTotals() {
+        return rankingPuntsTotals;
+    }
+    public List<Persona> getRankingPartidesJugades() {
+        return rankingPartidesJugades;
+    }
+    public List<Persona> getRankingPartidesGuanyades() {
+        return rankingPartidesGuanyades;
+    }
+    public List<Persona> getRankingRecordPersonal() {
+        return rankingRecordPersonal;
+    }
+    public List<Persona> getRankingParaulesTotals() {
+        return rankingParaulesTotals;
+    }
+
 }

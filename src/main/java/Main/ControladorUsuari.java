@@ -14,6 +14,13 @@ public class ControladorUsuari {
         return usuaris;
     }
 
+    public Usuari getUsuari(String username) {
+        if (!usuaris.containsKey(username))
+            throw new IllegalArgumentException("No existeix l'usuari amb el nom: " + username);
+
+        return usuaris.get(username);
+    }
+
     public Usuari existeixUsuari(String username)
     {
         if (!usuaris.containsKey(username))
