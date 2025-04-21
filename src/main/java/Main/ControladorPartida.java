@@ -36,25 +36,35 @@ public class ControladorPartida {
         return partida;
     }
 
+    /**inicialitza els jugadors de la Partida partida
+     * @param jugadors: llista d'objectes Usuari que representen els jugadors
+     * @param partida: objecte Partida on s'afegiran els jugadors
+     */
     private void inicialitzarJugadors(List<Usuari> jugadors, Partida partida)
     {
         for (Usuari jugador : jugadors)
             partida.afegirJugador(jugador);
     }
 
-    //Retorna la puntuacio de la jugada. El LinkedHashMap conte les posicions (fila i col) de les fitxes jugades. 
-    //per exemple: la Fitxa 'A' a la posicio (0,0) es representaria com [0,0] -> 'A'
+    /**
+     * Intenta jugar una paraula a la partida. Si la jugada es valida, actualitza el taulell i l'atril del jugador actual, i retorna la puntuacio.
+     * @param partida objecte partida on es volen jugar les fitxes
+     * @param jugades llista de jugades a jugar. Cada jugada es un objecte Fitxa amb la seva posicio al taulell. La clau representa la posicio i el valor la fitxa.
+     * @param across String que representa si la jugada es horitzontal o vertical. "H" per horitzontal i "V" per vertical.
+     * @return puntuacio de la jugada. Si la jugada no es valida, retorna -1.
+     */
     public int jugarParaula(Partida partida, LinkedHashMap<int[], Fitxa> jugades, String across)
     {
-        //las fichas ya estan en el atril (paso 0)
-        //1 verificar que es pot posar al taulell (funcion en el tablero)
-        //1.5 calcular palabras nuevas (list<list<fitxa>>)
-        //2 verificar que las palabras formadas existen
-        //3 calcular la puntuacion total
 
         return partida.jugarParaula(jugades, across);
     }
 
+    /**
+     * Canvia les fitxes de l'atril del jugador actual per fitxes de la bossa de manera aleatoria
+     * @param partida objecte partida on es volen jugar les fitxes
+     * @param indexsACanviar llista d'indexs de les fitxes a canviar de l'atril del jugador actual
+     * @return true si s'ha pogut canviar les fitxes, false si no s'ha pogut
+     */
     public boolean canviDeFitxes(Partida partida, String[] indexsACanviar)
     {
         if (partida.getBossa().getQuantitatFitxes() < indexsACanviar.length) 
@@ -66,6 +76,17 @@ public class ControladorPartida {
         return true;
     }
 
+    public Taulell getTaulell(String nompartida)
+    {
+        Partida partida = getPartida(nompartida);
+        return partida.getTaulell();
+    }
+
+    /**
+     * Comprova si la partida ha acabat. La partida acaba si la bossa no te fitxes, si algun jugador no te fitxes a l'atril o si la partida s'ha guardat
+     * @param partida objecte partida.
+     * @return true si la partida ha acabat, false si no.
+     */
     public boolean esFinalPartida(Partida partida)
     {
         if (partida.getBossa().getQuantitatFitxes() == 0)
@@ -89,12 +110,10 @@ public class ControladorPartida {
     }
 
 
-    public Taulell getTaulell(String nomPartida)
-    {
-        Partida partida = getPartida(nomPartida);
-        return partida.getTaulell();
-    }
-
+    /**
+     * acaba la partida i elimina dels jugadors les partides en curs que te
+     * @param partida objecte partida.
+     */
     public void acabarPartida(Partida partida)
     {
         partida.acabarPartida();
@@ -109,6 +128,12 @@ public class ControladorPartida {
         }
     }
 
+
+    /**
+     * Comprova si el jugador actual es un bot i si es així, intenta jugar la millor jugada possible
+     * @param partida objecte partida.
+     * @param bot objecte Usuari que representa el bot.
+     */
     public void getMillorJugada(Partida partida, Usuari bot)
     {
         boolean posada = partida.getMillorJugada(bot);

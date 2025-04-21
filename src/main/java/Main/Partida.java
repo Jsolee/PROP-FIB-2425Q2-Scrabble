@@ -2,6 +2,10 @@ package Main;
 
 import java.util.*;
 
+/**
+ * Classe que representa una partida de Scrabble.
+ * Conté informació sobre el taulell, els jugadors, la bossa de fitxes, i la puntuació dels jugadors.
+ */
 public class Partida {
     private String nom;
     private Taulell taulell;
@@ -9,8 +13,6 @@ public class Partida {
     private int jugadorActual;
     private Bossa bossa;
     private boolean partidaAcabada;
-    private List<Fitxa> fitxesActuals;
-    private List<int[]> posicionsActuals; //posicions de les fitxes colocades al taulell en cada torn
     private List<Integer> indexsActuals;
     private List<List<Fitxa>> atrils;
     private List<Integer> puntuacioJugadors;
@@ -18,6 +20,11 @@ public class Partida {
     private boolean partidaPausada;
     private Diccionari diccionari;
 
+    /**
+     * Constructor de la classe Partida.
+     * @param nom Nom de la partida.
+     * @param idioma Idioma del diccionari a utilitzar.
+     */
     public Partida(String nom, String idioma) {
         this.nom = nom;
         this.taulell = new Taulell();
@@ -25,8 +32,6 @@ public class Partida {
         this.jugadorActual = 0;
         this.bossa = new Bossa(idioma);
         this.partidaAcabada = false;
-        this.fitxesActuals = new ArrayList<>();
-        this.posicionsActuals = new ArrayList<>();
         this.indexsActuals = new ArrayList<>();
         this.atrils = new ArrayList<>();
         this.puntuacioJugadors = new ArrayList<>();
@@ -35,7 +40,11 @@ public class Partida {
         this.diccionari = new Diccionari(idioma);
     }
 
-    public void afegirJugador(Usuari jugador)
+    /**
+     * Afegeix el jugador a la llista de jugadors de la partida. Transforma a classe Persona si l'usuari no es un d'objecte Bot. Omple l'atril del jugador especificat
+     * @param jugador objecte Usuari que representa el jugador a afegir.
+     */
+    public void afegirJugador(Usuari jugador) 
     {
         jugadors.add(jugador);
         // Repartir fitxes inicials
@@ -51,7 +60,11 @@ public class Partida {
         }
     }
 
-    private void omplirAtril(int index)
+    /**
+     * Omple l'atril del jugador especificat amb fitxes de la bossa.
+     * @param index index del jugador a omplir l'atril. Si es -1, s'omple l'atril sencer del jugador actual.
+     */
+    private void omplirAtril(int index) 
     {
         if (index < 0) //if per a quan necessitem crear un atril a l'inici
         {
@@ -93,29 +106,19 @@ public class Partida {
     }
 
 
-    public boolean colocarFitxa(int x, int y, Fitxa fitxa)
-    {
-        List<Fitxa> atril = atrils.get(jugadorActual);
-        if (!atril.contains(fitxa))
-            return false;
 
-        if (taulell.colocarFitxa(x, y, fitxa))
-        {
-            fitxesActuals.add(fitxa);
-            posicionsActuals.add(new int[]{x, y});
-            return true;
-        }
-        return false;
-    }
-
-
-
+    /** Passa el torn al següent jugador
+     */
     public boolean passarTorn() {
         jugadorActual = (jugadorActual + 1) % jugadors.size();
         return true;
     }
 
-    public Usuari determinarGuanyador()
+    /**
+     * Determina el guanyador de la partida. Si hi ha un empat, retorna null.
+     * @return Usuari que representa el guanyador de la partida. Si hi ha un empat, retorna null.
+     */
+    public Usuari determinarGuanyador() 
     {
         int puntuacioMaxima = -1;
         int indexGuanyador = -1;
@@ -141,6 +144,11 @@ public class Partida {
     {
         return jugadors.get(jugadorActual);
     }
+
+    /**
+     * Retorna el jugador actual de la partida.
+     * @return Usuari que representa el jugador actual de la partida.
+     */
     public Usuari getJugadorActual() 
     {
         return jugadors.get(jugadorActual);
@@ -156,10 +164,6 @@ public class Partida {
 
     public List<Integer> getPuntuacions() {
         return puntuacioJugadors;
-    }
-
-    public List<int[]> getPosicionsActuals() {
-        return posicionsActuals;
     }
 
     public List<Fitxa> getAtril(){
@@ -178,9 +182,6 @@ public class Partida {
         return partidaAcabada;
     }
 
-    public List<Fitxa> getFitxesActuals() {
-        return fitxesActuals;
-    }
 
     public void acabarPartida() {
         partidaAcabada = true;
@@ -206,176 +207,32 @@ public class Partida {
         puntuacioJugadors.set(index, puntuacio);
     }
 
-    public boolean paraulaEnAtril(String paraula) {
-        boolean valida = true;
-        List<Fitxa> atril = atrils.get(jugadorActual);
-        indexsActuals.clear();
-        fitxesActuals.clear();
-        posicionsActuals.clear();
-        paraula = paraula.toUpperCase(); // Normalizar a mayúsculas
-
-        List<String> possiblesDigrafs = new ArrayList<>();
-
-        if (idioma.equals("catalan")) {
-            possiblesDigrafs.add("NY");
-            possiblesDigrafs.add("L·L");
-        }
-        else if (idioma.equals("castellano")) {
-            possiblesDigrafs.add("CH");
-            possiblesDigrafs.add("LL");
-            possiblesDigrafs.add("RR");
-        }
-
-        for (int i = 0; i < paraula.length(); i++) {
-            boolean found = false;
-            char a = paraula.charAt(i);
-            String c = String.valueOf(a);
-
-            // Buscar posibles dígrafos
-            if (idioma.equals("catalan")) {
-                if (c.equals("N") && i + 1 < paraula.length()) {
-                    String nextChar = String.valueOf(paraula.charAt(i + 1));
-                    if (nextChar.equals("Y") && possiblesDigrafs.contains("NY")) {
-                        c = "NY"; // Usamos el dígrafo completo
-                        i++; // Avanzamos para saltar la 'Y'
-                    }
-                }
-                else if (c.equals("L") && i + 2 < paraula.length()) {
-                    String nextChar = String.valueOf(paraula.charAt(i + 1));
-                    String nextChar2 = String.valueOf(paraula.charAt(i + 2));
-                    if (nextChar.equals("·") && nextChar2.equals("L") &&
-                            possiblesDigrafs.contains("L·L")) {
-                        c = "L·L"; // Usamos el dígrafo completo
-                        i += 2; // Avanzamos para saltar '·' y 'L'
-                    }
-                }
-            }
-            else if (idioma.equals("castellano")) {
-                if (c.equals("C") && i + 1 < paraula.length()) {
-                    String nextChar = String.valueOf(paraula.charAt(i + 1));
-                    if (nextChar.equals("H") && possiblesDigrafs.contains("CH")) {
-                        c = "CH";
-                        i++;
-                    }
-                }
-                else if (c.equals("L") && i + 1 < paraula.length()) {
-                    String nextChar = String.valueOf(paraula.charAt(i + 1));
-                    if (nextChar.equals("L") && possiblesDigrafs.contains("LL")) {
-                        c = "LL";
-                        i++;
-                    }
-                }
-                else if (c.equals("R") && i + 1 < paraula.length()) {
-                    String nextChar = String.valueOf(paraula.charAt(i + 1));
-                    if (nextChar.equals("R") && possiblesDigrafs.contains("RR")) {
-                        c = "RR";
-                        i++;
-                    }
-                }
-            }
-
-            // Buscar la letra o dígrafo en el atril
-            for (int j = 0; j < atril.size(); j++) {
-                if (!indexsActuals.contains(j)) {
-                    Fitxa fitxa = atril.get(j);
-
-                    if (fitxa.getLletra().equals(c) || fitxa.getLletra().equals("#")) {
-                        fitxesActuals.add(fitxa);
-                        indexsActuals.add(j);
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            // Si no se encontró la letra o dígrafo
-            if (!found) {
-                valida = false;
-                break;
-            }
-        }
-
-        return valida;
-    }
-
-    public boolean existeixParaula(String paraula)
+    public boolean existeixParaula(String paraula) 
     {
         return diccionari.esParaula(paraula);
     }
 
-    public boolean validaEnTaulell(String paraula, int f, int col, String orientacio)
-    {
-        boolean placed = true;
-        List<Fitxa> comodins = new ArrayList<>();
 
-        for (int i = 0; i < paraula.length(); i++)
-        {
-            int r = f;
-            int c = col;
-            if (orientacio.equals("H"))
-                c += i;
-            else
-                r += i;
-
-            Fitxa fitxa = fitxesActuals.get(i);
-            if (fitxa.getLletra().equals("#"))
-            {
-                comodins.add(fitxa);
-                fitxa.setLletra(String.valueOf(paraula.charAt(i)));
-            } //canvi de valor si es un comodin
-            else if (!fitxa.getLletra().equals(String.valueOf(paraula.charAt(i))))
-            {
-                placed = false;
-                break;
-            }
-
-            if (!taulell.colocarFitxa(r, c, fitxa)) {
-                placed = false;
-                break;
-            }
-            posicionsActuals.add(new int[]{r, c});
-        }
-
-        if (!placed)
-        {
-            for (Fitxa c : comodins)
-                c.setLletra("#");
-            retiraFitxesJugades();
-        }
-        return placed;
-    }
-
-    public void retiraFitxaAtril(List<Integer> indexs)
-    {
-        List<Fitxa> atril = atrils.get(jugadorActual);
-        for (int idx : indexs)
-            atril.remove(idx);
-    }
-
-    public int calculaPuntuacioJugada()
-    {
-        // Calculate score
-        return taulell.calcularPuntuacioMoviment(fitxesActuals, posicionsActuals);
-    }
-
-    public void completarAtril()
+    
+    /**
+     * Omple l'atril del jugador actual amb fitxes de la bossa.
+     */
+    public void completarAtril() 
     {
         omplirAtril(jugadorActual);
     }
 
-    public void retiraFitxesJugades()
-    {
-        for (int[] pos : posicionsActuals) {
-            taulell.retirarFitxa(pos[0], pos[1]);
-        }
-    }
 
+
+    /**
+     * Canvia les fitxes de l'atril del jugador actual per fitxes de la bossa.
+     * @param posicions llista de posicions de les fitxes a canviar. Cada posicio es un string amb el format "x,y" on x i y son les coordenades de la fitxa a canviar.
+     * @return true si les fitxes s'han pogut canviar, false si no s'han pogut canviar.
+     */
     public boolean canviFitxesAtril(String [] posicions)
     {
         List<Fitxa> atril = atrils.get(jugadorActual);
         indexsActuals.clear();
-        posicionsActuals.clear();
-        fitxesActuals.clear();
 
         for (String s : posicions) {
             int index = Integer.parseInt(s) - 1;
@@ -395,6 +252,10 @@ public class Partida {
         return true;
     }
 
+    /**
+     * Actualitza la puntuacio del jugador actual.
+     * @param puntuacio la puntuacio a afegir a la puntuacio actual del jugador.
+     */
     public void actualitzaPuntuacio(int puntuacio)
     {
         puntuacioJugadors.set(jugadorActual, puntuacioJugadors.get(jugadorActual) + puntuacio);
@@ -405,17 +266,18 @@ public class Partida {
         partidaPausada = false;
     }
 
-    /*-------------------------------------------------------------*/
-
+    /**
+     * Realitza una jugada al taulell.
+     * @param jugades llista de jugades a jugar. Cada jugada es un objecte Fitxa amb la seva posicio al taulell. La clau representa la posicio i el valor la fitxa.
+     * @param across String que representa si la jugada es horitzontal o vertical. "H" per horitzontal i "V" per vertical.
+     * @return la puntuacio de la jugada. Si la jugada no es valida, retorna -1.
+     */
     public int jugarParaula(LinkedHashMap<int[], Fitxa> jugades, String across)
     {
-        //las fichas ya estan en el atril (paso 0)
-        //1 verificar que es pot posar al taulell (funcion en el tablero)
         if (jugades.isEmpty())
             return -1;
 //            throw new IllegalArgumentException("No hi ha fitxes per jugar.");
 
-        
         across = across.toUpperCase();
         if (!across.equals("H") && !across.equals("V"))
             return -1;
@@ -448,7 +310,11 @@ public class Partida {
         return puntuacio;
     }
 
-    //retorna true si posa una paraula al taulell, false si no (ha de demanar fitxes)
+    /**
+     * Realitza una jugada al taulell d'acord amb la millor jugada que pugui fer el bot.
+     * @param bot objecte Usuari que representa el bot que realitza la jugada.
+     * @return true si s'ha pogut realitzar la jugada, false si no s'ha pogut.
+     */
     public boolean getMillorJugada(Usuari bot)
     {
         Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> resultat =  ((Bot)bot).getMillorJugada(taulell, diccionari, atrils.get(jugadorActual), bossa.getAlfabet());
@@ -460,7 +326,5 @@ public class Partida {
 
         jugarParaula(jugades, orientacio);
         return true;
-        
-
     }
 }
