@@ -277,17 +277,19 @@ public class PartidaTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testJugarParaulaEmptyJugada() {
-        partida.afegirJugador(jugador1);
-        partida.jugarParaula(new LinkedHashMap<>(), "H");
+        int p = partida.jugarParaula(new LinkedHashMap<>(), "H");
+        assertEquals(-1, p);
+
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testJugarParaulaInvalidOrientation() {
         partida.afegirJugador(jugador1);
         LinkedHashMap<int[], Fitxa> jugades = new LinkedHashMap<>();
         jugades.put(new int[]{7, 7}, new Fitxa("A", 1));
-        partida.jugarParaula(jugades, "X");
+        int p =partida.jugarParaula(jugades, "X");
+        assertEquals(-1, p);
     }
 }
