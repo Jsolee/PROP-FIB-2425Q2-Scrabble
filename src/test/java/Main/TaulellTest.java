@@ -209,10 +209,11 @@ public class TaulellTest {
             new int[][]{{7, 7}, {7, 8}, {7, 9}, {7, 10}},
             new int[]{8, 10, 4, 8}
         );
-        
+        Taulell t = taulell;
         // La puntuación debería ser -1 (palabra inválida)
         int puntuacion = taulell.validesaYPuntuacioJugada(jugada, diccionariCastellano, true, true);
         assertEquals(-1, puntuacion);
+        assertEquals(taulell, t);
     }
     
     @Test
