@@ -233,67 +233,67 @@ public class Taulell {
         if (orientacion.equals("V"))
         {
             int fMesUp = fila - 1;
-            while (fMesUp >= 0 && caselles[fMesUp][col].isOcupada()) 
+            while (fMesUp >= 0 && caselles[fMesUp][col].isOcupada())
             {
                 palabra = caselles[fMesUp][col].getFitxa().getLletra() + palabra; //concatenar letras a la palabra
                 fMesUp--;
             }
 
             int fMesDown = fila + sizePal;
-            while (fMesDown < 15 && caselles[fMesDown][col].isOcupada()) 
+            while (fMesDown < 15 && caselles[fMesDown][col].isOcupada())
             {
                 palabra = palabra + caselles[fMesDown][col].getFitxa().getLletra(); //concatenar letras a la palabra
                 fMesDown++;
             }
             paraules.add(palabra);
-            
-            for (int i = fila; i < fila + sizePal; i++) 
+
+            for (int i = fila; i < fila + sizePal; i++)
             {
                 String aux = String.valueOf(palabra.charAt(i-fila));
                 int mostLeft = col - 1;
-                while (mostLeft >= 0 && caselles[i][mostLeft].isOcupada()) 
+                while (mostLeft >= 0 && caselles[i][mostLeft].isOcupada())
                 {
                     aux = caselles[i][mostLeft].getFitxa().getLletra() + aux; //concatenar letras a la palabra
                     mostLeft--;
                 }
                 int mostRight = col + 1;
-                while (mostRight < 15 && caselles[i][mostRight].isOcupada()) 
+                while (mostRight < 15 && caselles[i][mostRight].isOcupada())
                 {
                     aux = aux + caselles[i][mostRight].getFitxa().getLletra(); //concatenar letras a la palabra
                     mostRight++;
                 }
 
-               if (aux.length() > 1) paraules.add(aux);
+                if (aux.length() > 1) paraules.add(aux);
             }
         }
-        else 
+        else
         {
             int cMesUp = col - 1;
-            while (cMesUp >= 0 && caselles[fila][cMesUp].isOcupada()) 
+            while (cMesUp >= 0 && caselles[fila][cMesUp].isOcupada())
             {
                 palabra = caselles[fila][cMesUp].getFitxa().getLletra() + palabra; //concatenar letras a la palabra
                 cMesUp--;
             }
 
             int cMesDown = col + sizePal;
-            while (cMesDown < 15 && caselles[fila][cMesDown].isOcupada()) 
+            while (cMesDown < 15 && caselles[fila][cMesDown].isOcupada())
             {
                 palabra = palabra + caselles[fila][cMesDown].getFitxa().getLletra(); //concatenar letras a la palabra
                 cMesDown++;
             }
             paraules.add(palabra);
-            
-            for (int i = col; i < col + sizePal; i++) 
+
+            for (int i = col; i < col + sizePal; i++)
             {
                 String aux = String.valueOf(palabra.charAt(i-col));
                 int mostUp = fila - 1;
-                while (mostUp >= 0 && caselles[mostUp][i].isOcupada()) 
+                while (mostUp >= 0 && caselles[mostUp][i].isOcupada())
                 {
                     aux = caselles[mostUp][i].getFitxa().getLletra() + aux; //concatenar letras a la palabra
                     mostUp--;
                 }
                 int mostDown = fila + 1;
-                while (mostDown < 15 && caselles[mostDown][i].isOcupada()) 
+                while (mostDown < 15 && caselles[mostDown][i].isOcupada())
                 {
                     aux = aux + caselles[mostDown][i].getFitxa().getLletra(); //concatenar letras a la palabra
                     mostDown++;

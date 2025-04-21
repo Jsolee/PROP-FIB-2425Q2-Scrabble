@@ -41,7 +41,6 @@ public class ControladorPartida {
         for (Usuari jugador : jugadors)
             partida.afegirJugador(jugador);
     }
-    
 
     //Retorna la puntuacio de la jugada. El LinkedHashMap conte les posicions (fila i col) de les fitxes jugades. 
     //per exemple: la Fitxa 'A' a la posicio (0,0) es representaria com [0,0] -> 'A'

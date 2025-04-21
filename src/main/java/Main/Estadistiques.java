@@ -5,12 +5,15 @@ public class Estadistiques {
     private int puntTotal;
     private int partidesJugades;
     private int partidesGuanyades;
+    private int recordPersonal;
+
 
     public Estadistiques() {
         this.paraulesTotals = 0;
         this.puntTotal = 0;
         this.partidesJugades = 0;
         this.partidesGuanyades = 0;
+        this.recordPersonal = 0;
     }
 
     public void incrementarParaulesCreades() {
@@ -29,12 +32,22 @@ public class Estadistiques {
         this.partidesGuanyades++;
     }
 
+    public void actualitzarRecordPersonal(int punts) {
+        if (punts > this.recordPersonal) {
+            this.recordPersonal = punts;
+        }
+    }
+
     public int getParaulesTotals() {
         return paraulesTotals;
     }
 
     public int getPuntTotal() {
         return puntTotal;
+    }
+
+    public int getRecordPersonal() {
+        return recordPersonal;
     }
 
     public int getPartidesJugades() {
@@ -54,11 +67,12 @@ public class Estadistiques {
         return puntTotal;
     }
 
-    public double getPuntuacioPromig() {
+
+    public double getPercentatgeVictories() {
         if (partidesJugades == 0) {
             return 0.0;
         }
-        return (double) puntTotal / partidesJugades;
+        return (double) partidesGuanyades / partidesJugades * 100;
     }
 
     public String getNivellRanking() {
@@ -78,11 +92,5 @@ public class Estadistiques {
             return "Principiant";
         }
     }
-
-    public double getPercentatgeVictories() {
-        if (partidesJugades == 0) {
-            return 0.0;
-        }
-        return (double) partidesGuanyades / partidesJugades * 100;
-    }
 }
+
