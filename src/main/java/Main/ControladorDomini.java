@@ -15,8 +15,8 @@ public class ControladorDomini {
     }
 
     //gestio d'usuaris
-    public Usuari crearUsuari(String nom, String username, String contrasenya, String edat, String pais) {
-        return controladorUsuari.registrarPersona(nom, username, contrasenya,edat, pais);
+    public Usuari crearUsuari(String username, String correu, String contrasenya, String edat, String pais) {
+        return controladorUsuari.registrarPersona(username, correu, contrasenya,edat, pais);
     }
 
     public void afegirNouUsuariRanking(Persona persona) {
@@ -28,8 +28,8 @@ public class ControladorDomini {
     }
 
     public void eliminarCompte(String username) {
-        controladorUsuari.eliminarCompte(username);
         controladorRanking.eliminarUsuari((Persona) controladorUsuari.getUsuari(username));
+        controladorUsuari.eliminarCompte(username);
     }
 
     public void tancarSessio(String username) {

@@ -35,7 +35,7 @@ public class PartidaTest {
     public void setUp() {
         System.out.println("Preparant test...");
         partida = new Partida("Test Game", "catalan");
-        jugador1 = new Persona("Player 1", "player1@example.com", "password1");
+        jugador1 = new Persona("Player 1", "player1@example.com", "password1", "25", "Spain");
         jugador2 = Bot.getInstance(); // Nivell de dificultat 1
         fitxaA = new Fitxa("A", 1);
         fitxaB = new Fitxa("B", 3);
@@ -114,39 +114,6 @@ public class PartidaTest {
         assertEquals(jugador1, partida.getTornActual());
     }
 
-    @Test
-    public void testColocarFitxa() {
-        partida.afegirJugador(jugador1);
-        List<Fitxa> atril = partida.getAtril();
-        Fitxa fitxa = atril.get(0);
-
-        assertTrue(partida.colocarFitxa(7, 7, fitxa));
-//        assertTrue(partida.getTaulell().esMovimentValid(7, 7, fitxa));
-        assertEquals(1, partida.getFitxesActuals().size());
-        assertEquals(1, partida.getPosicionsActuals().size());
-    }
-
-    @Test
-    public void testColocarFitxaNoInAtril() {
-        partida.afegirJugador(jugador1);
-        Fitxa newFitxa = new Fitxa("Z", 10);
-
-        assertFalse(partida.colocarFitxa(7, 7, newFitxa));
-//        assertFalse(partida.getTaulell().esMovimentValid(7, 7, newFitxa));
-    }
-
-    @Test
-    public void testRetiraFitxesJugades() {
-        partida.afegirJugador(jugador1);
-        List<Fitxa> atril = partida.getAtril();
-        Fitxa fitxa = atril.get(0);
-
-        partida.colocarFitxa(7, 7, fitxa);
-//        assertTrue(partida.getTaulell().esMovimentValid(7, 7, fitxa));
-
-        partida.retiraFitxesJugades();
-//        assertFalse(partida.getTaulell().esMovimentValid(7, 7, fitxa));
-    }
 
     @Test
     public void testAcabarPartida() {

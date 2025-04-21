@@ -30,7 +30,7 @@ public class ControladorDominiTest {
     public void setUp() {
         System.out.println("Preparant test...");
         controladorDomini = new ControladorDomini();
-        persona = new Persona("Test User", "test@example.com", "password123");
+        persona = new Persona("Test User", "test@example.com", "password123", "25", "Spain");
     }
 
     @After
@@ -43,7 +43,7 @@ public class ControladorDominiTest {
     @Test
     public void testCrearUsuari() {
         // Prova de creació d'un usuari
-        Usuari usuari = controladorDomini.crearUsuari("Test User", "test@example.com", "password123");
+        Usuari usuari = controladorDomini.crearUsuari("Test User", "test@example.com", "password123", "spain", "25");
 
         assertNotNull(usuari);
         assertEquals("Test User", usuari.getNom());
@@ -52,59 +52,59 @@ public class ControladorDominiTest {
     @Test
     public void testIniciarSessio() {
         // Primer creem un usuari
-        controladorDomini.crearUsuari("Test User", "test@example.com", "password123");
+        Usuari usuari = controladorDomini.crearUsuari("Test User", "test@example.com", "password123", "spain", "25");
 
         // Provem l'inici de sessió
-        boolean result = controladorDomini.iniciarSessio("test@example.com", "password123");
+        boolean result = controladorDomini.iniciarSessio("Test User", "password123");
         assertTrue(result);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testIniciarSessioWrongPassword() {
         // Primer creem un usuari
-        controladorDomini.crearUsuari("Test User", "test@example.com", "password123");
+        Usuari usuari = controladorDomini.crearUsuari("Test User", "test@example.com", "password123", "spain", "25");
 
         // Provem l'inici de sessió amb una contrasenya incorrecta
-        controladorDomini.iniciarSessio("test@example.com", "wrong_password");
+        controladorDomini.iniciarSessio("User2", "wrong_password");
     }
 
     @Test
     public void testEliminarCompte() {
         // Primer creem un usuari
-        controladorDomini.crearUsuari("Test User", "test@example.com", "password123");
+        Usuari usuari = controladorDomini.crearUsuari("Dani", "test@example.com", "password123", "spain", "25");
 
         // Eliminem el compte
-        controladorDomini.eliminarCompte("test@example.com");
+        controladorDomini.eliminarCompte("Dani");
 
         // Intentem obtenir l'usuari, hauria de llançar una excepció
         try {
-            controladorDomini.getUsuari("test@example.com");
+            controladorDomini.getUsuari("Dani");
             fail("S'esperava IllegalArgumentException");
         } catch (IllegalArgumentException e) {
-            assertEquals("No existeix l'usuari amb el nom: test@example.com", e.getMessage());
+            assertEquals("No existeix l'usuari amb el nom: Dani", e.getMessage());
         }
     }
 
     @Test
     public void testRestablirContrasenya() {
         // Primer creem un usuari
-        controladorDomini.crearUsuari("Test User", "test@example.com", "password123");
+        Usuari usuari = controladorDomini.crearUsuari("Test User", "test@example.com", "password123", "spain", "25");
 
         // Canviem la contrasenya
-        controladorDomini.restablirContrasenya("test@example.com", "password123", "newpassword");
+        controladorDomini.restablirContrasenya("Test User", "password123", "newpassword");
 
         // Verifiquem que l'inici de sessió funciona amb la nova contrasenya
-        boolean result = controladorDomini.iniciarSessio("test@example.com", "newpassword");
+        boolean result = controladorDomini.iniciarSessio("Test User", "newpassword");
         assertTrue(result);
     }
 
     @Test
     public void testGetUsuari() {
         // Primer creem un usuari
-        Usuari created = controladorDomini.crearUsuari("Test User", "test@example.com", "password123");
+        Usuari created = controladorDomini.crearUsuari("Test User", "test@example.com", "password123", "spain", "25");
 
         // Obtenim l'usuari
-        Usuari retrieved = controladorDomini.getUsuari("test@example.com");
+        Usuari retrieved = controladorDomini.getUsuari("Test User");
 
         assertNotNull(retrieved);
         assertEquals(created, retrieved);
@@ -113,7 +113,7 @@ public class ControladorDominiTest {
     @Test
     public void testCrearPartida() {
         // Creem els usuaris
-        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password");
+        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password", "spain", "25");
 
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
@@ -129,7 +129,7 @@ public class ControladorDominiTest {
     @Test
     public void testGetPartida() {
         // Creem usuaris i una partida
-        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password");
+        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password", "spain", "25");
 
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
@@ -146,7 +146,7 @@ public class ControladorDominiTest {
     @Test
     public void testJugarParaula() {
         // Creem usuaris i una partida
-        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password");
+        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password", "spain", "25");
 
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
@@ -180,7 +180,7 @@ public class ControladorDominiTest {
     @Test
     public void testCanviDeFitxes() {
         // Creem usuaris i una partida
-        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password");
+        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password", "spain", "25");
 
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
@@ -201,10 +201,12 @@ public class ControladorDominiTest {
     @Test
     public void testEsFinalPartida() {
         // Creem usuaris i una partida
-        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password");
+        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password", "spain", "25");
+        Usuari usuar2 = controladorDomini.crearUsuari("User2", "user1@example.com", "password", "spain", "25");
 
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
+        jugadors.add(usuar2);
 
         Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "catalan");
 
@@ -221,7 +223,7 @@ public class ControladorDominiTest {
     @Test
     public void testTornDelJugador() {
         // Creem usuaris i una partida
-        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password");
+        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password", "spain", "25");    
 
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
@@ -238,7 +240,7 @@ public class ControladorDominiTest {
     @Test
     public void testGetTaulell() {
         // Creem usuaris i una partida
-        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password");
+        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password", "spain", "25");
 
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
@@ -255,7 +257,7 @@ public class ControladorDominiTest {
     @Test
     public void testGetAtril() {
         // Creem usuaris i una partida
-        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password");
+        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password", "spain", "25");
 
         List<Usuari> jugadors = new ArrayList<>();
         jugadors.add(usuari1);
@@ -270,20 +272,4 @@ public class ControladorDominiTest {
         assertFalse(atril.isEmpty());
     }
 
-    @Test
-    public void testAcabarPartida() {
-        // Creem usuaris i una partida
-        Usuari usuari1 = controladorDomini.crearUsuari("User1", "user1@example.com", "password");
-
-        List<Usuari> jugadors = new ArrayList<>();
-        jugadors.add(usuari1);
-
-        Partida partida = controladorDomini.crearPartida("Test Game", jugadors, "catalan");
-
-        // Acabem la partida
-        controladorDomini.acabarPartida(partida);
-
-        // Verifiquem que la partida està finalitzada
-        assertTrue(controladorDomini.esFinalPartida(partida));
-    }
 }

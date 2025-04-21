@@ -39,7 +39,7 @@ public class ControladorUsuariTest {
     @Test
     public void testRegistrarPersona() {
         // Registrem un nou usuari
-        Persona persona = controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123");
+        Persona persona = controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123", "25", "Spain");
 
         // Verifiquem que l'usuari s'ha afegit al mapa
         assertNotNull(persona);
@@ -49,26 +49,26 @@ public class ControladorUsuariTest {
         assertTrue(persona.teSessioIniciada());
 
         // Verifiquem que podem recuperar l'usuari
-        assertTrue(controladorUsuari.getUsuaris().containsKey("john@example.com"));
-        assertEquals(persona, controladorUsuari.getUsuaris().get("john@example.com"));
+        assertTrue(controladorUsuari.getUsuaris().containsKey("John Doe"));
+        assertEquals(persona, controladorUsuari.getUsuaris().get("John Doe"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testRegistrarPersonaWithExistingUsername() {
         // Primer registrem un usuari
-        controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123");
+        controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123", "25", "Spain");
 
         // Intentem registrar un altre usuari amb el mateix nom d'usuari
-        controladorUsuari.registrarPersona("Another John", "john@example.com", "different_password");
+        controladorUsuari.registrarPersona("John Doe", "john2@example.com", "different_password", "30", "USA");
     }
 
     @Test
     public void testExisteixUsuari() {
         // Registrem un usuari
-        Persona persona = controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123");
+        Persona persona = controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123", "25", "Spain");
 
         // Verifiquem que existeixUsuari retorna l'usuari correcte
-        Usuari foundUser = controladorUsuari.existeixUsuari("john@example.com");
+        Usuari foundUser = controladorUsuari.existeixUsuari("John Doe");
         assertEquals(persona, foundUser);
     }
 
@@ -81,12 +81,12 @@ public class ControladorUsuariTest {
     @Test
     public void testIniciarSessio() {
         // Registrem un usuari i tanquem la seva sessió
-        Persona persona = controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123");
+        Persona persona = controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123", "25", "Spain");
         persona.tancarSessio();
         assertFalse(persona.teSessioIniciada());
 
         // Iniciem sessió
-        boolean result = controladorUsuari.iniciarSessio("john@example.com", "password123");
+        boolean result = controladorUsuari.iniciarSessio("John Doe", "password123");
 
         // Verifiquem que l'inici de sessió ha estat exitós
         assertTrue(result);
@@ -96,7 +96,7 @@ public class ControladorUsuariTest {
     @Test(expected = IllegalArgumentException.class)
     public void testIniciarSessioWrongPassword() {
         // Registrem un usuari
-        controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123");
+        controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123", "25", "Spain");
 
         // Intentem iniciar sessió amb una contrasenya incorrecta
         controladorUsuari.iniciarSessio("john@example.com", "wrong_password");
@@ -105,23 +105,23 @@ public class ControladorUsuariTest {
     @Test
     public void testEliminarCompte() {
         // Registrem un usuari
-        controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123");
+        controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123", "25", "Spain");
 
         // Eliminem el compte
-        controladorUsuari.eliminarCompte("john@example.com");
+        controladorUsuari.eliminarCompte("John Doe");
 
         // Verifiquem que el compte s'ha eliminat
-        assertFalse(controladorUsuari.getUsuaris().containsKey("john@example.com"));
+        assertFalse(controladorUsuari.getUsuaris().containsKey("John Doe"));
     }
 
     @Test
     public void testTancarSessio() {
         // Registrem un usuari
-        Persona persona = controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123");
+        Persona persona = controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123", "25", "Spain");
         assertTrue(persona.teSessioIniciada());
 
         // Tanquem la sessió
-        controladorUsuari.tancarSessio("john@example.com");
+        controladorUsuari.tancarSessio("John Doe");
 
         // Verifiquem que la sessió s'ha tancat
         assertFalse(persona.teSessioIniciada());
@@ -130,10 +130,10 @@ public class ControladorUsuariTest {
     @Test
     public void testRestablirContrasenya() {
         // Registrem un usuari
-        Persona persona = controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123");
+        Persona persona = controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123", "25", "Spain");
 
         // Canviem la contrasenya
-        boolean result = controladorUsuari.restablirContrasenya("john@example.com", "password123", "new_password");
+        boolean result = controladorUsuari.restablirContrasenya("John Doe", "password123", "new_password");
 
         // Verifiquem que la contrasenya s'ha canviat
         assertTrue(result);
@@ -143,25 +143,25 @@ public class ControladorUsuariTest {
     @Test(expected = IllegalArgumentException.class)
     public void testRestablirContrasenyaWrongPassword() {
         // Registrem un usuari
-        controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123");
+        controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123", "25", "Spain");
 
         // Intentem canviar la contrasenya amb una contrasenya actual incorrecta
-        controladorUsuari.restablirContrasenya("john@example.com", "wrong_password", "new_password");
+        controladorUsuari.restablirContrasenya("John Doe", "wrong_password", "new_password");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testRestablirContrasenyaSamePassword() {
         // Registrem un usuari
-        controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123");
+        controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123", "25", "Spain");
 
         // Intentem canviar a la mateixa contrasenya
-        controladorUsuari.restablirContrasenya("john@example.com", "password123", "password123");
+        controladorUsuari.restablirContrasenya("John Doe", "password123", "password123");
     }
 
     @Test
     public void testGetPartides() {
         // Registrem un usuari
-        Persona persona = controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123");
+        Persona persona = controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123", "25", "Spain");
 
         // Obtenim les partides (haurien d'estar buides inicialment)
         List<Partida> partides = controladorUsuari.getPartides(persona);
@@ -172,10 +172,10 @@ public class ControladorUsuariTest {
     @Test
     public void testVeurePerfil() {
         // Registrem un usuari
-        controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123");
+        controladorUsuari.registrarPersona("John Doe", "john@example.com", "password123", "25", "Spain");
 
         // Veiem el perfil
-        boolean result = controladorUsuari.veurePerfil("john@example.com");
+        boolean result = controladorUsuari.veurePerfil("John Doe");
         assertTrue(result);
     }
 }

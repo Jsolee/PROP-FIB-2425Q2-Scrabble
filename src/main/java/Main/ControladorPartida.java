@@ -118,12 +118,18 @@ public class ControladorPartida {
     {
         partida.acabarPartida();
         List<Usuari> jugadors = partida.getJugadors();
-        for (Usuari jugador : jugadors)
+        for (int i = 0; i < 2; ++i)
         {
+            Usuari jugador = jugadors.get(i);
+        
             if (jugador instanceof Persona)
             {
                 Persona persona = (Persona) jugador;
                 persona.borrarPartidaEnCurs(partida);
+                Estadistiques estadistiques = persona.getEstadistiques();
+                estadistiques.incrementarPartidesJugades();
+                estadistiques.actualitzarRecordPersonal(partida.getPuntuacions().get(i));  
+                estadistiques.incrementarPuntTotal(partida.getPuntuacions().get(i));          
             }
         }
     }
