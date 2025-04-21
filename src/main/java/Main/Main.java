@@ -26,12 +26,8 @@ public class Main {
         System.out.println();
 
         while(true) {
-            if(opcio != 1 && opcio != 2) {
-                System.out.println("Opcio no valida");
-                System.out.println();
-            }
             //OPCIÓ 1: INICIAR SESSIO
-            else if(opcio == 1){
+            if(opcio == 1){
                 Usuari user = inputIniciarSessio(scanner);
                 if(user != null) {
                     System.out.println("Benvingut " + user.getNom());
@@ -152,12 +148,20 @@ public class Main {
                 }
             }
             //OPCIÓ 2: REGISTRAR NOU USUARI
-            else {
+            else if (opcio == 2) {
                 Usuari registrat = registrarUsuari(scanner);
                 if(registrat != null && registrat instanceof Persona) {
                     Persona persona = (Persona) registrat;
                     cd.afegirNouUsuariRanking(persona);
                 }
+            }
+            else if (opcio == 3) {
+                System.out.println("Sortint del joc...");
+                break;
+            }
+            else {
+                System.out.println("Opcio no valida");
+                System.out.println();
             }
             mostrarComandesInicials();
             opcio = scanner.nextInt();
@@ -172,6 +176,7 @@ public class Main {
         System.out.println("Comandes disponibles (introdueix el numero):");
         System.out.println("1. Iniciar Sessió");
         System.out.println("2. Registrar nou Usuari");
+        System.out.println("3. Sortir del joc");
         System.out.print("> ");
     }
 
