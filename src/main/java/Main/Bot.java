@@ -3,7 +3,11 @@ package Main;
 import java.lang.reflect.Array;
 import java.util.*;
 
-// Aquesta és una clase singleton, ja que només hi haurà una instància del bot al llarg de l'execució del programa.
+/**
+ * Singleton que representa el bot jugador de Scrabble.
+ * Construeix la millor jugada possible en horitzontal i vertical
+ * segons l'estat del taulell, el diccionari i les fitxes de l'atril.
+ */
 public class Bot extends Usuari{
     // Variable que conté l'única instancia del bot.
     private static Bot instancia;
@@ -11,11 +15,17 @@ public class Bot extends Usuari{
     private Map.Entry<LinkedHashMap<int[], Fitxa>, Integer> millorJugadaAcross; // jugades possibles ordenades per puntuació, si hi han dues jugades amb la mateixa puntuació, només es guardara 1
     private Map.Entry<LinkedHashMap<int[], Fitxa>, Integer> millorJugadaDown; // jugades possibles ordenades per puntuació, si hi han dues jugades amb la mateixa puntuació, només es guardara 1
 
-
+    /**
+     * Constructor privat per garantir singleton.
+     */
     private Bot() {
         super("bot");
     }
 
+    /**
+     * Retorna la instància única del bot, creant-la si cal.
+     * @return instància de Bot
+     */
     public static Bot getInstance() {
         if (instancia == null) {
             instancia = new Bot();
@@ -23,8 +33,16 @@ public class Bot extends Usuari{
         return instancia;
     }
 
-    // retorna la millor jugada possible per al bot, amb boolean que indica si es across
-    public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet) {
+    /**
+     * Busca la millor jugada possible al taulell. La jugada es retorna com un mapa.
+     *
+     * @param taulell   estat actual del taulell
+     * @param diccionari estructura DAWG amb paraules vàlides
+     * @param atril     llista de fitxes disponibles del bot
+     * @param alfabet   conjunt de caràcters vàlids (inclou # per blanks)
+     * @return parella (jugada, orientació), on jugada és un mapa de posició->fitxa
+     *         i orientació {@code true}=horitzontal, {@code false}=vertical
+     */    public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet) {
 
 //        // imprimit atril para debuggejar
 //        System.out.print("Atril bot: ");
@@ -75,6 +93,15 @@ public class Bot extends Usuari{
         }
     }
 
+    /**
+     * Auxiliar recursiu que explora totes les jugades des d'anchors.
+     * @param taulell   taulell (posicions i fitxes)
+     * @param info      matriu amb anchors i cross-checks
+     * @param diccionari DAWG de paraules
+     * @param atril     fitxes disponibles
+     * @param alfabet   caràcters vàlids
+     * @param across    {@code true}=horitzontal, {@code false}=vertical
+     */
     private void getMillorJugadaAux(Taulell taulell, infoCasella[][] info, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, boolean across) {
 
         for (Casella[] c : taulell.getCaselles()) {
@@ -106,6 +133,19 @@ public class Bot extends Usuari{
         }
     }
 
+    /**
+     * Extén el prefix cap a l'esquerra per generar possibles paraules Per cada prefix trobat expandeix per la dreta.
+     * @param prefix       llista de fitxes col·locades prèviament
+     * @param taulell      taulell
+     * @param info         matriu d'infoCasella
+     * @param node         node actual del DAWG
+     * @param casellaAnchor casella d'anchor
+     * @param diccionari   DAWG
+     * @param atril        fitxes disponibles
+     * @param alfabet      conjunt de caràcters
+     * @param limit        nombre màxim de fitxes a l'esquerra
+     * @param across       orientació
+     */
     private void extendreEsquerra(ArrayList<Fitxa> prefix, Taulell taulell, infoCasella[][] info, DAWGnode node, Casella casellaAnchor, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, int limit, boolean across) {
 
 
@@ -153,6 +193,18 @@ public class Bot extends Usuari{
         }
     }
 
+    /**
+     * Extén el prefix cap a la dreta construint paraules complertes.
+     * @param prefix   mapa posició->fitxa
+     * @param taulell  taulell
+     * @param info     matriu d'infoCasella
+     * @param casella  casella actual
+     * @param node     node del DAWG
+     * @param diccionari DAWG
+     * @param atril    fitxes restants
+     * @param alfabet  caràcters vàlids
+     * @param across   orientació
+     */
     private void extendreDreta(LinkedHashMap<int[], Fitxa> prefix, Taulell taulell, infoCasella[][] info, Casella casella ,DAWGnode node, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, boolean across) {
         if (node == null) {
             return;
@@ -236,6 +288,13 @@ public class Bot extends Usuari{
         }
     }
 
+    /**
+     * Converteix un llistat de fitxes en una jugada, que comença "limit" posiciones més a la esquerra que la "casella".
+     * @param prefix   fitxes en prefix
+     * @param casella  casella guia
+     * @param limit    nombre de fitxes prèvies
+     * @return mapa de posició (x,y) a fitxa
+     */
     private LinkedHashMap<int[], Fitxa> ArrayToJugada(ArrayList<Fitxa> prefix, Casella casella, int limit) {
         int count = 0;
         LinkedHashMap<int[], Fitxa> jugada = new LinkedHashMap<>();
@@ -247,6 +306,13 @@ public class Bot extends Usuari{
         return jugada;
     }
 
+    /**
+     * Avalua i registra la jugada si és millor que la gaurdada.
+     * @param jugada  mapa posició->fitxa
+     * @param taulell taulell
+     * @param diccionari DAWG
+     * @param across  orientació
+     */
     private void mirarJugada(LinkedHashMap<int[], Fitxa> jugada, Taulell taulell, Diccionari diccionari, boolean across) {
 
         //imprimir jugada per debuggar
@@ -292,6 +358,12 @@ public class Bot extends Usuari{
         }
     }
 
+    /**
+     * Navega el DAWG segons la cadena i node inicial.
+     * @param paraula    cadena a buscar
+     * @param nodeInici  node per on començar
+     * @return node final o null
+     */
     private DAWGnode getNode(String paraula, DAWGnode node) {
         DAWGnode nouNode = node;
         for (int i = 0; i < paraula.length(); i++) {
@@ -305,6 +377,13 @@ public class Bot extends Usuari{
         return nouNode;
     }
 
+    /**
+     * Calcula les caselles anchor i els cross-checks.
+     * @param taulell taulell
+     * @param info    matriu d'infoCasella
+     * @param diccionari DAWG
+     * @param alfabet conjunt de caràcters
+     */
     private void calcularAnchorsICrossChecks(Taulell taulell, infoCasella[][] info,  Diccionari diccionari, Set<String> alfabet) {
         // si es el primer moviment, només la casella inicial és anchor, y no hi han fitxes adjacents ni cross-checks.
         if (taulell.esPrimerMoviment()) {
@@ -339,6 +418,15 @@ public class Bot extends Usuari{
         }
     }
 
+    /**
+     * Retorna llistat de lletres vàlides per a cross-checks d'una casella.
+     * @param taulell taulell
+     * @param x posició fila
+     * @param y posició columna
+     * @param diccionari DAWG
+     * @param alfabet conjunt de caràcters
+     * @return llista de caràcters vàlids
+     */
     private  ArrayList<String> calcularCrossChecks(Taulell taulell, int x, int y, Diccionari diccionari, Set<String> alfabet) {
         String superior = getParaulaSuperior(taulell, x, y);
         String inferior = getParaulaInferior(taulell, x, y);
@@ -355,6 +443,13 @@ public class Bot extends Usuari{
         return cross_checks;
     }
 
+    /**
+     * Obté la part superior de la paraula vertical a partir de la casella en la posició (x, y).
+     * @param taulell taulell
+     * @param x fila
+     * @param y columna
+     * @return cadena superior
+     */
     private String getParaulaSuperior(Taulell taulell, int x, int y) {
         StringBuilder superior = new StringBuilder();
         while (x > 0 && taulell.getCaselles()[x-1][y].isOcupada()) {
@@ -364,6 +459,13 @@ public class Bot extends Usuari{
         return superior.toString();
     }
 
+    /**
+     * Obté la part inferior de la paraula vertical a partir de la casella en la posició (x, y)..
+     * @param taulell taulell
+     * @param x fila
+     * @param y columna
+     * @return cadena inferior
+     */
     private String getParaulaInferior(Taulell taulell, int x, int y) {
         StringBuilder inferior = new StringBuilder();
         while (x < taulell.getCaselles().length - 1 && taulell.getCaselles()[x + 1][y].isOcupada()) {
@@ -373,15 +475,12 @@ public class Bot extends Usuari{
         return inferior.toString();
     }
 
-    private String paraulaToString(LinkedHashMap<int[], Fitxa> jugada) {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<int[], Fitxa> entry : jugada.entrySet()) {
-            Fitxa fitxa = entry.getValue();
-            sb.append(fitxa.getLletra());
-        }
-        return sb.toString();
-    }
-
+    /**
+     * Navega enrere per obtenir prefix anterior horitzontalment a partir de la casella.
+     * @param taulell taulell
+     * @param anterior casella anterior ocupada
+     * @return prefix de cadena
+     */
     private String getParulaAnterior(Taulell taulell, Casella anterior) {
         StringBuilder paraula = new StringBuilder();
         while (anterior != null && anterior.isOcupada()) {
@@ -391,6 +490,13 @@ public class Bot extends Usuari{
         return paraula.toString();
     }
 
+    /**
+     * Comptabilitza posicions lliures sense anchors anterior a la casella "anterior".
+     * @param taulell taulell
+     * @param info    matriu d'infoCasella
+     * @param anterior casella fins on comptar
+     * @return nombre de posicions
+     */
     private int getPosicionsSenseAnchors(Taulell taulell, infoCasella[][] info,  Casella anterior) {
         int limit = 0;
         while (anterior != null && !info[anterior.getX()][anterior.getY()].isAnchor() && !anterior.isOcupada()) {
@@ -400,6 +506,11 @@ public class Bot extends Usuari{
         return limit;
     }
 
+    /**
+     * Transposa files i columnes del taulell.
+     * @param taulell taulell original
+     * @return nou taulell transposat
+     */
     private Taulell transposarTaulell(Taulell taulell) {
         int rows = taulell.getCaselles().length;
         int cols = taulell.getCaselles()[0].length;
@@ -420,49 +531,87 @@ public class Bot extends Usuari{
         return taulellTransposat;
     }
 
+    /**
+     * Dades precomputades per a cada casella del taulell:
+     * - si és anchor (podem col·locar-hi fitxa)
+     * - si cal fer cross-check (hi ha lletres a dalt o baix)
+     * - llista de caràcters vàlids per al cross-check
+     */
     private class infoCasella {
         private boolean anchor;
         private boolean necessita_cross_check;
         private List<String> cross_checks;
 
+        /**
+         * Crea un objecte  que no és anchor i sense requisits de cross-check.
+         */
         public infoCasella(boolean anchor, boolean necessita_cross_check) {
             this.anchor = anchor;
             this.necessita_cross_check = necessita_cross_check;
             this.cross_checks = new ArrayList<>();
         }
 
+        /**
+         * Crea un objecte  que no és anchor i sense requisits de cross-check.
+         */
         public infoCasella() {
             this.anchor = false;
             this.necessita_cross_check = false;
             this.cross_checks = new ArrayList<>();
         }
 
+
+        /**
+         * Indica si la casella és un punt d'ancoratge per a noves jugades.
+         * @return true si és anchor, false si no
+         */
         public boolean isAnchor() {
             return anchor;
         }
 
+
+        /**
+         * Indica si cal verificar les lletres adjacents de manera vertical (cross-check).
+         * @return true si hi ha lletres a dalt o baix, false si no
+         */
         public boolean necessita_cross_check() {
             return necessita_cross_check;
         }
 
+        /**
+         * Retorna la llista de caràcters vàlids per al cross-check d'aquesta casella.
+         * @return llista de lletres
+         */
         public List<String> crossChecks() {
             return cross_checks;
         }
 
 
+        /**
+         * Marca aquesta casella com a anchor o no anchor.
+         * @param anchor valor a assignar
+         */
         public void setAnchor(boolean anchor) {
             this.anchor = anchor;
         }
+
+
+        /**
+         * Marca si cal fer cross-check en aquesta casella.
+         * @param necessita_cross_check  valor a assignar
+         */
         public void setNecessita_cross_check(boolean necessita_cross_check) {
             this.necessita_cross_check = necessita_cross_check;
         }
+
+        /**
+         * Assigna la llista de caràcters vàlids per al cross-check.
+         * @param cross_checks llista de caràcters
+         */
         public void setCrossChecks(List<String> cross_checks) {
             this.cross_checks = cross_checks;
         }
 
-        public void afegirCrossCheck(String cross_check) {
-            this.cross_checks.add(cross_check);
-        }
     }
 
 }
