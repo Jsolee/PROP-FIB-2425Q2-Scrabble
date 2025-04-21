@@ -73,7 +73,7 @@ public class Main {
                                 }
                                 //OPCIÓ: VEURE RANKING
                                 else if(opcio3.equals("2")) {
-                                    mostrarRanking(scanner);
+                                    mostrarRanking(scanner,user);
                                 }
                                 else {
                                     System.out.println("Opcio no valida");
@@ -627,8 +627,8 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("Veient perfil rival...");
-                    List<Usuari> jugadors = cd.getJugadors(partida.getNom());
-                    for (Usuari jugador : jugadors) {
+                        List<Usuari> players = cd.getJugadors(partida.getNom());
+                    for (Usuari jugador : players) {
                         if (jugador != partida.getJugadorActual()) {
                             System.out.println("Perfil de " + jugador.getNom() + ":");
                             veurePerfil(scanner, jugador);
@@ -639,9 +639,7 @@ public class Main {
                     partida.guardarPartida();
                     System.out.println("Partida guardada correctament");
                     noMostrarDetallsFinals = true;
-                    break; Registrar nou Usuari");
-        System.out.println("3. Sortir del joc");
-        System.out.print("> ");
+                    break;
                 case 6:
                     rendirse(scanner, partida);
                     noMostrarDetallsFinals = true;
