@@ -362,7 +362,7 @@ public class Main {
     }
 
 
-    private void mostrarRanking(Scanner scanner) {
+    private void mostrarRanking(Scanner scanner, Usuari usuari) {
         System.out.println("Has seleccionat veure el ranking!");
         System.out.println();
         mostrarFiltresRanking();
@@ -383,7 +383,17 @@ public class Main {
                     Persona persona = ranking.get(i);
                     System.out.println((i + 1) + ". " + persona.getNom() + " - : " + outputValorsRanking(scanner,n, persona));
                 }
-                System.out.println();            }
+                System.out.println("===========================================");
+                for (int i = 0; i < ranking.size(); i++) {
+                    Persona persona = ranking.get(i);
+                    String nom = usuari.getNom();
+                    if(persona.getNom().equals(nom)) {
+                        System.out.println((i + 1) + ". " + persona.getNom() + " - : " + outputValorsRanking(scanner,n, persona));
+                        break;
+                    }
+                }
+                System.out.println();
+            }
             mostrarFiltresRanking();
             n = scanner.nextInt();
             System.out.println();
@@ -616,12 +626,21 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("Veient perfil rival...");
+                    List<Usuari> jugadors = cd.getJugadors(partida.getNom());
+                    for (Usuari jugador : jugadors) {
+                        if (jugador != partida.getJugadorActual()) {
+                            System.out.println("Perfil de " + jugador.getNom() + ":");
+                            veurePerfil(scanner, jugador);
+                        }
+                    }
                     break;
                 case 5:
                     partida.guardarPartida();
                     System.out.println("Partida guardada correctament");
                     noMostrarDetallsFinals = true;
-                    break;
+                    break; Registrar nou Usuari");
+        System.out.println("3. Sortir del joc");
+        System.out.print("> ");
                 case 6:
                     rendirse(scanner, partida);
                     noMostrarDetallsFinals = true;
