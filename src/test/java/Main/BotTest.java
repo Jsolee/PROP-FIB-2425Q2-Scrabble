@@ -34,6 +34,8 @@ public class BotTest {
 
     @Test
     public void getMillorJugadaEnTaulellBuit() {
+        System.out.println("getMillorJugadaEnTaulellBuit");
+
         Bot bot = Bot.getInstance();
 
         Taulell taulell = new Taulell();
@@ -56,12 +58,14 @@ public class BotTest {
             Fitxa fitxa = entry.getValue();
             System.out.println("Posició: " + pos[0] + ", " + pos[1] + " - Fitxa: " + fitxa);
         }
-
+        System.out.println("-------------------------------------------");
 
     }
 
     @Test
     public void getMillorJugadaAcrossEnTaulellNoBuit() {
+
+        System.out.println("getMillorJugadaAcrossEnTaulellNoBuit");
         Bot bot = Bot.getInstance();
 
         Taulell taulell = new Taulell();
@@ -84,10 +88,13 @@ public class BotTest {
             Fitxa fitxa = entry.getValue();
             System.out.println("Posició: " + pos[0] + ", " + pos[1] + " - Fitxa: " + fitxa);
         }
+        System.out.println("-------------------------------------------");
+
     }
 
     @Test
     public void getMillorJugadaDownEnTaulellNoBuit() {
+        System.out.println("getMillorJugadaDownEnTaulellNoBuit");
         Bot bot = Bot.getInstance();
 
         Taulell taulell = new Taulell();
@@ -110,5 +117,7 @@ public class BotTest {
             Fitxa fitxa = entry.getValue();
             System.out.println("Posició: " + pos[0] + ", " + pos[1] + " - Fitxa: " + fitxa);
         }
+        System.out.println("-------------------------------------------");
+
     }
 }

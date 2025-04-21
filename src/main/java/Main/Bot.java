@@ -265,7 +265,7 @@ public class Bot extends Usuari{
             }
         } else {
             LinkedHashMap<int[], Fitxa> jugadaCopy = new LinkedHashMap<>(jugada);
-            int puntuacio = taulell.validesaYPuntuacioJugada(jugadaCopy, diccionari, across, true);
+            int puntuacio = taulell.validesaYPuntuacioJugada(jugadaCopy, diccionari, across, false);
             if (puntuacio >= 0 && puntuacio > millorJugadaDown.getValue()) {
                 //transposar la jugada per guardar-la
                 LinkedHashMap<int[], Fitxa> jugadaTransposada = new LinkedHashMap<>();
@@ -395,6 +395,9 @@ public class Bot extends Usuari{
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 transposat[j][i] = taulell.getCasella(i, j);
+                // transposar la fitxa
+                transposat[j][i].setX(j);
+                transposat[j][i].setY(i);
             }
         }
 
