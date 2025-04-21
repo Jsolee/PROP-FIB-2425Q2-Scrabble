@@ -1,9 +1,8 @@
 package Main;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Array;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 // aquesta clase es una clase que representa una bossa de fitxes per a un joc de Scrabble, es carrega desde un fitxer en resources.
@@ -42,27 +41,37 @@ public class Bossa {
 
 
     private void carregarFitxesIAlfabet() {
-        String ruta = "src/main/resources/" + nom + "/letras_" + nom + ".txt";
-        try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
-            String linia;
-            while ((linia = br.readLine()) != null) {
-                // cada linia del fitxer conté una lletra, la quantitat de fitxes i el valor de la lletra
-                String[] data = linia.split("\\s+");
-                String lletra = data[0];
-                int quantitat = Integer.parseInt(data[1]);
-                int valor = Integer.parseInt(data[2]);
 
-                // afegim les fitxes a la bossa
-                if (quantitat > 0) {
-                    afegirFitxa(lletra, quantitat, valor);
+        // Dentro de una clase de tu paquete Main, por ejemplo:
+        String resourcePath = "/" + nom + "/letras_" + nom + ".txt";
+        // Aixo de l'InputStream es per a que funciona l'execucio amb un .jar
+        try (InputStream is = getClass().getResourceAsStream(resourcePath)) {
+            if (is == null) {
+                throw new IOException("No encontré el recurso: " + resourcePath);
+            }
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(is, StandardCharsets.UTF_8))) {
+                String linia;
+                while ((linia = br.readLine()) != null) {
+                    // cada linia del fitxer conté una lletra, la quantitat de fitxes i el valor de la lletra
+                    String[] data = linia.split("\\s+");
+                    String lletra = data[0];
+                    int quantitat = Integer.parseInt(data[1]);
+                    int valor = Integer.parseInt(data[2]);
+
+                    // afegim les fitxes a la bossa
+                    if (quantitat > 0) {
+                        afegirFitxa(lletra, quantitat, valor);
+                    }
+                    // afegim lletra a l'alfabet
+                    alfabet.add(lletra);
+
                 }
-                // afegim lletra a l'alfabet
-                alfabet.add(lletra);
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 
