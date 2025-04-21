@@ -36,6 +36,17 @@ public class ControladorPartida {
         return partida;
     }
 
+    /**
+     * Retorna una llista dels jugadors de la partida especificada
+     * @param nomPartida String que identifica la Partida
+     * @return
+     */
+    public List<Usuari> getJugadors(String nomPartida)
+    {
+        Partida partida = getPartida(nomPartida);
+        return partida.getJugadors();
+    }
+
     /**inicialitza els jugadors de la Partida partida
      * @param jugadors: llista d'objectes Usuari que representen els jugadors
      * @param partida: objecte Partida on s'afegiran els jugadors
