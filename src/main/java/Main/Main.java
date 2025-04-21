@@ -150,10 +150,6 @@ public class Main {
             //OPCIÓ 2: REGISTRAR NOU USUARI
             else if (opcio == 2) {
                 Usuari registrat = registrarUsuari(scanner);
-                if(registrat != null && registrat instanceof Persona) {
-                    Persona persona = (Persona) registrat;
-                    cd.afegirNouUsuariRanking(persona);
-                }
             }
             else if (opcio == 3) {
                 System.out.println("Sortint del joc...");
@@ -321,6 +317,10 @@ public class Main {
             }
             try {
                 Jugador2 = cd.crearUsuari(nomUsuari, correu, contrasenya, edat, pais);
+                if(Jugador2 != null && Jugador2 instanceof Persona) {
+                    Persona pers = (Persona) Jugador2;
+                    cd.afegirNouUsuariRanking(pers);
+                }
                 System.out.println("___________________________");
                 System.out.println("Usuari creat correctament");
                 System.out.println("___________________________");
