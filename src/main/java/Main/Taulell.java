@@ -1,6 +1,7 @@
 package Main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -357,7 +358,19 @@ public class Taulell {
             return -1;   // o la señal que uses para “no hay palabra válida”
         }
         //Guardar l'estat inicial
-        Casella[][] backup = this.caselles;
+        Map<int[], Fitxa> fitxesAnteriors = new HashMap<>();
+    
+        // Registrar el estado de las casillas que vamos a modificar (vacías o con fichas previas)
+        for (var entry : jugada.entrySet()) {
+            int[] posicio = entry.getKey();
+            if (caselles[posicio[0]][posicio[1]].isOcupada()) {
+                // Si ya hay ficha (aunque esto no debería ocurrir si verificarFitxes funciona bien)
+                fitxesAnteriors.put(posicio, caselles[posicio[0]][posicio[1]].getFitxa());
+            } else {
+                // Si la casilla está vacía
+                fitxesAnteriors.put(posicio, null);
+            }
+        }
 
         
         // afegir fitxes al taulell
@@ -382,7 +395,7 @@ public class Taulell {
             puntuacio = getPuntuacioParaulaHorizontal(pos, fitxesNoves, diccionari);
             if (puntuacio == -1) {
                 // Deshacer los cambios
-                this.caselles = backup;
+                restaurarTaulell(fitxesAnteriors, jugada);
                 return -1; // La paraula no és vàlida
             }
 
@@ -395,7 +408,7 @@ public class Taulell {
                     int puntuacioVertical = getPuntuacioParaulaVertical(posVertical, fitxesNoves, diccionari);
                     if (puntuacioVertical == -1) {
                         // Deshacer los cambios
-                        this.caselles = backup;
+                        restaurarTaulell(fitxesAnteriors, jugada);
                         return -1; // La paraula no és vàlida
                     }
                     puntuacio += puntuacioVertical;
@@ -407,7 +420,7 @@ public class Taulell {
             puntuacio = getPuntuacioParaulaVertical(pos, fitxesNoves, diccionari);
             if (puntuacio == -1) {
                 // Deshacer los cambios
-                this.caselles = backup;
+                restaurarTaulell(fitxesAnteriors, jugada);
                 return -1; // La paraula no és vàlida
             }
 
@@ -420,7 +433,7 @@ public class Taulell {
                     int puntuacioHorizontal = getPuntuacioParaulaHorizontal(posHorizontal, fitxesNoves, diccionari);
                     if (puntuacioHorizontal == -1) {
                         // Deshacer los cambios
-                        this.caselles = backup;
+                        restaurarTaulell(fitxesAnteriors, jugada);
                         return -1; // La paraula no és vàlida
                     }
                     puntuacio += puntuacioHorizontal;
@@ -430,7 +443,7 @@ public class Taulell {
     
         // Si nomes es volia validar i no colocar, restaurem
         if (!colocarFitxes) {
-            this.caselles = backup;
+            restaurarTaulell(fitxesAnteriors, jugada);
         } else {
             // Si es vol colocar, el primer moviment ja s'ha fet
             if (this.primerMoviment) {
@@ -440,6 +453,20 @@ public class Taulell {
         return puntuacio;
     }
 
+    void restaurarTaulell(Map<int[], Fitxa> fitxesARetirar, LinkedHashMap<int[], Fitxa> jugada)
+    {
+        for (var entry : jugada.entrySet()) {
+            int[] posicio = entry.getKey();
+            // Primero retirar la ficha que colocamos
+            caselles[posicio[0]][posicio[1]].retirarFitxa();
+            
+            // Restaurar la ficha anterior si existía
+            Fitxa fitxaAnterior = fitxesARetirar.get(posicio);
+            if (fitxaAnterior != null) {
+                caselles[posicio[0]][posicio[1]].colocarFitxa(fitxaAnterior);
+            }
+        }
+    }
     
     // retorna la fitxa que ja este colocada lo mes a la esquerra posible, si la paraula no existeix retorna -1
     private int getPuntuacioParaulaHorizontal(int[] pos, boolean[][] fitxesNoves, Diccionari diccionari)
