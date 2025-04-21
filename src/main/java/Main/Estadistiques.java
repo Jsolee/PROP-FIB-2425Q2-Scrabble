@@ -76,7 +76,6 @@ public class Estadistiques {
     }
 
     public String getNivellRanking() {
-        // Calculate level based on points and win percentage
         double winPercentage = getPercentatgeVictories();
         int totalPoints = puntTotal;
 

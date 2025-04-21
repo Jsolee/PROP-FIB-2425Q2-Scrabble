@@ -21,7 +21,6 @@ public class Casella {
         this.esCasellaInicial = false;
     }
 
-    // Getters and Setters
     public int getX() { return x; }
     public int getY() { return y; }
     public int getMultiplicadorLetra() { return multiplicador_letra; }
@@ -37,13 +36,11 @@ public class Casella {
         this.esCasellaInicial = esCasellaInicial;
     }
 
-    // Methods to check multiplier type
     public boolean isDobleLetra() { return multiplicador_letra == 2; }
     public boolean isTripleLetra() { return multiplicador_letra == 3; }
     public boolean isDobleParaula() { return multiplicador_paraula == 2; }
     public boolean isTripleParaula() { return multiplicador_paraula == 3; }
 
-    // Methods to handle placing and removing tiles
     public boolean colocarFitxa(Fitxa f) {
         if (!ocupada) {
             fitxa = f;
@@ -53,10 +50,7 @@ public class Casella {
         return false;
     }
 
-    /**
-     * Retira la fitxa de la casella.
-     * @return La fitxa retirada, o null si la casella estava buida.
-     */
+
     public Fitxa retirarFitxa() {
         if (ocupada) {
             Fitxa f = fitxa;
