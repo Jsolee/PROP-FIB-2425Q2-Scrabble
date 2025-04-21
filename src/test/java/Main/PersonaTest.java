@@ -27,7 +27,7 @@ public class PersonaTest {
     @Before
     public void setUp() {
         System.out.println("Preparant test...");
-        persona = new Persona("Test User", "test@example.com", "password123");
+        persona = new Persona("Test User", "test@example.com", "password123", "25", "Spain");
         partida = new Partida("Test Game", "catalan");
     }
 

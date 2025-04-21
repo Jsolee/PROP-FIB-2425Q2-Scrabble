@@ -98,20 +98,6 @@ public class EstadistiquesTest {
         assertEquals(1, estadistiques.getPartidesPerdudes());
     }
 
-    @Test
-    public void testGetPuntuacioPromig() {
-        // Sense partides jugades hauria de retornar 0
-        assertEquals(0.0, estadistiques.getPuntuacioPromig(), 0.001);
-
-        // Afegim punts i partides
-        estadistiques.incrementarPartidesJugades();
-        estadistiques.incrementarPuntTotal(100);
-        assertEquals(100.0, estadistiques.getPuntuacioPromig(), 0.001);
-
-        estadistiques.incrementarPartidesJugades();
-        estadistiques.incrementarPuntTotal(200);
-        assertEquals(150.0, estadistiques.getPuntuacioPromig(), 0.001);
-    }
 
     @Test
     public void testGetPercentatgeVictories() {

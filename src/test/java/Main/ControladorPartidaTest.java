@@ -31,9 +31,11 @@ public class ControladorPartidaTest {
     public void setUp() {
         System.out.println("Preparant test...");
         controladorPartida = new ControladorPartida();
-        persona = new Persona("Test User", "test@example.com", "password123");
+        persona = new Persona("Test User", "test@example.com", "password123", "25", "Spain");
+        Usuari persona2 = new Persona("Dani", "correu", "contrasenya", "25", "Spain");
         jugadors = new ArrayList<>();
         jugadors.add(persona);
+        jugadors.add(persona2);
     }
 
     @After

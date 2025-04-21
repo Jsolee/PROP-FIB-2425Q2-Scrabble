@@ -35,7 +35,7 @@ public class PartidaTest {
     public void setUp() {
         System.out.println("Preparant test...");
         partida = new Partida("Test Game", "catalan");
-        jugador1 = new Persona("Player 1", "player1@example.com", "password1");
+        jugador1 = new Persona("Player 1", "player1@example.com", "password1", "25", "Spain");
         jugador2 = Bot.getInstance(); // Nivell de dificultat 1
         fitxaA = new Fitxa("A", 1);
         fitxaB = new Fitxa("B", 3);
