@@ -111,5 +111,8 @@ public class ControladorDomini {
     {
         controladorPartida.getMillorJugada(partida, bot);
     }
-
+    public List<Usuari> getJugadors(String nompartida)
+    {
+        return controladorPartida.getJugadors(nompartida);
+    }
 }
