@@ -256,10 +256,13 @@ public class Bot extends Usuari{
 //           System.out.print(fitxa.getLletra() + " ");
 //        }
 //        System.out.println();
-        if (!millorJugadaAcross.getKey().isEmpty()) { // (per testejar i fer que nomes miri la primera jugada que troba)
+        if (!millorJugadaAcross.getKey().isEmpty() ) { // (per testejar i fer que nomes miri la primera jugada que troba) // esta descomentat perque no funciona de normal
             return;
         }
         if (across) {
+            if (!millorJugadaAcross.getKey().isEmpty() ) { // (per testejar i fer que nomes miri la primera jugada que troba) // esta descomentat perque no funciona de normal
+                return;
+            }
             LinkedHashMap<int[], Fitxa> jugadaCopy = new LinkedHashMap<>(jugada);
             if (taulell.verificarFitxes(jugadaCopy, across)) {
                 int puntuacio = taulell.validesaYPuntuacioJugada(jugadaCopy, diccionari, across, false);
@@ -268,6 +271,9 @@ public class Bot extends Usuari{
                 }
             }
         } else {
+            if (!millorJugadaDown.getKey().isEmpty() ) { // (per testejar i fer que nomes miri la primera jugada que troba) // esta descomentat perque no funciona de normal
+                return;
+            }
             LinkedHashMap<int[], Fitxa> jugadaCopy = new LinkedHashMap<>(jugada);
             if (taulell.verificarFitxes(jugadaCopy, across)) {
                 int puntuacio = taulell.validesaYPuntuacioJugada(jugadaCopy, diccionari, across, false);

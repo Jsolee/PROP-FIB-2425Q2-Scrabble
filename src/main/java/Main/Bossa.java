@@ -45,27 +45,50 @@ public class Bossa {
         // Dentro de una clase de tu paquete Main, por ejemplo:
         String resourcePath = "/" + nom + "/letras_" + nom + ".txt";
         // Aixo de l'InputStream es per a que funciona l'execucio amb un .jar
+
         try (InputStream is = getClass().getResourceAsStream(resourcePath)) {
             if (is == null) {
-                throw new IOException("No encontré el recurso: " + resourcePath);
-            }
-            try (BufferedReader br = new BufferedReader(
-                    new InputStreamReader(is, StandardCharsets.UTF_8))) {
-                String linia;
-                while ((linia = br.readLine()) != null) {
-                    // cada linia del fitxer conté una lletra, la quantitat de fitxes i el valor de la lletra
-                    String[] data = linia.split("\\s+");
-                    String lletra = data[0];
-                    int quantitat = Integer.parseInt(data[1]);
-                    int valor = Integer.parseInt(data[2]);
+                // Intentem carregar el fitxer des d'una ruta relativa en entorn de desenvolupament (per si no estàs executant des d'un JAR)
+                File file = new File("src/main/resources" + resourcePath);
+                if (!file.exists()) {
+                    throw new IOException("No encontré el recurso: " + resourcePath);
+                }
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+                    String linia;
+                    while ((linia = br.readLine()) != null) {
+                        // cada linia del fitxer conté una lletra, la quantitat de fitxes i el valor de la lletra
+                        String[] data = linia.split("\\s+");
+                        String lletra = data[0];
+                        int quantitat = Integer.parseInt(data[1]);
+                        int valor = Integer.parseInt(data[2]);
 
-                    // afegim les fitxes a la bossa
-                    if (quantitat > 0) {
-                        afegirFitxa(lletra, quantitat, valor);
+                        // afegim les fitxes a la bossa
+                        if (quantitat > 0) {
+                            afegirFitxa(lletra, quantitat, valor);
+                        }
+                        // afegim lletra a l'alfabet
+                        alfabet.add(lletra);
                     }
-                    // afegim lletra a l'alfabet
-                    alfabet.add(lletra);
+                }
+            } else {
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(is, StandardCharsets.UTF_8))) {
+                    String linia;
+                    while ((linia = br.readLine()) != null) {
+                        // cada linia del fitxer conté una lletra, la quantitat de fitxes i el valor de la lletra
+                        String[] data = linia.split("\\s+");
+                        String lletra = data[0];
+                        int quantitat = Integer.parseInt(data[1]);
+                        int valor = Integer.parseInt(data[2]);
 
+                        // afegim les fitxes a la bossa
+                        if (quantitat > 0) {
+                            afegirFitxa(lletra, quantitat, valor);
+                        }
+                        // afegim lletra a l'alfabet
+                        alfabet.add(lletra);
+                    }
                 }
             }
         } catch (IOException e) {

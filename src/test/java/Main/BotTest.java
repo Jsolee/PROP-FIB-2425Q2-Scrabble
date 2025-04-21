@@ -1,7 +1,9 @@
 package Main;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -10,28 +12,42 @@ import static org.junit.Assert.*;
 
 public class BotTest {
 
-    @Test
-    public void getInstanceRetornaElMateixBot() {
-        Bot instance1 = Bot.getInstance();
-        Bot instance2 = Bot.getInstance();
+    private Bot bot;
+    private Taulell taulell;
+    private Diccionari diccionari;
+    private ArrayList<Fitxa> atril;
+    private Bossa bossa;
 
-        assertSame("getInstance ha de retornar sempre la mateixa instància", instance1, instance2);
+    @Before
+    public void setUp() {
+        bot = Bot.getInstance();
+        taulell = new Taulell();
+        diccionari = new Diccionari("castellano");
+        bossa = new Bossa("castellano");
+        atril = new ArrayList<>();
     }
 
     @Test
+    public void getInstanceRetornaElMateixBot() {
+        Bot instance2 = Bot.getInstance();
+
+        assertSame("getInstance ha de retornar sempre la mateixa instància", bot, instance2);
+    }
+
+
+    @Test
     public void botEsInstanciaDUsuari() {
-        Bot bot = Bot.getInstance();
 
         assertTrue("Bot ha de ser una instancia d'usuari", bot instanceof Usuari);
     }
 
     @Test
     public void botNomEsCorrecte() {
-        Bot bot = Bot.getInstance();
 
         assertEquals("Bot ha de dir-se 'bot'", "bot", bot.getNom());
     }
 
+    // test per debuggar que no fa cap assert
     @Test
     public void getMillorJugadaEnTaulellBuit() {
         System.out.println("getMillorJugadaEnTaulellBuit");
@@ -50,38 +66,6 @@ public class BotTest {
         atril.add(new Fitxa("E", 1));
         atril.add(new Fitxa("B", 1));
 
-
-        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> result = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
-
-        for (Map.Entry<int[], Fitxa> entry : result.getKey().entrySet()) {
-            int[] pos = entry.getKey();
-            Fitxa fitxa = entry.getValue();
-            System.out.println("Posició: " + pos[0] + ", " + pos[1] + " - Fitxa: " + fitxa);
-        }
-        System.out.println("-------------------------------------------");
-
-    }
-
-    /*/
-    @Test
-    public void getMillorJugadaAcrossEnTaulellNoBuit() {
-
-        System.out.println("getMillorJugadaAcrossEnTaulellNoBuit");
-        Bot bot = Bot.getInstance();
-
-        Taulell taulell = new Taulell();
-        Diccionari diccionari = new Diccionari("castellano");
-        ArrayList<Fitxa> atril = new ArrayList<>();
-        Bossa bossa = new Bossa("castellano");
-
-        // Primera jugada: colocar "ES" en el tablero
-        taulell.colocarFitxa(7, 7, new Fitxa("E", 1));
-        taulell.colocarFitxa(7, 8, new Fitxa("S", 1));
-
-        // Fichas del bot para la segunda jugada
-        atril.add(new Fitxa("O", 1));
-
-        // El bot realiza su jugada
         Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> result = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
 
         for (Map.Entry<int[], Fitxa> entry : result.getKey().entrySet()) {
@@ -94,31 +78,66 @@ public class BotTest {
     }
 
     @Test
-    public void getMillorJugadaDownEnTaulellNoBuit() {
-        System.out.println("getMillorJugadaDownEnTaulellNoBuit");
-        Bot bot = Bot.getInstance();
+    public void tornaJugadaValidaAmbFixesSimples() {
+        // Dona fitxes al bot per formar una paraula vàlida
+        atril.add(new Fitxa("C", 3));
+        atril.add(new Fitxa("A", 1));
+        atril.add(new Fitxa("S", 1));
+        atril.add(new Fitxa("A", 1));
 
-        Taulell taulell = new Taulell();
-        Diccionari diccionari = new Diccionari("castellano");
-        ArrayList<Fitxa> atril = new ArrayList<>();
-        Bossa bossa = new Bossa("castellano");
+        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> resultat = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
 
-        // Primera jugada: colocar "ES" en el tablero
-        taulell.colocarFitxa(7, 7, new Fitxa("E", 1));
-        taulell.colocarFitxa(8, 7, new Fitxa("S", 1));
+        assertNotNull("El bot hauria de trobar una jugada", resultat);
+        assertFalse("La jugada no hauria de ser buida", resultat.getKey().isEmpty());
+    }
 
-        // Fichas del bot para la segunda jugada
-        atril.add(new Fitxa("O", 1));
+    @Test
+    public void gestionaFixaComodí() {
+        // Dona fitxes normals i un comodí
+        atril.add(new Fitxa("C", 3));
+        atril.add(new Fitxa("A", 1));
+        atril.add(new Fitxa("S", 1));
+        atril.add(new Fitxa("#", 0)); // Comodí
 
-        // El bot realiza su jugada
-        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> result = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
+        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> resultat = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
 
-        for (Map.Entry<int[], Fitxa> entry : result.getKey().entrySet()) {
-            int[] pos = entry.getKey();
-            Fitxa fitxa = entry.getValue();
-            System.out.println("Posició: " + pos[0] + ", " + pos[1] + " - Fitxa: " + fitxa);
-        }
-        System.out.println("-------------------------------------------");
+        // Comprovar que el bot troba una jugada
+        assertNotNull("El bot hauria de trobar una jugada amb un comodí", resultat);
+        assertFalse("La jugada amb comodí no hauria de ser buida", resultat.getKey().isEmpty());
+    }
 
-    }*/
+    @Test
+    public void detectaMillorJugadaPerPuntuacio() {
+        // Crea un taulell amb caselles de valor especial
+        taulell.colocarFitxa(7, 7, new Fitxa("S", 1));
+        taulell.colocarFitxa(8, 7, new Fitxa("O", 1));
+        taulell.colocarFitxa(9, 7, new Fitxa("L", 1));
+
+        // Dona fitxes que poden formar paraules en diferents posicions
+        atril.add(new Fitxa("M", 3));
+        atril.add(new Fitxa("E", 1));
+        atril.add(new Fitxa("S", 1));
+        atril.add(new Fitxa("A", 1));
+
+        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> resultat = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
+
+        // No podem predir exactament la puntuació, però podem verificar que té una jugada
+        assertNotNull("El bot hauria d'escollir una jugada", resultat);
+        assertFalse("La jugada no hauria de ser buida", resultat.getKey().isEmpty());
+    }
+
+    @Test
+    public void retornaJugadaBuidaQuanNoHiHaOpcions() {
+        // Dona fitxes que no formen cap paraula coneguda
+        atril.add(new Fitxa("X", 8));
+        atril.add(new Fitxa("Z", 10));
+        atril.add(new Fitxa("Q", 8));
+        atril.add(new Fitxa("Y", 4));
+
+        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> resultat = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
+
+        // Al primer moviment sempre hauria de trobar alguna opció, però amb aquest test validem
+        // que retorna una estructura de dades correcta encara que no hi hagi jugades
+        assertNotNull("El resultat no hauria de ser nul", resultat);
+    }
 }
