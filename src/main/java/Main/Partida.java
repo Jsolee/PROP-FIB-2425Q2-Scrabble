@@ -50,7 +50,7 @@ public class Partida {
         // Repartir fitxes inicials
         omplirAtril(-1);
         puntuacioJugadors.add(0);
-    
+
         // Add game to player's active games
         if (jugador instanceof Persona)
         {
@@ -69,7 +69,7 @@ public class Partida {
         if (index < 0) //if per a quan necessitem crear un atril a l'inici
         {
             List<Fitxa> atril = new ArrayList<>();
-            for (int i = 0; i < 7; i++) 
+            for (int i = 0; i < 7; i++)
             {
                 Fitxa fitxa = bossa.agafarFitxa();
                 if (fitxa != null)
@@ -77,30 +77,30 @@ public class Partida {
             }
             atrils.add(atril);
         }
-        else 
+        else
         {
             List<Fitxa> atril = atrils.get(index);
-            for (int i = atril.size(); i < 7; i++) 
+            for (int i = atril.size(); i < 7; i++)
             {
                 Fitxa fitxa = bossa.agafarFitxa();
                 if (fitxa != null)
                     atril.add(fitxa);
-            }   
+            }
         }
     }
 
-    public String getNom() 
+    public String getNom()
     {
         return nom;
     }
 
 
-    public void setBossa(Bossa bossa) 
+    public void setBossa(Bossa bossa)
     {
         this.bossa = bossa;
     }
 
-    public Bossa getBossa() 
+    public Bossa getBossa()
     {
         return bossa;
     }
@@ -122,9 +122,9 @@ public class Partida {
     {
         int puntuacioMaxima = -1;
         int indexGuanyador = -1;
-        for (int p : puntuacioJugadors) 
+        for (int p : puntuacioJugadors)
         {
-            if (p > puntuacioMaxima) 
+            if (p > puntuacioMaxima)
             {
                 puntuacioMaxima = p;
                 indexGuanyador = puntuacioJugadors.indexOf(p);
@@ -172,8 +172,8 @@ public class Partida {
 
     public boolean getPartidaPausada() {
         return partidaPausada;
-    }  
-    
+    }
+
     public void guardarPartida() {
         partidaPausada = true;
     }
@@ -237,17 +237,17 @@ public class Partida {
         for (String s : posicions) {
             int index = Integer.parseInt(s) - 1;
             if (index >= 0 && index < atril.size())
-              indexsActuals.add(index);
+                indexsActuals.add(index);
         }
-    
+
         indexsActuals.sort((a, b) -> b - a); //ordenar per evitar problemes de shifting
-    
+
         // Exchange tiles
         for (int index : indexsActuals){
             Fitxa f = atril.remove(index);
             bossa.retornarFitxa(f);
         }
-        
+
         omplirAtril(jugadorActual);
         return true;
     }

@@ -6,15 +6,21 @@ import java.util.List;
 public class ControladorDomini {
     private ControladorUsuari controladorUsuari;
     private ControladorPartida controladorPartida;
+    private ControladorRanking controladorRanking;
 
     public ControladorDomini() {
         controladorUsuari = new ControladorUsuari();
         controladorPartida = new ControladorPartida();
+        controladorRanking = new ControladorRanking();
     }
 
     //gestio d'usuaris
-    public Usuari crearUsuari(String nom, String username, String contrasenya) {
-        return controladorUsuari.registrarPersona(nom, username, contrasenya);
+    public Usuari crearUsuari(String nom, String username, String contrasenya, String edat, String pais) {
+        return controladorUsuari.registrarPersona(nom, username, contrasenya,edat, pais);
+    }
+
+    public void afegirNouUsuariRanking(Persona persona) {
+        controladorRanking.afegirNouUsuari(persona);
     }
 
     public boolean iniciarSessio(String username, String contrasenya) {
@@ -23,6 +29,7 @@ public class ControladorDomini {
 
     public void eliminarCompte(String username) {
         controladorUsuari.eliminarCompte(username);
+        controladorRanking.eliminarUsuari((Persona) controladorUsuari.getUsuari(username));
     }
 
     public void tancarSessio(String username) {
@@ -50,7 +57,10 @@ public class ControladorDomini {
         return Bot.getInstance();
     }
 
-    
+    public List<Persona> getRanking(int n) {
+        return controladorRanking.getRanking(n);
+    }
+
 
     /* public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, ArrayList<Fitxa> atril, ArrayList<String> alfabet) */
 
@@ -60,7 +70,7 @@ public class ControladorDomini {
     }
 
     public Partida getPartida(String nomPartida) {
-       return controladorPartida.getPartida(nomPartida);
+        return controladorPartida.getPartida(nomPartida);
     }
 
     public int jugarParaula(Partida partida, LinkedHashMap<int[], Fitxa> jugades, String across) {

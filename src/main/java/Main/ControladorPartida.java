@@ -45,7 +45,6 @@ public class ControladorPartida {
         for (Usuari jugador : jugadors)
             partida.afegirJugador(jugador);
     }
-    
 
     /**
      * Intenta jugar una paraula a la partida. Si la jugada es valida, actualitza el taulell i l'atril del jugador actual, i retorna la puntuacio.
