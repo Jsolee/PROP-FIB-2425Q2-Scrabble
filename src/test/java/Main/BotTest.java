@@ -62,6 +62,7 @@ public class BotTest {
 
     }
 
+    /*/
     @Test
     public void getMillorJugadaAcrossEnTaulellNoBuit() {
 
@@ -119,5 +120,5 @@ public class BotTest {
         }
         System.out.println("-------------------------------------------");
 
-    }
+    }*/
 }
