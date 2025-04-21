@@ -342,6 +342,7 @@ public class Main {
         System.out.println("País: " + persona.getPais());
         System.out.println("========== Estadístiques de l'Usuari ==========");
         Estadistiques j1 = persona.getEstadistiques();
+        System.out.println("NIVELL DE L'USUARI: " + j1.getNivellRanking());
         System.out.println("Partides jugades: " + j1.getPartidesJugades());
         System.out.println("Partides guanyades: " + j1.getPartidesGuanyades());
         System.out.println("Partides perdudes: " + j1.getPartidesPerdudes());

@@ -51,7 +51,6 @@ public class Partida {
         omplirAtril(-1);
         puntuacioJugadors.add(0);
 
-        // Add game to player's active games
         if (jugador instanceof Persona)
         {
             Persona persona = (Persona) jugador;
@@ -66,7 +65,7 @@ public class Partida {
      */
     private void omplirAtril(int index) 
     {
-        if (index < 0) //if per a quan necessitem crear un atril a l'inici
+        if (index < 0)
         {
             List<Fitxa> atril = new ArrayList<>();
             for (int i = 0; i < 7; i++)

@@ -102,7 +102,7 @@ public class Taulell {
                 (x == 14 && y == 0) || (x == 14 && y == 7) || (x == 14 && y == 14)) {
             return 3;
         }
-        return 1; // Sense multiplicador
+        return 1;
     }
 
     public boolean esPrimerMoviment() {
@@ -163,7 +163,6 @@ public class Taulell {
      * @return true si hi ha fitxes adjacents, false en cas contrari
      */
     public boolean teFitxaAdjacent(int x, int y) {
-        // Comprovar les quatre direccions
         if (x > 0 && caselles[x-1][y].isOcupada()) return true;
         if (x < MIDA-1 && caselles[x+1][y].isOcupada()) return true;
         if (y > 0 && caselles[x][y-1].isOcupada()) return true;
@@ -194,12 +193,10 @@ public class Taulell {
      * @return la fitxa retirada, o null si no hi havia cap fitxa
      */
     public Fitxa retirarFitxa(int x, int y) {
-        // Check if position is within board boundaries
         if (x < 0 || x >= MIDA || y < 0 || y >= MIDA) {
             return null;
         }
 
-        // Get the cell and remove the tile if present
         Casella casella = caselles[x][y];
         return casella.retirarFitxa();
     }

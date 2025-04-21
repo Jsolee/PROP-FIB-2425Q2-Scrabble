@@ -81,9 +81,7 @@ public class Bossa {
      */
     private void carregarFitxesIAlfabet() {
 
-        // Dentro de una clase de tu paquete Main, por ejemplo:
         String resourcePath = "/" + nom + "/letras_" + nom + ".txt";
-        // Aixo de l'InputStream es per a que funciona l'execucio amb un .jar
 
         try (InputStream is = getClass().getResourceAsStream(resourcePath)) {
             if (is == null) {

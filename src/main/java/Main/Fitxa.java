@@ -3,7 +3,7 @@ package Main;
 import java.util.Objects;
 
 public class Fitxa {
-    private String lletra;  // Changed from char to String to support special tiles
+    private String lletra;
     private int valor;
     private boolean blank;
 
@@ -11,7 +11,7 @@ public class Fitxa {
     public Fitxa(String lletra, int valor) {
         this.lletra = lletra;
         this.valor = valor;
-        this.blank = false;  // Multi-character tiles are never blank
+        this.blank = false;
     }
 
     public String getLletra() {

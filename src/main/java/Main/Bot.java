@@ -44,12 +44,6 @@ public class Bot extends Usuari{
      *         i orientació {@code true}=horitzontal, {@code false}=vertical
      */    public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet) {
 
-//        // imprimit atril para debuggejar
-//        System.out.print("Atril bot: ");
-//        for (Fitxa fitxa : atril) {
-//            System.out.print(fitxa.getLletra() + " ");
-//        }
-//        System.out.println();
 
         // inicialitzem el taulell amb la informació extra
         int rows = taulell.getCaselles().length;
@@ -73,7 +67,6 @@ public class Bot extends Usuari{
         // Taulell transposat per a la jugada vertical
         Taulell taulellTransposat = transposarTaulell(taulell);
 
-        // inicialitzem el taulell transposat amb la informació extra
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 info[i][j] = new infoCasella();
@@ -149,7 +142,6 @@ public class Bot extends Usuari{
     private void extendreEsquerra(ArrayList<Fitxa> prefix, Taulell taulell, infoCasella[][] info, DAWGnode node, Casella casellaAnchor, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, int limit, boolean across) {
 
 
-        // exten per la dreta y va trobant paraules amb aquest prefix.
         ArrayList<Fitxa> atrilCopy = new ArrayList<>(atril);
         LinkedHashMap<int[], Fitxa> prefixCopy = ArrayToJugada(prefix, casellaAnchor, prefix.size());
         extendreDreta(prefixCopy, taulell, info, casellaAnchor, node, diccionari, atrilCopy, alfabet, across);
@@ -161,7 +153,6 @@ public class Bot extends Usuari{
         for (int i = 0; i < atril.size(); i++) {
             String lletra = atril.get(i).getLletra();
 
-            // para evitar tener que añadir al principio, podria simplemente añadir al final y restarles 1 en la columna a las fichas de la jugada
             if (lletra.equals("#")) {
                 for (String lletra2 : alfabet) {
                     if (lletra2.equals("#")) continue;
@@ -315,13 +306,6 @@ public class Bot extends Usuari{
      */
     private void mirarJugada(LinkedHashMap<int[], Fitxa> jugada, Taulell taulell, Diccionari diccionari, boolean across) {
 
-        //imprimir jugada per debuggar
-//        for (Map.Entry<int[], Fitxa> entry : jugada.entrySet()) {
-//            int[] pos = entry.getKey();
-//            Fitxa fitxa = entry.getValue();
-//           System.out.print(fitxa.getLletra() + " ");
-//        }
-//        System.out.println();
         if (!millorJugadaAcross.getKey().isEmpty() ) { // (per testejar i fer que nomes miri la primera jugada que troba) // esta descomentat perque no funciona de normal
             return;
         }
@@ -361,7 +345,6 @@ public class Bot extends Usuari{
     /**
      * Navega el DAWG segons la cadena i node inicial.
      * @param paraula    cadena a buscar
-     * @param nodeInici  node per on començar
      * @return node final o null
      */
     private DAWGnode getNode(String paraula, DAWGnode node) {
