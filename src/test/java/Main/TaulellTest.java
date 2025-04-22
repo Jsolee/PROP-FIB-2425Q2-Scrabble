@@ -178,8 +178,8 @@ public class TaulellTest {
         assertEquals(10, puntuacion); // 10 porque tiene doble puntuacion
     }
     
-    @Test
-    public void testPalabrasCruzadas() {
+     @Test
+    public void testPalabrasCruzadasVertical() {
         // Primero colocamos "CASA" horizontal
         LinkedHashMap<int[], Fitxa> jugada1 = crearJugada(
             new String[]{"C", "A", "S", "A"}, 
@@ -190,15 +190,39 @@ public class TaulellTest {
         int puntuacion1 = taulell.validesaYPuntuacioJugada(jugada1, diccionariCastellano, true, true);
         assertTrue(puntuacion1 > 0);
         
-        // Luego colocamos "MESA" vertical cruzando por la S de CASA
+        // Luego colocamos "HOLA" vertical cruzando por la A de CASA
         LinkedHashMap<int[], Fitxa> jugada2 = crearJugada(
-            new String[]{"M", "E", "A"}, 
-            new int[][]{{8, 9}, {10, 9}, {11, 9}},
+            new String[]{"H", "O", "L"}, 
+            new int[][]{{4, 10}, {5, 10}, {6, 10}},
             new int[]{3, 1, 1}
         );
         
         int puntuacion2 = taulell.validesaYPuntuacioJugada(jugada2, diccionariCastellano, false, true);
         assertTrue(puntuacion2 > 0);
+    }
+
+    @Test
+    public void testPalabrasCruzadasHorizontal()
+    {
+        // Primero colocamos "CASA" vertical
+        LinkedHashMap<int[], Fitxa> jugada1 = crearJugada(
+            new String[]{"C", "A", "S", "A"}, 
+            new int[][]{{7, 7}, {8, 7}, {9, 7}, {10, 7}},
+            new int[]{3, 1, 1, 1}
+        );
+        
+        int puntuacion1 = taulell.validesaYPuntuacioJugada(jugada1, diccionariCastellano, false, true);
+        assertTrue(puntuacion1 > 0);
+        
+        // Luego colocamos "HOLA" horizontal cruzando por la A de CASA
+        LinkedHashMap<int[], Fitxa> jugada2 = crearJugada(
+            new String[]{"H", "O", "L"}, 
+            new int[][]{{10, 4}, {10, 5}, {10, 6}},
+            new int[]{3, 1, 1}
+        );
+        
+        int puntuacion2 = taulell.validesaYPuntuacioJugada(jugada2, diccionariCastellano, true, true);
+        assertTrue(puntuacion2 >0);
     }
     
     @Test

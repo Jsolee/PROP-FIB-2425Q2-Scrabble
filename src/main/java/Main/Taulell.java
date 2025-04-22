@@ -399,6 +399,7 @@ public class Taulell {
         }
         
         int[] pos = jugada.keySet().iterator().next();  
+        
         int puntuacio = -1;
         if (across) {
             puntuacio = getPuntuacioParaulaHorizontal(pos, fitxesNoves, diccionari);
@@ -421,6 +422,7 @@ public class Taulell {
             }
         } else {
             puntuacio = getPuntuacioParaulaVertical(pos, fitxesNoves, diccionari);
+            
             if (puntuacio == -1) {
                 restaurarTaulell(fitxesAnteriors, jugada);
                 return -1;
@@ -448,6 +450,7 @@ public class Taulell {
             }
         }
         return puntuacio;
+        
     }
 
     /**
@@ -502,7 +505,7 @@ public class Taulell {
             col++;
         }
 
-        if (paraula.size() <= 1)
+        if (paraula.size() < 2)
             return 0;
 
         try {
@@ -533,7 +536,6 @@ public class Taulell {
 
         fila++;
         List<Fitxa> paraula = new ArrayList<>();
-        
         int puntuacio = 0;
         int multiplicador_paraula = 1;
         while (fila < 15 && caselles[fila][col].isOcupada()) {
@@ -547,21 +549,19 @@ public class Taulell {
             }
             fila++;
         }
-
+    
         if (paraula.size() < 2)
             return 0;
 
         try {
-            if (diccionari.esParaula(FitxesToString(paraula))) {
-                System.out.println("Paraula vàlida: " + FitxesToString(paraula));
+            boolean b = diccionari.esParaula(FitxesToString(paraula));
+            if (b) 
                 return puntuacio * multiplicador_paraula;
-            }
         } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
             return -1;
         }
-        
         return -1;
+    
     }
 
     /**
