@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+
 }
 
 group = 'scrabble-cluster41'
@@ -28,6 +29,18 @@ java {
     }
 }
 
+javadoc {
+    options.encoding = 'UTF-8'
+    options.charSet = 'UTF-8'
+    options.author = true
+    options.version = true
+    options.links("https://docs.oracle.com/en/java/javase/22/docs/api/") // usa la versión correcta de Java que tengas instalada
+}
+
+task openJavadoc(type: Exec) {
+    dependsOn javadoc
+    commandLine 'xdg-open', 'build/docs/javadoc/index.html'
+}
 
 repositories {
     mavenCentral()
