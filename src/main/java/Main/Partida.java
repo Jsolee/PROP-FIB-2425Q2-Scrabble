@@ -47,7 +47,6 @@ public class Partida {
     public void afegirJugador(Usuari jugador) 
     {
         jugadors.add(jugador);
-        // Repartir fitxes inicials
         omplirAtril(-1);
         puntuacioJugadors.add(0);
 
@@ -88,25 +87,36 @@ public class Partida {
         }
     }
 
+    /**
+     * Obté el nom de la partida.
+     * @return nom de la partida.
+     */
     public String getNom()
     {
         return nom;
     }
 
-
+    /**
+     * Estableix una bossa de fitxes per la partida.
+     * @param bossa objecte Bossa que es vol assignar a la partida.
+     */
     public void setBossa(Bossa bossa)
     {
         this.bossa = bossa;
     }
 
+    /**
+     * Obté la bossa de fitxes de la partida.
+     * @return objecte Bossa amb les fitxes disponibles.
+     */
     public Bossa getBossa()
     {
         return bossa;
     }
 
-
-
-    /** Passa el torn al següent jugador
+    /**
+     * Passa el torn al següent jugador.
+     * @return true si el torn s'ha passat correctament.
      */
     public boolean passarTorn() {
         jugadorActual = (jugadorActual + 1) % jugadors.size();
@@ -130,15 +140,19 @@ public class Partida {
             }
             else if (p == puntuacioMaxima) 
             {
-                indexGuanyador = -1; // Empat
+                indexGuanyador = -1;
             }
         }
 
         if (indexGuanyador == -1) 
-            return null; // Empat
+            return null;
         return jugadors.get(indexGuanyador);
     }
 
+    /**
+     * Obté l'usuari que té el torn actual.
+     * @return Usuari que té el torn actualment.
+     */
     public Usuari getTornActual() 
     {
         return jugadors.get(jugadorActual);
@@ -153,65 +167,114 @@ public class Partida {
         return jugadors.get(jugadorActual);
     }
 
+    /**
+     * Obté el taulell de la partida.
+     * @return objecte Taulell de la partida.
+     */
     public Taulell getTaulell() {
         return taulell;
     }
 
+    /**
+     * Obté la llista de jugadors de la partida.
+     * @return llista d'objectes Usuari que participen a la partida.
+     */
     public List<Usuari> getJugadors() {
         return jugadors;
     }
 
+    /**
+     * Obté les puntuacions de tots els jugadors.
+     * @return llista amb les puntuacions de cada jugador.
+     */
     public List<Integer> getPuntuacions() {
         return puntuacioJugadors;
     }
 
+    /**
+     * Obté l'atril del jugador actual.
+     * @return llista de fitxes de l'atril del jugador.
+     */
     public List<Fitxa> getAtril(){
         return atrils.get(jugadorActual);
     }
 
+    /**
+     * Indica si la partida està pausada.
+     * @return true si la partida està pausada, false en cas contrari.
+     */
     public boolean getPartidaPausada() {
         return partidaPausada;
     }
 
+    /**
+     * Marca la partida com a guardada i pausada.
+     */
     public void guardarPartida() {
         partidaPausada = true;
     }
 
+    /**
+     * Indica si la partida ja ha finalitzat.
+     * @return true si la partida ha finalitzat, false en cas contrari.
+     */
     public boolean getPartidaAcabada() {
         return partidaAcabada;
     }
 
-
+    /**
+     * Marca la partida com a finalitzada.
+     */
     public void acabarPartida() {
         partidaAcabada = true;
     }
 
+    /**
+     * Obté els índexs de les fitxes seleccionades per canviar.
+     * @return llista amb els índexs de les fitxes a canviar.
+     */
     public List<Integer> getIndexsActuals()
     {
         return indexsActuals;
     }
 
+    /**
+     * Obté l'idioma de la partida.
+     * @return string que representa l'idioma de la partida.
+     */
     public String getIdioma()
     {
         return idioma;
     }
 
+    /**
+     * Obté els atrils de tots els jugadors.
+     * @return llista amb els atrils de tots els jugadors.
+     */
     public List<List<Fitxa>> getAtrils()
     {
         return atrils;
     }
 
+    /**
+     * Estableix la puntuació d'un jugador específic.
+     * @param puntuacio nova puntuació a establir.
+     * @param index índex del jugador a qui s'assigna la puntuació.
+     */
     public void setPuntuacio(int puntuacio, int index) 
     {
         puntuacioJugadors.set(index, puntuacio);
     }
 
+    /**
+     * Verifica si una paraula existeix al diccionari.
+     * @param paraula paraula a verificar.
+     * @return true si la paraula existeix al diccionari, false en cas contrari.
+     */
     public boolean existeixParaula(String paraula) 
     {
         return diccionari.esParaula(paraula);
     }
-
-
     
     /**
      * Omple l'atril del jugador actual amb fitxes de la bossa.
@@ -220,8 +283,6 @@ public class Partida {
     {
         omplirAtril(jugadorActual);
     }
-
-
 
     /**
      * Canvia les fitxes de l'atril del jugador actual per fitxes de la bossa.
@@ -239,9 +300,8 @@ public class Partida {
                 indexsActuals.add(index);
         }
 
-        indexsActuals.sort((a, b) -> b - a); //ordenar per evitar problemes de shifting
+        indexsActuals.sort((a, b) -> b - a);
 
-        // Exchange tiles
         for (int index : indexsActuals){
             Fitxa f = atril.remove(index);
             bossa.retornarFitxa(f);
@@ -260,6 +320,9 @@ public class Partida {
         puntuacioJugadors.set(jugadorActual, puntuacioJugadors.get(jugadorActual) + puntuacio);
     }
 
+    /**
+     * Marca la partida com a no guardada.
+     */
     public void setNoGuardada()
     {
         partidaPausada = false;
@@ -275,28 +338,21 @@ public class Partida {
     {
         if (jugades.isEmpty())
             return -1;
-//            throw new IllegalArgumentException("No hi ha fitxes per jugar.");
 
         across = across.toUpperCase();
         if (!across.equals("H") && !across.equals("V"))
             return -1;
-//            throw new IllegalArgumentException("La orientacio ha de ser H o V");
 
         if (!taulell.verificarFitxes(jugades, across.equals("H")))
             return -1;
-//            throw new IllegalArgumentException("No es pot posar la paraula al taulell en la ubicacio solicitada.");
 
-        //1.5 calcular palabras nuevas (list<list<fitxa>>)
         int puntuacio =  taulell.validesaYPuntuacioJugada(jugades, diccionari, across.equals("H"), true);
-
 
         if (puntuacio == -1)
             return -1;
-            //throw new IllegalArgumentException("La/es paraula/es formada/es no es troba/en al diccionari.");
-        //2 verificar que las palabras formadas existen
-        //3 calcular la puntuacion total
+
         puntuacioJugadors.set(jugadorActual, puntuacioJugadors.get(jugadorActual) + puntuacio);
-        // Remove used tiles from the player's rack
+        
         List<Fitxa> atril = atrils.get(jugadorActual);
         for (Fitxa fitxa : jugades.values()) {
             int index = atril.indexOf(fitxa);

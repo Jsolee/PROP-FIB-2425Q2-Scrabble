@@ -4,13 +4,27 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Classe que gestiona els diferents rànquings de jugadors per a diverses categories estadístiques.
+ * Manté llistes ordenades de jugadors segons punts totals, partides jugades, partides guanyades,
+ * rècord personal i paraules totals.
+ */
 public class Ranking {
+    /** Llista de jugadors ordenada per puntuació total */
     private List<Persona> rankingPuntsTotals;
+    /** Llista de jugadors ordenada per nombre de partides jugades */
     private List<Persona> rankingPartidesJugades;
+    /** Llista de jugadors ordenada per nombre de partides guanyades */
     private List<Persona> rankingPartidesGuanyades;
+    /** Llista de jugadors ordenada per millor puntuació personal */
     private List<Persona> rankingRecordPersonal;
+    /** Llista de jugadors ordenada per nombre de paraules creades */
     private List<Persona> rankingParaulesTotals;
 
+    /**
+     * Constructor per defecte.
+     * Inicialitza totes les llistes de rànquing com a llistes buides.
+     */
     public Ranking() {
         this.rankingPuntsTotals = new ArrayList<>();
         this.rankingPartidesJugades = new ArrayList<>();
@@ -19,6 +33,12 @@ public class Ranking {
         this.rankingParaulesTotals = new ArrayList<>();
     }
 
+    /**
+     * Afegeix una persona a tots els rànquings i actualitza l'ordre.
+     * No l'afegirà si ja existeix a les llistes.
+     * 
+     * @param persona jugador a afegir als rànquings
+     */
     public void afegirPersona(Persona persona) {
         if (!rankingPuntsTotals.contains(persona)) {
             rankingPuntsTotals.add(persona);
@@ -30,6 +50,11 @@ public class Ranking {
         actualitzarRanking();
     }
 
+    /**
+     * Elimina una persona de tots els rànquings.
+     * 
+     * @param persona jugador a eliminar dels rànquings
+     */
     public void esborrarPersona(Persona persona) {
         rankingPuntsTotals.remove(persona);
         rankingPartidesJugades.remove(persona);
@@ -38,6 +63,10 @@ public class Ranking {
         rankingParaulesTotals.remove(persona);
     }
 
+    /**
+     * Actualitza l'ordenació de totes les llistes de rànquing.
+     * Cada llista s'ordena de manera descendent segons el criteri corresponent.
+     */
     public void actualitzarRanking() {
         this.rankingPuntsTotals.sort(Comparator.comparingInt(p -> -p.getValorEstaditiques(1)));
         this.rankingPartidesJugades.sort(Comparator.comparingInt(p -> -p.getValorEstaditiques(2)));
@@ -46,6 +75,16 @@ public class Ranking {
         this.rankingParaulesTotals.sort(Comparator.comparingInt(p -> -p.getValorEstaditiques(5)));
     }
 
+    /**
+     * Mostra per consola el rànquing especificat.
+     * 
+     * @param num tipus de rànquing a imprimir:
+     *            1 - Punts totals
+     *            2 - Partides jugades
+     *            3 - Partides guanyades
+     *            4 - Rècord personal
+     *            5 - Paraules totals
+     */
     public void imprimirRanking(int num) {
         List<Persona> ranking;
         switch (num) {
@@ -80,20 +119,48 @@ public class Ranking {
         }
     }
 
+    /**
+     * Obté el rànquing ordenat per puntuació total.
+     * 
+     * @return llista de jugadors ordenada per puntuació total (descendent)
+     */
     public List<Persona> getRankingPuntsTotals() {
         return rankingPuntsTotals;
     }
+
+    /**
+     * Obté el rànquing ordenat per nombre de partides jugades.
+     * 
+     * @return llista de jugadors ordenada per partides jugades (descendent)
+     */
     public List<Persona> getRankingPartidesJugades() {
         return rankingPartidesJugades;
     }
+
+    /**
+     * Obté el rànquing ordenat per nombre de partides guanyades.
+     * 
+     * @return llista de jugadors ordenada per partides guanyades (descendent)
+     */
     public List<Persona> getRankingPartidesGuanyades() {
         return rankingPartidesGuanyades;
     }
+
+    /**
+     * Obté el rànquing ordenat per rècord personal.
+     * 
+     * @return llista de jugadors ordenada per rècord personal (descendent)
+     */
     public List<Persona> getRankingRecordPersonal() {
         return rankingRecordPersonal;
     }
+
+    /**
+     * Obté el rànquing ordenat per nombre de paraules creades.
+     * 
+     * @return llista de jugadors ordenada per paraules creades (descendent)
+     */
     public List<Persona> getRankingParaulesTotals() {
         return rankingParaulesTotals;
     }
-
 }

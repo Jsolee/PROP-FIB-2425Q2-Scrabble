@@ -6,64 +6,47 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/*
-
-    0   1   2   3   4   5   6   7   8   9  10  11  12  13  14
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-0 |TP | · | · |DL | · | · | · |TP | · | · | · |DL | · | · |TP |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-1 | · |DP | · | · | · |TL | · | · | · |TL | · | · | · |DP | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-2 | · | · |DP | · | · | · |DL | · |DL | · | · | · |DP | · | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-3 |DL | · | · |DP | · | · | · |DL | · | · | · |DP | · | · |DL |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-4 | · | · | · | · |DP | · | · | · | · | · |DP | · | · | · | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-5 | · |TL | · | · | · |TL | · | · | · |TL | · | · | · |TL | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-6 | · | · |DL | · | · | · |DL | · |DL | · | · | · |DL | · | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-7 |TP | · | · |DL | · | · | · |★ | · | · | · |DL | · | · |TP |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-8 | · | · |DL | · | · | · |DL | · |DL | · | · | · |DL | · | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-9 | · |TL | · | · | · |TL | · | · | · |TL | · | · | · |TL | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-10| · | · | · | · |DP | · | · | · | · | · |DP | · | · | · | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-11|DL | · | · |DP | · | · | · |DL | · | · | · |DP | · | · |DL |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-12| · | · |DP | · | · | · |DL | · |DL | · | · | · |DP | · | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-13| · |DP | · | · | · |TL | · | · | · |TL | · | · | · |DP | · |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-14|TP | · | · |DL | · | · | · |TP | · | · | · |DL | · | · |TP |
-  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-
+/**
+ * Classe que representa el taulell del joc de Scrabble.
+ * Gestiona la col·locació de fitxes, la validació de jugades i el càlcul de puntuacions.
  */
-
 public class Taulell {
+    /** Matriu de caselles que formen el taulell */
     private Casella[][] caselles;
+    /** Mida del taulell (15x15 caselles) */
     private static final int MIDA = 15;
+    /** Indica si encara no s'ha fet cap jugada */
     private boolean primerMoviment = true;
 
+    /**
+     * Constructor per defecte.
+     * Inicialitza un taulell estàndard de 15x15 caselles amb els multiplicadors corresponents.
+     */
     public Taulell() {
         caselles = new Casella[MIDA][MIDA];
         inicialitzarTaulell();
     }
 
+    /**
+     * Inicialitza totes les caselles del taulell amb els seus multiplicadors corresponents.
+     * Estableix la casella central com a casella inicial.
+     */
     private void inicialitzarTaulell() {
         for (int i = 0; i < MIDA; i++) {
             for (int j = 0; j < MIDA; j++) {
-                // Inicialitzar cada Casella amb multiplicadors apropiats
                 caselles[i][j] = new Casella(i, j, getMultiplicadorLletra(i, j), getMultiplicadorParaula(i, j));
             }
         }
-        // Establir la casella central com la inicial
         caselles[MIDA / 2][MIDA / 2].setEsCasellaInicial(true);
     }
 
+    /**
+     * Determina el multiplicador de lletra per a una posició específica del taulell.
+     * 
+     * @param x coordenada de fila
+     * @param y coordenada de columna
+     * @return multiplicador de lletra (1 per normal, 2 per DL, 3 per TL)
+     */
     private int getMultiplicadorLletra(int x, int y) {
         // Definir caselles de doble lletra (DL)
         if ((x == 0 && y == 3) || (x == 0 && y == 11) ||
@@ -87,6 +70,13 @@ public class Taulell {
         return 1; // Sense multiplicador
     }
 
+    /**
+     * Determina el multiplicador de paraula per a una posició específica del taulell.
+     * 
+     * @param x coordenada de fila
+     * @param y coordenada de columna
+     * @return multiplicador de paraula (1 per normal, 2 per DP, 3 per TP)
+     */
     private int getMultiplicadorParaula(int x, int y) {
         // Definir caselles de doble paraula (DP)
         if ((x == 1 && y == 1) || (x == 2 && y == 2) || (x == 3 && y == 3) || (x == 4 && y == 4) ||
@@ -105,16 +95,27 @@ public class Taulell {
         return 1;
     }
 
+    /**
+     * Verifica si és el primer moviment de la partida.
+     * 
+     * @return true si encara no s'ha col·locat cap fitxa, false si ja s'ha fet el primer moviment
+     */
     public boolean esPrimerMoviment() {
         return primerMoviment;
     }
 
+    /**
+     * Obté la matriu de caselles que formen el taulell.
+     * 
+     * @return matriu bidimensional de Casella que representa el taulell complet
+     */
     public Casella[][] getCaselles() {
         return caselles;
     }
 
     /**
      * Col·loca una fitxa al taulell.
+     * 
      * @param x fila del taulell
      * @param y columna del taulell
      * @param fitxa Fitxa a col·locar
@@ -132,14 +133,16 @@ public class Taulell {
     }
 
     /**
-     * Comprova si el moviment es vàlid.
+     * Comprova si el moviment és vàlid.
+     * Verifica que la posició estigui dins del taulell, la casella no estigui ocupada,
+     * i que compleixi les regles de col·locació (primera jugada al centre, resta adjacents a fitxes existents).
+     * 
      * @param x fila del taulell
      * @param y columna del taulell
      * @param fitxa Fitxa a col·locar
-     * @return true si el moviment es vàlid, false en cas contrari
+     * @return true si el moviment és vàlid, false en cas contrari
      */
     private boolean esMovimentValid(int x, int y, Fitxa fitxa) {
-        // Verificar límits del taulell i si la casella ja està ocupada
         if (x < 0 || x >= MIDA || y < 0 || y >= MIDA) {
             return false;
         }
@@ -147,17 +150,16 @@ public class Taulell {
             return false;
         }
 
-        // Si és el primer moviment, ha d'incloure la casella central
         if (primerMoviment) {
             return x == MIDA/2 && y == MIDA/2;
         }
 
-        // Si no és el primer moviment, ha d'estar adjacent a alguna fitxa existent
         return teFitxaAdjacent(x, y);
     }
 
     /**
      * Comprova si hi ha fitxes adjacents a la posició especificada.
+     * 
      * @param x fila del taulell
      * @param y columna del taulell
      * @return true si hi ha fitxes adjacents, false en cas contrari
@@ -171,14 +173,28 @@ public class Taulell {
         return false;
     }
 
-    public  boolean teFitxaSuperiorOInferior(int x, int y) {
+    /**
+     * Verifica si hi ha fitxes adjacents en direcció vertical (superior o inferior).
+     * Utilitzat per comprovar regles de col·locació de fitxes verticals.
+     * 
+     * @param x fila del taulell
+     * @param y columna del taulell
+     * @return true si hi ha alguna fitxa superior o inferior, false en cas contrari
+     */
+    public boolean teFitxaSuperiorOInferior(int x, int y) {
         if (y > 0 && caselles[x][y-1].isOcupada()) return true;
         if (y < MIDA-1 && caselles[x][y+1].isOcupada()) return true;
 
         return false;
     }
 
-
+    /**
+     * Obté la casella en la posició especificada.
+     * 
+     * @param x fila del taulell
+     * @param y columna del taulell
+     * @return casella en la posició indicada, o null si la posició està fora del taulell
+     */
     public Casella getCasella(int x, int y) {
         if (x >= 0 && x < MIDA && y >= 0 && y < MIDA) {
             return caselles[x][y];
@@ -188,9 +204,10 @@ public class Taulell {
 
     /**
      * Retira una fitxa de la posició especificada.
+     * 
      * @param x fila del taulell
      * @param y columna del taulell
-     * @return la fitxa retirada, o null si no hi havia cap fitxa
+     * @return la fitxa retirada, o null si no hi havia cap fitxa o la posició és invàlida
      */
     public Fitxa retirarFitxa(int x, int y) {
         if (x < 0 || x >= MIDA || y < 0 || y >= MIDA) {
@@ -201,78 +218,82 @@ public class Taulell {
         return casella.retirarFitxa();
     }
 
-    public void setCaselles(Casella[][] caselles) {this.caselles = caselles;}
+    /**
+     * Estableix una nova matriu de caselles pel taulell.
+     * Utilitzat principalment per a proves o per carregar una partida guardada.
+     * 
+     * @param caselles nova matriu de caselles
+     */
+    public void setCaselles(Casella[][] caselles) {
+        this.caselles = caselles;
+    }
 
-    public List<String> obtenerParaulesAdjacents(String palabra, int fila, int col, String orientacion)
-    {
+    /**
+     * Obté les paraules adjacents formades al col·locar una paraula en una posició específica.
+     * Busca extensions de la paraula principal i paraules creues formades per les noves fitxes.
+     * 
+     * @param palabra la paraula que s'està col·locant
+     * @param fila fila inicial on es col·loca la paraula
+     * @param col columna inicial on es col·loca la paraula
+     * @param orientacion "V" per vertical, "H" per horitzontal
+     * @return llista de paraules formades incloent la paraula principal i les paraules creuades
+     */
+    public List<String> obtenerParaulesAdjacents(String palabra, int fila, int col, String orientacion) {
         List<String> paraules = new ArrayList<>();
         int sizePal = palabra.length();
-        if (orientacion.equals("V"))
-        {
+        if (orientacion.equals("V")) {
             int fMesUp = fila - 1;
-            while (fMesUp >= 0 && caselles[fMesUp][col].isOcupada())
-            {
-                palabra = caselles[fMesUp][col].getFitxa().getLletra() + palabra; //concatenar letras a la palabra
+            while (fMesUp >= 0 && caselles[fMesUp][col].isOcupada()) {
+                palabra = caselles[fMesUp][col].getFitxa().getLletra() + palabra;
                 fMesUp--;
             }
 
             int fMesDown = fila + sizePal;
-            while (fMesDown < 15 && caselles[fMesDown][col].isOcupada())
-            {
-                palabra = palabra + caselles[fMesDown][col].getFitxa().getLletra(); //concatenar letras a la palabra
+            while (fMesDown < 15 && caselles[fMesDown][col].isOcupada()) {
+                palabra = palabra + caselles[fMesDown][col].getFitxa().getLletra();
                 fMesDown++;
             }
             paraules.add(palabra);
 
-            for (int i = fila; i < fila + sizePal; i++)
-            {
+            for (int i = fila; i < fila + sizePal; i++) {
                 String aux = String.valueOf(palabra.charAt(i-fila));
                 int mostLeft = col - 1;
-                while (mostLeft >= 0 && caselles[i][mostLeft].isOcupada())
-                {
-                    aux = caselles[i][mostLeft].getFitxa().getLletra() + aux; //concatenar letras a la palabra
+                while (mostLeft >= 0 && caselles[i][mostLeft].isOcupada()) {
+                    aux = caselles[i][mostLeft].getFitxa().getLletra() + aux;
                     mostLeft--;
                 }
                 int mostRight = col + 1;
-                while (mostRight < 15 && caselles[i][mostRight].isOcupada())
-                {
-                    aux = aux + caselles[i][mostRight].getFitxa().getLletra(); //concatenar letras a la palabra
+                while (mostRight < 15 && caselles[i][mostRight].isOcupada()) {
+                    aux = aux + caselles[i][mostRight].getFitxa().getLletra();
                     mostRight++;
                 }
 
                 if (aux.length() > 1) paraules.add(aux);
             }
-        }
-        else
-        {
+        } else {
             int cMesUp = col - 1;
-            while (cMesUp >= 0 && caselles[fila][cMesUp].isOcupada())
-            {
-                palabra = caselles[fila][cMesUp].getFitxa().getLletra() + palabra; //concatenar letras a la palabra
+            while (cMesUp >= 0 && caselles[fila][cMesUp].isOcupada()) {
+                palabra = caselles[fila][cMesUp].getFitxa().getLletra() + palabra;
                 cMesUp--;
             }
 
             int cMesDown = col + sizePal;
-            while (cMesDown < 15 && caselles[fila][cMesDown].isOcupada())
-            {
-                palabra = palabra + caselles[fila][cMesDown].getFitxa().getLletra(); //concatenar letras a la palabra
+            while (cMesDown < 15 && caselles[fila][cMesDown].isOcupada()) {
+                palabra = palabra + caselles[fila][cMesDown].getFitxa().getLletra();
                 cMesDown++;
             }
             paraules.add(palabra);
 
-            for (int i = col; i < col + sizePal; i++)
-            {
+            for (int i = col; i < col + sizePal; i++) {
                 String aux = String.valueOf(palabra.charAt(i-col));
                 int mostUp = fila - 1;
-                while (mostUp >= 0 && caselles[mostUp][i].isOcupada())
-                {
-                    aux = caselles[mostUp][i].getFitxa().getLletra() + aux; //concatenar letras a la palabra
+                while (mostUp >= 0 && caselles[mostUp][i].isOcupada()) {
+                    aux = caselles[mostUp][i].getFitxa().getLletra() + aux;
                     mostUp--;
                 }
                 int mostDown = fila + 1;
-                while (mostDown < 15 && caselles[mostDown][i].isOcupada())
-                {
-                    aux = aux + caselles[mostDown][i].getFitxa().getLletra(); //concatenar letras a la palabra
+                while (mostDown < 15 && caselles[mostDown][i].isOcupada()) {
+                    aux = aux + caselles[mostDown][i].getFitxa().getLletra();
                     mostDown++;
                 }
                 if (aux.length() > 1) paraules.add(aux);
@@ -281,8 +302,12 @@ public class Taulell {
 
         return paraules;
     }
-    /*----------------------------------------------------- */
 
+    /**
+     * Verifica si el taulell està completament buit (sense fitxes).
+     * 
+     * @return true si no hi ha cap fitxa al taulell, false si n'hi ha alguna
+     */
     public boolean isEmpty() {
         for (int i = 0; i < MIDA; i++) {
             for (int j = 0; j < MIDA; j++) {
@@ -295,16 +320,18 @@ public class Taulell {
     }
 
     /**
-     * Verifica si les fitxes que es volen col·locar en el taulell son valides. Verifica si les posicions no estan ocupades
-     * @param jugades llista de jugades a jugar. Cada jugada es un objecte Fitxa amb la seva posicio al taulell. La clau representa la posicio i el valor la fitxa.
-     * @param across valor bolean que indica si la jugada es horitzontal o vertical
-     * @return true si les fitxes es poden colocar al taulell, false en cas contrari
+     * Verifica si les fitxes que es volen col·locar en el taulell són vàlides.
+     * Comprova que les posicions no estiguin ocupades i que les fitxes estiguin
+     * alineades horitzontalment o verticalment segons l'orientació indicada.
+     * 
+     * @param jugades llista de jugades a jugar. Cada jugada és un objecte Fitxa amb la seva posició al taulell
+     * @param across valor booleà que indica si la jugada és horitzontal (true) o vertical (false)
+     * @return true si les fitxes es poden col·locar al taulell, false en cas contrari
      */
-    public boolean verificarFitxes(LinkedHashMap<int[], Fitxa> jugades, boolean across)
-    {
+    public boolean verificarFitxes(LinkedHashMap<int[], Fitxa> jugades, boolean across) {
         if (jugades.size() == 1 && isEmpty())
-            return false; //no es pot colocar una fitxa nomes si el taulell esta buit
-        //iterar por la palabra
+            return false; //no es pot col·locar una fitxa nomes si el taulell esta buit
+        
         for (var entry : jugades.entrySet()) {
             int[] posicio = entry.getKey();
             if (caselles[posicio[0]][posicio[1]].isOcupada()) 
@@ -312,9 +339,7 @@ public class Taulell {
         }
 
         if (jugades.size() != 1) {
-            // Comprovar si la jugada és horitzontal o vertical
             if (across) {
-                // Comprovar si totes les posicions tenen la mateixa fila
                 int fila = jugades.keySet().iterator().next()[0];
                 for (int[] pos : jugades.keySet()) {
                     if (pos[0] != fila) {
@@ -322,7 +347,6 @@ public class Taulell {
                     }
                 }
             } else {
-                // Comprovar si totes les posicions tenen la mateixa columna
                 int columna = jugades.keySet().iterator().next()[1];
                 for (int[] pos : jugades.keySet()) {
                     if (pos[1] != columna) {
@@ -333,40 +357,33 @@ public class Taulell {
         } 
 
         return true;
-        
     }
 
-
     /**
-     * Verifica si la jugada es valida i calcula la puntuacio de la jugada.
-     * @param jugada llista de jugades a jugar. Cada jugada es un objecte Fitxa amb la seva posicio al taulell. La clau representa la posicio i el valor la fitxa.
-     * @param diccionari diccionari on es troben les paraules que son acceptades en l'idioma en que es juga la Partida.
-     * @param across boolean que indica si la jugada es horitzontal o vertical
-     * @param colocarFitxes boolean que indica si es volen col·locar les fitxes al taulell o no
-     * @return la puntuacio de la jugada, -1 si la jugada no es valida
+     * Verifica si la jugada és vàlida i calcula la puntuació.
+     * Comprova que les paraules formades existeixin al diccionari i aplica els multiplicadors corresponents.
+     * 
+     * @param jugada llista de jugades a jugar. Cada jugada és una fitxa amb la seva posició
+     * @param diccionari diccionari que conté les paraules vàlides
+     * @param across booleà que indica si la jugada és horitzontal (true) o vertical (false)
+     * @param colocarFitxes booleà que indica si es volen col·locar les fitxes al taulell o només validar
+     * @return la puntuació de la jugada, o -1 si la jugada no és vàlida
      */
-    public int validesaYPuntuacioJugada(LinkedHashMap<int[], Fitxa> jugada, Diccionari diccionari, boolean across, boolean colocarFitxes)
-    {
+    public int validesaYPuntuacioJugada(LinkedHashMap<int[], Fitxa> jugada, Diccionari diccionari, boolean across, boolean colocarFitxes) {
         if (jugada.isEmpty()) {
-            return -1;   // o la señal que uses para “no hay palabra válida”
+            return -1;
         }
-        //Guardar l'estat inicial
+        
         Map<int[], Fitxa> fitxesAnteriors = new HashMap<>();
-    
-        // Registrar el estado de las casillas que vamos a modificar (vacías o con fichas previas)
         for (var entry : jugada.entrySet()) {
             int[] posicio = entry.getKey();
             if (caselles[posicio[0]][posicio[1]].isOcupada()) {
-                // Si ya hay ficha (aunque esto no debería ocurrir si verificarFitxes funciona bien)
                 fitxesAnteriors.put(posicio, caselles[posicio[0]][posicio[1]].getFitxa());
             } else {
-                // Si la casilla está vacía
                 fitxesAnteriors.put(posicio, null);
             }
         }
 
-        
-        // afegir fitxes al taulell
         boolean[][] fitxesNoves = new boolean[MIDA][MIDA];
         for (int i = 0; i < MIDA; i++) {
             for (int j = 0; j < MIDA; j++) {
@@ -383,63 +400,49 @@ public class Taulell {
         
         int[] pos = jugada.keySet().iterator().next();  
         int puntuacio = -1;
-        if (across) 
-        {
+        if (across) {
             puntuacio = getPuntuacioParaulaHorizontal(pos, fitxesNoves, diccionari);
             if (puntuacio == -1) {
-                // Deshacer los cambios
                 restaurarTaulell(fitxesAnteriors, jugada);
-                return -1; // La paraula no és vàlida
+                return -1;
             }
 
-            // mirar paraules verticals
             int fila = pos[0];
             for (int i = 0; i < MIDA; i++) { 
                 if (fitxesNoves[fila][i]) {
-                    // Si la casella es nova, mirar les paraules verticals noves posibles
                     int[] posVertical = {fila, i};
                     int puntuacioVertical = getPuntuacioParaulaVertical(posVertical, fitxesNoves, diccionari);
                     if (puntuacioVertical == -1) {
-                        // Deshacer los cambios
                         restaurarTaulell(fitxesAnteriors, jugada);
-                        return -1; // La paraula no és vàlida
+                        return -1;
                     }
                     puntuacio += puntuacioVertical;
                 }
             }
-        }
-        else 
-        {
+        } else {
             puntuacio = getPuntuacioParaulaVertical(pos, fitxesNoves, diccionari);
             if (puntuacio == -1) {
-                // Deshacer los cambios
                 restaurarTaulell(fitxesAnteriors, jugada);
-                return -1; // La paraula no és vàlida
+                return -1;
             }
 
-            // mirar paraules horitzontals
             int col = pos[1];
             for (int j = 0; j < MIDA; j++) {
                 if (fitxesNoves[j][col]) {
-                    // Si la casella es nova, mirar les paraules horitzontals
                     int[] posHorizontal = {j, col};
-                    
                     int puntuacioHorizontal = getPuntuacioParaulaHorizontal(posHorizontal, fitxesNoves, diccionari);
                     if (puntuacioHorizontal == -1) {
-                        // Deshacer los cambios
                         restaurarTaulell(fitxesAnteriors, jugada);
-                        return -1; // La paraula no és vàlida
+                        return -1;
                     }
                     puntuacio += puntuacioHorizontal;
                 }
             }
         }
     
-        // Si nomes es volia validar i no colocar, restaurem
         if (!colocarFitxes) {
             restaurarTaulell(fitxesAnteriors, jugada);
         } else {
-            // Si es vol colocar, el primer moviment ja s'ha fet
             if (this.primerMoviment) {
                 this.primerMoviment = false;
             }
@@ -449,17 +452,15 @@ public class Taulell {
 
     /**
      * Restaura el taulell a l'estat anterior a la jugada.
-     * @param fitxesARetirar mapa amb les fitxes que es volen restaurar
-     * @param jugada mapa amb les fitxes que es volen retirar i les posicions on es volen retirar
+     * 
+     * @param fitxesARetirar mapa amb les fitxes originals que hi havia abans de la jugada
+     * @param jugada mapa amb les fitxes que es van col·locar i que s'han de retirar
      */
-    private void restaurarTaulell(Map<int[], Fitxa> fitxesARetirar, LinkedHashMap<int[], Fitxa> jugada)
-    {
+    private void restaurarTaulell(Map<int[], Fitxa> fitxesARetirar, LinkedHashMap<int[], Fitxa> jugada) {
         for (var entry : jugada.entrySet()) {
             int[] posicio = entry.getKey();
-            // Primero retirar la ficha que colocamos
             caselles[posicio[0]][posicio[1]].retirarFitxa();
             
-            // Restaurar la ficha anterior si existía
             Fitxa fitxaAnterior = fitxesARetirar.get(posicio);
             if (fitxaAnterior != null) {
                 caselles[posicio[0]][posicio[1]].colocarFitxa(fitxaAnterior);
@@ -468,39 +469,33 @@ public class Taulell {
     }
     
     /**
-     * Calcula la puntuacio de la paraula horitzontal que es forma a partir de les fitxes noves col·locades.
-     * @param pos posicio de la primera fitxa col·locada
-     * @param fitxesNoves matriu de booleans que indica si la casella es nova o no (hi havia previament una fitxa colocada)
-     * @param diccionari Diccionari que verifica si la paraula formada existeix o no
-     * @return la puntuacio de la jugada, -1 en cas contrari.
+     * Calcula la puntuació d'una paraula horitzontal formada a partir de la posició indicada.
+     * Verifica que la paraula sigui vàlida segons el diccionari i aplica els multiplicadors.
+     * 
+     * @param pos posició inicial de la paraula
+     * @param fitxesNoves matriu que indica quines fitxes són noves
+     * @param diccionari diccionari per validar la paraula
+     * @return puntuació de la paraula, o -1 si no és vàlida
      */
-    private int getPuntuacioParaulaHorizontal(int[] pos, boolean[][] fitxesNoves, Diccionari diccionari)
-    {
+    private int getPuntuacioParaulaHorizontal(int[] pos, boolean[][] fitxesNoves, Diccionari diccionari) {
         int fila = pos[0];
         int col = pos[1];
         col--;
         while (col >= 0 && caselles[fila][col].isOcupada()) 
             col--;
-        // ;No hi ha fitxa a l'esquerra
 
         col++;
         List<Fitxa> paraula = new ArrayList<>();
         
-
-        // calcular puntuacio
         int puntuacio = 0;
         int multiplicador_paraula = 1;
-        while (col < 15 && caselles[fila][col].isOcupada()) 
-        {
+        while (col < 15 && caselles[fila][col].isOcupada()) {
             paraula.add(caselles[fila][col].getFitxa());
-            if (fitxesNoves[fila][col])
-            {
+            if (fitxesNoves[fila][col]) {
                 int multiplicador_letra = caselles[fila][col].getMultiplicadorLetra();
-                puntuacio += multiplicador_letra*caselles[fila][col].getFitxa().getValor();
+                puntuacio += multiplicador_letra * caselles[fila][col].getFitxa().getValor();
                 multiplicador_paraula *= caselles[fila][col].getMultiplicadorParaula();
-            }
-            else 
-            {
+            } else {
                 puntuacio += caselles[fila][col].getFitxa().getValor();
             }
 
@@ -508,85 +503,83 @@ public class Taulell {
         }
 
         if (paraula.size() <= 1)
-            return 0; //nomes hi ha una fitxa colocada, per tant no es forma paraula
-            
+            return 0;
 
-        boolean b;
-
-        try 
-        {
-            b = diccionari.esParaula(FitxesToString(paraula));
+        try {
+            boolean b = diccionari.esParaula(FitxesToString(paraula));
+            if (b) 
+                return puntuacio * multiplicador_paraula;
         } catch (IllegalArgumentException e) {
             return -1;
         }
-        if (b) 
-            return puntuacio*multiplicador_paraula;
         return -1;
     }
 
     /**
-     * Calcula la puntuacio de la paraula vertical que es forma a partir de les fitxes noves col·locades.
-     * @param pos posicio de la primera fitxa col·locada
-     * @param fitxesNoves matriu de booleans que indica si la casella es nova o no (hi havia previament una fitxa colocada)
-     * @param diccionari Diccionari que verifica si la paraula formada existeix o no
-     * @return la puntuacio de la jugada, -1 en cas contrari.
+     * Calcula la puntuació d'una paraula vertical formada a partir de la posició indicada.
+     * Verifica que la paraula sigui vàlida segons el diccionari i aplica els multiplicadors.
+     * 
+     * @param pos posició inicial de la paraula
+     * @param fitxesNoves matriu que indica quines fitxes són noves
+     * @param diccionari diccionari per validar la paraula
+     * @return puntuació de la paraula, o -1 si no és vàlida
      */
-    private int getPuntuacioParaulaVertical(int[] pos, boolean[][] fitxesNoves, Diccionari diccionari)
-    {
+    private int getPuntuacioParaulaVertical(int[] pos, boolean[][] fitxesNoves, Diccionari diccionari) {
         int fila = pos[0];
         int col = pos[1];
         fila--;
         while (fila >= 0 && caselles[fila][col].isOcupada()) 
             fila--;
-        // ;No hi ha fitxa a l'esquerra
 
         fila++;
         List<Fitxa> paraula = new ArrayList<>();
         
         int puntuacio = 0;
         int multiplicador_paraula = 1;
-        while (fila < 15 && caselles[fila][col].isOcupada()) 
-        {
+        while (fila < 15 && caselles[fila][col].isOcupada()) {
             paraula.add(caselles[fila][col].getFitxa());
-            if (fitxesNoves[fila][col])
-            {
+            if (fitxesNoves[fila][col]) {
                 int multiplicador_letra = caselles[fila][col].getMultiplicadorLetra();
-                puntuacio += multiplicador_letra*caselles[fila][col].getFitxa().getValor();
+                puntuacio += multiplicador_letra * caselles[fila][col].getFitxa().getValor();
                 multiplicador_paraula *= caselles[fila][col].getMultiplicadorParaula();
-            }
-            else 
-            {
+            } else {
                 puntuacio += caselles[fila][col].getFitxa().getValor();
             }
             fila++;
         }
 
         if (paraula.size() < 2)
-            return 0; //nomes hi ha una fitxa colocada
+            return 0;
 
-        try 
-        {
+        try {
             if (diccionari.esParaula(FitxesToString(paraula))) {
                 System.out.println("Paraula vàlida: " + FitxesToString(paraula));
+                return puntuacio * multiplicador_paraula;
             }
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
             return -1;
         }
         
-        return puntuacio*multiplicador_paraula;
+        return -1;
     }
 
-    private String FitxesToString(List<Fitxa> fitxes)
-    {
+    /**
+     * Converteix una llista de fitxes en una cadena de text.
+     * Verifica que no s'intentin formar dígrafs amb fitxes separades.
+     * 
+     * @param fitxes llista de fitxes a convertir
+     * @return cadena de text formada per les lletres de les fitxes
+     * @throws IllegalArgumentException si s'intenta formar un dígraf amb fitxes separades
+     */
+    private String FitxesToString(List<Fitxa> fitxes) {
         String paraula = "";
-        for (int i = 0; i < fitxes.size(); i++) 
-        {
+        for (int i = 0; i < fitxes.size(); i++) {
             String lletra = fitxes.get(i).getLletra();
             if (i < fitxes.size() - 1) {
                 String siguienteLetra = fitxes.get(i + 1).getLletra();
                 
-                // Comprobar dígrafos en español
+                // Comprovar dígrafs en castellà
                 if ((lletra.equals("C") && siguienteLetra.equals("H")) ||
                     (lletra.equals("L") && siguienteLetra.equals("L")) ||
                     (lletra.equals("R") && siguienteLetra.equals("R"))) {
@@ -594,7 +587,7 @@ public class Taulell {
                         lletra + siguienteLetra + "' amb fitxes separades. Utilitza una fitxa específica de dígraf.");
                 }
                 
-                // Comprobar dígrafos en catalán
+                // Comprovar dígrafs en català
                 if ((lletra.equals("N") && siguienteLetra.equals("Y")) ||
                     (lletra.equals("L") && siguienteLetra.equals("·L"))) {
                     throw new IllegalArgumentException("Error: No es pot formar el dígraf '" + 
@@ -606,7 +599,4 @@ public class Taulell {
         }
         return paraula;
     }
-
 }
-
-
