@@ -524,8 +524,11 @@ public class Main {
                 return;
         }
 
-        if (Jugador2 == null)
+        if (Jugador2 == null || Jugador2 == Jugador1)
+        {
+            System.out.println("No s'ha pogut registrar el segon jugador o el segon jugador es el mateix que el primer");
             return;
+        }
 
         System.out.println("Es jugara una partida entre " + Jugador1.getNom() + " i " + Jugador2.getNom());
         Partida partida = inputJugarPartida(scanner, List.of(Jugador1, Jugador2));
