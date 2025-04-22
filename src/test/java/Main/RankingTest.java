@@ -31,9 +31,9 @@ public class RankingTest {
     @Before
     public void setUp() {
         ranking = new Ranking();
-        persona1 = new Persona("Marta", "marta@example.com", "password123", "25", "Spain");
-        persona2 = new Persona("Joan", "joan@example.com", "securepass", "30", "Spain");
-        persona3 = new Persona("Laura", "laura@example.com", "mypassword", "28", "Spain");
+        persona1 = new Persona("Marta", "marta@example.com", "123qwerty", "25", "Spain");
+        persona2 = new Persona("Joan", "joan@example.com", "123qwerty", "30", "Spain");
+        persona3 = new Persona("Laura", "laura@example.com", "123qwerty", "28", "Spain");
 
         // Configurar estadístiques per persona1
         Estadistiques est1 = persona1.getEstadistiques();
