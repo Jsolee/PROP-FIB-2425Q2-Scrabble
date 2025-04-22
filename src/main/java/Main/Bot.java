@@ -10,9 +10,12 @@ import java.util.*;
  */
 public class Bot extends Usuari{
     // Variable que conté l'única instancia del bot.
+    /** Instància única del bot */
     private static Bot instancia;
 
+    /** Jugada horitzontal amb millor puntuació */
     private Map.Entry<LinkedHashMap<int[], Fitxa>, Integer> millorJugadaAcross; // jugades possibles ordenades per puntuació, si hi han dues jugades amb la mateixa puntuació, només es guardara 1
+    /** Jugada vertical amb millor puntuació */
     private Map.Entry<LinkedHashMap<int[], Fitxa>, Integer> millorJugadaDown; // jugades possibles ordenades per puntuació, si hi han dues jugades amb la mateixa puntuació, només es guardara 1
 
     /**
@@ -305,12 +308,8 @@ public class Bot extends Usuari{
      * @param across  orientació
      */
     private void mirarJugada(LinkedHashMap<int[], Fitxa> jugada, Taulell taulell, Diccionari diccionari, boolean across) {
-
-        if (!millorJugadaAcross.getKey().isEmpty() ) { // (per testejar i fer que nomes miri la primera jugada que troba) // esta descomentat perque no funciona de normal
-            return;
-        }
         if (across) {
-            if (!millorJugadaAcross.getKey().isEmpty() ) { // (per testejar i fer que nomes miri la primera jugada que troba) // esta descomentat perque no funciona de normal
+            if (!millorJugadaAcross.getKey().isEmpty() ) { // esta descomentat perque el codi no funciona del tot, si trec aixo el codi genera masa combinacions repetides i al main es veu malament.
                 return;
             }
             LinkedHashMap<int[], Fitxa> jugadaCopy = new LinkedHashMap<>(jugada);
@@ -321,7 +320,7 @@ public class Bot extends Usuari{
                 }
             }
         } else {
-            if (!millorJugadaDown.getKey().isEmpty() ) { // (per testejar i fer que nomes miri la primera jugada que troba) // esta descomentat perque no funciona de normal
+            if (!millorJugadaDown.getKey().isEmpty() ) { // esta descomentat perque el codi no funciona del tot, si trec aixo el codi genera masa combinacions repetides i al main es veu malament.
                 return;
             }
             LinkedHashMap<int[], Fitxa> jugadaCopy = new LinkedHashMap<>(jugada);

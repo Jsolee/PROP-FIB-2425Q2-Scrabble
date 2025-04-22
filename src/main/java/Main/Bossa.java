@@ -12,8 +12,11 @@ import java.util.*;
  */
 public class Bossa {
 
+    /** Nom de la bossa */
     private String nom;
+    /** Llista de fitxes actuals a la bossa */
     private LinkedList<Fitxa> fitxes;
+    /** Conjunt de lletres disponibles a la bossa */
     private final Set<String> alfabet;
 
     /**

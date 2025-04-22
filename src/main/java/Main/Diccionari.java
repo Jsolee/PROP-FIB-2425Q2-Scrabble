@@ -12,11 +12,14 @@ import java.util.*;
  */
 public class Diccionari {
 
-    // atributs
+    /** Nom del diccionari */
     private String nom;
+    /** Node arrel del DAWG */
     private final DAWGnode arrel;
+
     // abans utilitzava un ArrayList, pero aixo provocava que comprovar si un node estava registrat fos O(n) i no O(1)
     // d'aquesta manera vaig aconseguir que el diccionari english cargues en 1 segon y no en 1 minut.
+    /** Registre de nodes per evitar duplicats */
     private final Map<DAWGnode, DAWGnode> registre;
 
     /**

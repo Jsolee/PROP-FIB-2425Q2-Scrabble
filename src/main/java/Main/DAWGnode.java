@@ -11,7 +11,12 @@ import java.util.Objects;
  * contenir transicions a altres nodes segons caràcters.
  */
 public class DAWGnode {
+    /** Mapa de transicions associades a aquest node.
+     * Cada entrada conté un caràcter i el node destí corresponent.
+     */
     private Map<Character, DAWGnode> transicions;
+
+    /** Indica si aquest node representa el final d'una paraula. */
     private Boolean esParaula;
 
 
