@@ -178,8 +178,10 @@ public class TaulellTest {
         assertEquals(10, puntuacion); // 10 porque tiene doble puntuacion
     }
     
-     @Test
-    public void testPalabrasCruzadasVertical() {
+    @Test
+    public void testPalabrasCruzadas() {
+
+        this.taulell = new Taulell();
         // Primero colocamos "CASA" horizontal
         LinkedHashMap<int[], Fitxa> jugada1 = crearJugada(
             new String[]{"C", "A", "S", "A"}, 
@@ -190,14 +192,15 @@ public class TaulellTest {
         int puntuacion1 = taulell.validesaYPuntuacioJugada(jugada1, diccionariCastellano, true, true);
         assertTrue(puntuacion1 > 0);
         
-        // Luego colocamos "HOLA" vertical cruzando por la A de CASA
+        // Luego colocamos "SOPA" vertical cruzando por la S de CASA
         LinkedHashMap<int[], Fitxa> jugada2 = crearJugada(
-            new String[]{"H", "O", "L"}, 
-            new int[][]{{4, 10}, {5, 10}, {6, 10}},
+            new String[]{"O", "P", "A"},
+            new int[][]{{8, 9}, {9, 9}, {10, 9}},
             new int[]{3, 1, 1}
         );
         
         int puntuacion2 = taulell.validesaYPuntuacioJugada(jugada2, diccionariCastellano, false, true);
+        System.out.println(puntuacion2);
         assertTrue(puntuacion2 > 0);
     }
 
