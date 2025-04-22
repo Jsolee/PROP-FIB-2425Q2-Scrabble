@@ -2,13 +2,30 @@ package Main;
 
 import java.util.*;
 
+/**
+ * Controlador que gestiona les partides d'Scrabble.
+ * S'encarrega de crear, accedir i manipular partides, així com gestionar
+ * els torns dels jugadors i coordinar les accions del joc.
+ */
 public class ControladorPartida {
+    /** Mapa que emmagatzema les partides indexades per nom */
     private HashMap<String, Partida> partides;
 
+    /**
+     * Constructor per defecte.
+     * Inicialitza el mapa de partides buit.
+     */
     public ControladorPartida() {
         partides = new HashMap<>();
     }
 
+    /**
+     * Obté una partida pel seu nom.
+     * 
+     * @param nomPartida nom de la partida a buscar
+     * @return objecte Partida corresponent al nom proporcionat
+     * @throws IllegalArgumentException si no existeix cap partida amb el nom especificat
+     */
     public Partida getPartida(String nomPartida)
     {
         if (!partides.containsKey(nomPartida))
@@ -16,12 +33,27 @@ public class ControladorPartida {
         return partides.get(nomPartida);
     }
 
+    /**
+     * Obté el jugador al qual li correspon el torn actual en una partida.
+     * 
+     * @param nomPartida nom de la partida
+     * @return objecte Usuari que representa al jugador actual
+     */
     public Usuari tornDe(String nomPartida)
     {
         Partida partida = getPartida(nomPartida);
         return partida.getJugadorActual();
     }
 
+    /**
+     * Crea una nova partida amb els jugadors i l'idioma especificats.
+     * 
+     * @param nomPartida nom per a la nova partida
+     * @param jugadors llista de jugadors que participaran a la partida
+     * @param idioma idioma de la partida (catalan, castellano o english)
+     * @return objecte Partida creat
+     * @throws IllegalArgumentException si ja existeix una partida amb el mateix nom o l'idioma no és vàlid
+     */
     public Partida crearPartida(String nomPartida, List<Usuari> jugadors, String idioma)
     {
         if (partides.containsKey(nomPartida))
@@ -37,9 +69,10 @@ public class ControladorPartida {
     }
 
     /**
-     * Retorna una llista dels jugadors de la partida especificada
+     * Retorna una llista dels jugadors de la partida especificada.
+     * 
      * @param nomPartida String que identifica la Partida
-     * @return
+     * @return llista de jugadors (objectes Usuari) de la partida
      */
     public List<Usuari> getJugadors(String nomPartida)
     {
@@ -47,9 +80,11 @@ public class ControladorPartida {
         return partida.getJugadors();
     }
 
-    /**inicialitza els jugadors de la Partida partida
-     * @param jugadors: llista d'objectes Usuari que representen els jugadors
-     * @param partida: objecte Partida on s'afegiran els jugadors
+    /**
+     * Inicialitza els jugadors de la Partida partida.
+     * 
+     * @param jugadors llista d'objectes Usuari que representen els jugadors
+     * @param partida objecte Partida on s'afegiran els jugadors
      */
     private void inicialitzarJugadors(List<Usuari> jugadors, Partida partida)
     {
@@ -58,23 +93,25 @@ public class ControladorPartida {
     }
 
     /**
-     * Intenta jugar una paraula a la partida. Si la jugada es valida, actualitza el taulell i l'atril del jugador actual, i retorna la puntuacio.
+     * Intenta jugar una paraula a la partida. Si la jugada és vàlida, actualitza el taulell i l'atril del jugador actual, i retorna la puntuació.
+     * 
      * @param partida objecte partida on es volen jugar les fitxes
-     * @param jugades llista de jugades a jugar. Cada jugada es un objecte Fitxa amb la seva posicio al taulell. La clau representa la posicio i el valor la fitxa.
-     * @param across String que representa si la jugada es horitzontal o vertical. "H" per horitzontal i "V" per vertical.
-     * @return puntuacio de la jugada. Si la jugada no es valida, retorna -1.
+     * @param jugades llista de jugades a jugar. Cada jugada és un objecte Fitxa amb la seva posició al taulell. La clau representa la posició i el valor la fitxa.
+     * @param across String que representa si la jugada és horitzontal o vertical. "H" per horitzontal i "V" per vertical.
+     * @return puntuació de la jugada. Si la jugada no és vàlida, retorna -1.
      */
     public int jugarParaula(Partida partida, LinkedHashMap<int[], Fitxa> jugades, String across)
     {
-
         return partida.jugarParaula(jugades, across);
     }
 
     /**
-     * Canvia les fitxes de l'atril del jugador actual per fitxes de la bossa de manera aleatoria
+     * Canvia les fitxes de l'atril del jugador actual per fitxes de la bossa de manera aleatòria.
+     * 
      * @param partida objecte partida on es volen jugar les fitxes
-     * @param indexsACanviar llista d'indexs de les fitxes a canviar de l'atril del jugador actual
+     * @param indexsACanviar llista d'índexs de les fitxes a canviar de l'atril del jugador actual
      * @return true si s'ha pogut canviar les fitxes, false si no s'ha pogut
+     * @throws IllegalArgumentException si no hi ha prou fitxes a la bossa per realitzar l'intercanvi
      */
     public boolean canviDeFitxes(Partida partida, String[] indexsACanviar)
     {
@@ -87,6 +124,12 @@ public class ControladorPartida {
         return true;
     }
 
+    /**
+     * Obté el taulell d'una partida específica.
+     * 
+     * @param nompartida nom de la partida
+     * @return objecte Taulell de la partida
+     */
     public Taulell getTaulell(String nompartida)
     {
         Partida partida = getPartida(nompartida);
@@ -94,7 +137,8 @@ public class ControladorPartida {
     }
 
     /**
-     * Comprova si la partida ha acabat. La partida acaba si la bossa no te fitxes, si algun jugador no te fitxes a l'atril o si la partida s'ha guardat
+     * Comprova si la partida ha acabat. La partida acaba si la bossa no té fitxes, si algun jugador no té fitxes a l'atril o si la partida s'ha guardat.
+     * 
      * @param partida objecte partida.
      * @return true si la partida ha acabat, false si no.
      */
@@ -122,7 +166,8 @@ public class ControladorPartida {
 
 
     /**
-     * acaba la partida i elimina dels jugadors les partides en curs que te
+     * Acaba la partida i elimina dels jugadors les partides en curs que té.
+     * 
      * @param partida objecte partida.
      */
     public void acabarPartida(Partida partida)
@@ -147,7 +192,8 @@ public class ControladorPartida {
 
 
     /**
-     * Comprova si el jugador actual es un bot i si es així, intenta jugar la millor jugada possible
+     * Comprova si el jugador actual és un bot i si és així, intenta jugar la millor jugada possible.
+     * 
      * @param partida objecte partida.
      * @param bot objecte Usuari que representa el bot.
      */

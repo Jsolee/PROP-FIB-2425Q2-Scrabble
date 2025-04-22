@@ -21,13 +21,12 @@ public class Main {
 
         System.out.println("BENVINGUT A SCRABBLE!!");
         mostrarComandesInicials(); //veiem que podem fer
-        int opcio = scanner.nextInt();
-        scanner.nextLine(); // Consumir el salt de línia
+        String opcio = scanner.nextLine();
         System.out.println();
 
         while(true) {
             //OPCIÓ 1: INICIAR SESSIO
-            if(opcio == 1){
+            if(opcio.equals("1")){
                 Usuari user = inputIniciarSessio(scanner);
                 if(user != null) {
                     System.out.println("Benvingut " + user.getNom());
@@ -148,10 +147,10 @@ public class Main {
                 }
             }
             //OPCIÓ 2: REGISTRAR NOU USUARI
-            else if (opcio == 2) {
+            else if (opcio.equals("2")) {
                 Usuari registrat = registrarUsuari(scanner);
             }
-            else if (opcio == 3) {
+            else if (opcio.equals("3")) {
                 System.out.println("Sortint del joc...");
                 break;
             }
@@ -160,8 +159,7 @@ public class Main {
                 System.out.println();
             }
             mostrarComandesInicials();
-            opcio = scanner.nextInt();
-            scanner.nextLine();
+            opcio = scanner.nextLine();
             System.out.println();
         }
     }
@@ -368,42 +366,52 @@ public class Main {
         System.out.println("Has seleccionat veure el ranking!");
         System.out.println();
         mostrarFiltresRanking();
-        int n = scanner.nextInt();
-        scanner.nextLine();
+        String opcioRanking = scanner.nextLine();
+        int n;
+        
         while(true) {
-            if(n < 1 || n > 6) {
-                System.out.println("Opcio no valida");
-                System.out.println();
-            }
-            else if(n == 6) {
+            if(opcioRanking.equals("6") || opcioRanking.equalsIgnoreCase("EXIT")) {
                 break;
             }
-            else {
-                List<Persona> ranking = cd.getRanking(n);
-                outputRanking(scanner,n);
-                for (int i = 0; i < ranking.size(); i++) {
-                    Persona persona = ranking.get(i);
-                    System.out.println((i + 1) + ". " + persona.getNom() + " - : " + outputValorsRanking(scanner,n, persona));
+            
+            try {
+                n = Integer.parseInt(opcioRanking);
+                if(n < 1 || n > 6) {
+                    System.out.println("Opcio no valida");
+                    System.out.println();
                 }
-                System.out.println("===========================================");
-                for (int i = 0; i < ranking.size(); i++) {
-                    Persona persona = ranking.get(i);
-                    String nom = usuari.getNom();
-                    if(persona.getNom().equals(nom)) {
-                        System.out.println((i + 1) + ". " + persona.getNom() + " - : " + outputValorsRanking(scanner,n, persona));
-                        break;
+                else if(n == 6) {
+                    break;
+                }
+                else {
+                    List<Persona> ranking = cd.getRanking(n);
+                    outputRanking(n);
+                    for (int i = 0; i < ranking.size(); i++) {
+                        Persona persona = ranking.get(i);
+                        System.out.println((i + 1) + ". " + persona.getNom() + " - : " + outputValorsRanking(n, persona));
                     }
+                    System.out.println("===========================================");
+                    for (int i = 0; i < ranking.size(); i++) {
+                        Persona persona = ranking.get(i);
+                        String nom = usuari.getNom();
+                        if(persona.getNom().equals(nom)) {
+                            System.out.println((i + 1) + ". " + persona.getNom() + " - : " + outputValorsRanking(n, persona));
+                            break;
+                        }
+                    }
+                    System.out.println();
                 }
-                System.out.println();
+            } catch(NumberFormatException e) {
+                System.out.println("Si us plau, introdueix un número vàlid o EXIT");
             }
+            
             mostrarFiltresRanking();
-            n = scanner.nextInt();
+            opcioRanking = scanner.nextLine();
             System.out.println();
-            scanner.nextLine();
         }
     }
 
-    private void outputRanking(Scanner scanner, int num) {
+    private void outputRanking(int num) {
         switch(num) {
             case 1:
                 System.out.println("Ranking per número de punts totals:");
@@ -426,7 +434,7 @@ public class Main {
         }
     }
 
-    private int outputValorsRanking(Scanner scanner, int num, Persona p) {
+    private int outputValorsRanking(int num, Persona p) {
         try {
             return p.getValorEstaditiques(num);
         } catch (IllegalArgumentException e) {
@@ -439,34 +447,28 @@ public class Main {
     {
         System.out.println("Has seleccionat jugar una partida!");
         mostrarOpcionsJugarPartida();
-        int opcioPartida = scanner.nextInt();
-        scanner.nextLine(); // Consumir el salt de línia
+        String opcioPartida = scanner.nextLine();
 
-        switch (opcioPartida)
-        {
-            case 1:
-                System.out.println("Has seleccionat jugar una partida 1 vs 1");
-                partida1vs1(scanner, Jugador1);
-                break;
-            case 2:
-                System.out.println("Has seleccionat jugar una partida 1 vs BOT");
-                partida1vsbot(scanner, Jugador1);
-                break;
-            case 3:
-                List<Partida> partides = cd.getPartidesEnCurs(Jugador1);
-                System.out.println("Aquestes son les partides actives de " + Jugador1.getNom() + " Total disponible: " + partides.size());
-                if (partides.size() > 0){
-                    for (Partida partida : partides)
-                        System.out.println(partida.getNom());
+        if(opcioPartida.equals("1")) {
+            System.out.println("Has seleccionat jugar una partida 1 vs 1");
+            partida1vs1(scanner, Jugador1);
+        }
+        else if(opcioPartida.equals("2")) {
+            System.out.println("Has seleccionat jugar una partida 1 vs BOT");
+            partida1vsbot(scanner, Jugador1);
+        }
+        else if(opcioPartida.equals("3")) {
+            List<Partida> partides = cd.getPartidesEnCurs(Jugador1);
+            System.out.println("Aquestes son les partides actives de " + Jugador1.getNom() + " Total disponible: " + partides.size());
+            if (partides.size() > 0){
+                for (Partida partida : partides)
+                    System.out.println(partida.getNom());
 
-                    System.out.println("Introdueix el nom de la partida a carregar:");
-                    System.out.print("> ");
-                    String nomPartida = scanner.nextLine();
-                    seleccionarIJugarPartida(scanner, nomPartida);
-                }
-                break;
-            default:
-                break;
+                System.out.println("Introdueix el nom de la partida a carregar:");
+                System.out.print("> ");
+                String nomPartida = scanner.nextLine();
+                seleccionarIJugarPartida(scanner, nomPartida);
+            }
         }
     }
 
@@ -509,19 +511,17 @@ public class Main {
         System.out.println("2. Iniciar sessio del segon jugador");
         System.out.println(">= 3. Enrere");
         System.out.print("> ");
-        int opcioJugador2 = scanner.nextInt();
-        scanner.nextLine(); // Consumir el salt de línia
+        String opcioJugador2 = scanner.nextLine();
         Usuari Jugador2 = null;
-        switch (opcioJugador2)
-        {
-            case 1:
-                Jugador2 = registrarUsuari(scanner);
-                break;
-            case 2:
-                Jugador2 = inputIniciarSessio(scanner);
-                break;
-            default:
-                return;
+        
+        if(opcioJugador2.equals("1")) {
+            Jugador2 = registrarUsuari(scanner);
+        }
+        else if(opcioJugador2.equals("2")) {
+            Jugador2 = inputIniciarSessio(scanner);
+        }
+        else {
+            return;
         }
 
         if (Jugador2 == null || Jugador2 == Jugador1)
@@ -583,7 +583,6 @@ public class Main {
             Taulell taulell = partida.getTaulell();
             mostrarTaulell(taulell);
 
-
             System.out.println("Fitxes restants a la bossa: " + partida.getBossa().getQuantitatFitxes());
 
             System.out.println("PUNTUACIONS ACTUALS:");
@@ -615,45 +614,42 @@ public class Main {
             System.out.println("7. Veure el taulell");
             System.out.print("> ");
 
-            int opcio = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salt de línia
-            switch (opcio)
-            {
-                case 1:
-                    jugarParaula(scanner, partida);
-                    break;
-                case 2:
-                    partida.passarTorn();
-                    System.out.println("Torn passat correctament");
-                    break;
-                case 3:
-                    canviarFitxes(scanner, partida);
-                    break;
-                case 4:
-                    System.out.println("Veient perfil rival...");
-                        List<Usuari> players = cd.getJugadors(partida.getNom());
-                    for (Usuari jugador : players) {
-                        if (jugador != partida.getJugadorActual()) {
-                            System.out.println("Perfil de " + jugador.getNom() + ":");
-                            veurePerfil(scanner, jugador);
-                        }
+            String opcio = scanner.nextLine();
+            
+            if(opcio.equals("1")) {
+                jugarParaula(scanner, partida);
+            }
+            else if(opcio.equals("2")) {
+                partida.passarTorn();
+                System.out.println("Torn passat correctament");
+            }
+            else if(opcio.equals("3")) {
+                canviarFitxes(scanner, partida);
+            }
+            else if(opcio.equals("4")) {
+                System.out.println("Veient perfil rival...");
+                List<Usuari> players = cd.getJugadors(partida.getNom());
+                for (Usuari jugador : players) {
+                    if (jugador != partida.getJugadorActual()) {
+                        System.out.println("Perfil de " + jugador.getNom() + ":");
+                        veurePerfil(scanner, jugador);
                     }
-                    break;
-                case 5:
-                    partida.guardarPartida();
-                    System.out.println("Partida guardada correctament");
-                    noMostrarDetallsFinals = true;
-                    break;
-                case 6:
-                    rendirse(scanner, partida);
-                    noMostrarDetallsFinals = true;
-                    break;
-                case 7:
-                    mostrarTaulell(taulell);
-                    break;
-                default:
-                    System.out.println("Opcio no valida");
-                    break;
+                }
+            }
+            else if(opcio.equals("5")) {
+                partida.guardarPartida();
+                System.out.println("Partida guardada correctament");
+                noMostrarDetallsFinals = true;
+            }
+            else if(opcio.equals("6")) {
+                rendirse(scanner, partida);
+                noMostrarDetallsFinals = true;
+            }
+            else if(opcio.equals("7")) {
+                mostrarTaulell(taulell);
+            }
+            else {
+                System.out.println("Opcio no valida");
             }
             System.out.println();
         }
@@ -706,56 +702,78 @@ public class Main {
 
     private void jugarParaula(Scanner scanner, Partida partida)
     {
-        System.out.println("Introdueix el numero de l'atril corresponent a la fitxa que vols jugar. Una vegada decideixis parar de afegir introdueix -1:");
+        System.out.println("Introdueix el numero de l'atril corresponent a la fitxa que vols jugar. Una vegada decideixis parar de afegir introdueix -1 o qualsevol text:");
         System.out.print("> ");
-        int posicio = scanner.nextInt();
+        String entrada = scanner.nextLine();
         LinkedHashMap<int[], Fitxa> jugades = new LinkedHashMap<>();
         List<Fitxa> atril = partida.getAtril();
         // Guardar una referencia a los comodines modificados para poder restaurarlos
         List<Fitxa> comodinesModificados = new ArrayList<>();
+        
+        int posicio = -1;
+        while (true) {
+            try {
+                posicio = Integer.parseInt(entrada);
+                if(posicio < 0) break;
+                
+                if (posicio >= atril.size()) {
+                    System.out.println("Fitxa no disponible");
+                    System.out.print("> ");
+                    entrada = scanner.nextLine();
+                    continue;
+                }
 
-        while (posicio >= 0)
-        {
-            if (posicio >= atril.size() || posicio < 0)
-            {
-                System.out.println("Fitxa no disponible");
-                System.out.print("> ");
-                posicio = scanner.nextInt();
-                continue;
-            }
-            else
-            {
                 Fitxa fitxa = atril.get(posicio);
-                if (fitxa.getLletra().equals("#")) // Corregido: usar equals() en lugar de ==
-                {
-                    scanner.nextLine(); // Consumir el salto de línea pendiente
+                if (fitxa.getLletra().equals("#")) {
                     System.out.println("Especifica quina lletra vols que sigui el comodin:");
                     System.out.print("> ");
-                    String lletra = scanner.nextLine().toUpperCase(); // Convertir a mayúsculas
-                    fitxa.setLletra(lletra); // Eliminar punto y coma duplicado
-                    comodinesModificados.add(fitxa); // Registrar que modificamos este comodín
+                    String lletra = scanner.nextLine().toUpperCase();
+                    fitxa.setLletra(lletra);
+                    comodinesModificados.add(fitxa);
                 }
 
                 System.out.println("Introdueix la posicio on vols colocar la fitxa: " + atril.get(posicio).getLletra() + "  (format: primer numero de la fila i despres la columna): ");
                 System.out.print("> ");
-                int fila = scanner.nextInt();
-                int columna = scanner.nextInt();
-                int[] posicioFitxa = {fila, columna};
+                String posicioText = scanner.nextLine();
+                String[] posicioSplit = posicioText.split("\\s+");
+                if(posicioSplit.length != 2) {
+                    System.out.println("Format incorrecte. Has d'introduir dos números separats per espai.");
+                    continue;
+                }
+                
+                try {
+                    int fila = Integer.parseInt(posicioSplit[0]);
+                    int columna = Integer.parseInt(posicioSplit[1]);
+                    int[] posicioFitxa = {fila, columna};
+                    jugades.put(posicioFitxa, fitxa);
+                } catch(NumberFormatException e) {
+                    System.out.println("Has d'introduir valors numèrics per a fila i columna.");
+                    continue;
+                }
+                
+                System.out.println("Introdueix el numero de l'atril corresponent a la fitxa que vols jugar. Una vegada decideixis parar de afegir introdueix -1 o qualsevol text:");
+                System.out.print("> ");
+                entrada = scanner.nextLine();
 
-                jugades.put(posicioFitxa, fitxa);
+            } catch(NumberFormatException e) {
+                break;
             }
-            System.out.println("Introdueix el numero de l'atril corresponent a la fitxa que vols jugar. Una vegada decideixis parar de afegir introdueix -1:");
-            System.out.print("> ");
-            posicio = scanner.nextInt();
         }
 
-        scanner.nextLine(); // Consumir el salt de línia
+        if(jugades.isEmpty()) {
+            System.out.println("No has seleccionat cap fitxa. Tornant al menú principal.");
+            return;
+        }
+
         System.out.println("Introdueix l'orientacio (H/V):");
         System.out.print("> ");
         String orientacio = scanner.nextLine();
         try {
             int puntuacio = cd.jugarParaula(partida, jugades, orientacio);
-            System.out.println("Paraula jugada correctament. Puntuacio total de la jugada: " + puntuacio);
+            if (puntuacio != -1) 
+                System.out.println("Paraula jugada correctament. Puntuacio total de la jugada: " + puntuacio);
+            else 
+                System.err.println("Error: No s'ha pogut jugar la paraula. Potser no es valida o no es pot col·locar al taulell.");
         } catch (IllegalArgumentException e) {
             // Restaurar solo los comodines que modificamos
             for (Fitxa fitxa : comodinesModificados) {
