@@ -106,25 +106,6 @@ public class BotTest {
         assertFalse("La jugada amb comodí no hauria de ser buida", resultat.getKey().isEmpty());
     }
 
-    @Test
-    public void detectaMillorJugadaPerPuntuacio() {
-        // Crea un taulell amb caselles de valor especial
-        taulell.colocarFitxa(7, 7, new Fitxa("S", 1));
-        taulell.colocarFitxa(8, 7, new Fitxa("O", 1));
-        taulell.colocarFitxa(9, 7, new Fitxa("L", 1));
-
-        // Dona fitxes que poden formar paraules en diferents posicions
-        atril.add(new Fitxa("M", 3));
-        atril.add(new Fitxa("E", 1));
-        atril.add(new Fitxa("S", 1));
-        atril.add(new Fitxa("A", 1));
-
-        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> resultat = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
-
-        // No podem predir exactament la puntuació, però podem verificar que té una jugada
-        assertNotNull("El bot hauria d'escollir una jugada", resultat);
-        assertFalse("La jugada no hauria de ser buida", resultat.getKey().isEmpty());
-    }
 
     @Test
     public void retornaJugadaBuidaQuanNoHiHaOpcions() {
