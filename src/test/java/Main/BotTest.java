@@ -106,7 +106,6 @@ public class BotTest {
         assertFalse("La jugada amb comodí no hauria de ser buida", resultat.getKey().isEmpty());
     }
 
-
     @Test
     public void retornaJugadaBuidaQuanNoHiHaOpcions() {
         // Dona fitxes que no formen cap paraula coneguda
