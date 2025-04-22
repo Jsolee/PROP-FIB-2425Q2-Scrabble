@@ -74,7 +74,6 @@ public class RankingTest {
         assertTrue(ranking.getRankingPartidesJugades().isEmpty());
         assertTrue(ranking.getRankingPartidesGuanyades().isEmpty());
         assertTrue(ranking.getRankingRecordPersonal().isEmpty());
-        assertTrue(ranking.getRankingParaulesTotals().isEmpty());
     }
 
     @Test
@@ -85,7 +84,6 @@ public class RankingTest {
         assertEquals(1, ranking.getRankingPartidesJugades().size());
         assertEquals(1, ranking.getRankingPartidesGuanyades().size());
         assertEquals(1, ranking.getRankingRecordPersonal().size());
-        assertEquals(1, ranking.getRankingParaulesTotals().size());
 
         assertEquals(persona1, ranking.getRankingPuntsTotals().get(0));
     }
@@ -128,7 +126,6 @@ public class RankingTest {
         assertFalse(ranking.getRankingPartidesJugades().contains(persona2));
         assertFalse(ranking.getRankingPartidesGuanyades().contains(persona2));
         assertFalse(ranking.getRankingRecordPersonal().contains(persona2));
-        assertFalse(ranking.getRankingParaulesTotals().contains(persona2));
     }
 
     @Test
