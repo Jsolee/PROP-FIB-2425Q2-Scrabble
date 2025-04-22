@@ -36,18 +36,19 @@ public class Main {
                     mostrarComandesSecundaries();
                     String opcio2 = scanner.nextLine();
                     System.out.println();
-                    //Boolean compteBenIniciat = true;
-                    while(true) {
+                    Boolean compteBenIniciat = true;
+                    while(compteBenIniciat) {
                         //OPCIÓ: TANCAR SESIÓ
                         if(opcio2.equals("EXIT")) {
                             System.out.println("Estas sortint de l'inici de sessio...");
                             System.out.print("> ");
                             System.out.println("Estas segur? (S/N)");
                             String resposta = scanner.nextLine();
+                            System.out.println();
                             if(resposta.equals("S") || resposta.equals("s")) {
                                 cd.tancarSessio(user.getNom());
                                 System.out.println("Sortint de l'inici de sessio...");
-                                //compteBenIniciat = false;
+                                compteBenIniciat = false;
                                 break;
                             }
                             else {
@@ -91,7 +92,7 @@ public class Main {
                             mostrarComandesOpcions();
                             String opcio3 = scanner.nextLine();
                             System.out.println();
-                            while(true) {
+                            while(compteBenIniciat) {
                                 if(opcio3.equals("EXIT") || opcio3.equals("3")) {
                                     System.out.println("Estas sortint de les opcions del perfil...");
                                     break;
@@ -118,10 +119,11 @@ public class Main {
                                 else if(opcio3.equals("2")) {
                                     System.out.println("Estas segur que vols eliminar el compte? (S/N)");
                                     String resposta = scanner.nextLine();
+                                    System.out.println();
                                     if(resposta.equals("S") || resposta.equals("s")) {
                                         cd.eliminarCompte(user.getNom());
                                         System.out.println("Compte eliminat correctament");
-                                        //compteBenIniciat = false;
+                                        compteBenIniciat = false;
                                         break;
                                     }
                                     else {
@@ -140,12 +142,12 @@ public class Main {
                         else {
                             System.out.println("Opcio no valida");
                             System.out.println();
-                            mostrarComandesSecundaries();
-
                         }
-                        mostrarComandesSecundaries();
+                        if(compteBenIniciat) {
+                            mostrarComandesSecundaries();
                         opcio2 = scanner.nextLine();
                         System.out.println();
+                        }
                     }//
                 }
             }
@@ -369,6 +371,7 @@ public class Main {
         System.out.println();
         mostrarFiltresRanking();
         String opcioRanking = scanner.nextLine();
+        System.out.println();
         int n;
         
         while(true) {
