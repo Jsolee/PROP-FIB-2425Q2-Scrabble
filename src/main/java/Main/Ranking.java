@@ -18,8 +18,6 @@ public class Ranking {
     private List<Persona> rankingPartidesGuanyades;
     /** Llista de jugadors ordenada per millor puntuació personal */
     private List<Persona> rankingRecordPersonal;
-    /** Llista de jugadors ordenada per nombre de paraules creades */
-    private List<Persona> rankingParaulesTotals;
 
     /**
      * Constructor per defecte.
@@ -30,7 +28,6 @@ public class Ranking {
         this.rankingPartidesJugades = new ArrayList<>();
         this.rankingPartidesGuanyades = new ArrayList<>();
         this.rankingRecordPersonal = new ArrayList<>();
-        this.rankingParaulesTotals = new ArrayList<>();
     }
 
     /**
@@ -45,7 +42,6 @@ public class Ranking {
             rankingPartidesJugades.add(persona);
             rankingPartidesGuanyades.add(persona);
             rankingRecordPersonal.add(persona);
-            rankingParaulesTotals.add(persona);
         }
         actualitzarRanking();
     }
@@ -60,7 +56,6 @@ public class Ranking {
         rankingPartidesJugades.remove(persona);
         rankingPartidesGuanyades.remove(persona);
         rankingRecordPersonal.remove(persona);
-        rankingParaulesTotals.remove(persona);
     }
 
     /**
@@ -72,7 +67,6 @@ public class Ranking {
         this.rankingPartidesJugades.sort(Comparator.comparingInt(p -> -p.getValorEstaditiques(2)));
         this.rankingPartidesGuanyades.sort(Comparator.comparingInt(p -> -p.getValorEstaditiques(3)));
         this.rankingRecordPersonal.sort(Comparator.comparingInt(p -> -p.getValorEstaditiques(4)));
-        this.rankingParaulesTotals.sort(Comparator.comparingInt(p -> -p.getValorEstaditiques(5)));
     }
 
     /**
@@ -103,10 +97,6 @@ public class Ranking {
             case 4:
                 ranking = rankingRecordPersonal;
                 System.out.println("Ranking per récord personal totals:");
-                break;
-            case 5:
-                ranking = rankingParaulesTotals;
-                System.out.println("Ranking per número de paraules totals:");
                 break;
             default:
                 System.out.println("Número de ranking no vàlid.");
@@ -155,12 +145,4 @@ public class Ranking {
         return rankingRecordPersonal;
     }
 
-    /**
-     * Obté el rànquing ordenat per nombre de paraules creades.
-     * 
-     * @return llista de jugadors ordenada per paraules creades (descendent)
-     */
-    public List<Persona> getRankingParaulesTotals() {
-        return rankingParaulesTotals;
-    }
 }

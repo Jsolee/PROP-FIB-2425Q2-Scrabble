@@ -21,7 +21,7 @@ public class ControladorRanking {
 
     /**
      * Afegeix un nou usuari al rànquing.
-     * 
+     *
      * @param persona objecte Persona que es vol afegir al rànquing
      */
     public void afegirNouUsuari(Persona persona) {
@@ -30,7 +30,7 @@ public class ControladorRanking {
 
     /**
      * Elimina un usuari del rànquing.
-     * 
+     *
      * @param persona objecte Persona que es vol eliminar del rànquing
      */
     public void eliminarUsuari(Persona persona) {
@@ -39,7 +39,7 @@ public class ControladorRanking {
 
     /**
      * Obté una llista d'usuaris ordenada segons el tipus de rànquing especificat.
-     * 
+     *
      * @param n tipus de rànquing a obtenir:
      *          1 - Rànquing ordenat per punts totals
      *          2 - Rànquing ordenat per partides jugades
@@ -59,8 +59,6 @@ public class ControladorRanking {
                 return ranking.getRankingPartidesGuanyades();
             case 4:
                 return ranking.getRankingRecordPersonal();
-            case 5:
-                return ranking.getRankingParaulesTotals();
             default:
                 throw new IllegalArgumentException("Invalid ranking type: " + n);
         }

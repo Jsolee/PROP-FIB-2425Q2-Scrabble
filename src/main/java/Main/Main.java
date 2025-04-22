@@ -36,23 +36,26 @@ public class Main {
                     mostrarComandesSecundaries();
                     String opcio2 = scanner.nextLine();
                     System.out.println();
-                    while(true) {
+                    Boolean compteBenIniciat = true;
+                    while(compteBenIniciat) {
                         //OPCIÓ: TANCAR SESIÓ
                         if(opcio2.equals("EXIT")) {
                             System.out.println("Estas sortint de l'inici de sessio...");
                             System.out.print("> ");
                             System.out.println("Estas segur? (S/N)");
                             String resposta = scanner.nextLine();
+                            System.out.println();
                             if(resposta.equals("S") || resposta.equals("s")) {
                                 cd.tancarSessio(user.getNom());
                                 System.out.println("Sortint de l'inici de sessio...");
+                                compteBenIniciat = false;
                                 break;
                             }
                             else {
                                 System.out.println("No s'ha tancat la sessio");
                             }
                         }
-                        //OPCIÓ: JUGAR PARTIDA
+                        //OPCIÓ: JUGAR PcompteARTIDA
                         else if(opcio2.equals("1")) {
                             opcioJugarPartida(scanner,user);
                         }
@@ -89,7 +92,7 @@ public class Main {
                             mostrarComandesOpcions();
                             String opcio3 = scanner.nextLine();
                             System.out.println();
-                            while(true) {
+                            while(compteBenIniciat) {
                                 if(opcio3.equals("EXIT") || opcio3.equals("3")) {
                                     System.out.println("Estas sortint de les opcions del perfil...");
                                     break;
@@ -116,9 +119,11 @@ public class Main {
                                 else if(opcio3.equals("2")) {
                                     System.out.println("Estas segur que vols eliminar el compte? (S/N)");
                                     String resposta = scanner.nextLine();
+                                    System.out.println();
                                     if(resposta.equals("S") || resposta.equals("s")) {
                                         cd.eliminarCompte(user.getNom());
                                         System.out.println("Compte eliminat correctament");
+                                        compteBenIniciat = false;
                                         break;
                                     }
                                     else {
@@ -137,12 +142,12 @@ public class Main {
                         else {
                             System.out.println("Opcio no valida");
                             System.out.println();
-                            mostrarComandesSecundaries();
-
                         }
-                        mostrarComandesSecundaries();
+                        if(compteBenIniciat) {
+                            mostrarComandesSecundaries();
                         opcio2 = scanner.nextLine();
                         System.out.println();
+                        }
                     }//
                 }
             }
@@ -356,8 +361,7 @@ public class Main {
         System.out.println("2. Partides Jugades");
         System.out.println("3. Partides Guanyades");
         System.out.println("4. Record Personal");
-        System.out.println("5. Paraules totals");
-        System.out.println("6. EXIT");
+        System.out.println("5. EXIT");
         System.out.print("> ");
     }
 
@@ -367,20 +371,21 @@ public class Main {
         System.out.println();
         mostrarFiltresRanking();
         String opcioRanking = scanner.nextLine();
+        System.out.println();
         int n;
         
         while(true) {
-            if(opcioRanking.equals("6") || opcioRanking.equalsIgnoreCase("EXIT")) {
+            if(opcioRanking.equals("5") || opcioRanking.equalsIgnoreCase("EXIT")) {
                 break;
             }
             
             try {
                 n = Integer.parseInt(opcioRanking);
-                if(n < 1 || n > 6) {
+                if(n < 1 || n > 5) {
                     System.out.println("Opcio no valida");
                     System.out.println();
                 }
-                else if(n == 6) {
+                else if(n == 5) {
                     break;
                 }
                 else {
@@ -424,9 +429,6 @@ public class Main {
                 break;
             case 4:
                 System.out.println("Ranking per récord personal totals:");
-                break;
-            case 5:
-                System.out.println("Ranking per número de paraules totals:");
                 break;
             default:
                 System.out.println("Número de ranking no vàlid.");
