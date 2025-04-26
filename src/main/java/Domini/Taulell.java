@@ -356,7 +356,15 @@ public class Taulell {
             }
         } 
 
-        return true;
+        boolean adjacent = false;
+        for (var entry : jugades.entrySet()) {
+            int[] posicio = entry.getKey();
+            if (teFitxaAdjacent(posicio[0], posicio[1])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -370,9 +378,14 @@ public class Taulell {
      * @return la puntuació de la jugada, o -1 si la jugada no és vàlida
      */
     public int validesaYPuntuacioJugada(LinkedHashMap<int[], Fitxa> jugada, Diccionari diccionari, boolean across, boolean colocarFitxes) {
-        if (jugada.isEmpty()) {
-            return -1;
-        }
+
+        /*System.out.println("DEBUG: jugada:");
+
+        for (var entry : jugada.entrySet()) {
+            int[] posicio = entry.getKey();
+            System.out.println("posicio " + posicio[0] + " , " + posicio[1]);
+            System.out.println("fitxa " + entry.getValue().getLletra());
+        }*/
         
         Map<int[], Fitxa> fitxesAnteriors = new HashMap<>();
         for (var entry : jugada.entrySet()) {
@@ -394,9 +407,12 @@ public class Taulell {
         for (var entry : jugada.entrySet()) {
             int[] posicio = entry.getKey();
             Fitxa fitxa = entry.getValue();
-            colocarFitxa(posicio[0], posicio[1], fitxa);
+            caselles[posicio[0]][posicio[1]].colocarFitxa(fitxa);
             fitxesNoves[posicio[0]][posicio[1]] = true;
         }
+
+        /*System.out.println("DEBUG FITXES COLOCADES");
+        mostrarTaulell(this);*/
         
         int[] pos = jugada.keySet().iterator().next();  
         
@@ -422,7 +438,6 @@ public class Taulell {
             }
         } else {
             puntuacio = getPuntuacioParaulaVertical(pos, fitxesNoves, diccionari);
-            
             if (puntuacio == -1) {
                 restaurarTaulell(fitxesAnteriors, jugada);
                 return -1;
@@ -549,7 +564,7 @@ public class Taulell {
             }
             fila++;
         }
-    
+        
         if (paraula.size() < 2)
             return 0;
 
@@ -599,4 +614,6 @@ public class Taulell {
         }
         return paraula;
     }
+
+
 }

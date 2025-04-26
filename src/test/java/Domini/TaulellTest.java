@@ -213,6 +213,29 @@ public class TaulellTest {
             new int[][]{{7, 7}, {8, 7}, {9, 7}, {10, 7}},
             new int[]{3, 1, 1, 1}
         );
+
+        assertTrue(taulell.verificarFitxes(jugada1, false));
+        int puntuacion1 = taulell.validesaYPuntuacioJugada(jugada1, diccionariCastellano, false, true);
+        assertTrue(puntuacion1 > 0); 
+        // Luego colocamos "HOLA" horizontal cruzando por la A de CASA
+        LinkedHashMap<int[], Fitxa> jugada2 = crearJugada(
+            new String[]{"H", "O", "L"}, 
+            new int[][]{{10, 4}, {10, 5}, {10, 6}},
+            new int[]{3, 1, 1}
+        );
+        assertTrue(taulell.verificarFitxes(jugada2, true));
+        int puntuacion2 = taulell.validesaYPuntuacioJugada(jugada2, diccionariCastellano, true, true);
+        assertTrue(puntuacion2 > 0);
+    }
+    
+    @Test
+    public void testPalabraCruzadaVertical() {
+        // Primero colocamos "CASA" vertical
+        LinkedHashMap<int[], Fitxa> jugada1 = crearJugada(
+            new String[]{"C", "A", "S", "A"}, 
+            new int[][]{{7, 7}, {8, 7}, {9, 7}, {10, 7}},
+            new int[]{3, 1, 1, 1}
+        );
         
         int puntuacion1 = taulell.validesaYPuntuacioJugada(jugada1, diccionariCastellano, false, true);
         assertTrue(puntuacion1 > 0);
@@ -225,9 +248,28 @@ public class TaulellTest {
         );
         
         int puntuacion2 = taulell.validesaYPuntuacioJugada(jugada2, diccionariCastellano, true, true);
-        assertTrue(puntuacion2 >0);
+        assertTrue(puntuacion2 > 0);
     }
-    
+
+    @Test
+    public void noFitxesAdjacents()
+    {
+        // Colocar una ficha en el centro
+        Fitxa fitxa = new Fitxa("A", 1);
+        taulell.colocarFitxa(7, 7, fitxa);
+        
+        // Intentar colocar otra ficha sin adyacencia
+        LinkedHashMap<int[], Fitxa> jugada = crearJugada(
+            new String[]{"B"}, 
+            new int[][]{{5, 5}},
+            new int[]{3}
+        );
+        
+        // Debería fallar porque no hay fichas adyacentes
+        boolean esValida = taulell.verificarFitxes(jugada, true);
+        assertFalse(esValida);
+    }
+
     @Test
     public void testPalabraInvalida() {
         // Crear una palabra que no existe "XZYW"
