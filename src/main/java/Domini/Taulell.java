@@ -329,7 +329,8 @@ public class Taulell {
      * @return true si les fitxes es poden col·locar al taulell, false en cas contrari
      */
     public boolean verificarFitxes(LinkedHashMap<int[], Fitxa> jugades, boolean across) {
-        if (jugades.size() == 1 && isEmpty())
+        boolean vacio = isEmpty();
+        if (jugades.size() == 1 && vacio)
             return false; //no es pot col·locar una fitxa nomes si el taulell esta buit
         
         for (var entry : jugades.entrySet()) {
@@ -356,15 +357,18 @@ public class Taulell {
             }
         } 
 
-        boolean adjacent = false;
-        for (var entry : jugades.entrySet()) {
-            int[] posicio = entry.getKey();
-            if (teFitxaAdjacent(posicio[0], posicio[1])) {
-                return true;
+        if (!vacio)
+        {
+            for (var entry : jugades.entrySet()) {
+                int[] posicio = entry.getKey();
+                if (teFitxaAdjacent(posicio[0], posicio[1])) {
+                    return true;
+                }
             }
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
