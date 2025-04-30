@@ -164,8 +164,9 @@ public class ControladorDominiTest {
             List<Fitxa> atril = partida.getAtril();
             if (atril != null && !atril.isEmpty()) {
                 jugades.put(new int[]{center, center}, atril.get(0));
-
-                int score = controladorDomini.jugarParaula(partida, jugades, "H");
+                List<Integer> indices = new ArrayList<>();
+                indices.add(0);
+                int score = controladorDomini.jugarParaula(partida, jugades, "H", indices);
 
                 // Si tenim èxit, verifiquem que s'ha col·locat alguna peça
                 assertTrue(partida.getTaulell().isEmpty());

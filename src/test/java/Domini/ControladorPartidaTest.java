@@ -116,12 +116,15 @@ public class ControladorPartidaTest {
             pos = new int[]{7, 8};
             fitxa = new Fitxa("A", 1);
             jugades.put(pos, fitxa);
+            List<Integer> indices = new ArrayList<>();
+            indices.add(0);
+            indices.add(1);
 
-            int score = controladorPartida.jugarParaula(partida, jugades, "H");
+            int score = controladorPartida.jugarParaula(partida, jugades, "H", indices);
 
             // Com que aquesta prova és simplificada, només comprovem que el mètode existeix
             // Una prova real necessitaria configurar acuradament el tauler, l'atril i les paraules vàlides
-            assertTrue(score >= 0);
+            assertTrue(score > 0);
         } catch (Exception e) {
             // Excepció esperada en la majoria d'execucions de proves ja que no configurem l'estat de joc adequadament
             System.out.println("Excepció esperada a la prova: " + e.getMessage());

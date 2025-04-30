@@ -221,8 +221,14 @@ public class PartidaTest {
         jugades.put(new int[]{center, center+2}, atril.get(2));   // S
         jugades.put(new int[]{center, center+3}, atril.get(3));   // A
 
+        List<Integer> indices = new ArrayList<>();
+        indices.add(0);
+        indices.add(1);
+        indices.add(2);
+        indices.add(3);
+
         try {
-            int puntuacio = partida.jugarParaula(jugades, "H");
+            int puntuacio = partida.jugarParaula(jugades, "H", indices);
             assertTrue(puntuacio > 0);
 
             // Verifiquem que el tauler té les fitxes col·locades
@@ -246,7 +252,7 @@ public class PartidaTest {
 
     @Test
     public void testJugarParaulaEmptyJugada() {
-        int p = partida.jugarParaula(new LinkedHashMap<>(), "H");
+        int p = partida.jugarParaula(new LinkedHashMap<>(), "H", new ArrayList<>());
         assertEquals(-1, p);
 
     }
@@ -256,7 +262,9 @@ public class PartidaTest {
         partida.afegirJugador(jugador1);
         LinkedHashMap<int[], Fitxa> jugades = new LinkedHashMap<>();
         jugades.put(new int[]{7, 7}, new Fitxa("A", 1));
-        int p =partida.jugarParaula(jugades, "X");
+        List<Integer> indices = new ArrayList<>();
+        indices.add(0);
+        int p =partida.jugarParaula(jugades, "X", indices);
         assertEquals(-1, p);
     }
 }
