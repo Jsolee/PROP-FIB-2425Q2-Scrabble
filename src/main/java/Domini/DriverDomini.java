@@ -713,6 +713,7 @@ public class DriverDomini {
         List<Fitxa> comodinesModificados = new ArrayList<>();
         
         int posicio = -1;
+        List<Integer> indices = new ArrayList<>();
         while (true) {
             try {
                 posicio = Integer.parseInt(entrada);
@@ -724,7 +725,7 @@ public class DriverDomini {
                     entrada = scanner.nextLine();
                     continue;
                 }
-
+                indices.add(posicio);
                 Fitxa fitxa = atril.get(posicio);
                 if (fitxa.getLletra().equals("#")) {
                     System.out.println("Especifica quina lletra vols que sigui el comodin:");
@@ -771,7 +772,7 @@ public class DriverDomini {
         System.out.print("> ");
         String orientacio = scanner.nextLine();
         try {
-            int puntuacio = cd.jugarParaula(partida, jugades, orientacio);
+            int puntuacio = cd.jugarParaula(partida, jugades, orientacio, indices);
             if (puntuacio != -1) 
                 System.out.println("Paraula jugada correctament. Puntuacio total de la jugada: " + puntuacio);
             else 

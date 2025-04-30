@@ -100,9 +100,9 @@ public class ControladorPartida {
      * @param across String que representa si la jugada és horitzontal o vertical. "H" per horitzontal i "V" per vertical.
      * @return puntuació de la jugada. Si la jugada no és vàlida, retorna -1.
      */
-    public int jugarParaula(Partida partida, LinkedHashMap<int[], Fitxa> jugades, String across)
+    public int jugarParaula(Partida partida, LinkedHashMap<int[], Fitxa> jugades, String across, List<Integer> indexs)
     {
-        return partida.jugarParaula(jugades, across);
+        return partida.jugarParaula(jugades, across, indexs);
     }
 
     /**
