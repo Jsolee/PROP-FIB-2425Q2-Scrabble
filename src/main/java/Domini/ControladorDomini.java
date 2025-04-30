@@ -169,8 +169,8 @@ public class ControladorDomini {
      * @param across orientació de la paraula ("H" per horitzontal o "V" per vertical)
      * @return puntuació obtinguda, o -1 si la jugada no és vàlida
      */
-    public int jugarParaula(Partida partida, LinkedHashMap<int[], Fitxa> jugades, String across) {
-        return controladorPartida.jugarParaula(partida, jugades, across);
+    public int jugarParaula(Partida partida, LinkedHashMap<int[], Fitxa> jugades, String across, List<Integer> indexs) {
+        return controladorPartida.jugarParaula(partida, jugades, across, indexs);
     }
 
     /**

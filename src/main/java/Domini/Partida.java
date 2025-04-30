@@ -334,10 +334,22 @@ public class Partida {
      * @param across String que representa si la jugada es horitzontal o vertical. "H" per horitzontal i "V" per vertical.
      * @return la puntuacio de la jugada. Si la jugada no es valida, retorna -1.
      */
-    public int jugarParaula(LinkedHashMap<int[], Fitxa> jugades, String across)
+    public int jugarParaula(LinkedHashMap<int[], Fitxa> jugades, String across, List<Integer> indexsUsats)
     {
-        if (jugades.isEmpty())
+        if (jugades.isEmpty() || jugades.size() > 7)
             return -1;
+
+        //verificar que no es pot utilizar dues vegades la mateixa fitxa
+        List<Boolean> fitxesUsades = new ArrayList<>();
+        for (int i = 0; i < jugades.size(); i++) {
+            fitxesUsades.add(false);
+        }
+        for (int i : indexsUsats) {
+            if (fitxesUsades.get(i))
+                return -1;
+            fitxesUsades.set(i, true);
+        }
+
 
         across = across.toUpperCase();
         if (!across.equals("H") && !across.equals("V"))
@@ -379,7 +391,7 @@ public class Partida {
         if (jugades.isEmpty())
             return false;
 
-        jugarParaula(jugades, orientacio);
+        jugarParaula(jugades, orientacio, new ArrayList<>());
         return true;
     }
 }
