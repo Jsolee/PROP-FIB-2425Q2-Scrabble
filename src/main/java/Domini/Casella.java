@@ -1,5 +1,8 @@
 package Domini;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Representa una casella del tauler del joc.
  * Cada casella pot contenir multiplicadors de lletra o paraula,
@@ -27,6 +30,13 @@ public class Casella {
     /** Indica si la casilla es la casilla inicial del tablero. */
     private boolean esCasellaInicial;
 
+    private boolean esAnchor;
+
+    private boolean necessitaCrossCheckAcross;
+    private boolean necessitaCrossCheckDown;
+
+    private List<String> crossChecksAcross;
+    private List<String> crossChecksDown;
 
     /**
      * Constructor para crear una casilla con multiplicadores especificados.
@@ -43,6 +53,12 @@ public class Casella {
         this.ocupada = false;
         this.fitxa = null;
         this.esCasellaInicial = false;
+
+        this.esAnchor = false;
+        this.necessitaCrossCheckAcross = false;
+        this.necessitaCrossCheckDown = false;
+        this.crossChecksAcross = new ArrayList<>();
+        this.crossChecksDown = new ArrayList<>();
     }
 
     /** @return coordenada X */
@@ -71,6 +87,44 @@ public class Casella {
 
     /** Establece la coordenada Y de la casilla. */
     public void setY(int y) { this.y = y; }
+
+    /** @return true si la casilla es un anchor */
+    public boolean isAnchor() { return esAnchor; }
+
+    /** Establece si la casilla es un anchor */
+    public void setAnchor(boolean esAnchor) { this.esAnchor = esAnchor; }
+
+    /** @return true si la casilla necesita cross check en horizontal */
+    public boolean isNecessitaCrossCheckAcross() { return necessitaCrossCheckAcross; }
+
+    /** Establece si la casilla necesita cross check en horizontal */
+    public void setNecessitaCrossCheckAcross(boolean necessitaCrossCheckAcross) {
+        this.necessitaCrossCheckAcross = necessitaCrossCheckAcross;
+    }
+
+    /** @return true si la casilla necesita cross check en vertical */
+    public boolean isNecessitaCrossCheckDown() { return necessitaCrossCheckDown; }
+
+    /** Establece si la casilla necesita cross check en vertical */
+    public void setNecessitaCrossCheckDown(boolean necessitaCrossCheckDown) {
+        this.necessitaCrossCheckDown = necessitaCrossCheckDown;
+    }
+
+    /** @return lista de cross checks en horizontal */
+    public List<String> getCrossChecksAcross() { return crossChecksAcross; }
+
+    /** Establece la lista de cross checks en horizontal */
+    public void setCrossChecksAcross(List<String> crossChecksAcross) {
+        this.crossChecksAcross = crossChecksAcross;
+    }
+
+    /** @return lista de cross checks en vertical */
+    public List<String> getCrossChecksDown() { return crossChecksDown; }
+
+    /** Establece la lista de cross checks en vertical */
+    public void setCrossChecksDown(List<String> crossChecksDown) {
+        this.crossChecksDown = crossChecksDown;
+    }
 
     /**
      * Define si esta casilla es la casilla inicial.

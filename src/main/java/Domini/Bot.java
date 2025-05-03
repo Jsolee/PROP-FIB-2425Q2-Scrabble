@@ -44,24 +44,14 @@ public class Bot extends Usuari{
      * @param alfabet   conjunt de caràcters vàlids (inclou # per blanks)
      * @return parella (jugada, orientació), on jugada és un mapa de posició->fitxa
      *         i orientació {@code true}=horitzontal, {@code false}=vertical
-     */    public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet) {
+     */    
+    public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet) {
 
 
-        // inicialitzem el taulell amb la informació extra
-        int rows = taulell.getCaselles().length;
-        int cols = taulell.getCaselles()[0].length;
-        infoCasella[][] info = new infoCasella[rows][cols];
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                info[i][j] = new infoCasella();
-            }
-        }
-
-        this.millorJugadaAcross = new AbstractMap.SimpleEntry<>(new LinkedHashMap<>(), 0);
+        this.millorJugada = new AbstractMap.SimpleEntry<>(new LinkedHashMap<>(), 0);
 
         // calcular anchors y cross-checks de taulell
-        calcularAnchorsICrossChecks(taulell, info , diccionari, alfabet);
+        taulell.calcularAnchorsICrossChecks(diccionari, alfabet);
 
         getMillorJugadaAux(taulell, info, diccionari, atril, alfabet, true);
 
@@ -141,7 +131,7 @@ public class Bot extends Usuari{
      * @param limit        nombre màxim de fitxes a l'esquerra
      * @param across       orientació
      */
-    private void extendreEsquerra(ArrayList<Fitxa> prefix, Taulell taulell, infoCasella[][] info, DAWGnode node, Casella casellaAnchor, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, int limit, boolean across) {
+    private void extendreEsquerra(ArrayList<Fitxa> prefix, Taulell taulell, DAWGnode node, Casella casellaAnchor, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet, int limit, boolean across) {
 
 
         ArrayList<Fitxa> atrilCopy = new ArrayList<>(atril);

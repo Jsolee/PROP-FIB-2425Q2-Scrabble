@@ -15,12 +15,17 @@ public class TaulellTest {
     private Taulell taulell;
     private Diccionari diccionariCastellano;
     private Diccionari diccionariCatalan;
+
+    private Bossa bossaCastellano;
+    private Bossa bossaCatalan;
     
     @Before
     public void setUp() {
         taulell = new Taulell();
         diccionariCastellano = new Diccionari("castellano");
         diccionariCatalan = new Diccionari("catalan");
+        bossaCastellano = new Bossa("castellano");
+        bossaCatalan = new Bossa("catalan");
     }
     
     // ===== CASOS BÁSICOS =====
