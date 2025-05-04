@@ -1,10 +1,6 @@
 package Domini;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Classe que representa el taulell del joc de Scrabble.
@@ -175,18 +171,35 @@ public class Taulell {
 
     /**
      * Verifica si hi ha fitxes adjacents en direcció vertical (superior o inferior).
-     * Utilitzat per comprovar regles de col·locació de fitxes verticals.
+     * Utilitzat per comprovar regles de col·locació de fitxes verticals (cross-checks).
      * 
      * @param x fila del taulell
      * @param y columna del taulell
      * @return true si hi ha alguna fitxa superior o inferior, false en cas contrari
      */
     public boolean teFitxaSuperiorOInferior(int x, int y) {
-        if (y > 0 && caselles[x][y-1].isOcupada()) return true;
-        if (y < MIDA-1 && caselles[x][y+1].isOcupada()) return true;
+        if (x-1 >= 0 && caselles[x-1][y].isOcupada()) return true;
+        if (x+1 < MIDA && caselles[x+1][y].isOcupada()) return true;
 
         return false;
     }
+
+    /**
+     * Verifica si hi ha fitxes adjacents en direcció horitzontal (esquerra o dreta).
+     * Utilitzat per comprovar regles de col·locació de fitxes horitzontals (cross-checks).
+     *
+     * @param x fila del taulell
+     * @param y columna del taulell
+     * @return true si hi ha alguna fitxa superior o inferior, false en cas contrari
+     */
+    public boolean teFitxaEsquerraODreta(int x, int y) {
+        if (y-1 >= 0 && caselles[x][y-1].isOcupada()) return true;
+        if (y+1 < MIDA && caselles[x][y+1].isOcupada()) return true;
+
+        return false;
+    }
+
+
 
     /**
      * Obté la casella en la posició especificada.
@@ -228,80 +241,6 @@ public class Taulell {
         this.caselles = caselles;
     }
 
-    /**
-     * Obté les paraules adjacents formades al col·locar una paraula en una posició específica.
-     * Busca extensions de la paraula principal i paraules creues formades per les noves fitxes.
-     * 
-     * @param palabra la paraula que s'està col·locant
-     * @param fila fila inicial on es col·loca la paraula
-     * @param col columna inicial on es col·loca la paraula
-     * @param orientacion "V" per vertical, "H" per horitzontal
-     * @return llista de paraules formades incloent la paraula principal i les paraules creuades
-     */
-    public List<String> obtenerParaulesAdjacents(String palabra, int fila, int col, String orientacion) {
-        List<String> paraules = new ArrayList<>();
-        int sizePal = palabra.length();
-        if (orientacion.equals("V")) {
-            int fMesUp = fila - 1;
-            while (fMesUp >= 0 && caselles[fMesUp][col].isOcupada()) {
-                palabra = caselles[fMesUp][col].getFitxa().getLletra() + palabra;
-                fMesUp--;
-            }
-
-            int fMesDown = fila + sizePal;
-            while (fMesDown < 15 && caselles[fMesDown][col].isOcupada()) {
-                palabra = palabra + caselles[fMesDown][col].getFitxa().getLletra();
-                fMesDown++;
-            }
-            paraules.add(palabra);
-
-            for (int i = fila; i < fila + sizePal; i++) {
-                String aux = String.valueOf(palabra.charAt(i-fila));
-                int mostLeft = col - 1;
-                while (mostLeft >= 0 && caselles[i][mostLeft].isOcupada()) {
-                    aux = caselles[i][mostLeft].getFitxa().getLletra() + aux;
-                    mostLeft--;
-                }
-                int mostRight = col + 1;
-                while (mostRight < 15 && caselles[i][mostRight].isOcupada()) {
-                    aux = aux + caselles[i][mostRight].getFitxa().getLletra();
-                    mostRight++;
-                }
-
-                if (aux.length() > 1) paraules.add(aux);
-            }
-        } else {
-            int cMesUp = col - 1;
-            while (cMesUp >= 0 && caselles[fila][cMesUp].isOcupada()) {
-                palabra = caselles[fila][cMesUp].getFitxa().getLletra() + palabra;
-                cMesUp--;
-            }
-
-            int cMesDown = col + sizePal;
-            while (cMesDown < 15 && caselles[fila][cMesDown].isOcupada()) {
-                palabra = palabra + caselles[fila][cMesDown].getFitxa().getLletra();
-                cMesDown++;
-            }
-            paraules.add(palabra);
-
-            for (int i = col; i < col + sizePal; i++) {
-                String aux = String.valueOf(palabra.charAt(i-col));
-                int mostUp = fila - 1;
-                while (mostUp >= 0 && caselles[mostUp][i].isOcupada()) {
-                    aux = caselles[mostUp][i].getFitxa().getLletra() + aux;
-                    mostUp--;
-                }
-                int mostDown = fila + 1;
-                while (mostDown < 15 && caselles[mostDown][i].isOcupada()) {
-                    aux = aux + caselles[mostDown][i].getFitxa().getLletra();
-                    mostDown++;
-                }
-                if (aux.length() > 1) paraules.add(aux);
-            }
-        }
-
-        return paraules;
-    }
 
     /**
      * Verifica si el taulell està completament buit (sense fitxes).
@@ -584,9 +523,164 @@ public class Taulell {
     }
 
     /**
+     * Calcula les caselles anchor i els cross-checks.
+     * @param diccionari DAWG
+     * @param alfabet conjunt de caràcters
+     */
+    public void calcularAnchorsICrossChecks(Diccionari diccionari, Set<String> alfabet) {
+        // si es el primer moviment, només la casella inicial és anchor, y no hi han fitxes adjacents ni cross-checks.
+        if (esPrimerMoviment()) {
+            for (Casella[] c : caselles) {
+                for (Casella casella : c) {
+                    casella.setAnchor(casella.isEsCasellaInicial());
+                    // si la casella es la inicial, no hi ha cross-checks
+                }
+            }
+        } else {
+            // si no es el primer moviment, busquem les anchors i cross-checks
+            for (Casella[] c : caselles) {
+                for (Casella casella : c) {
+                    // si la casella esta buida y te alguna fitxa adjacent, es una candidata a anchor.
+                    if (!casella.isOcupada() && teFitxaAdjacent(casella.getX(), casella.getY())) {
+                        casella.setAnchor(true);
+
+                        // si la casella te fitxa superior o inferior, al colocar una fitxa, es pot formar una paraula vertical, per tant necesitem cross-checks across
+                        if (teFitxaSuperiorOInferior(casella.getX(), casella.getY())) {
+                            casella.setNecessitaCrossCheckAcross(true);
+                            casella.setCrossChecksAcross(calcularCrossChecks(casella.getX(), casella.getY(), diccionari, alfabet, true));
+                        } else {
+                            casella.setNecessitaCrossCheckAcross(false);
+                        }
+
+                        // si la casella te fitxa esquerra o dreta, al colocar una fitxa, es pot formar una paraula horitzontal, per tant necesitem cross-checks down
+                        if (teFitxaEsquerraODreta(casella.getX(), casella.getY())) {
+                            casella.setNecessitaCrossCheckDown(true);
+                            casella.setCrossChecksDown(calcularCrossChecks(casella.getX(), casella.getY(), diccionari, alfabet, false));
+                        } else {
+                            casella.setNecessitaCrossCheckDown(false);
+                        }
+                    } else {
+                        casella.setAnchor(false);
+                        casella.setNecessitaCrossCheckAcross(false);
+                        casella.setNecessitaCrossCheckDown(false);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Retorna llistat de lletres vàlides per a cross-checks d'una casella.
+     * @param x posició fila
+     * @param y posició columna
+     * @param diccionari DAWG
+     * @param alfabet conjunt de caràcters
+     * @param across true si es volen cross-checks horitzontals, false si es volen verticals
+     * @return llista de caràcters vàlids
+     */
+    private  ArrayList<String> calcularCrossChecks(int x, int y, Diccionari diccionari, Set<String> alfabet, boolean across) {
+        String superiorEsquerrra;
+        String inferiorDreta;
+        if (across) {
+            superiorEsquerrra = getParaulaSuperior(x, y);
+            inferiorDreta = getParaulaInferior(x, y);
+        } else {
+            superiorEsquerrra = getParaulaEsquerra(x, y);
+            inferiorDreta = getParaulaDreta(x, y);
+        }
+
+        ArrayList<String> cross_checks = new ArrayList<>();
+        for (String lletra : alfabet) {
+            if (!lletra.equals("#")) {
+                String paraula = superiorEsquerrra + lletra + inferiorDreta;
+                if (diccionari.esParaula(paraula)) {
+                    cross_checks.add(lletra);
+                }
+            }
+        }
+        return cross_checks;
+    }
+
+    /**
+     * Obté la part superior de la paraula vertical a partir de la casella en la posició (x, y).
+     * @param x fila
+     * @param y columna
+     * @return cadena superior
+     */
+    private String getParaulaSuperior(int x, int y) {
+        StringBuilder superior = new StringBuilder();
+        while (x-1 >= 0 && caselles[x-1][y].isOcupada()) {
+            superior.insert(0, caselles[x - 1][y].getFitxa().getLletra());
+            x--;
+        }
+        return superior.toString();
+    }
+
+    /**
+     * Obté la part inferior de la paraula vertical a partir de la casella en la posició (x, y)..
+     * @param x fila
+     * @param y columna
+     * @return cadena inferior
+     */
+    private String getParaulaInferior(int x, int y) {
+        StringBuilder inferior = new StringBuilder();
+        while (x+1 < MIDA && caselles[x + 1][y].isOcupada()) {
+            inferior.append(caselles[x + 1][y].getFitxa().getLletra());
+            x++;
+        }
+        return inferior.toString();
+    }
+
+    /**
+     * Obté la part esquerra de la paraula horitzontal a partir de la casella en la posició (x, y).
+     * @param x fila
+     * @param y columna
+     * @return prefix de cadena
+     */
+    public String getParaulaEsquerra(int x, int y) {
+        StringBuilder esquerra = new StringBuilder();
+        while (y-1 >= 0 && caselles[x][y-1].isOcupada()) {
+            esquerra.insert(0, caselles[x - 1][y].getFitxa().getLletra());
+            y--;
+        }
+        return esquerra.toString();
+    }
+
+    /**
+     * Obté la part dreta de la paraula horitzontal a partir de la casella en la posició (x, y).
+     * @param x fila
+     * @param y columna
+     * @return suffix de cadena
+     */
+    private String getParaulaDreta(int x, int y) {
+        StringBuilder dreta = new StringBuilder();
+        while (y + 1 < MIDA && caselles[x][y + 1].isOcupada()) {
+            dreta.append(caselles[x][y + 1].getFitxa().getLletra());
+            y++;
+        }
+        return dreta.toString();
+    }
+
+    /**
+     * Comptabilitza posicions lliures sense anchors anterior a la casella en la posició x y.
+     * @param x fila
+     * @param y fila
+     * @return nombre de posicions
+     */
+    public int getPosicionsSenseAnchors(int x, int y) {
+        int limit = 0;
+        Casella anterior = getCasella(x, y-1);
+        while (anterior != null && !anterior.isAnchor() && !anterior.isOcupada()) {
+            limit++;
+            anterior = getCasella(anterior.getX(), anterior.getY() - 1);
+        }
+        return limit;
+    }
+
+    /**
      * Converteix una llista de fitxes en una cadena de text.
      * Verifica que no s'intentin formar dígrafs amb fitxes separades.
-     * 
+     *
      * @param fitxes llista de fitxes a convertir
      * @return cadena de text formada per les lletres de les fitxes
      * @throws IllegalArgumentException si s'intenta formar un dígraf amb fitxes separades
@@ -597,19 +691,19 @@ public class Taulell {
             String lletra = fitxes.get(i).getLletra();
             if (i < fitxes.size() - 1) {
                 String siguienteLetra = fitxes.get(i + 1).getLletra();
-                
+
                 // Comprovar dígrafs en castellà
                 if ((lletra.equals("C") && siguienteLetra.equals("H")) ||
                     (lletra.equals("L") && siguienteLetra.equals("L")) ||
                     (lletra.equals("R") && siguienteLetra.equals("R"))) {
-                    throw new IllegalArgumentException("Error: No es pot formar el dígraf '" + 
+                    throw new IllegalArgumentException("Error: No es pot formar el dígraf '" +
                         lletra + siguienteLetra + "' amb fitxes separades. Utilitza una fitxa específica de dígraf.");
                 }
-                
+
                 // Comprovar dígrafs en català
                 if ((lletra.equals("N") && siguienteLetra.equals("Y")) ||
                     (lletra.equals("L") && siguienteLetra.equals("·L"))) {
-                    throw new IllegalArgumentException("Error: No es pot formar el dígraf '" + 
+                    throw new IllegalArgumentException("Error: No es pot formar el dígraf '" +
                         lletra + siguienteLetra + "' amb fitxes separades. Utilitza una fitxa específica de dígraf.");
                 }
             }
