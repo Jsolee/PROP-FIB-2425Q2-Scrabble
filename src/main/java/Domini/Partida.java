@@ -41,6 +41,11 @@ public class Partida {
     }
 
     /**
+     * Constructor per GSON
+     */
+    public Partida(){}
+
+    /**
      * Afegeix el jugador a la llista de jugadors de la partida. Transforma a classe Persona si l'usuari no es un d'objecte Bot. Omple l'atril del jugador especificat
      * @param jugador objecte Usuari que representa el jugador a afegir.
      */

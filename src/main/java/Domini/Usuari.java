@@ -19,6 +19,10 @@ public abstract class Usuari {
     }
 
     /**
+     * Constructor per defecte per GSON
+     */
+    public Usuari(){}
+    /**
      * Obté el nom d'usuari.
      * 
      * @return nom d'usuari
