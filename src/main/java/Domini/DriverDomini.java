@@ -725,7 +725,6 @@ public class DriverDomini {
                     entrada = scanner.nextLine();
                     continue;
                 }
-                indices.add(posicio);
                 Fitxa fitxa = atril.get(posicio);
                 if (fitxa.getLletra().equals("#")) {
                     System.out.println("Especifica quina lletra vols que sigui el comodin:");
@@ -754,6 +753,7 @@ public class DriverDomini {
                     continue;
                 }
                 
+                indices.add(posicio);
                 System.out.println("Introdueix el numero de l'atril corresponent a la fitxa que vols jugar. Una vegada decideixis parar de afegir introdueix -1 o qualsevol text:");
                 System.out.print("> ");
                 entrada = scanner.nextLine();
