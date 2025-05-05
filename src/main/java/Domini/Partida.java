@@ -341,13 +341,19 @@ public class Partida {
 
         //verificar que no es pot utilizar dues vegades la mateixa fitxa
         List<Boolean> fitxesUsades = new ArrayList<>();
-        for (int i = 0; i < jugades.size(); i++) {
+        for (int i = 0; i < 7; i++) {
             fitxesUsades.add(false);
         }
-        for (int i : indexsUsats) {
-            if (fitxesUsades.get(i))
+
+        System.out.println("index a false   " + indexsUsats.size() + "  " + fitxesUsades.size());
+
+        for (int i = 0; i < indexsUsats.size(); i++) {
+            int index = indexsUsats.get(i);
+            System.out.println("index a false   " + index + "  " + fitxesUsades.get(index));
+            if (fitxesUsades.get(index))
                 return -1;
-            fitxesUsades.set(i, true);
+            fitxesUsades.set(index, true);
+            System.out.println("index a true   " + index + "  " + fitxesUsades.get(index));
         }
 
 
