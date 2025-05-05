@@ -40,14 +40,14 @@ public class ControladorPersistencia {
     }
 
     // Guardar partidas en un fichero JSON
-    public void guardarPartidas(HashMap<String, Partida> partidas) throws IOException {
+    public void guardarPartides(HashMap<String, Partida> partidas) throws IOException {
         try (Writer writer = new FileWriter(PARTIDES_JSON)) {
             gson.toJson(partidas, writer);
         }
     }
 
     // Cargar partidas desde un fichero JSON
-    public HashMap<String, Partida> cargarPartidas() throws IOException {
+    public HashMap<String, Partida> cargarPartides() throws IOException {
         try (Reader reader = new FileReader(PARTIDES_JSON)) {
             Type type = new TypeToken<HashMap<String, Partida>>() {}.getType();
             return gson.fromJson(reader, type);
@@ -57,19 +57,18 @@ public class ControladorPersistencia {
     }
 
     // Guardar rankings en un fichero JSON
-    public void guardarRanking(HashMap<String, Ranking> rankings) throws IOException {
+    public void guardarRanking(Ranking ranking) throws IOException {
         try (Writer writer = new FileWriter(RANKING_JSON)) {
-            gson.toJson(rankings, writer);
+            gson.toJson(ranking, writer);
         }
     }
 
     // Cargar rankings desde un fichero JSON
-    public HashMap<String, Ranking> cargarRanking() throws IOException {
+    public Ranking cargarRanking() throws IOException {
         try (Reader reader = new FileReader(RANKING_JSON)) {
-            Type type = new TypeToken<HashMap<String, Ranking>>() {}.getType();
-            return gson.fromJson(reader, type);
+            return gson.fromJson(reader, Ranking.class);
         } catch (FileNotFoundException e) {
-            return new HashMap<>(); // Si el archivo no existe, devolvemos un HashMap vacío
+            return new Ranking(); // Si el archivo no existe, devolvemos un Ranking vacío
         }
     }
 }

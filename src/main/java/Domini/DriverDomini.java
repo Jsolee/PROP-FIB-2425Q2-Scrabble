@@ -18,7 +18,10 @@ public class DriverDomini {
     {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Iniciant Scrabble...");
-
+        if (!cd.inicialitzarDadesPersistencia()) {
+            System.out.println("Error inicialitzant dades persistents");
+            return;
+        }
         System.out.println("BENVINGUT A SCRABBLE!!");
         mostrarComandesInicials(); //veiem que podem fer
         String opcio = scanner.nextLine();
@@ -167,6 +170,13 @@ public class DriverDomini {
             opcio = scanner.nextLine();
             System.out.println();
         }
+
+        if (cd.actualitzarDadesPersistencia()) {
+            System.out.println("Dades guardades correctament");
+        } else {
+            System.out.println("Error guardant dades persistents");
+        }
+        System.out.println("Gracies per jugar a Scrabble!");
     }
 
     private void mostrarComandesInicials()

@@ -21,6 +21,12 @@ public class Partida {
     private Diccionari diccionari;
 
     /**
+     * Constructor per GSON
+     */
+    public Partida(){}
+
+    
+    /**
      * Constructor de la classe Partida.
      * @param nom Nom de la partida.
      * @param idioma Idioma del diccionari a utilitzar.
@@ -40,10 +46,7 @@ public class Partida {
         this.diccionari = new Diccionari(idioma);
     }
 
-    /**
-     * Constructor per GSON
-     */
-    public Partida(){}
+    
 
     /**
      * Afegeix el jugador a la llista de jugadors de la partida. Transforma a classe Persona si l'usuari no es un d'objecte Bot. Omple l'atril del jugador especificat

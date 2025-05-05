@@ -24,6 +24,11 @@ public class Persona extends Usuari {
     private ArrayList<Partida> partidesEnCurs;
 
     /**
+     * Constructor per defecte per GSON
+     */
+    public Persona(){}
+
+    /**
      * Constructor que crea un nou usuari amb les dades especificades.
      * 
      * @param nom nom d'usuari

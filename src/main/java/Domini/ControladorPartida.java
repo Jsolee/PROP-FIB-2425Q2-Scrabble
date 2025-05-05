@@ -20,6 +20,22 @@ public class ControladorPartida {
     }
 
     /**
+     * Obté el mapa de partides.
+     * @return mapa on la clau és el nom de la partida i el valor és l'objecte Partida
+     */
+    public HashMap<String, Partida> getPartides() {
+        return partides;
+    }
+
+    /**
+     * Estableix el mapa de partides.
+     * @param partides mapa de partides a establir
+     */
+    public void setPartides(HashMap<String, Partida> partides) {
+        this.partides.clear();
+        this.partides.putAll(partides);
+    }
+    /**
      * Obté una partida pel seu nom.
      * 
      * @param nomPartida nom de la partida a buscar

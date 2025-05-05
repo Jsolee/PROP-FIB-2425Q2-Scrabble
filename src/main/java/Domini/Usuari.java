@@ -10,6 +10,11 @@ public abstract class Usuari {
     private String username;
 
     /**
+     * Constructor per defecte per GSON
+     */
+    public Usuari(){}
+    
+    /**
      * Constructor que crea un nou usuari amb el nom especificat.
      * 
      * @param nom nom d'usuari
@@ -18,10 +23,6 @@ public abstract class Usuari {
         this.username = nom;
     }
 
-    /**
-     * Constructor per defecte per GSON
-     */
-    public Usuari(){}
     /**
      * Obté el nom d'usuari.
      * 

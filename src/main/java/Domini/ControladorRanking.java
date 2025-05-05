@@ -20,6 +20,17 @@ public class ControladorRanking {
     }
 
     /**
+     * Obté el rànquing actual.
+     * @return objecte Ranking que conté la informació del rànquing
+     */
+    public Ranking getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(Ranking ranking) {
+        this.ranking = ranking;
+    }
+    /**
      * Afegeix un nou usuari al rànquing.
      *
      * @param persona objecte Persona que es vol afegir al rànquing

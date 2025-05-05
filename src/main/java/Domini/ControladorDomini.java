@@ -3,6 +3,8 @@ package Domini;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import Persistencia.ControladorPersistencia;
+
 /**
  * Controlador principal que coordina les diferents parts del domini del joc.
  * Actua com a intermediari entre la capa de presentació i els controladors específics
@@ -16,6 +18,8 @@ public class ControladorDomini {
     /** Controlador que gestiona els rànquings */
     private ControladorRanking controladorRanking;
 
+    private ControladorPersistencia controladorPersistencia;
+
     /**
      * Constructor per defecte.
      * Inicialitza els controladors d'usuari, partida i rànquing.
@@ -24,6 +28,34 @@ public class ControladorDomini {
         controladorUsuari = new ControladorUsuari();
         controladorPartida = new ControladorPartida();
         controladorRanking = new ControladorRanking();
+        controladorPersistencia = new ControladorPersistencia();
+    }
+
+    public boolean inicialitzarDadesPersistencia() 
+    {
+        try {
+            controladorUsuari.setUsuaris(controladorPersistencia.cargarUsuaris());
+            controladorPartida.setPartides(controladorPersistencia.cargarPartides());
+            controladorRanking.setRanking(controladorPersistencia.cargarRanking());
+            return true;
+        }
+        catch (Exception e) {
+            System.out.println("Error al carregar les dades de persistència: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean actualitzarDadesPersistencia() 
+    {
+        try {
+            controladorPersistencia.guardarUsuaris(controladorUsuari.getUsuaris());
+            controladorPersistencia.guardarPartides(controladorPartida.getPartides());
+            controladorPersistencia.guardarRanking(controladorRanking.getRanking());
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 
     /**
