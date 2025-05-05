@@ -65,9 +65,12 @@ public class BotTest {
         atril.add(new Fitxa("E", 1));
         atril.add(new Fitxa("B", 1));
 
-        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> result = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
+        Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> resultat = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
 
-        for (Map.Entry<int[], Fitxa> entry : result.getKey().entrySet()) {
+//        taulell.validesaYPuntuacioJugada( resultat.getKey(),diccionari, resultat.getValue(), true);
+
+
+        for (Map.Entry<int[], Fitxa> entry : resultat.getKey().entrySet()) {
             int[] pos = entry.getKey();
             Fitxa fitxa = entry.getValue();
             System.out.println("Posició: " + pos[0] + ", " + pos[1] + " - Fitxa: " + fitxa);
@@ -86,6 +89,8 @@ public class BotTest {
 
         Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> resultat = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
 
+//        taulell.validesaYPuntuacioJugada( resultat.getKey(),diccionari, resultat.getValue(), true);
+
         assertNotNull("El bot hauria de trobar una jugada", resultat);
         assertFalse("La jugada no hauria de ser buida", resultat.getKey().isEmpty());
     }
@@ -99,6 +104,8 @@ public class BotTest {
         atril.add(new Fitxa("#", 0)); // Comodí
 
         Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> resultat = bot.getMillorJugada(taulell, diccionari, atril, bossa.getAlfabet());
+
+//        taulell.validesaYPuntuacioJugada( resultat.getKey(),diccionari, resultat.getValue(), true);
 
         // Comprovar que el bot troba una jugada
         assertNotNull("El bot hauria de trobar una jugada amb un comodí", resultat);

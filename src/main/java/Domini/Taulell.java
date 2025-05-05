@@ -329,7 +329,7 @@ public class Taulell {
             System.out.println("posicio " + posicio[0] + " , " + posicio[1]);
             System.out.println("fitxa " + entry.getValue().getLletra());
         }*/
-        
+
         Map<int[], Fitxa> fitxesAnteriors = new HashMap<>();
         for (var entry : jugada.entrySet()) {
             int[] posicio = entry.getKey();
@@ -357,13 +357,13 @@ public class Taulell {
         /*System.out.println("DEBUG FITXES COLOCADES");
         mostrarTaulell(this);*/
         
-        int[] pos = jugada.keySet().iterator().next();  
+        int[] pos = jugada.keySet().iterator().next();
         
         int puntuacio = -1;
         if (across) {
             puntuacio = getPuntuacioParaulaHorizontal(pos, fitxesNoves, diccionari);
             if (puntuacio == -1) {
-                restaurarTaulell(fitxesAnteriors, jugada);
+                restaurarTaulell(jugada);
                 return -1;
             }
 
@@ -373,7 +373,7 @@ public class Taulell {
                     int[] posVertical = {fila, i};
                     int puntuacioVertical = getPuntuacioParaulaVertical(posVertical, fitxesNoves, diccionari);
                     if (puntuacioVertical == -1) {
-                        restaurarTaulell(fitxesAnteriors, jugada);
+                        restaurarTaulell(jugada);
                         return -1;
                     }
                     puntuacio += puntuacioVertical;
@@ -382,7 +382,7 @@ public class Taulell {
         } else {
             puntuacio = getPuntuacioParaulaVertical(pos, fitxesNoves, diccionari);
             if (puntuacio == -1) {
-                restaurarTaulell(fitxesAnteriors, jugada);
+                restaurarTaulell(jugada);
                 return -1;
             }
 
@@ -392,7 +392,7 @@ public class Taulell {
                     int[] posHorizontal = {j, col};
                     int puntuacioHorizontal = getPuntuacioParaulaHorizontal(posHorizontal, fitxesNoves, diccionari);
                     if (puntuacioHorizontal == -1) {
-                        restaurarTaulell(fitxesAnteriors, jugada);
+                        restaurarTaulell(jugada);
                         return -1;
                     }
                     puntuacio += puntuacioHorizontal;
@@ -401,7 +401,7 @@ public class Taulell {
         }
     
         if (!colocarFitxes) {
-            restaurarTaulell(fitxesAnteriors, jugada);
+            restaurarTaulell(jugada);
         } else {
             if (this.primerMoviment) {
                 this.primerMoviment = false;
@@ -414,17 +414,13 @@ public class Taulell {
     /**
      * Restaura el taulell a l'estat anterior a la jugada.
      * 
-     * @param fitxesARetirar mapa amb les fitxes originals que hi havia abans de la jugada
      * @param jugada mapa amb les fitxes que es van col·locar i que s'han de retirar
      */
-    private void restaurarTaulell(Map<int[], Fitxa> fitxesARetirar, LinkedHashMap<int[], Fitxa> jugada) {
+    private void restaurarTaulell(LinkedHashMap<int[], Fitxa> jugada) {
         for (var entry : jugada.entrySet()) {
             int[] posicio = entry.getKey();
-            caselles[posicio[0]][posicio[1]].retirarFitxa();
-            
-            Fitxa fitxaAnterior = fitxesARetirar.get(posicio);
-            if (fitxaAnterior != null) {
-                caselles[posicio[0]][posicio[1]].colocarFitxa(fitxaAnterior);
+            if (caselles[posicio[0]][posicio[1]].isOcupada()) {
+                caselles[posicio[0]][posicio[1]].retirarFitxa();
             }
         }
     }
@@ -467,6 +463,7 @@ public class Taulell {
             return 0;
 
         try {
+//            System.out.println("DEBUG: paraula " + FitxesToString(paraula));
             boolean b = diccionari.esParaula(FitxesToString(paraula));
             if (b) 
                 return puntuacio * multiplicador_paraula;
@@ -512,6 +509,7 @@ public class Taulell {
             return 0;
 
         try {
+//            System.out.println("DEBUG: paraula " + FitxesToString(paraula));
             boolean b = diccionari.esParaula(FitxesToString(paraula));
             if (b) 
                 return puntuacio * multiplicador_paraula;
@@ -640,7 +638,7 @@ public class Taulell {
     public String getParaulaEsquerra(int x, int y) {
         StringBuilder esquerra = new StringBuilder();
         while (y-1 >= 0 && caselles[x][y-1].isOcupada()) {
-            esquerra.insert(0, caselles[x - 1][y].getFitxa().getLletra());
+            esquerra.insert(0, caselles[x][y-1].getFitxa().getLletra());
             y--;
         }
         return esquerra.toString();

@@ -200,15 +200,16 @@ public class ControladorPartida {
     public void getMillorJugada(Partida partida, Usuari bot)
     {
         boolean posada = partida.getMillorJugada(bot);
+
         if (posada)
             partida.passarTorn();
         else {
             String[] indices = {"0", "1", "2", "3", "4", "5", "6"};
             try {canviDeFitxes(partida, indices);}
-            catch (IllegalArgumentException e) 
+            catch (IllegalArgumentException e)
             {
                 partida.passarTorn();
-            }            
+            }
         }
     }   
 }
