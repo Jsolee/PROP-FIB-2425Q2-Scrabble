@@ -597,6 +597,9 @@ public class DriverDomini {
             System.out.println("Torn de: " + partida.getJugadorActual().getNom());
             System.out.println();
 
+            mostrarAtrilActual(partida);
+            System.out.println();
+
             if (partida.getJugadorActual() instanceof Bot)
             {
 //                System.out.println("Antes Bot → jugador actual: " + partida.getJugadorActual().getNom());
@@ -607,8 +610,6 @@ public class DriverDomini {
                 continue;
             }
 
-            mostrarAtrilActual(partida);
-            System.out.println();
 
             System.out.println("OPCIONS DISPONIBLES (introdueix el numero):");
             System.out.println("1. Jugar paraula");

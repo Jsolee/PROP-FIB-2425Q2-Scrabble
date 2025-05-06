@@ -605,7 +605,7 @@ public class Taulell {
      * @param y columna
      * @return cadena superior
      */
-    private String getParaulaSuperior(int x, int y) {
+    public String getParaulaSuperior(int x, int y) {
         StringBuilder superior = new StringBuilder();
         while (x-1 >= 0 && caselles[x-1][y].isOcupada()) {
             superior.insert(0, caselles[x - 1][y].getFitxa().getLletra());
@@ -665,12 +665,17 @@ public class Taulell {
      * @param y fila
      * @return nombre de posicions
      */
-    public int getPosicionsSenseAnchors(int x, int y) {
+    public int getPosicionsSenseAnchors(int x, int y, boolean across) {
         int limit = 0;
-        Casella anterior = getCasella(x, y-1);
+        Casella anterior;
+        if (across) anterior = getCasella(x, y-1);
+        else anterior = getCasella(x-1, y);
+
         while (anterior != null && !anterior.isAnchor() && !anterior.isOcupada()) {
             limit++;
-            anterior = getCasella(anterior.getX(), anterior.getY() - 1);
+
+            if (across) anterior = getCasella(anterior.getX(), anterior.getY() - 1);
+            else anterior = getCasella(anterior.getX() - 1, anterior.getY());
         }
         return limit;
     }
