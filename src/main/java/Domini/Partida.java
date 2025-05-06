@@ -345,15 +345,15 @@ public class Partida {
             fitxesUsades.add(false);
         }
 
-        System.out.println("index a false   " + indexsUsats.size() + "  " + fitxesUsades.size());
+//        System.out.println("index a false   " + indexsUsats.size() + "  " + fitxesUsades.size());
 
         for (int i = 0; i < indexsUsats.size(); i++) {
             int index = indexsUsats.get(i);
-            System.out.println("index a false   " + index + "  " + fitxesUsades.get(index));
+//            System.out.println("index a false   " + index + "  " + fitxesUsades.get(index));
             if (fitxesUsades.get(index))
                 return -1;
             fitxesUsades.set(index, true);
-            System.out.println("index a true   " + index + "  " + fitxesUsades.get(index));
+//            System.out.println("index a true   " + index + "  " + fitxesUsades.get(index));
         }
 
 
@@ -391,13 +391,13 @@ public class Partida {
     public boolean getMillorJugada(Usuari bot)
     {
         Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> resultat =  ((Bot)bot).getMillorJugada(taulell, diccionari, atrils.get(jugadorActual), bossa.getAlfabet());
-        LinkedHashMap<int[], Fitxa> jugades = resultat.getKey();
+        LinkedHashMap<int[], Fitxa> jugada = resultat.getKey();
         Boolean across = resultat.getValue();
         String orientacio = across ? "H" : "V";
-        if (jugades.isEmpty())
+        if (jugada.isEmpty())
             return false;
 
-        jugarParaula(jugades, orientacio, new ArrayList<>());
+        jugarParaula(jugada, orientacio, new ArrayList<>());
         return true;
     }
 }

@@ -241,7 +241,6 @@ public class ControladorDomini {
 
     /**
      * Fa que el bot jugui la millor jugada possible a la partida.
-     * 
      * @param partida objecte partida on jugarà el bot
      * @param bot objecte Usuari que representa el bot
      */

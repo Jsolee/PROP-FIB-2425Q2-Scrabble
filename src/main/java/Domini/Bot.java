@@ -43,8 +43,7 @@ public class Bot extends Usuari{
      *         i orientació {@code true}=horitzontal, {@code false}=vertical
      */
     public Map.Entry<LinkedHashMap<int[], Fitxa>, Boolean> getMillorJugada(Taulell taulell, Diccionari diccionari, List<Fitxa> atril, Set<String> alfabet) {
-
-        System.out.println("Starting algorithm");
+        
         this.millorJugada = new Jugada();
 
         // calcular anchors y cross-checks de taulell

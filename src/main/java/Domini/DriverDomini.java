@@ -599,7 +599,11 @@ public class DriverDomini {
 
             if (partida.getJugadorActual() instanceof Bot)
             {
+//                System.out.println("Antes Bot → jugador actual: " + partida.getJugadorActual().getNom());
                 cd.posarParaulaBot(partida, partida.getJugadorActual());
+
+                partida.passarTorn();
+//                System.out.println("Después Bot → jugador actual: " + partida.getJugadorActual().getNom());
                 continue;
             }
 
