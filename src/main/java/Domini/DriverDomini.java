@@ -605,7 +605,6 @@ public class DriverDomini {
 //                System.out.println("Antes Bot → jugador actual: " + partida.getJugadorActual().getNom());
                 cd.posarParaulaBot(partida, partida.getJugadorActual());
 
-                partida.passarTorn();
 //                System.out.println("Después Bot → jugador actual: " + partida.getJugadorActual().getNom());
                 continue;
             }
@@ -778,8 +777,10 @@ public class DriverDomini {
         String orientacio = scanner.nextLine();
         try {
             int puntuacio = cd.jugarParaula(partida, jugades, orientacio, indices);
-            if (puntuacio != -1) 
+            if (puntuacio != -1) {
                 System.out.println("Paraula jugada correctament. Puntuacio total de la jugada: " + puntuacio);
+                partida.passarTorn();
+            }
             else 
                 System.err.println("Error: No s'ha pogut jugar la paraula. Potser no es valida o no es pot col·locar al taulell.");
         } catch (IllegalArgumentException e) {

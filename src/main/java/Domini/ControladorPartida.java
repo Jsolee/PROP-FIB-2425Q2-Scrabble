@@ -120,7 +120,6 @@ public class ControladorPartida {
     
         partida.canviFitxesAtril(indexsACanviar);
 
-        partida.passarTorn();
         return true;
     }
 
@@ -201,15 +200,15 @@ public class ControladorPartida {
     {
         boolean posada = partida.getMillorJugada(bot);
 
-        if (posada)
-            partida.passarTorn();
-        else {
+
+        if (!posada) {
             String[] indices = {"0", "1", "2", "3", "4", "5", "6"};
             try {canviDeFitxes(partida, indices);}
             catch (IllegalArgumentException e)
             {
-                partida.passarTorn();
+                System.out.println(e.getMessage() + " No es pot canviar de fitxes.");
             }
         }
+        partida.passarTorn();
     }   
 }

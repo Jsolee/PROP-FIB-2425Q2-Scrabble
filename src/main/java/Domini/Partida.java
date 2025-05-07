@@ -337,6 +337,7 @@ public class Partida {
     public int jugarParaula(LinkedHashMap<int[], Fitxa> jugades, String across, List<Integer> indexsUsats)
     {
         if (jugades.isEmpty() || jugades.size() > 7)
+
             return -1;
 
         //verificar que no es pot utilizar dues vegades la mateixa fitxa
@@ -379,7 +380,6 @@ public class Partida {
             }
         }
         completarAtril();
-        passarTorn();
         return puntuacio;
     }
 
@@ -394,10 +394,15 @@ public class Partida {
         LinkedHashMap<int[], Fitxa> jugada = resultat.getKey();
         Boolean across = resultat.getValue();
         String orientacio = across ? "H" : "V";
-        if (jugada.isEmpty())
+        if (jugada.isEmpty()) {
+            System.out.println("Jugada vacia");
             return false;
+        }
 
-        jugarParaula(jugada, orientacio, new ArrayList<>());
+        int p = jugarParaula(jugada, orientacio, new ArrayList<>());
+        if (p == -1) {
+            return false;
+        }
         return true;
     }
 }
