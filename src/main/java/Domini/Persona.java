@@ -134,6 +134,7 @@ public class Persona extends Usuari {
         return this.pais;
     }
 
+
     /**
      * Modifica la contrasenya de l'usuari.
      * 
@@ -143,6 +144,30 @@ public class Persona extends Usuari {
     public boolean setContrasenya(String contrasenya) {
         this.contrasenya = contrasenya;
         return true;
+    }
+
+    public void setEstadistiques(Estadistiques estadistiques) {
+        this.estadistiques = estadistiques;
+    }
+
+    public void setPartidesEnCurs(ArrayList<Partida> partidesEnCurs) {
+        this.partidesEnCurs = partidesEnCurs;
+    }
+
+    public void setEdat(String edat) {
+        this.edat = edat;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public void setCorreu(String correu) {
+        this.correu = correu;
+    }
+
+    public void setPartidesEnCurs(String contrasenya) {
+        this.contrasenya = contrasenya;
     }
 
     /**

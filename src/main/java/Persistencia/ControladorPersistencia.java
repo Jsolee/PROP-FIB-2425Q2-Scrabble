@@ -1,6 +1,7 @@
 package Persistencia;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import Domini.Partida;
@@ -12,22 +13,46 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 
 public class ControladorPersistencia {
-    private static final String USUARI_JSON = "usuaris.json";
-    private static final String PARTIDES_JSON = "partidas.json";
-    private static final String RANKING_JSON = "rankings.json";
+    private static final String USUARI_JSON = "Usuaris.json";
+    private static final String PARTIDES_JSON = "Partides.json";
+    private static final String RANKING_JSON = "Ranking.json";
 
     private final Gson gson;
 
     public ControladorPersistencia() {
-        this.gson = new Gson();
+        // Crear GsonBuilder y registrar adaptadores
+        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        
+        // Registrar el adaptador para la clase Usuari
+        gsonBuilder.registerTypeAdapter(Usuari.class, new UsuariAdapter());
+        
+        // Registrar adaptador para el mapa de usuarios
+        Type usuariMapType = new TypeToken<HashMap<String, Usuari>>() {}.getType();
+        gsonBuilder.registerTypeAdapter(usuariMapType, new MapUsuariAdapter());
+        
+        // Crear el objeto Gson con los adaptadores configurados
+        this.gson = gsonBuilder.create();
     }
 
-    // Guardar Usuaris en un fichero JSON
-    public void guardarUsuaris(HashMap<String, Usuari> Usuaris) throws IOException {
+
+        /**
+     * Guarda los usuarios en un archivo JSON.
+     * 
+     * @param usuarios Mapa de usuarios a guardar
+     * @throws IOException Si ocurre un error de E/S
+     */
+    public void guardarUsuaris(HashMap<String, Usuari> usuarios) throws IOException {
+        System.out.println("Guardando " + usuarios.size() + " usuarios en: " + USUARI_JSON);
+        
         try (Writer writer = new FileWriter(USUARI_JSON)) {
-            gson.toJson(Usuaris, writer);
+            gson.toJson(usuarios, writer);
+            System.out.println("Usuarios guardados correctamente.");
+        } catch (IOException e) {
+            System.err.println("Error al guardar usuarios: " + e.getMessage());
+            throw e;
         }
     }
+    
 
     // Cargar Usuaris desde un fichero JSON
     public HashMap<String, Usuari> cargarUsuaris() throws IOException {
@@ -41,7 +66,7 @@ public class ControladorPersistencia {
 
     // Guardar partidas en un fichero JSON
     public void guardarPartides(HashMap<String, Partida> partidas) throws IOException {
-        try (Writer writer = new FileWriter(PARTIDES_JSON)) {
+        try (Writer writer = new FileWriter(PARTIDES_JSON )) {
             gson.toJson(partidas, writer);
         }
     }
