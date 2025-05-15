@@ -45,6 +45,7 @@ public class ScrabbleGUI {
     private static final Color DEFAULT_COLOR = new Color(238, 238, 238); // Light gray
     private static final Color TILE_COLOR = new Color(255, 224, 178); // Wood-like color
     private static final Color TILE_TEXT_COLOR = new Color(97, 97, 97); // Dark gray
+    private static final Color DRAG_HIGHLIGHT_COLOR = new Color(144, 238, 144); // Light green for drag highlight
 
     public ScrabbleGUI() {
         cd = new ControladorDomini();
@@ -625,23 +626,25 @@ public class ScrabbleGUI {
         target.setTransferHandler(new TransferHandler() {
             @Override
             public boolean canImport(TransferSupport support) {
+                // Only allow drop if it's the player's turn and the cell is empty
                 boolean canImport = support.isDataFlavorSupported(DataFlavor.stringFlavor) &&
                         currentGame != null &&
-                        currentGame.getJugadorActual().equals(currentUser);
+                        currentGame.getJugadorActual().equals(currentUser) &&
+                        currentGame.getTaulell().getCasella(row, col).getFitxa() == null;
 
                 // Visual feedback
                 if (canImport) {
-                    target.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+                    target.setBackground(DRAG_HIGHLIGHT_COLOR);
                 }
                 return canImport;
             }
 
             @Override
             public void exportDone(JComponent c, Transferable data, int action) {
-                // Reset all borders when drag ends
+                // Reset all board button backgrounds when drag ends
                 for (int i = 0; i < 15; i++) {
                     for (int j = 0; j < 15; j++) {
-                        boardButtons[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                        resetBoardButtonAppearance(i, j);
                     }
                 }
                 super.exportDone(c, data, action);
@@ -654,8 +657,8 @@ public class ScrabbleGUI {
                     String[] parts = tileData.split(",");
                     int tileIndex = Integer.parseInt(parts[0]);
 
-                    // Reset border
-                    target.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                    // Reset appearance
+                    resetBoardButtonAppearance(row, col);
 
                     // Place the tile visually
                     List<Fitxa> rack = currentGame.getAtril();
@@ -676,6 +679,29 @@ public class ScrabbleGUI {
                 return false;
             }
         });
+    }
+
+    private void resetBoardButtonAppearance(int row, int col) {
+        JButton button = boardButtons[row][col];
+        String position = row + "," + col;
+
+        if (currentGame.getTaulell().getCasella(row, col).getFitxa() != null) {
+            button.setBackground(TILE_COLOR);
+        } else {
+            if (row == 7 && col == 7) {
+                styleBoardButton(button, CENTER_COLOR, "★");
+            } else if (isSpecialPosition(position, "tripleWord")) {
+                styleBoardButton(button, TRIPLE_WORD_COLOR, "TW");
+            } else if (isSpecialPosition(position, "doubleWord")) {
+                styleBoardButton(button, DOUBLE_WORD_COLOR, "DW");
+            } else if (isSpecialPosition(position, "tripleLetter")) {
+                styleBoardButton(button, TRIPLE_LETTER_COLOR, "TL");
+            } else if (isSpecialPosition(position, "doubleLetter")) {
+                styleBoardButton(button, DOUBLE_LETTER_COLOR, "DL");
+            } else {
+                styleBoardButton(button, DEFAULT_COLOR, "");
+            }
+        }
     }
 
     private void updateGameBoard() {
@@ -699,21 +725,7 @@ public class ScrabbleGUI {
                     cellButton.setBackground(TILE_COLOR);
                     cellButton.setToolTipText("Value: " + cell.getFitxa().getValor());
                 } else {
-                    // Reset to special cell appearance if empty
-                    String position = i + "," + j;
-                    if (i == 7 && j == 7) {
-                        styleBoardButton(cellButton, CENTER_COLOR, "★");
-                    } else if (isSpecialPosition(position, "tripleWord")) {
-                        styleBoardButton(cellButton, TRIPLE_WORD_COLOR, "TW");
-                    } else if (isSpecialPosition(position, "doubleWord")) {
-                        styleBoardButton(cellButton, DOUBLE_WORD_COLOR, "DW");
-                    } else if (isSpecialPosition(position, "tripleLetter")) {
-                        styleBoardButton(cellButton, TRIPLE_LETTER_COLOR, "TL");
-                    } else if (isSpecialPosition(position, "doubleLetter")) {
-                        styleBoardButton(cellButton, DOUBLE_LETTER_COLOR, "DL");
-                    } else {
-                        styleBoardButton(cellButton, DEFAULT_COLOR, "");
-                    }
+                    resetBoardButtonAppearance(i, j);
                     cellButton.setToolTipText(null);
                 }
             }
@@ -752,12 +764,22 @@ public class ScrabbleGUI {
             ));
 
             // Make tiles draggable
-            tileButton.setTransferHandler(new TransferHandler("text"));
+            tileButton.setTransferHandler(new TileTransferHandler(tileIndex));
             tileButton.addMouseListener(new MouseAdapter() {
                 public void mousePressed(MouseEvent e) {
                     JComponent comp = (JComponent) e.getSource();
                     TransferHandler handler = comp.getTransferHandler();
                     handler.exportAsDrag(comp, e, TransferHandler.COPY);
+                }
+            });
+
+            // Add right-click to remove tiles from board
+            tileButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (SwingUtilities.isRightMouseButton(e)) {
+                        removeTileFromBoard(tileIndex);
+                    }
                 }
             });
 
@@ -767,6 +789,39 @@ public class ScrabbleGUI {
 
         frame.revalidate();
         frame.repaint();
+    }
+
+    private class TileTransferHandler extends TransferHandler {
+        private final int tileIndex;
+
+        public TileTransferHandler(int tileIndex) {
+            this.tileIndex = tileIndex;
+        }
+
+        @Override
+        protected Transferable createTransferable(JComponent c) {
+            return new StringSelection(tileIndex + "");
+        }
+
+        @Override
+        public int getSourceActions(JComponent c) {
+            return COPY;
+        }
+    }
+
+    private void removeTileFromBoard(int tileIndex) {
+        // Find if this tile is placed on the board
+        Iterator<int[]> iterator = placedTiles.iterator();
+        while (iterator.hasNext()) {
+            int[] tilePos = iterator.next();
+            if (tilePos[2] == tileIndex) {
+                int row = tilePos[0];
+                int col = tilePos[1];
+                resetBoardButtonAppearance(row, col);
+                iterator.remove();
+                break;
+            }
+        }
     }
 
     private void confirmWordPlacement() {
