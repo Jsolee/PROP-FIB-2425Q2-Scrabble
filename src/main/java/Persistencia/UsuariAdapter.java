@@ -8,6 +8,7 @@ import Domini.Persona;
 import Domini.Usuari;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -41,6 +42,17 @@ public class UsuariAdapter implements JsonSerializer<Usuari>, JsonDeserializer<U
             result.add("estadistiques", estadistiques);
         }
         
+        ArrayList<Partida> partidesEnCurs = persona.getPartidesEnCurs();
+        JsonArray partidesEnCursArray = new JsonArray();
+        if (!partidesEnCurs.isEmpty()) {
+            
+            for (Partida partida : partidesEnCurs)
+                partidesEnCursArray.add(partida.getNom());
+            
+        }
+    
+        result.add("partidesEnCurs", partidesEnCursArray);
+            
         return result;
     }
     
@@ -84,6 +96,22 @@ public class UsuariAdapter implements JsonSerializer<Usuari>, JsonDeserializer<U
             persona.setEstadistiques(context.deserialize(
                 jsonObject.get("estadistiques"), 
                 Domini.Estadistiques.class));
+        }
+
+        if (jsonObject.has("partidesEnCurs")) 
+        {
+            JsonArray partidesEnCursArray = jsonObject.getAsJsonArray("partidesEnCurs");
+            ArrayList<Partida> partidesEnCurs = new ArrayList<>();
+            
+            for (JsonElement partidaId : partidesEnCursArray) 
+            {
+                String id = partidaId.getAsString();
+                Partida partida = new Partida();
+                partida.setNom(id);
+                partidesEnCurs.add(partida);
+            }
+            
+            persona.setPartidesEnCurs(partidesEnCurs);
         }
 
         

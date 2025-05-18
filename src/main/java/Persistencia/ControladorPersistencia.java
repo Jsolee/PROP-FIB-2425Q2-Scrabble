@@ -13,9 +13,9 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 
 public class ControladorPersistencia {
-    private static final String USUARI_JSON = "Usuaris.json";
-    private static final String PARTIDES_JSON = "Partides.json";
-    private static final String RANKING_JSON = "Ranking.json";
+    private static final String USUARI_JSON = "src/main/java/Persistencia/Usuaris.json";
+    private static final String PARTIDES_JSON = "src/main/java/Persistencia/Partides.json";
+    private static final String RANKING_JSON = "src/main/java/Persistencia/Ranking.json";
 
     private final Gson gson;
 
@@ -25,6 +25,7 @@ public class ControladorPersistencia {
         
         // Registrar el adaptador para la clase Usuari
         gsonBuilder.registerTypeAdapter(Usuari.class, new UsuariAdapter());
+        gsonBuilder.registerTypeAdapter(Partida.class, new PartidaAdapter());
         
         // Registrar adaptador para el mapa de usuarios
         Type usuariMapType = new TypeToken<HashMap<String, Usuari>>() {}.getType();
