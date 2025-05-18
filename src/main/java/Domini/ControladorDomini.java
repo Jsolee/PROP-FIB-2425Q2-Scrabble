@@ -1,5 +1,6 @@
 package Domini;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -34,9 +35,44 @@ public class ControladorDomini {
     public boolean inicialitzarDadesPersistencia() 
     {
         try {
+            //carregar les dades de persistència als hashmaps corresponents
             controladorUsuari.setUsuaris(controladorPersistencia.cargarUsuaris());
             controladorPartida.setPartides(controladorPersistencia.cargarPartides());
             controladorRanking.setRanking(controladorPersistencia.cargarRanking());
+
+            HashMap<String, Usuari> usuaris = controladorUsuari.getUsuaris();
+            HashMap<String, Partida> partides = controladorPartida.getPartides();
+
+            for (Partida partida : partides.values()) {
+                List<Usuari> jugadors = partida.getJugadors();
+                partida.borrarJugadors();
+                for (Usuari jugador : jugadors) 
+                {
+                    if (jugador instanceof Persona) {
+                        Usuari usuari = usuaris.get(jugador.getNom());
+                        partida.afegirJugador(usuari);
+                    }
+                    else if (jugador instanceof Bot) {
+                        partida.afegirJugador(controladorUsuari.getBot());
+                    }
+                    
+                }
+            }
+
+
+            for (Usuari jugador : usuaris.values()) {
+                Persona persona = (Persona) jugador;
+                List<Partida> partidesEnCurs = persona.getPartidesEnCurs();
+                persona.borrarPartidesEnCurs();
+                if (partidesEnCurs == null) {
+                    continue;
+                }
+                for (Partida partida : partidesEnCurs) {
+                    Partida partidaActual = partides.get(partida.getNom());
+                    persona.setPartidaEnCurs(partidaActual);
+                }
+            }
+
             return true;
         }
         catch (Exception e) {
@@ -48,6 +84,7 @@ public class ControladorDomini {
     public boolean actualitzarDadesPersistencia() 
     {
         try {
+            //carregar les dades dels hashmaps als json corresponents
             controladorPersistencia.guardarUsuaris(controladorUsuari.getUsuaris());
             controladorPersistencia.guardarPartides(controladorPartida.getPartides());
             controladorPersistencia.guardarRanking(controladorRanking.getRanking());

@@ -113,6 +113,10 @@ public class Taulell {
         return caselles;
     }
 
+    public void setPrimerMoviment(boolean primerMoviment) {
+        this.primerMoviment = primerMoviment;
+    }
+
     /**
      * Col·loca una fitxa al taulell.
      * 

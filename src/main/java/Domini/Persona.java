@@ -66,6 +66,9 @@ public class Persona extends Usuari {
         this.partidesEnCurs.remove(partida);
     }
 
+    public void borrarPartidesEnCurs() {
+        this.partidesEnCurs = new ArrayList<>();
+    }
     /**
      * Comprova si l'usuari té la sessió iniciada.
      * 
@@ -166,9 +169,10 @@ public class Persona extends Usuari {
         this.correu = correu;
     }
 
-    public void setPartidesEnCurs(String contrasenya) {
-        this.contrasenya = contrasenya;
+    public void setPartidaEnCurs(Partida partida) {
+        this.partidesEnCurs.add(partida);
     }
+
 
     /**
      * Obté el valor específic d'una estadística segons el tipus indicat.

@@ -38,6 +38,10 @@ public class ControladorUsuari {
         this.usuaris.putAll(usuaris);
     }
 
+    public Bot getBot() {
+        return Bot.getInstance();
+    }
+
     /**
      * Obté un usuari pel seu nom d'usuari.
      * 
