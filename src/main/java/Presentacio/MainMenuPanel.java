@@ -82,34 +82,116 @@ public class MainMenuPanel extends JPanel {
     }
 
     private void create1vs1Game() {
-        String username = JOptionPane.showInputDialog(mainGui.getFrame(), "Enter opponent's username:");
-        if (username == null || username.isEmpty()) return;
+        // Primero preguntamos si quiere registrar o iniciar sesión
+        Object[] loginOptions = {"Login with existing user", "Register new opponent", "Cancel"};
+        int loginChoice = JOptionPane.showOptionDialog(mainGui.getFrame(),
+                "Choose option for opponent:",
+                "Opponent Options",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                loginOptions,
+                loginOptions[0]);
+                
+        // Cancelar el proceso
+        if (loginChoice == 2 || loginChoice == JOptionPane.CLOSED_OPTION) {
+            return;
+        }
+        
+        // Registrar nuevo usuario
+        if (loginChoice == 1) {
+            // Solicitar datos para el nuevo usuario
+            JTextField usernameField = new JTextField();
+            JTextField emailField = new JTextField();
+            JPasswordField passwordField = new JPasswordField();
+            JTextField ageField = new JTextField();
+            JTextField countryField = new JTextField();
+            
+            Object[] message = {
+                "Username:", usernameField,
+                "Email:", emailField,
+                "Password:", passwordField,
+                "Age:", ageField,
+                "Country:", countryField
+            };
 
-        try {
-            Usuari opponent = cd.getUsuari(username);
-            if (opponent == null) {
-                JOptionPane.showMessageDialog(mainGui.getFrame(), "User not found", "Error", JOptionPane.ERROR_MESSAGE);
+            int option = JOptionPane.showConfirmDialog(mainGui.getFrame(), message, "Register New Player", JOptionPane.OK_CANCEL_OPTION);
+            if (option != JOptionPane.OK_OPTION) {
                 return;
             }
+            
+            String username = usernameField.getText();
+            String email = emailField.getText();
+            String password = new String(passwordField.getPassword());
+            String age = ageField.getText();
+            String country = countryField.getText();
+            
+            try {
+                // Crear el nuevo usuario
+                Usuari opponent = cd.crearUsuari(username, email, password, age, country);
+                
+                // Continuar con la creación de la partida
+                createGameWithOpponent(opponent);
+                
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(mainGui.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        // Iniciar sesión con usuario existente
+        else {
+            JTextField usernameField = new JTextField();
+            JPasswordField passwordField = new JPasswordField();
+            
+            Object[] message = {
+                "Username:", usernameField,
+                "Password:", passwordField
+            };
+            
+            int option = JOptionPane.showConfirmDialog(mainGui.getFrame(), message, "Login Opponent", JOptionPane.OK_CANCEL_OPTION);
+            if (option != JOptionPane.OK_OPTION) return;
+            
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
+            if (username.isEmpty()) return;
 
-            String gameName = JOptionPane.showInputDialog(mainGui.getFrame(), "Enter game name:");
-            if (gameName == null || gameName.isEmpty()) return;
+            try {
+                // Verificar credenciales
+                boolean opponent = cd.iniciarSessio(username, password);
+                if (!opponent) {
+                    JOptionPane.showMessageDialog(mainGui.getFrame(), "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                // Continuar con la creación de la partida
+                createGameWithOpponent(cd.getUsuari(username));
+                
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(mainGui.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 
-            String[] languages = {"catalan", "castellano", "english"};
-            String language = (String) JOptionPane.showInputDialog(mainGui.getFrame(),
-                    "Select language:",
-                    "Game Language",
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    languages,
-                    languages[0]);
+    // Método auxiliar para crear la partida una vez que tenemos el oponente
+    private void createGameWithOpponent(Usuari opponent) {
+        String gameName = JOptionPane.showInputDialog(mainGui.getFrame(), "Enter game name:");
+        if (gameName == null || gameName.isEmpty()) return;
 
-            if (language == null) return;
+        String[] languages = {"catalan", "castellano", "english"};
+        String language = (String) JOptionPane.showInputDialog(mainGui.getFrame(),
+                "Select language:",
+                "Game Language",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                languages,
+                languages[0]);
 
-            List<Usuari> players = new ArrayList<>();
-            players.add(mainGui.getCurrentUser());
-            players.add(opponent);
+        if (language == null) return;
 
+        List<Usuari> players = new ArrayList<>();
+        players.add(mainGui.getCurrentUser());
+        players.add(opponent);
+
+        try {
             mainGui.setCurrentGame(cd.crearPartida(gameName, players, language));
             mainGui.showGamePanel();
         } catch (IllegalArgumentException ex) {

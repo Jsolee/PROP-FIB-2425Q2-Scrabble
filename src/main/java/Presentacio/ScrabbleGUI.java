@@ -23,12 +23,42 @@ public class ScrabbleGUI {
 
     public ScrabbleGUI() {
         cd = new ControladorDomini();
+        cd.inicialitzarDadesPersistencia();
         initializeGUI();
     }
 
     private void initializeGUI() {
         frame = new JFrame("Scrabble Game");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                // ask for confirmation
+            int response = JOptionPane.showConfirmDialog(frame,
+                "Estas segur que vols tancar l'aplicació?", 
+                "Tancar aplicació",
+                JOptionPane.YES_NO_OPTION, 
+                JOptionPane.QUESTION_MESSAGE);
+            if (response == JOptionPane.YES_OPTION) {
+                // actualitzem dades persistencia
+                boolean updated = cd.actualitzarDadesPersistencia(); 
+                
+                if (!updated) {
+                    JOptionPane.showMessageDialog(frame, 
+                        "Error al guardar les dades.", 
+                        "Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                } else  {
+                    // Show confirmation after persistence update
+                    JOptionPane.showMessageDialog(frame, 
+                        "Les dades s'han guardat correctament!", 
+                        "Informació", 
+                        JOptionPane.INFORMATION_MESSAGE);
+                        System.exit(0); 
+                }
+            }
+        }
+        });
         frame.setSize(1100, 850);
         frame.setLocationRelativeTo(null);
 

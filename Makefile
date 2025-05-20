@@ -2,7 +2,7 @@
 
 # Ajusta si tienes otra versión de Gson o carpeta distinta
 GSON_JAR   := libs/gson-2.13.1.jar
-MAIN_CLASS := Domini.DriverDomini
+MAIN_CLASS := Presentacio.ScrabbleGUI
 
 # Encuentra el primer JAR generado en build/libs
 JAR_FILE   := build/libs/scrabble-1.0.jar
@@ -33,6 +33,10 @@ jar: build
 run: build
 	@echo ">>> Ejecutando con -cp..."
 	java -cp build/classes/java/main:$(GSON_JAR) $(MAIN_CLASS)
+
+run-terminal: build
+	@echo ">>> Ejecutando con -cp..."
+	java -cp build/classes/java/main:$(GSON_JAR) Domini.DriverDomini
 
 # 6) Arranca con java -jar sobre el JAR generado
 run-jar: jar
