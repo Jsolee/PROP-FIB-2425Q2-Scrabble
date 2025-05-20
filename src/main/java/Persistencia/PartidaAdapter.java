@@ -21,6 +21,7 @@ public class PartidaAdapter implements JsonSerializer<Partida>, JsonDeserializer
     
     @Override
     public JsonElement serialize(Partida src, Type typeOfSrc, JsonSerializationContext context) {
+        System.out.println("Serializando Partida jijijijii");
         JsonObject result = new JsonObject();
         
         if (src == null) {
@@ -173,7 +174,7 @@ public class PartidaAdapter implements JsonSerializer<Partida>, JsonDeserializer
             for (JsonElement element : jugadorsArray) {
                 String name = element.getAsString();
                 Usuari jugador = new Persona(name, "", "", "", "");
-                partida.afegirJugador(jugador);
+                partida.addJugadorPersistencia(jugador);
             }
             
         }        

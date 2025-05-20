@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import Domini.Partida;
+import Domini.Persona;
 import Domini.Ranking;
 import Domini.Usuari;
 
@@ -26,11 +27,15 @@ public class ControladorPersistencia {
         // Registrar el adaptador para la clase Usuari
         gsonBuilder.registerTypeAdapter(Usuari.class, new UsuariAdapter());
         gsonBuilder.registerTypeAdapter(Partida.class, new PartidaAdapter());
+        gsonBuilder.registerTypeAdapter(Persona.class, new UsuariAdapter());
+        gsonBuilder.registerTypeAdapter(Ranking.class, new RankingAdapter());
         
         // Registrar adaptador para el mapa de usuarios
         Type usuariMapType = new TypeToken<HashMap<String, Usuari>>() {}.getType();
         gsonBuilder.registerTypeAdapter(usuariMapType, new MapUsuariAdapter());
         
+        Type partidaMapType = new TypeToken<HashMap<String, Partida>>() {}.getType();
+        gsonBuilder.registerTypeAdapter(partidaMapType, new MapPartidaAdapter());
         // Crear el objeto Gson con los adaptadores configurados
         this.gson = gsonBuilder.create();
     }
@@ -42,9 +47,7 @@ public class ControladorPersistencia {
      * @param usuarios Mapa de usuarios a guardar
      * @throws IOException Si ocurre un error de E/S
      */
-    public void guardarUsuaris(HashMap<String, Usuari> usuarios) throws IOException {
-        System.out.println("Guardando " + usuarios.size() + " usuarios en: " + USUARI_JSON);
-        
+    public void guardarUsuaris(HashMap<String, Usuari> usuarios) throws IOException {        
         try (Writer writer = new FileWriter(USUARI_JSON)) {
             gson.toJson(usuarios, writer);
             System.out.println("Usuarios guardados correctamente.");
@@ -69,6 +72,7 @@ public class ControladorPersistencia {
     public void guardarPartides(HashMap<String, Partida> partidas) throws IOException {
         try (Writer writer = new FileWriter(PARTIDES_JSON )) {
             gson.toJson(partidas, writer);
+            System.out.println("Partidas guardadas correctamente.");
         }
     }
 
@@ -86,6 +90,7 @@ public class ControladorPersistencia {
     public void guardarRanking(Ranking ranking) throws IOException {
         try (Writer writer = new FileWriter(RANKING_JSON)) {
             gson.toJson(ranking, writer);
+            System.out.println("Ranking guardado correctamente.");
         }
     }
 

@@ -3,6 +3,7 @@ package Domini;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ArrayList;
 
 import Persistencia.ControladorPersistencia;
 
@@ -42,24 +43,28 @@ public class ControladorDomini {
 
             HashMap<String, Usuari> usuaris = controladorUsuari.getUsuaris();
             HashMap<String, Partida> partides = controladorPartida.getPartides();
+            Ranking ranking = controladorRanking.getRanking();
 
             for (Partida partida : partides.values()) {
                 List<Usuari> jugadors = partida.getJugadors();
                 partida.borrarJugadors();
+                
                 for (Usuari jugador : jugadors) 
                 {
                     if (jugador instanceof Persona) {
                         Usuari usuari = usuaris.get(jugador.getNom());
-                        partida.afegirJugador(usuari);
+                        Persona persona = (Persona) usuari;
+                        persona.borrarPartidesEnCurs();
+                        partida.afegirJugadorPersistencia(usuari);
                     }
                     else if (jugador instanceof Bot) {
-                        partida.afegirJugador(controladorUsuari.getBot());
+                        partida.afegirJugadorPersistencia(controladorUsuari.getBot());
                     }
                     
                 }
             }
 
-
+            /* 
             for (Usuari jugador : usuaris.values()) {
                 Persona persona = (Persona) jugador;
                 List<Partida> partidesEnCurs = persona.getPartidesEnCurs();
@@ -71,8 +76,52 @@ public class ControladorDomini {
                     Partida partidaActual = partides.get(partida.getNom());
                     persona.setPartidaEnCurs(partidaActual);
                 }
-            }
+            }*/
 
+            List<Persona> puntsTotals = ranking.getRankingPuntsTotals();
+            List<Persona> puntsTotalsReal = new ArrayList<>();
+
+            for (Persona persona : puntsTotals) {
+                String nom = persona.getNom();
+                if (usuaris.containsKey(nom)) {
+                    Persona personaActual = (Persona) usuaris.get(nom);
+                    puntsTotalsReal.add(personaActual);
+                }
+            }
+            ranking.setRankingPuntsTotals(puntsTotalsReal);
+
+            List<Persona> partidesJugades = ranking.getRankingPartidesJugades();
+            List<Persona> partidesJugadesReal = new ArrayList<>();
+            for (Persona persona : partidesJugades) {
+                String nom = persona.getNom();
+                if (usuaris.containsKey(nom)) {
+                    Persona personaActual = (Persona) usuaris.get(nom);
+                    partidesJugadesReal.add(personaActual);
+                }
+            }
+            ranking.setRankingPartidesJugades(partidesJugadesReal);
+
+            List<Persona> partidesGuanyades = ranking.getRankingPartidesGuanyades();
+            List<Persona> partidesGuanyadesReal = new ArrayList<>();
+            for (Persona persona : partidesGuanyades) {
+                String nom = persona.getNom();
+                if (usuaris.containsKey(nom)) {
+                    Persona personaActual = (Persona) usuaris.get(nom);
+                    partidesGuanyadesReal.add(personaActual);
+                }
+            }
+            ranking.setRankingPartidesGuanyades(partidesGuanyadesReal);
+
+            List<Persona> recordPersonal = ranking.getRankingRecordPersonal();
+            List<Persona> recordPersonalReal = new ArrayList<>();
+            for (Persona persona : recordPersonal) {
+                String nom = persona.getNom();
+                if (usuaris.containsKey(nom)) {
+                    Persona personaActual = (Persona) usuaris.get(nom);
+                    recordPersonalReal.add(personaActual);
+                }
+            }
+            ranking.setRankingRecordPersonal(recordPersonalReal);
             return true;
         }
         catch (Exception e) {

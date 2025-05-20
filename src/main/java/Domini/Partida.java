@@ -23,7 +23,21 @@ public class Partida {
     /**
      * Constructor per GSON
      */
-    public Partida(){}
+    public Partida()
+    {
+        this.nom = "persistencia";
+        this.taulell = new Taulell();
+        this.jugadors = new ArrayList<>();
+        this.jugadorActual = 0;
+        this.bossa = new Bossa("catalan");
+        this.partidaAcabada = false;
+        this.indexsActuals = new ArrayList<>();
+        this.atrils = new ArrayList<>();
+        this.puntuacioJugadors = new ArrayList<>();
+        this.idioma = "catalan";
+        this.partidaPausada = false;
+        this.diccionari = new Diccionari("catalan");
+    }
 
     
     /**
@@ -72,6 +86,11 @@ public class Partida {
     public Bossa getBossa()
     {
         return bossa;
+    }
+
+    public void addJugadorPersistencia(Usuari jugador)
+    {
+        jugadors.add(jugador);
     }
 
     /**
@@ -205,6 +224,17 @@ public class Partida {
         omplirAtril(-1);
         puntuacioJugadors.add(0);
 
+        if (jugador instanceof Persona)
+        {
+            Persona persona = (Persona) jugador;
+            persona.getPartidesEnCurs().add(this);
+
+        }
+    }
+
+    public void afegirJugadorPersistencia(Usuari jugador)
+    {
+        jugadors.add(jugador);
         if (jugador instanceof Persona)
         {
             Persona persona = (Persona) jugador;

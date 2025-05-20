@@ -145,4 +145,20 @@ public class Ranking {
         return rankingRecordPersonal;
     }
 
+    public void setRankingPuntsTotals(List<Persona> rankingPuntsTotals) {
+        this.rankingPuntsTotals = rankingPuntsTotals;
+    }
+
+    public void setRankingPartidesJugades(List<Persona> rankingPartidesJugades) {
+        this.rankingPartidesJugades = rankingPartidesJugades;
+    }
+
+    public void setRankingPartidesGuanyades(List<Persona> rankingPartidesGuanyades) {
+        this.rankingPartidesGuanyades = rankingPartidesGuanyades;
+    }
+    
+    public void setRankingRecordPersonal(List<Persona> rankingRecordPersonal) {
+        this.rankingRecordPersonal = rankingRecordPersonal;
+    }
+
 }
