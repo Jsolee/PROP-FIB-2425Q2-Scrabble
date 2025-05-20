@@ -1,0 +1,138 @@
+{
+  "rankingPuntsTotals": [
+    {
+      "correu": "q",
+      "contrasenya": "q",
+      "edat": "q",
+      "pais": "q",
+      "estadistiques": {
+        "paraulesTotals": 0,
+        "puntTotal": 0,
+        "partidesJugades": 0,
+        "partidesGuanyades": 0,
+        "recordPersonal": 0
+      },
+      "SessioIniciada": true,
+      "partidesEnCurs": [],
+      "username": "q"
+    },
+    {
+      "correu": "cebroda",
+      "contrasenya": "ca",
+      "edat": "33",
+      "pais": "esp",
+      "estadistiques": {
+        "paraulesTotals": 0,
+        "puntTotal": 0,
+        "partidesJugades": 0,
+        "partidesGuanyades": 0,
+        "recordPersonal": 0
+      },
+      "SessioIniciada": false,
+      "partidesEnCurs": [],
+      "username": "dani"
+    }
+  ],
+  "rankingPartidesJugades": [
+    {
+      "correu": "q",
+      "contrasenya": "q",
+      "edat": "q",
+      "pais": "q",
+      "estadistiques": {
+        "paraulesTotals": 0,
+        "puntTotal": 0,
+        "partidesJugades": 0,
+        "partidesGuanyades": 0,
+        "recordPersonal": 0
+      },
+      "SessioIniciada": true,
+      "partidesEnCurs": [],
+      "username": "q"
+    },
+    {
+      "correu": "cebroda",
+      "contrasenya": "ca",
+      "edat": "33",
+      "pais": "esp",
+      "estadistiques": {
+        "paraulesTotals": 0,
+        "puntTotal": 0,
+        "partidesJugades": 0,
+        "partidesGuanyades": 0,
+        "recordPersonal": 0
+      },
+      "SessioIniciada": false,
+      "partidesEnCurs": [],
+      "username": "dani"
+    }
+  ],
+  "rankingPartidesGuanyades": [
+    {
+      "correu": "q",
+      "contrasenya": "q",
+      "edat": "q",
+      "pais": "q",
+      "estadistiques": {
+        "paraulesTotals": 0,
+        "puntTotal": 0,
+        "partidesJugades": 0,
+        "partidesGuanyades": 0,
+        "recordPersonal": 0
+      },
+      "SessioIniciada": true,
+      "partidesEnCurs": [],
+      "username": "q"
+    },
+    {
+      "correu": "cebroda",
+      "contrasenya": "ca",
+      "edat": "33",
+      "pais": "esp",
+      "estadistiques": {
+        "paraulesTotals": 0,
+        "puntTotal": 0,
+        "partidesJugades": 0,
+        "partidesGuanyades": 0,
+        "recordPersonal": 0
+      },
+      "SessioIniciada": false,
+      "partidesEnCurs": [],
+      "username": "dani"
+    }
+  ],
+  "rankingRecordPersonal": [
+    {
+      "correu": "q",
+      "contrasenya": "q",
+      "edat": "q",
+      "pais": "q",
+      "estadistiques": {
+        "paraulesTotals": 0,
+        "puntTotal": 0,
+        "partidesJugades": 0,
+        "partidesGuanyades": 0,
+        "recordPersonal": 0
+      },
+      "SessioIniciada": true,
+      "partidesEnCurs": [],
+      "username": "q"
+    },
+    {
+      "correu": "cebroda",
+      "contrasenya": "ca",
+      "edat": "33",
+      "pais": "esp",
+      "estadistiques": {
+        "paraulesTotals": 0,
+        "puntTotal": 0,
+        "partidesJugades": 0,
+        "partidesGuanyades": 0,
+        "recordPersonal": 0
+      },
+      "SessioIniciada": false,
+      "partidesEnCurs": [],
+      "username": "dani"
+    }
+  ]
+}

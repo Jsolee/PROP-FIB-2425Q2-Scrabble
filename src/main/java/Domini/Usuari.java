@@ -10,6 +10,11 @@ public abstract class Usuari {
     private String username;
 
     /**
+     * Constructor per defecte per GSON
+     */
+    public Usuari(){}
+    
+    /**
      * Constructor que crea un nou usuari amb el nom especificat.
      * 
      * @param nom nom d'usuari

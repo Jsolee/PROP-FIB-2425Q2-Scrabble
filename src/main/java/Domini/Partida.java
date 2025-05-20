@@ -21,6 +21,26 @@ public class Partida {
     private Diccionari diccionari;
 
     /**
+     * Constructor per GSON
+     */
+    public Partida()
+    {
+        this.nom = "persistencia";
+        this.taulell = new Taulell();
+        this.jugadors = new ArrayList<>();
+        this.jugadorActual = 0;
+        this.bossa = new Bossa("catalan");
+        this.partidaAcabada = false;
+        this.indexsActuals = new ArrayList<>();
+        this.atrils = new ArrayList<>();
+        this.puntuacioJugadors = new ArrayList<>();
+        this.idioma = "catalan";
+        this.partidaPausada = false;
+        this.diccionari = new Diccionari("catalan");
+    }
+
+    
+    /**
      * Constructor de la classe Partida.
      * @param nom Nom de la partida.
      * @param idioma Idioma del diccionari a utilitzar.
@@ -41,6 +61,160 @@ public class Partida {
     }
 
     /**
+     * Obté el nom de la partida.
+     * @return nom de la partida.
+     */
+    public String getNom()
+    {
+        return nom;
+    }
+
+    public void setNom(String nom)
+    {
+        this.nom = nom;
+    }
+
+    public void borrarJugadors()
+    {
+        this.jugadors = new ArrayList<>();
+    }
+
+    /**
+     * Obté la bossa de fitxes de la partida.
+     * @return objecte Bossa amb les fitxes disponibles.
+     */
+    public Bossa getBossa()
+    {
+        return bossa;
+    }
+
+    public void addJugadorPersistencia(Usuari jugador)
+    {
+        jugadors.add(jugador);
+    }
+
+    /**
+     * Obté l'usuari que té el torn actual.
+     * @return Usuari que té el torn actualment.
+     */
+    public Usuari getTornActual() 
+    {
+        return jugadors.get(jugadorActual);
+    }
+
+    public Integer getTornActualIndex()
+    {
+        return jugadorActual;
+    }
+
+    /**
+     * Retorna el jugador actual de la partida.
+     * @return Usuari que representa el jugador actual de la partida.
+     */
+    public Usuari getJugadorActual() 
+    {
+        return jugadors.get(jugadorActual);
+    }
+
+    /**
+     * Obté el taulell de la partida.
+     * @return objecte Taulell de la partida.
+     */
+    public Taulell getTaulell() {
+        return taulell;
+    }
+
+    public void setTaulell(Taulell taulell) {
+        this.taulell = taulell;
+    }
+
+    public void setAtrils(List<List<Fitxa>> atrils)
+    {
+        this.atrils = atrils;
+    }
+
+    public void setTornActual(int tornActual)
+    {
+        this.jugadorActual = tornActual;
+    }
+
+    public void setPuntuacions(List<Integer> puntuacions)
+    {
+        this.puntuacioJugadors = puntuacions;
+    }
+
+
+
+    /**
+     * Obté la llista de jugadors de la partida.
+     * @return llista d'objectes Usuari que participen a la partida.
+     */
+    public List<Usuari> getJugadors() {
+        return jugadors;
+    }
+
+    /**
+     * Obté les puntuacions de tots els jugadors.
+     * @return llista amb les puntuacions de cada jugador.
+     */
+    public List<Integer> getPuntuacions() {
+        return puntuacioJugadors;
+    }
+
+    /**
+     * Obté l'atril del jugador actual.
+     * @return llista de fitxes de l'atril del jugador.
+     */
+    public List<Fitxa> getAtril(){
+        return atrils.get(jugadorActual);
+    }
+
+    /**
+     * Indica si la partida està pausada.
+     * @return true si la partida està pausada, false en cas contrari.
+     */
+    public boolean getPartidaPausada() {
+        return partidaPausada;
+    }
+
+    /**
+     * Indica si la partida ja ha finalitzat.
+     * @return true si la partida ha finalitzat, false en cas contrari.
+     */
+    public boolean getPartidaAcabada() {
+        return partidaAcabada;
+    }
+
+
+    /**
+     * Obté els índexs de les fitxes seleccionades per canviar.
+     * @return llista amb els índexs de les fitxes a canviar.
+     */
+    public List<Integer> getIndexsActuals()
+    {
+        return indexsActuals;
+    }
+
+    /**
+     * Obté l'idioma de la partida.
+     * @return string que representa l'idioma de la partida.
+     */
+    public String getIdioma()
+    {
+        return idioma;
+    }
+
+    /**
+     * Obté els atrils de tots els jugadors.
+     * @return llista amb els atrils de tots els jugadors.
+     */
+    public List<List<Fitxa>> getAtrils()
+    {
+        return atrils;
+    }
+
+
+    /**
      * Afegeix el jugador a la llista de jugadors de la partida. Transforma a classe Persona si l'usuari no es un d'objecte Bot. Omple l'atril del jugador especificat
      * @param jugador objecte Usuari que representa el jugador a afegir.
      */
@@ -50,6 +224,17 @@ public class Partida {
         omplirAtril(-1);
         puntuacioJugadors.add(0);
 
+        if (jugador instanceof Persona)
+        {
+            Persona persona = (Persona) jugador;
+            persona.getPartidesEnCurs().add(this);
+
+        }
+    }
+
+    public void afegirJugadorPersistencia(Usuari jugador)
+    {
+        jugadors.add(jugador);
         if (jugador instanceof Persona)
         {
             Persona persona = (Persona) jugador;
@@ -87,14 +272,7 @@ public class Partida {
         }
     }
 
-    /**
-     * Obté el nom de la partida.
-     * @return nom de la partida.
-     */
-    public String getNom()
-    {
-        return nom;
-    }
+    
 
     /**
      * Estableix una bossa de fitxes per la partida.
@@ -105,14 +283,7 @@ public class Partida {
         this.bossa = bossa;
     }
 
-    /**
-     * Obté la bossa de fitxes de la partida.
-     * @return objecte Bossa amb les fitxes disponibles.
-     */
-    public Bossa getBossa()
-    {
-        return bossa;
-    }
+    
 
     /**
      * Passa el torn al següent jugador.
@@ -150,77 +321,12 @@ public class Partida {
     }
 
     /**
-     * Obté l'usuari que té el torn actual.
-     * @return Usuari que té el torn actualment.
-     */
-    public Usuari getTornActual() 
-    {
-        return jugadors.get(jugadorActual);
-    }
-
-    /**
-     * Retorna el jugador actual de la partida.
-     * @return Usuari que representa el jugador actual de la partida.
-     */
-    public Usuari getJugadorActual() 
-    {
-        return jugadors.get(jugadorActual);
-    }
-
-    /**
-     * Obté el taulell de la partida.
-     * @return objecte Taulell de la partida.
-     */
-    public Taulell getTaulell() {
-        return taulell;
-    }
-
-    /**
-     * Obté la llista de jugadors de la partida.
-     * @return llista d'objectes Usuari que participen a la partida.
-     */
-    public List<Usuari> getJugadors() {
-        return jugadors;
-    }
-
-    /**
-     * Obté les puntuacions de tots els jugadors.
-     * @return llista amb les puntuacions de cada jugador.
-     */
-    public List<Integer> getPuntuacions() {
-        return puntuacioJugadors;
-    }
-
-    /**
-     * Obté l'atril del jugador actual.
-     * @return llista de fitxes de l'atril del jugador.
-     */
-    public List<Fitxa> getAtril(){
-        return atrils.get(jugadorActual);
-    }
-
-    /**
-     * Indica si la partida està pausada.
-     * @return true si la partida està pausada, false en cas contrari.
-     */
-    public boolean getPartidaPausada() {
-        return partidaPausada;
-    }
-
-    /**
      * Marca la partida com a guardada i pausada.
      */
     public void guardarPartida() {
         partidaPausada = true;
     }
 
-    /**
-     * Indica si la partida ja ha finalitzat.
-     * @return true si la partida ha finalitzat, false en cas contrari.
-     */
-    public boolean getPartidaAcabada() {
-        return partidaAcabada;
-    }
 
     /**
      * Marca la partida com a finalitzada.
@@ -229,32 +335,6 @@ public class Partida {
         partidaAcabada = true;
     }
 
-    /**
-     * Obté els índexs de les fitxes seleccionades per canviar.
-     * @return llista amb els índexs de les fitxes a canviar.
-     */
-    public List<Integer> getIndexsActuals()
-    {
-        return indexsActuals;
-    }
-
-    /**
-     * Obté l'idioma de la partida.
-     * @return string que representa l'idioma de la partida.
-     */
-    public String getIdioma()
-    {
-        return idioma;
-    }
-
-    /**
-     * Obté els atrils de tots els jugadors.
-     * @return llista amb els atrils de tots els jugadors.
-     */
-    public List<List<Fitxa>> getAtrils()
-    {
-        return atrils;
-    }
 
     /**
      * Estableix la puntuació d'un jugador específic.

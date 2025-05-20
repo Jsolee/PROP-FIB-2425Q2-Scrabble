@@ -24,6 +24,11 @@ public class Persona extends Usuari {
     private ArrayList<Partida> partidesEnCurs;
 
     /**
+     * Constructor per defecte per GSON
+     */
+    public Persona(){}
+
+    /**
      * Constructor que crea un nou usuari amb les dades especificades.
      * 
      * @param nom nom d'usuari
@@ -61,6 +66,9 @@ public class Persona extends Usuari {
         this.partidesEnCurs.remove(partida);
     }
 
+    public void borrarPartidesEnCurs() {
+        this.partidesEnCurs = new ArrayList<>();
+    }
     /**
      * Comprova si l'usuari té la sessió iniciada.
      * 
@@ -129,6 +137,7 @@ public class Persona extends Usuari {
         return this.pais;
     }
 
+
     /**
      * Modifica la contrasenya de l'usuari.
      * 
@@ -139,6 +148,31 @@ public class Persona extends Usuari {
         this.contrasenya = contrasenya;
         return true;
     }
+
+    public void setEstadistiques(Estadistiques estadistiques) {
+        this.estadistiques = estadistiques;
+    }
+
+    public void setPartidesEnCurs(ArrayList<Partida> partidesEnCurs) {
+        this.partidesEnCurs = partidesEnCurs;
+    }
+
+    public void setEdat(String edat) {
+        this.edat = edat;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public void setCorreu(String correu) {
+        this.correu = correu;
+    }
+
+    public void setPartidaEnCurs(Partida partida) {
+        this.partidesEnCurs.add(partida);
+    }
+
 
     /**
      * Obté el valor específic d'una estadística segons el tipus indicat.

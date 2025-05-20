@@ -1,7 +1,11 @@
 package Domini;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ArrayList;
+
+import Persistencia.ControladorPersistencia;
 
 /**
  * Controlador principal que coordina les diferents parts del domini del joc.
@@ -16,6 +20,8 @@ public class ControladorDomini {
     /** Controlador que gestiona els rànquings */
     private ControladorRanking controladorRanking;
 
+    private ControladorPersistencia controladorPersistencia;
+
     /**
      * Constructor per defecte.
      * Inicialitza els controladors d'usuari, partida i rànquing.
@@ -24,6 +30,118 @@ public class ControladorDomini {
         controladorUsuari = new ControladorUsuari();
         controladorPartida = new ControladorPartida();
         controladorRanking = new ControladorRanking();
+        controladorPersistencia = new ControladorPersistencia();
+    }
+
+    public boolean inicialitzarDadesPersistencia() 
+    {
+        try {
+            //carregar les dades de persistència als hashmaps corresponents
+            controladorUsuari.setUsuaris(controladorPersistencia.cargarUsuaris());
+            controladorPartida.setPartides(controladorPersistencia.cargarPartides());
+            controladorRanking.setRanking(controladorPersistencia.cargarRanking());
+
+            HashMap<String, Usuari> usuaris = controladorUsuari.getUsuaris();
+            HashMap<String, Partida> partides = controladorPartida.getPartides();
+            Ranking ranking = controladorRanking.getRanking();
+
+            for (Partida partida : partides.values()) {
+                List<Usuari> jugadors = partida.getJugadors();
+                partida.borrarJugadors();
+                
+                for (Usuari jugador : jugadors) 
+                {
+                    if (jugador instanceof Persona) {
+                        Usuari usuari = usuaris.get(jugador.getNom());
+                        Persona persona = (Persona) usuari;
+                        persona.borrarPartidesEnCurs();
+                        partida.afegirJugadorPersistencia(usuari);
+                    }
+                    else if (jugador instanceof Bot) {
+                        partida.afegirJugadorPersistencia(controladorUsuari.getBot());
+                    }
+                    
+                }
+            }
+
+            /* 
+            for (Usuari jugador : usuaris.values()) {
+                Persona persona = (Persona) jugador;
+                List<Partida> partidesEnCurs = persona.getPartidesEnCurs();
+                persona.borrarPartidesEnCurs();
+                if (partidesEnCurs == null) {
+                    continue;
+                }
+                for (Partida partida : partidesEnCurs) {
+                    Partida partidaActual = partides.get(partida.getNom());
+                    persona.setPartidaEnCurs(partidaActual);
+                }
+            }*/
+
+            List<Persona> puntsTotals = ranking.getRankingPuntsTotals();
+            List<Persona> puntsTotalsReal = new ArrayList<>();
+
+            for (Persona persona : puntsTotals) {
+                String nom = persona.getNom();
+                if (usuaris.containsKey(nom)) {
+                    Persona personaActual = (Persona) usuaris.get(nom);
+                    puntsTotalsReal.add(personaActual);
+                }
+            }
+            ranking.setRankingPuntsTotals(puntsTotalsReal);
+
+            List<Persona> partidesJugades = ranking.getRankingPartidesJugades();
+            List<Persona> partidesJugadesReal = new ArrayList<>();
+            for (Persona persona : partidesJugades) {
+                String nom = persona.getNom();
+                if (usuaris.containsKey(nom)) {
+                    Persona personaActual = (Persona) usuaris.get(nom);
+                    partidesJugadesReal.add(personaActual);
+                }
+            }
+            ranking.setRankingPartidesJugades(partidesJugadesReal);
+
+            List<Persona> partidesGuanyades = ranking.getRankingPartidesGuanyades();
+            List<Persona> partidesGuanyadesReal = new ArrayList<>();
+            for (Persona persona : partidesGuanyades) {
+                String nom = persona.getNom();
+                if (usuaris.containsKey(nom)) {
+                    Persona personaActual = (Persona) usuaris.get(nom);
+                    partidesGuanyadesReal.add(personaActual);
+                }
+            }
+            ranking.setRankingPartidesGuanyades(partidesGuanyadesReal);
+
+            List<Persona> recordPersonal = ranking.getRankingRecordPersonal();
+            List<Persona> recordPersonalReal = new ArrayList<>();
+            for (Persona persona : recordPersonal) {
+                String nom = persona.getNom();
+                if (usuaris.containsKey(nom)) {
+                    Persona personaActual = (Persona) usuaris.get(nom);
+                    recordPersonalReal.add(personaActual);
+                }
+            }
+            ranking.setRankingRecordPersonal(recordPersonalReal);
+            return true;
+        }
+        catch (Exception e) {
+            System.out.println("Error al carregar les dades de persistència: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean actualitzarDadesPersistencia() 
+    {
+        try {
+            //carregar les dades dels hashmaps als json corresponents
+            controladorPersistencia.guardarUsuaris(controladorUsuari.getUsuaris());
+            controladorPersistencia.guardarPartides(controladorPartida.getPartides());
+            controladorPersistencia.guardarRanking(controladorRanking.getRanking());
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 
     /**

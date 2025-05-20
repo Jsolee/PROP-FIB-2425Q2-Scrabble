@@ -30,6 +30,19 @@ public class ControladorUsuari {
     }
 
     /**
+     * Estableix el mapa d'usuaris registrats.
+     * @param usuaris mapa d'usuaris a establir
+     */
+    public void setUsuaris(HashMap<String, Usuari> usuaris) {
+        this.usuaris.clear();
+        this.usuaris.putAll(usuaris);
+    }
+
+    public Bot getBot() {
+        return Bot.getInstance();
+    }
+
+    /**
      * Obté un usuari pel seu nom d'usuari.
      * 
      * @param username nom de l'usuari a buscar
