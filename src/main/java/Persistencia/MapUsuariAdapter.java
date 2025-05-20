@@ -70,7 +70,6 @@ public class MapUsuariAdapter implements JsonSerializer<HashMap<String, Usuari>>
                     if (usuari != null) {
                         // Verificar y corregir el nombre del usuario si es necesario
                         if (usuari.getNom() == null || usuari.getNom().isEmpty()) {
-                            System.out.println("Corrigiendo nombre nulo para usuario con clave: " + key);
                             usuari.setNom(key);
                         }
                         
@@ -78,7 +77,6 @@ public class MapUsuariAdapter implements JsonSerializer<HashMap<String, Usuari>>
                         result.put(key, usuari);
                     }
                 } catch (Exception e) {
-                    System.err.println("Error al deserializar usuario con clave " + key + ": " + e.getMessage());
                     // Continuar con la siguiente entrada
                 }
             }

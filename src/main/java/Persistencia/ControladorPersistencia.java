@@ -50,9 +50,7 @@ public class ControladorPersistencia {
     public void guardarUsuaris(HashMap<String, Usuari> usuarios) throws IOException {        
         try (Writer writer = new FileWriter(USUARI_JSON)) {
             gson.toJson(usuarios, writer);
-            System.out.println("Usuarios guardados correctamente.");
         } catch (IOException e) {
-            System.err.println("Error al guardar usuarios: " + e.getMessage());
             throw e;
         }
     }
@@ -72,7 +70,6 @@ public class ControladorPersistencia {
     public void guardarPartides(HashMap<String, Partida> partidas) throws IOException {
         try (Writer writer = new FileWriter(PARTIDES_JSON )) {
             gson.toJson(partidas, writer);
-            System.out.println("Partidas guardadas correctamente.");
         }
     }
 
@@ -90,7 +87,6 @@ public class ControladorPersistencia {
     public void guardarRanking(Ranking ranking) throws IOException {
         try (Writer writer = new FileWriter(RANKING_JSON)) {
             gson.toJson(ranking, writer);
-            System.out.println("Ranking guardado correctamente.");
         }
     }
 

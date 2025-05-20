@@ -23,7 +23,6 @@ public class UsuariAdapter implements JsonSerializer<Usuari>, JsonDeserializer<U
      */
     @Override
     public JsonElement serialize(Usuari src, Type typeOfSrc, JsonSerializationContext context) {
-        System.out.println("voy a serializar jejejje");
         JsonObject result = new JsonObject();
         
         

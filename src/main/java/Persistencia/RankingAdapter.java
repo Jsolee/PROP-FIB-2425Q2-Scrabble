@@ -15,7 +15,6 @@ public class RankingAdapter implements JsonSerializer<Ranking>, JsonDeserializer
     
     @Override
     public JsonElement serialize(Ranking src, Type typeOfSrc, JsonSerializationContext context) {
-        System.out.println("Serializando Ranking");
         JsonObject result = new JsonObject();
         
         if (src == null) return result;

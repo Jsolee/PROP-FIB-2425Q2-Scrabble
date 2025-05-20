@@ -7,6 +7,7 @@ import Domini.Usuari;
 import Domini.Taulell;
 import Domini.Fitxa;
 import Domini.Bossa;
+import Domini.Bot;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -21,7 +22,6 @@ public class PartidaAdapter implements JsonSerializer<Partida>, JsonDeserializer
     
     @Override
     public JsonElement serialize(Partida src, Type typeOfSrc, JsonSerializationContext context) {
-        System.out.println("Serializando Partida jijijijii");
         JsonObject result = new JsonObject();
         
         if (src == null) {
@@ -173,7 +173,10 @@ public class PartidaAdapter implements JsonSerializer<Partida>, JsonDeserializer
             
             for (JsonElement element : jugadorsArray) {
                 String name = element.getAsString();
-                Usuari jugador = new Persona(name, "", "", "", "");
+                Usuari jugador;
+                if (name.equals("bot"))
+                    jugador = Bot.getInstance(); 
+                else jugador = new Persona(name, "", "", "", "");
                 partida.addJugadorPersistencia(jugador);
             }
             
