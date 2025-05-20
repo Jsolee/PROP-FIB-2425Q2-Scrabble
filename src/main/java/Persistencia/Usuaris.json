@@ -1,0 +1,20 @@
+{
+  "a": {
+    "type": "Persona",
+    "nom": "a",
+    "correu": "a",
+    "contrasenya": "a",
+    "edat": "a",
+    "pais": "a",
+    "estadistiques": {
+      "paraulesTotals": 0,
+      "puntTotal": 0,
+      "partidesJugades": 0,
+      "partidesGuanyades": 0,
+      "recordPersonal": 0
+    },
+    "partidesEnCurs": [
+      "test"
+    ]
+  }
+}
