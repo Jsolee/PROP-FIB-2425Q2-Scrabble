@@ -149,30 +149,58 @@ public class Persona extends Usuari {
         return true;
     }
 
+    /**
+     * Estableix les estadístiques de l'usuari.
+     * @param estadistiques objecte Estadistiques amb les estadístiques a establir
+     */
     public void setEstadistiques(Estadistiques estadistiques) {
         this.estadistiques = estadistiques;
     }
 
+    /**
+     * Estableix la llista de partides en curs de l'usuari.
+     * 
+     * @param partidesEnCurs nova llista de partides en curs
+     */
     public void setPartidesEnCurs(ArrayList<Partida> partidesEnCurs) {
         this.partidesEnCurs = partidesEnCurs;
     }
 
+    /**
+     * Estableix l'edat de l'usuari.
+     * 
+     * @param edat nova edat
+     */
     public void setEdat(String edat) {
         this.edat = edat;
     }
 
+    /**
+     * Estableix el país de l'usuari.
+     * 
+     * @param pais nou país
+     */
     public void setPais(String pais) {
         this.pais = pais;
     }
 
+    /**
+     * Estableix el correu electrònic de l'usuari.
+     * 
+     * @param correu nou correu electrònic
+     */
     public void setCorreu(String correu) {
         this.correu = correu;
     }
 
+    /**
+     * Estableix una partida en curs a la llista de partides en curs de l'usuari.
+     * 
+     * @param partida partida a afegir
+     */
     public void setPartidaEnCurs(Partida partida) {
         this.partidesEnCurs.add(partida);
     }
-
 
     /**
      * Obté el valor específic d'una estadística segons el tipus indicat.
