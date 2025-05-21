@@ -7,12 +7,12 @@ import java.util.List;
 import java.awt.event.*;
 
 public class RankingPanel extends JPanel {
-    private ScrabbleGUI mainGui;
+    private ControladorPresentacio cp;
     private ControladorDomini cd;
     private JTextArea rankingText;
 
-    public RankingPanel(ScrabbleGUI mainGui, ControladorDomini cd) {
-        this.mainGui = mainGui;
+    public RankingPanel(ControladorPresentacio cp, ControladorDomini cd) {
+        this.cp = cp;
         this.cd = cd;
         initialize();
     }
@@ -43,7 +43,7 @@ public class RankingPanel extends JPanel {
 
         JButton backButton = new JButton("Back to Menu");
         CommonComponents.styleButton(backButton, new Color(66, 165, 245));
-        backButton.addActionListener(e -> mainGui.showMainMenuPanel());
+        backButton.addActionListener(e -> cp.showMainMenuPanel());
         add(backButton, BorderLayout.SOUTH);
     }
 
@@ -65,7 +65,7 @@ public class RankingPanel extends JPanel {
             int value = player.getValorEstaditiques(filter);
             sb.append(String.format("%-5d %-20s %-15d\n", i+1, player.getNom(), value));
 
-            if (player.equals(mainGui.getCurrentUser())) {
+            if (player.equals(cp.getCurrentUser())) {
                 sb.append("----------------------------------------\n");
                 sb.append(String.format("%-5d %-20s %-15d\n", i+1, player.getNom(), value));
                 sb.append("----------------------------------------\n");

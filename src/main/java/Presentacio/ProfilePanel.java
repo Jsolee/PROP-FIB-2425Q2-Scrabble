@@ -5,11 +5,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ProfilePanel extends JPanel {
-    private ScrabbleGUI mainGui;
+    private ControladorPresentacio cp;
     private ControladorDomini cd;
 
-    public ProfilePanel(ScrabbleGUI mainGui, ControladorDomini cd) {
-        this.mainGui = mainGui;
+    public ProfilePanel(ControladorPresentacio cp, ControladorDomini cd) {
+        this.cp = cp;
         this.cd = cd;
         initialize();
     }
@@ -38,7 +38,7 @@ public class ProfilePanel extends JPanel {
 
         JButton backButton = new JButton("Back to Menu");
         CommonComponents.styleButton(backButton, new Color(66, 165, 245));
-        backButton.addActionListener(e -> mainGui.showMainMenuPanel());
+        backButton.addActionListener(e -> cp.showMainMenuPanel());
         add(backButton, BorderLayout.SOUTH);
     }
 
@@ -49,9 +49,9 @@ public class ProfilePanel extends JPanel {
     }
 
     public void updateProfileInfo() {
-        if (!(mainGui.getCurrentUser() instanceof Persona)) return;
+        if (!(cp.getCurrentUser() instanceof Persona)) return;
 
-        Persona persona = (Persona) mainGui.getCurrentUser();
+        Persona persona = (Persona) cp.getCurrentUser();
         Estadistiques stats = persona.getEstadistiques();
 
         JPanel infoPanel = (JPanel) getComponent(0);

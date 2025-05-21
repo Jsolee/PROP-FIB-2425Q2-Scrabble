@@ -4,7 +4,7 @@ import Domini.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class ScrabbleGUI {
+public class ControladorPresentacio {
     private ControladorDomini cd;
     private JFrame frame;
     private CardLayout cardLayout;
@@ -21,7 +21,7 @@ public class ScrabbleGUI {
     private OptionsPanel optionsPanel;
     private RankingPanel rankingPanel;
 
-    public ScrabbleGUI() {
+    public ControladorPresentacio() {
         cd = new ControladorDomini();
         cd.inicialitzarDadesPersistencia();
         initializeGUI();
@@ -103,6 +103,7 @@ public class ScrabbleGUI {
     }
 
     public void showGamePanel() {
+        gamePanel.updateGameBoard();
         cardLayout.show(cardPanel, "game");
     }
 
@@ -142,6 +143,6 @@ public class ScrabbleGUI {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new ScrabbleGUI());
+        SwingUtilities.invokeLater(() -> new ControladorPresentacio());
     }
 }

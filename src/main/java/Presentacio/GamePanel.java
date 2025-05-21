@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.List;
 
 public class GamePanel extends JPanel {
-    protected ScrabbleGUI mainGui;
+    protected ControladorPresentacio cp;
     private ControladorDomini cd;
 
     // Game UI components
@@ -24,11 +24,19 @@ public class GamePanel extends JPanel {
     private JLabel currentPlayerLabel;
     private JLabel remainingTilesLabel;
 
-    public GamePanel(ScrabbleGUI mainGui, ControladorDomini cd) {
-        this.mainGui = mainGui;
+    public GamePanel(ControladorPresentacio cp, ControladorDomini cd) {
+        this.cp = cp;
         this.cd = cd;
         this.placedTiles = new ArrayList<>();
         initialize();
+
+        // Aseguramos que el juego se inicialice correctamente al cargar el panel
+        SwingUtilities.invokeLater(() -> {
+            if (cp.getCurrentGame() != null) {
+                // Verificar si es un juego nuevo y preparar el atril del jugador
+                updateGameBoard();
+            }
+        });
     }
 
     private void initialize() {
@@ -135,6 +143,25 @@ public class GamePanel extends JPanel {
                 cellButton.setPreferredSize(new Dimension(40, 40));
                 cellButton.setFont(new Font("Arial", Font.BOLD, 14));
 
+                // per poder borrar fitxed del tauler amb click dret
+                // Añadir listener para clic derecho sobre casillas del tablero
+                cellButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if (SwingUtilities.isRightMouseButton(e)) {
+                            // Buscar si hay una ficha temporal colocada en esta casilla
+                            for (int k = 0; k < placedTiles.size(); k++) {
+                                int[] tilePos = placedTiles.get(k);
+                                if (tilePos[0] == row && tilePos[1] == col) {
+                                    int tileIndex = tilePos[2];
+                                    removeTileFromBoard(tileIndex);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                });
+
                 // Set colors based on special positions
                 if (i == 7 && j == 7) {
                     CommonComponents.styleBoardButton(cellButton, CommonComponents.CENTER_COLOR, "★");
@@ -158,13 +185,13 @@ public class GamePanel extends JPanel {
     }
 
     public void updateGameBoard() {
-        if (mainGui.getCurrentGame() == null) return;
+        if (cp.getCurrentGame() == null) return;
 
         // Update game info
-        currentPlayerLabel.setText("Current Turn: " + mainGui.getCurrentGame().getJugadorActual().getNom());
-        remainingTilesLabel.setText("Tiles remaining: " + mainGui.getCurrentGame().getBossa().getQuantitatFitxes());
+        currentPlayerLabel.setText("Current Turn: " + cp.getCurrentGame().getJugadorActual().getNom());
+        remainingTilesLabel.setText("Tiles remaining: " + cp.getCurrentGame().getBossa().getQuantitatFitxes());
 
-        Taulell board = mainGui.getCurrentGame().getTaulell();
+        Taulell board = cp.getCurrentGame().getTaulell();
 
         // Update board
         for (int i = 0; i < 15; i++) {
@@ -186,12 +213,12 @@ public class GamePanel extends JPanel {
 
         // Update player info
         playerPanel.removeAll();
-        List<Usuari> players = mainGui.getCurrentGame().getJugadors();
-        List<Integer> scores = mainGui.getCurrentGame().getPuntuacions();
+        List<Usuari> players = cp.getCurrentGame().getJugadors();
+        List<Integer> scores = cp.getCurrentGame().getPuntuacions();
         for (int i = 0; i < players.size(); i++) {
             JLabel playerLabel = new JLabel(players.get(i).getNom() + ": " + scores.get(i) + " points");
             playerLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-            if (players.get(i).equals(mainGui.getCurrentGame().getJugadorActual())) {
+            if (players.get(i).equals(cp.getCurrentGame().getJugadorActual())) {
                 playerLabel.setFont(playerLabel.getFont().deriveFont(Font.BOLD));
             }
             playerPanel.add(playerLabel);
@@ -199,7 +226,7 @@ public class GamePanel extends JPanel {
 
         // Update rack with drag support
         rackPanel.removeAll();
-        List<Fitxa> rack = mainGui.getCurrentGame().getAtril();
+        List<Fitxa> rack = cp.getCurrentGame().getAtril();
         rackButtons = new JButton[rack.size()];
 
         for (int i = 0; i < rack.size(); i++) {
@@ -240,8 +267,8 @@ public class GamePanel extends JPanel {
             rackPanel.add(tileButton);
         }
 
-        mainGui.getFrame().revalidate();
-        mainGui.getFrame().repaint();
+        cp.getFrame().revalidate();
+        cp.getFrame().repaint();
     }
 
     private class TileTransferHandler extends TransferHandler {
@@ -272,8 +299,20 @@ public class GamePanel extends JPanel {
                 int col = tilePos[1];
                 resetBoardButtonAppearance(row, col);
                 iterator.remove();
+
+                // Make the tile visible again in the rack
+                if (rackButtons != null && tileIndex < rackButtons.length) {
+                    rackButtons[tileIndex].setVisible(true);
+                }
                 break;
             }
+        }
+    }
+
+    // Nuevo método para ocultar la ficha del rack cuando se coloca en el tablero
+    public void hideTileInRack(int tileIndex) {
+        if (rackButtons != null && tileIndex < rackButtons.length) {
+            rackButtons[tileIndex].setVisible(false);
         }
     }
 
@@ -281,7 +320,7 @@ public class GamePanel extends JPanel {
         JButton button = boardButtons[row][col];
         String position = row + "," + col;
 
-        if (mainGui.getCurrentGame().getTaulell().getCasella(row, col).getFitxa() != null) {
+        if (cp.getCurrentGame().getTaulell().getCasella(row, col).getFitxa() != null) {
             button.setBackground(CommonComponents.TILE_COLOR);
         } else {
             if (row == 7 && col == 7) {
@@ -302,14 +341,14 @@ public class GamePanel extends JPanel {
 
     private void confirmWordPlacement() {
         if (placedTiles.isEmpty()) {
-            JOptionPane.showMessageDialog(mainGui.getFrame(), "No tiles placed on board", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(cp.getFrame(), "No tiles placed on board", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         // Determine orientation (H or V)
         String orientation = determineOrientation();
         if (orientation == null) {
-            JOptionPane.showMessageDialog(mainGui.getFrame(), "Tiles must be placed in a straight line", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(cp.getFrame(), "Tiles must be placed in a straight line", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -322,32 +361,33 @@ public class GamePanel extends JPanel {
             int col = tilePos[1];
             int tileIndex = tilePos[2];
 
-            moves.put(new int[]{row, col}, mainGui.getCurrentGame().getAtril().get(tileIndex));
+            moves.put(new int[]{row, col}, cp.getCurrentGame().getAtril().get(tileIndex));
             indices.add(tileIndex);
         }
 
         try {
-            int score = cd.jugarParaula(mainGui.getCurrentGame(), moves, orientation, indices);
+            int score = cd.jugarParaula(cp.getCurrentGame(), moves, orientation, indices);
             if (score != -1) {
-                JOptionPane.showMessageDialog(mainGui.getFrame(), "Word played successfully! Score: " + score,
+                JOptionPane.showMessageDialog(cp.getFrame(), "Word played successfully! Score: " + score,
                         "Success", JOptionPane.INFORMATION_MESSAGE);
                 placedTiles.clear();
-                mainGui.getCurrentGame().passarTorn();
-
-                if (mainGui.getCurrentGame().getJugadorActual() instanceof Bot) {
+                cp.getCurrentGame().passarTorn();
+                if (cp.getCurrentGame().getJugadorActual() instanceof Bot) {
                     botTurn();
+                } else {
+                    cp.setCurrentUser(cd.getUsuari(cp.getCurrentGame().getJugadorActual().getNom()));
                 }
 
                 updateGameBoard();
             } else {
-                JOptionPane.showMessageDialog(mainGui.getFrame(), "Invalid word or position",
+                JOptionPane.showMessageDialog(cp.getFrame(), "Invalid word or position",
                         "Error", JOptionPane.ERROR_MESSAGE);
                 // Reset the placed tiles
                 placedTiles.clear();
                 updateGameBoard();
             }
         } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(mainGui.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(cp.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             placedTiles.clear();
             updateGameBoard();
         }
@@ -382,36 +422,39 @@ public class GamePanel extends JPanel {
     }
 
     private void passTurn() {
-        int confirm = JOptionPane.showConfirmDialog(mainGui.getFrame(),
+        int confirm = JOptionPane.showConfirmDialog(cp.getFrame(),
                 "Are you sure you want to pass your turn?",
                 "Confirm Pass",
                 JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
             placedTiles.clear();
-            mainGui.getCurrentGame().passarTorn();
-            if (mainGui.getCurrentGame().getJugadorActual() instanceof Bot) {
+            cp.getCurrentGame().passarTorn();
+
+            if (cp.getCurrentGame().getJugadorActual() instanceof Bot) {
                 botTurn();
+            } else {
+                cp.setCurrentUser(cd.getUsuari(cp.getCurrentGame().getJugadorActual().getNom()));
             }
             updateGameBoard();
         }
     }
 
     private void exchangeTiles() {
-        if (!mainGui.getCurrentGame().getJugadorActual().equals(mainGui.getCurrentUser())) {
-            JOptionPane.showMessageDialog(mainGui.getFrame(), "It's not your turn", "Error", JOptionPane.ERROR_MESSAGE);
+        if (!cp.getCurrentGame().getJugadorActual().equals(cp.getCurrentUser())) {
+            JOptionPane.showMessageDialog(cp.getFrame(), "It's not your turn", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         // Create a dialog to select tiles to exchange
-        JDialog exchangeDialog = new JDialog(mainGui.getFrame(), "Exchange Tiles", true);
+        JDialog exchangeDialog = new JDialog(cp.getFrame(), "Exchange Tiles", true);
         exchangeDialog.setLayout(new BorderLayout());
         exchangeDialog.setSize(400, 300);
 
         JPanel tilePanel = new JPanel(new GridLayout(0, 1));
         tilePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        List<Fitxa> rack = mainGui.getCurrentGame().getAtril();
+        List<Fitxa> rack = cp.getCurrentGame().getAtril();
         JCheckBox[] checkBoxes = new JCheckBox[rack.size()];
 
         for (int i = 0; i < rack.size(); i++) {
@@ -439,17 +482,19 @@ public class GamePanel extends JPanel {
             }
 
             try {
-                cd.canviDeFitxes(mainGui.getCurrentGame(), indices.toArray(new String[0]));
+                cd.canviDeFitxes(cp.getCurrentGame(), indices.toArray(new String[0]));
                 placedTiles.clear();
-                mainGui.getCurrentGame().passarTorn();
+                cp.getCurrentGame().passarTorn();
 
-                if (mainGui.getCurrentGame().getJugadorActual() instanceof Bot) {
+                if (cp.getCurrentGame().getJugadorActual() instanceof Bot) {
                     botTurn();
+                } else {
+                    cp.setCurrentUser(cd.getUsuari(cp.getCurrentGame().getJugadorActual().getNom()));
                 }
 
                 updateGameBoard();
                 exchangeDialog.dispose();
-                JOptionPane.showMessageDialog(mainGui.getFrame(), "Tiles exchanged successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(cp.getFrame(), "Tiles exchanged successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(exchangeDialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -465,30 +510,62 @@ public class GamePanel extends JPanel {
     }
 
     private void saveGame() {
-        mainGui.getCurrentGame().guardarPartida();
-        JOptionPane.showMessageDialog(mainGui.getFrame(), "Game saved successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
+        cp.getCurrentGame().guardarPartida();
+        JOptionPane.showMessageDialog(cp.getFrame(), "Game saved successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
+        
+        rackPanel.removeAll();
+        playerPanel.removeAll();
+        cp.getFrame().revalidate();
+        cp.getFrame().repaint();
+        // Clear the game data
+        cp.setCurrentGame(null);
+        // Clear the placed tiles
+
+        placedTiles.clear();
+        cp.showMainMenuPanel();
     }
 
     private void resignGame() {
-        int confirm = JOptionPane.showConfirmDialog(mainGui.getFrame(),
+        int confirm = JOptionPane.showConfirmDialog(cp.getFrame(),
                 "Are you sure you want to resign?",
                 "Confirm Resign",
                 JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            cd.acabarPartida(mainGui.getCurrentGame());
-            Usuari winner = mainGui.getCurrentGame().determinarGuanyador();
-            JOptionPane.showMessageDialog(mainGui.getFrame(),
+            cd.acabarPartida(cp.getCurrentGame());
+            Usuari winner = cp.getCurrentGame().determinarGuanyador();
+            if (winner == null) {
+                JOptionPane.showMessageDialog(cp.getFrame(),
+                        "Game over! It's a draw!",
+                        "Game Ended",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(cp.getFrame(),
                     "Game over! Winner: " + winner.getNom(),
                     "Game Ended",
                     JOptionPane.INFORMATION_MESSAGE);
+            }
+            //reset board and placed tiles
+            for (int i = 0; i < 15; i++) {
+                for (int j = 0; j < 15; j++) {
+                    resetBoardButtonAppearance(i, j);
+                }
+            }
+            rackPanel.removeAll();
+            playerPanel.removeAll();
+            cp.getFrame().revalidate();
+            cp.getFrame().repaint();
+            // Clear the game data
+            cp.setCurrentGame(null);
+            // Clear the placed tiles
+
             placedTiles.clear();
-            mainGui.showMainMenuPanel();
+            cp.showMainMenuPanel();
         }
     }
 
     private void botTurn() {
-        cd.posarParaulaBot(mainGui.getCurrentGame(), mainGui.getCurrentGame().getJugadorActual());
+        cd.posarParaulaBot(cp.getCurrentGame(), cp.getCurrentGame().getJugadorActual());
         updateGameBoard();
     }
 }

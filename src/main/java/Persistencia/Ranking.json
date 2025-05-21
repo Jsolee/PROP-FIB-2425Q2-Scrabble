@@ -1,14 +1,6 @@
 {
-  "rankingPuntsTotalsIds": [
-    "a"
-  ],
-  "rankingPartidesJugadesIds": [
-    "a"
-  ],
-  "rankingPartidesGuanyadesIds": [
-    "a"
-  ],
-  "rankingRecordPersonalIds": [
-    "a"
-  ]
+  "rankingPuntsTotalsIds": [],
+  "rankingPartidesJugadesIds": [],
+  "rankingPartidesGuanyadesIds": [],
+  "rankingRecordPersonalIds": []
 }

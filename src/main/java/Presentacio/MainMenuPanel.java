@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainMenuPanel extends JPanel {
-    private ScrabbleGUI mainGui;
+    private ControladorPresentacio cp;
     private ControladorDomini cd;
     private JLabel welcomeLabel;
 
-    public MainMenuPanel(ScrabbleGUI mainGui, ControladorDomini cd) {
-        this.mainGui = mainGui;
+    public MainMenuPanel(ControladorPresentacio cp, ControladorDomini cd) {
+        this.cp = cp;
         this.cd = cd;
         initialize();
     }
@@ -36,14 +36,14 @@ public class MainMenuPanel extends JPanel {
         addMenuButton("Play Game", new Color(66, 165, 245), e -> showGameOptions(), gbc);
         gbc.gridy++;
         addMenuButton("View Profile", new Color(129, 199, 132), e -> {
-            mainGui.showProfilePanel();
+            cp.showProfilePanel();
         }, gbc);
         gbc.gridy++;
         addMenuButton("View Rankings", new Color(255, 183, 77), e -> {
-            mainGui.showRankingPanel();
+            cp.showRankingPanel();
         }, gbc);
         gbc.gridy++;
-        addMenuButton("Options", new Color(171, 71, 188), e -> mainGui.showOptionsPanel(), gbc);
+        addMenuButton("Options", new Color(171, 71, 188), e -> cp.showOptionsPanel(), gbc);
         gbc.gridy++;
         addMenuButton("Logout", new Color(239, 83, 80), e -> logout(), gbc);
     }
@@ -58,12 +58,12 @@ public class MainMenuPanel extends JPanel {
     }
 
     public void updateWelcomeMessage() {
-        welcomeLabel.setText("Welcome, " + (mainGui.getCurrentUser() != null ? mainGui.getCurrentUser().getNom() : "Guest"));
+        welcomeLabel.setText("Welcome, " + (cp.getCurrentUser() != null ? cp.getCurrentUser().getNom() : "Guest"));
     }
 
     private void showGameOptions() {
         Object[] options = {"1 vs 1", "1 vs Bot", "Load Game", "Cancel"};
-        int choice = JOptionPane.showOptionDialog(mainGui.getFrame(),
+        int choice = JOptionPane.showOptionDialog(cp.getFrame(),
                 "Select game mode:",
                 "Game Options",
                 JOptionPane.DEFAULT_OPTION,
@@ -84,7 +84,7 @@ public class MainMenuPanel extends JPanel {
     private void create1vs1Game() {
         // Primero preguntamos si quiere registrar o iniciar sesión
         Object[] loginOptions = {"Login with existing user", "Register new opponent", "Cancel"};
-        int loginChoice = JOptionPane.showOptionDialog(mainGui.getFrame(),
+        int loginChoice = JOptionPane.showOptionDialog(cp.getFrame(),
                 "Choose option for opponent:",
                 "Opponent Options",
                 JOptionPane.DEFAULT_OPTION,
@@ -115,7 +115,7 @@ public class MainMenuPanel extends JPanel {
                 "Country:", countryField
             };
 
-            int option = JOptionPane.showConfirmDialog(mainGui.getFrame(), message, "Register New Player", JOptionPane.OK_CANCEL_OPTION);
+            int option = JOptionPane.showConfirmDialog(cp.getFrame(), message, "Register New Player", JOptionPane.OK_CANCEL_OPTION);
             if (option != JOptionPane.OK_OPTION) {
                 return;
             }
@@ -134,7 +134,7 @@ public class MainMenuPanel extends JPanel {
                 createGameWithOpponent(opponent);
                 
             } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(mainGui.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(cp.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
         // Iniciar sesión con usuario existente
@@ -147,7 +147,7 @@ public class MainMenuPanel extends JPanel {
                 "Password:", passwordField
             };
             
-            int option = JOptionPane.showConfirmDialog(mainGui.getFrame(), message, "Login Opponent", JOptionPane.OK_CANCEL_OPTION);
+            int option = JOptionPane.showConfirmDialog(cp.getFrame(), message, "Login Opponent", JOptionPane.OK_CANCEL_OPTION);
             if (option != JOptionPane.OK_OPTION) return;
             
             String username = usernameField.getText();
@@ -158,7 +158,7 @@ public class MainMenuPanel extends JPanel {
                 // Verificar credenciales
                 boolean opponent = cd.iniciarSessio(username, password);
                 if (!opponent) {
-                    JOptionPane.showMessageDialog(mainGui.getFrame(), "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(cp.getFrame(), "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 
@@ -166,18 +166,18 @@ public class MainMenuPanel extends JPanel {
                 createGameWithOpponent(cd.getUsuari(username));
                 
             } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(mainGui.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(cp.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
     // Método auxiliar para crear la partida una vez que tenemos el oponente
     private void createGameWithOpponent(Usuari opponent) {
-        String gameName = JOptionPane.showInputDialog(mainGui.getFrame(), "Enter game name:");
+        String gameName = JOptionPane.showInputDialog(cp.getFrame(), "Enter game name:");
         if (gameName == null || gameName.isEmpty()) return;
 
         String[] languages = {"catalan", "castellano", "english"};
-        String language = (String) JOptionPane.showInputDialog(mainGui.getFrame(),
+        String language = (String) JOptionPane.showInputDialog(cp.getFrame(),
                 "Select language:",
                 "Game Language",
                 JOptionPane.QUESTION_MESSAGE,
@@ -188,23 +188,23 @@ public class MainMenuPanel extends JPanel {
         if (language == null) return;
 
         List<Usuari> players = new ArrayList<>();
-        players.add(mainGui.getCurrentUser());
+        players.add(cp.getCurrentUser());
         players.add(opponent);
 
         try {
-            mainGui.setCurrentGame(cd.crearPartida(gameName, players, language));
-            mainGui.showGamePanel();
+            cp.setCurrentGame(cd.crearPartida(gameName, players, language));
+            cp.showGamePanel();
         } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(mainGui.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(cp.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void createBotGame() {
-        String gameName = JOptionPane.showInputDialog(mainGui.getFrame(), "Enter game name:");
+        String gameName = JOptionPane.showInputDialog(cp.getFrame(), "Enter game name:");
         if (gameName == null || gameName.isEmpty()) return;
 
         String[] languages = {"catalan", "castellano", "english"};
-        String language = (String) JOptionPane.showInputDialog(mainGui.getFrame(),
+        String language = (String) JOptionPane.showInputDialog(cp.getFrame(),
                 "Select language:",
                 "Game Language",
                 JOptionPane.QUESTION_MESSAGE,
@@ -215,26 +215,26 @@ public class MainMenuPanel extends JPanel {
         if (language == null) return;
 
         List<Usuari> players = new ArrayList<>();
-        players.add(mainGui.getCurrentUser());
+        players.add(cp.getCurrentUser());
         players.add(cd.getBot());
 
         try {
-            mainGui.setCurrentGame(cd.crearPartida(gameName, players, language));
-            mainGui.showGamePanel();
+            cp.setCurrentGame(cd.crearPartida(gameName, players, language));
+            cp.showGamePanel();
         } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(mainGui.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(cp.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void loadGame() {
-        List<Partida> games = cd.getPartidesEnCurs(mainGui.getCurrentUser());
+        List<Partida> games = cd.getPartidesEnCurs(cp.getCurrentUser());
         if (games == null || games.isEmpty()) {
-            JOptionPane.showMessageDialog(mainGui.getFrame(), "No saved games found", "Info", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(cp.getFrame(), "No saved games found", "Info", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
         String[] gameNames = games.stream().map(Partida::getNom).toArray(String[]::new);
-        String selectedGame = (String) JOptionPane.showInputDialog(mainGui.getFrame(),
+        String selectedGame = (String) JOptionPane.showInputDialog(cp.getFrame(),
                 "Select game to load:",
                 "Load Game",
                 JOptionPane.QUESTION_MESSAGE,
@@ -243,14 +243,14 @@ public class MainMenuPanel extends JPanel {
                 gameNames[0]);
 
         if (selectedGame != null) {
-            mainGui.setCurrentGame(cd.getPartida(selectedGame));
-            mainGui.showGamePanel();
+            cp.setCurrentGame(cd.getPartida(selectedGame));
+            cp.showGamePanel();
         }
     }
 
     private void logout() {
-        cd.tancarSessio(mainGui.getCurrentUser().getNom());
-        mainGui.setCurrentUser(null);
-        mainGui.showLoginPanel();
+        cd.tancarSessio(cp.getCurrentUser().getNom());
+        cp.setCurrentUser(null);
+        cp.showLoginPanel();
     }
 }

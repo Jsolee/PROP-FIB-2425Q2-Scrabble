@@ -5,11 +5,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class OptionsPanel extends JPanel {
-    private ScrabbleGUI mainGui;
+    private ControladorPresentacio cp;
     private ControladorDomini cd;
 
-    public OptionsPanel(ScrabbleGUI mainGui, ControladorDomini cd) {
-        this.mainGui = mainGui;
+    public OptionsPanel(ControladorPresentacio cp, ControladorDomini cd) {
+        this.cp = cp;
         this.cd = cd;
         initialize();
     }
@@ -35,7 +35,7 @@ public class OptionsPanel extends JPanel {
 
         JButton backButton = new JButton("Back to Menu");
         CommonComponents.styleButton(backButton, new Color(66, 165, 245));
-        backButton.addActionListener(e -> mainGui.showMainMenuPanel());
+        backButton.addActionListener(e -> cp.showMainMenuPanel());
         add(backButton, BorderLayout.SOUTH);
     }
 
@@ -54,37 +54,37 @@ public class OptionsPanel extends JPanel {
         panel.add(new JLabel("Confirm New Password:"));
         panel.add(confirmPassField);
 
-        int result = JOptionPane.showConfirmDialog(mainGui.getFrame(), panel, "Change Password", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(cp.getFrame(), panel, "Change Password", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             String currentPass = new String(currentPassField.getPassword());
             String newPass = new String(newPassField.getPassword());
             String confirmPass = new String(confirmPassField.getPassword());
 
             if (!newPass.equals(confirmPass)) {
-                JOptionPane.showMessageDialog(mainGui.getFrame(), "New passwords don't match", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(cp.getFrame(), "New passwords don't match", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             try {
-                cd.restablirContrasenya(mainGui.getCurrentUser().getNom(), currentPass, newPass);
-                JOptionPane.showMessageDialog(mainGui.getFrame(), "Password changed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                cd.restablirContrasenya(cp.getCurrentUser().getNom(), currentPass, newPass);
+                JOptionPane.showMessageDialog(cp.getFrame(), "Password changed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
             } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(mainGui.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(cp.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
     private void deleteAccount() {
-        int confirm = JOptionPane.showConfirmDialog(mainGui.getFrame(),
+        int confirm = JOptionPane.showConfirmDialog(cp.getFrame(),
                 "Are you sure you want to delete your account? This cannot be undone.",
                 "Confirm Account Deletion",
                 JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            cd.eliminarCompte(mainGui.getCurrentUser().getNom());
-            mainGui.setCurrentUser(null);
-            JOptionPane.showMessageDialog(mainGui.getFrame(), "Account deleted successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
-            mainGui.showLoginPanel();
+            cd.eliminarCompte(cp.getCurrentUser().getNom());
+            cp.setCurrentUser(null);
+            JOptionPane.showMessageDialog(cp.getFrame(), "Account deleted successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
+            cp.showLoginPanel();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 # Ajusta si tienes otra versión de Gson o carpeta distinta
 GSON_JAR   := libs/gson-2.13.1.jar
-MAIN_CLASS := Presentacio.ScrabbleGUI
+MAIN_CLASS := Presentacio.ControladorPresentacio
 
 # Encuentra el primer JAR generado en build/libs
 JAR_FILE   := build/libs/scrabble-1.0.jar

@@ -8,13 +8,32 @@
     "pais": "a",
     "estadistiques": {
       "paraulesTotals": 0,
-      "puntTotal": 0,
-      "partidesJugades": 0,
+      "puntTotal": 17,
+      "partidesJugades": 4,
       "partidesGuanyades": 0,
-      "recordPersonal": 0
+      "recordPersonal": 11
     },
     "partidesEnCurs": [
-      "test"
+      "test-bot",
+      "test-ot"
+    ]
+  },
+  "b": {
+    "type": "Persona",
+    "nom": "b",
+    "correu": "b",
+    "contrasenya": "b",
+    "edat": "b",
+    "pais": "b",
+    "estadistiques": {
+      "paraulesTotals": 0,
+      "puntTotal": 12,
+      "partidesJugades": 4,
+      "partidesGuanyades": 0,
+      "recordPersonal": 12
+    },
+    "partidesEnCurs": [
+      "adf"
     ]
   }
 }

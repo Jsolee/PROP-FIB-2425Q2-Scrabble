@@ -6,13 +6,13 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class LoginPanel extends JPanel {
-    private ScrabbleGUI mainGui;
+    private ControladorPresentacio cp;
     private ControladorDomini cd;
     private JTextField usernameField;
     private JPasswordField passwordField;
 
-    public LoginPanel(ScrabbleGUI mainGui, ControladorDomini cd) {
-        this.mainGui = mainGui;
+    public LoginPanel(ControladorPresentacio cp, ControladorDomini cd) {
+        this.cp = cp;
         this.cd = cd;
         initialize();
     }
@@ -61,7 +61,7 @@ public class LoginPanel extends JPanel {
         gbc.gridy++;
         JButton registerButton = new JButton("Register New User");
         CommonComponents.styleButton(registerButton, new Color(129, 199, 132));
-        registerButton.addActionListener(e -> mainGui.showRegisterPanel());
+        registerButton.addActionListener(e -> cp.showRegisterPanel());
         add(registerButton, gbc);
     }
 
@@ -71,11 +71,11 @@ public class LoginPanel extends JPanel {
 
         try {
             if (cd.iniciarSessio(username, password)) {
-                mainGui.setCurrentUser(cd.getUsuari(username));
-                mainGui.showMainMenuPanel();
+                cp.setCurrentUser(cd.getUsuari(username));
+                cp.showMainMenuPanel();
             }
         } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(mainGui.getFrame(), ex.getMessage(), "Login Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(cp.getFrame(), ex.getMessage(), "Login Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

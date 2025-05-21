@@ -53,9 +53,9 @@ public class BoardUtils {
             @Override
             public boolean canImport(TransferSupport support) {
                 boolean canImport = support.isDataFlavorSupported(DataFlavor.stringFlavor) &&
-                        gamePanel.mainGui.getCurrentGame() != null &&
-                        gamePanel.mainGui.getCurrentGame().getJugadorActual().equals(gamePanel.mainGui.getCurrentUser()) &&
-                        gamePanel.mainGui.getCurrentGame().getTaulell().getCasella(row, col).getFitxa() == null;
+                        gamePanel.cp.getCurrentGame() != null &&
+                        gamePanel.cp.getCurrentGame().getJugadorActual().equals(gamePanel.cp.getCurrentUser()) &&
+                        gamePanel.cp.getCurrentGame().getTaulell().getCasella(row, col).getFitxa() == null;
 
                 if (canImport) {
                     target.setBackground(CommonComponents.DRAG_HIGHLIGHT_COLOR);
@@ -78,7 +78,7 @@ public class BoardUtils {
 
                     gamePanel.resetBoardButtonAppearance(row, col);
 
-                    List<Fitxa> rack = gamePanel.mainGui.getCurrentGame().getAtril();
+                    List<Fitxa> rack = gamePanel.cp.getCurrentGame().getAtril();
                     if (tileIndex >= 0 && tileIndex < rack.size()) {
                         Fitxa tile = rack.get(tileIndex);
                         target.setText(tile.getLletra());
@@ -87,6 +87,10 @@ public class BoardUtils {
                         target.setToolTipText("Value: " + tile.getValor());
 
                         gamePanel.placedTiles.add(new int[]{row, col, tileIndex});
+
+                        // Ocultar la ficha en el rack después de colocarla en el tablero
+                        gamePanel.hideTileInRack(tileIndex);
+
                         return true;
                     }
                 } catch (Exception e) {

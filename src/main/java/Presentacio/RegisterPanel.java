@@ -6,13 +6,13 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class RegisterPanel extends JPanel {
-    private ScrabbleGUI mainGui;
+    private ControladorPresentacio cp;
     private ControladorDomini cd;
     private JTextField usernameField, emailField, ageField, countryField;
     private JPasswordField passwordField, confirmPasswordField;
 
-    public RegisterPanel(ScrabbleGUI mainGui, ControladorDomini cd) {
-        this.mainGui = mainGui;
+    public RegisterPanel(ControladorPresentacio cp, ControladorDomini cd) {
+        this.cp = cp;
         this.cd = cd;
         initialize();
     }
@@ -54,7 +54,7 @@ public class RegisterPanel extends JPanel {
         gbc.gridy++;
         JButton backButton = new JButton("Back to Login");
         CommonComponents.styleButton(backButton, new Color(239, 83, 80));
-        backButton.addActionListener(e -> mainGui.showLoginPanel());
+        backButton.addActionListener(e -> cp.showLoginPanel());
         add(backButton, gbc);
     }
 
@@ -73,7 +73,7 @@ public class RegisterPanel extends JPanel {
         String confirmPassword = new String(confirmPasswordField.getPassword());
 
         if (!password.equals(confirmPassword)) {
-            JOptionPane.showMessageDialog(mainGui.getFrame(), "Passwords do not match", "Registration Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(cp.getFrame(), "Passwords do not match", "Registration Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -90,10 +90,10 @@ public class RegisterPanel extends JPanel {
                 cd.afegirNouUsuariRanking((Persona) newUser);
             }
 
-            JOptionPane.showMessageDialog(mainGui.getFrame(), "Registration successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            mainGui.showLoginPanel();
+            JOptionPane.showMessageDialog(cp.getFrame(), "Registration successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            cp.showLoginPanel();
         } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(mainGui.getFrame(), ex.getMessage(), "Registration Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(cp.getFrame(), ex.getMessage(), "Registration Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
