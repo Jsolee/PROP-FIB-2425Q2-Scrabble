@@ -8,10 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Adaptador para serializar y deserializar HashMap<String, Partida>.
+ * Adaptador per serialitzar y deserialitzar objectes de tipus HashMap<String, Partida>.
  */
 public class MapPartidaAdapter implements JsonSerializer<HashMap<String, Partida>>, JsonDeserializer<HashMap<String, Partida>> {
     
+    /**
+     * Funció per serialitzar un objecte de tipus HashMap<String, Partida> a JSON.
+     */
     @Override
     public JsonElement serialize(HashMap<String, Partida> src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
@@ -28,7 +31,10 @@ public class MapPartidaAdapter implements JsonSerializer<HashMap<String, Partida
         
         return result;
     }
-    
+
+    /**
+     * Funció per deserialitzar un JSON a un objecte de tipus HashMap<String, Partida>.
+     */
     @Override
     public HashMap<String, Partida> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) 
             throws JsonParseException {

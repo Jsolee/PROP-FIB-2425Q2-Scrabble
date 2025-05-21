@@ -203,8 +203,6 @@ public class Taulell {
         return false;
     }
 
-
-
     /**
      * Obté la casella en la posició especificada.
      * 
@@ -357,9 +355,6 @@ public class Taulell {
             caselles[posicio[0]][posicio[1]].colocarFitxa(fitxa);
             fitxesNoves[posicio[0]][posicio[1]] = true;
         }
-
-        /*System.out.println("DEBUG FITXES COLOCADES");
-        mostrarTaulell(this);*/
         
         int[] pos = jugada.keySet().iterator().next();
         
@@ -467,7 +462,6 @@ public class Taulell {
             return 0;
 
         try {
-//            System.out.println("DEBUG: paraula " + FitxesToString(paraula));
             boolean b = diccionari.esParaula(FitxesToString(paraula));
             if (b) 
                 return puntuacio * multiplicador_paraula;
@@ -513,7 +507,6 @@ public class Taulell {
             return 0;
 
         try {
-//            System.out.println("DEBUG: paraula " + FitxesToString(paraula));
             boolean b = diccionari.esParaula(FitxesToString(paraula));
             if (b) 
                 return puntuacio * multiplicador_paraula;

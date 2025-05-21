@@ -9,10 +9,13 @@ import java.util.LinkedList;
 import java.util.Set;
 
 /**
- * Adaptador para serializar y deserializar objetos de tipo Bossa.
+ * Adaptador per serialitzar y deserialitzar objectes de tipus Bossa.
  */
 public class BossaAdapter implements JsonSerializer<Bossa>, JsonDeserializer<Bossa> {
     
+    /**
+     * Funció per serialitzar un objecte de tipus Bossa a JSON.
+     */
     @Override
     public JsonElement serialize(Bossa src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
@@ -44,6 +47,9 @@ public class BossaAdapter implements JsonSerializer<Bossa>, JsonDeserializer<Bos
         return result;
     }
     
+    /**
+     * Funció per deserialitzar un JSON a un objecte de tipus Bossa.
+     */
     @Override
     public Bossa deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) 
             throws JsonParseException {

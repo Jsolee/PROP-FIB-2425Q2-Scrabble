@@ -8,12 +8,13 @@ import Domini.Fitxa;
 import java.lang.reflect.Type;
 
 /**
- * Adaptador para serializar y deserializar objetos de tipo Taulell.
- * Se encarga de convertir la estructura del tablero a JSON y viceversa,
- * preservando todas las propiedades y relaciones de casillas.
+ * Adaptador per serialitzar y deserialitzar objectes de tipus Taulell.
  */
 public class TaulellAdapter implements JsonSerializer<Taulell>, JsonDeserializer<Taulell> {
     
+    /**
+     * Funció per serialitzar un objecte de tipus Taulell a JSON.
+     */
     @Override
     public JsonElement serialize(Taulell src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
@@ -22,10 +23,8 @@ public class TaulellAdapter implements JsonSerializer<Taulell>, JsonDeserializer
             return result;
         }
         
-        // Serializar propiedades básicas del tablero
         result.addProperty("primerMoviment", src.esPrimerMoviment());
         
-        // Serializar la matriz de casillas
         Casella[][] caselles = src.getCaselles();
         if (caselles != null) {
             JsonArray casellesArray = new JsonArray();
@@ -35,10 +34,8 @@ public class TaulellAdapter implements JsonSerializer<Taulell>, JsonDeserializer
                 for (int j = 0; j < caselles[i].length; j++) {
                     Casella casella = caselles[i][j];
                     if (casella != null) {
-                        // Serializar cada casilla individualmente
                         JsonObject casellaObj = new JsonObject();
                         
-                        // Propiedades básicas de la casilla
                         casellaObj.addProperty("x", casella.getX());
                         casellaObj.addProperty("y", casella.getY());
                         casellaObj.addProperty("multiplicadorLetra", casella.getMultiplicadorLetra());
@@ -46,7 +43,6 @@ public class TaulellAdapter implements JsonSerializer<Taulell>, JsonDeserializer
                         casellaObj.addProperty("ocupada", casella.isOcupada());
                         casellaObj.addProperty("esCasellaInicial", casella.isEsCasellaInicial());
                         
-                        // Si la casilla tiene una ficha, serializar también la ficha
                         if (casella.isOcupada() && casella.getFitxa() != null) {
                             JsonObject fitxaObj = new JsonObject();
                             Fitxa fitxa = casella.getFitxa();
@@ -59,7 +55,6 @@ public class TaulellAdapter implements JsonSerializer<Taulell>, JsonDeserializer
                         
                         filaArray.add(casellaObj);
                     } else {
-                        // Si la casilla es null, añadir un objeto vacío
                         filaArray.add(new JsonObject());
                     }
                 }
@@ -72,6 +67,9 @@ public class TaulellAdapter implements JsonSerializer<Taulell>, JsonDeserializer
         return result;
     }
     
+    /**
+     * Funció per deserialitzar un JSON a un objecte de tipus Taulell.
+     */
     @Override
     public Taulell deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) 
             throws JsonParseException {
@@ -82,16 +80,13 @@ public class TaulellAdapter implements JsonSerializer<Taulell>, JsonDeserializer
         
         JsonObject jsonObject = json.getAsJsonObject();
         
-        // Crear un nuevo tablero
         Taulell taulell = new Taulell();
         
-        // Establecer el estado de primer movimiento
         if (jsonObject.has("primerMoviment")) {
             boolean primerMoviment = jsonObject.get("primerMoviment").getAsBoolean();
             taulell.setPrimerMoviment(primerMoviment);
         }
         
-        // Deserializar la matriz de casillas
         if (jsonObject.has("caselles")) {
             JsonArray casellesArray = jsonObject.getAsJsonArray("caselles");
             int filas = casellesArray.size();
@@ -100,10 +95,8 @@ public class TaulellAdapter implements JsonSerializer<Taulell>, JsonDeserializer
                 JsonArray primeraFila = casellesArray.get(0).getAsJsonArray();
                 int columnas = primeraFila.size();
                 
-                // Crear una nueva matriz de casillas
                 Casella[][] caselles = new Casella[filas][columnas];
                 
-                // Llenar la matriz con las casillas deserializadas
                 for (int i = 0; i < filas; i++) {
                     JsonArray filaArray = casellesArray.get(i).getAsJsonArray();
                     
@@ -113,7 +106,6 @@ public class TaulellAdapter implements JsonSerializer<Taulell>, JsonDeserializer
                         if (casellaElement.isJsonObject()) {
                             JsonObject casellaObj = casellaElement.getAsJsonObject();
                             
-                            // Extraer propiedades de la casilla
                             int x = casellaObj.has("x") ? casellaObj.get("x").getAsInt() : i;
                             int y = casellaObj.has("y") ? casellaObj.get("y").getAsInt() : j;
                             int multiplicadorLetra = casellaObj.has("multiplicadorLetra") ? 
@@ -121,16 +113,13 @@ public class TaulellAdapter implements JsonSerializer<Taulell>, JsonDeserializer
                             int multiplicadorParaula = casellaObj.has("multiplicadorParaula") ? 
                                 casellaObj.get("multiplicadorParaula").getAsInt() : 1;
                             
-                            // Crear la casilla
                             Casella casella = new Casella(x, y, multiplicadorLetra, multiplicadorParaula);
                             
-                            // Establecer si es casilla inicial
                             if (casellaObj.has("esCasellaInicial")) {
                                 boolean esCasellaInicial = casellaObj.get("esCasellaInicial").getAsBoolean();
                                 casella.setEsCasellaInicial(esCasellaInicial);
                             }
                             
-                            // Si la casilla tiene una ficha, crear y colocar la ficha
                             if (casellaObj.has("ocupada") && casellaObj.get("ocupada").getAsBoolean() && 
                                 casellaObj.has("fitxa")) {
                                 
@@ -144,13 +133,11 @@ public class TaulellAdapter implements JsonSerializer<Taulell>, JsonDeserializer
                             
                             caselles[i][j] = casella;
                         } else {
-                            // Si no es un objeto JSON válido, crear una casilla por defecto
                             caselles[i][j] = new Casella(i, j, 1, 1);
                         }
                     }
                 }
                 
-                // Establecer la matriz de casillas en el tablero
                 taulell.setCaselles(caselles);
             }
         }

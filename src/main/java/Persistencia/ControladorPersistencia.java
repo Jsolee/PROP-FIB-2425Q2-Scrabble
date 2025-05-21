@@ -13,6 +13,10 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 
+/**
+ * Controlador de persistencia que gestiona la lectura y escriptura de les dades en arxius JSON.
+ * Utiliza Gson para serializar y deserializar objetos mitjançant els adaptadors corresponents.
+ */
 public class ControladorPersistencia {
     private static final String USUARI_JSON = "src/main/java/Persistencia/Usuaris.json";
     private static final String PARTIDES_JSON = "src/main/java/Persistencia/Partides.json";
@@ -24,28 +28,30 @@ public class ControladorPersistencia {
         // Crear GsonBuilder y registrar adaptadores
         GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
         
-        // Registrar el adaptador para la clase Usuari
+        // Registrar el adaptador per la classe Usuari
         gsonBuilder.registerTypeAdapter(Usuari.class, new UsuariAdapter());
         gsonBuilder.registerTypeAdapter(Partida.class, new PartidaAdapter());
         gsonBuilder.registerTypeAdapter(Persona.class, new UsuariAdapter());
+
+        // Registrar adaptador per la classe Bossa
         gsonBuilder.registerTypeAdapter(Ranking.class, new RankingAdapter());
         
-        // Registrar adaptador para el mapa de usuarios
+        // Registrar adaptador pel mapa d'usuaris
         Type usuariMapType = new TypeToken<HashMap<String, Usuari>>() {}.getType();
         gsonBuilder.registerTypeAdapter(usuariMapType, new MapUsuariAdapter());
         
+        // Registrar adaptador pel mapa de partides
         Type partidaMapType = new TypeToken<HashMap<String, Partida>>() {}.getType();
         gsonBuilder.registerTypeAdapter(partidaMapType, new MapPartidaAdapter());
-        // Crear el objeto Gson con los adaptadores configurados
+
         this.gson = gsonBuilder.create();
     }
 
 
-        /**
-     * Guarda los usuarios en un archivo JSON.
-     * 
-     * @param usuarios Mapa de usuarios a guardar
-     * @throws IOException Si ocurre un error de E/S
+    /**
+     * Guarda els usuaris en un fitxer JSON.
+     * @param usuarios Mapa d'usuaris a guardar, on la clau és el nom d'usuari i el valor és l'objecte Usuari.
+     * @throws IOException
      */
     public void guardarUsuaris(HashMap<String, Usuari> usuarios) throws IOException {        
         try (Writer writer = new FileWriter(USUARI_JSON)) {
@@ -56,7 +62,11 @@ public class ControladorPersistencia {
     }
     
 
-    // Cargar Usuaris desde un fichero JSON
+    /**
+     * Carrega els usuaris des d'un fitxer JSON.
+     * @return Mapa d'usuaris carregats, on la clau és el nom d'usuari i el valor és l'objecte Usuari.
+     * @throws IOException
+     */
     public HashMap<String, Usuari> cargarUsuaris() throws IOException {
         try (Reader reader = new FileReader(USUARI_JSON)) {
             Type type = new TypeToken<HashMap<String, Usuari>>() {}.getType();
@@ -66,14 +76,22 @@ public class ControladorPersistencia {
         }
     }
 
-    // Guardar partidas en un fichero JSON
+    /**
+     * Guarda les partides en un fitxer JSON.
+     * @param partidas Mapa de partides a guardar, on la clau és l'identificador de la partida i el valor és l'objecte Partida.
+     * @throws IOException
+     */
     public void guardarPartides(HashMap<String, Partida> partidas) throws IOException {
         try (Writer writer = new FileWriter(PARTIDES_JSON )) {
             gson.toJson(partidas, writer);
         }
     }
 
-    // Cargar partidas desde un fichero JSON
+    /**
+     * Carrega les partides des d'un fitxer JSON.
+     * @return Mapa de partides carregades, on la clau és l'identificador de la partida i el valor és l'objecte Partida.
+     * @throws IOException
+    */    
     public HashMap<String, Partida> cargarPartides() throws IOException {
         try (Reader reader = new FileReader(PARTIDES_JSON)) {
             Type type = new TypeToken<HashMap<String, Partida>>() {}.getType();
@@ -83,14 +101,22 @@ public class ControladorPersistencia {
         }
     }
 
-    // Guardar rankings en un fichero JSON
+    /**
+     * Guarda el ranking en un fitxer JSON.
+     * @param ranking Objecte Ranking a guardar.
+     * @throws IOException
+     */
     public void guardarRanking(Ranking ranking) throws IOException {
         try (Writer writer = new FileWriter(RANKING_JSON)) {
             gson.toJson(ranking, writer);
         }
     }
 
-    // Cargar rankings desde un fichero JSON
+    /**
+     * Carrega el ranking des d'un fitxer JSON.
+     * @return Objecte Ranking carregat.
+     * @throws IOException
+     */
     public Ranking cargarRanking() throws IOException {
         try (Reader reader = new FileReader(RANKING_JSON)) {
             return gson.fromJson(reader, Ranking.class);

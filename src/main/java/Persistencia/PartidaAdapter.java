@@ -14,12 +14,13 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Adaptador para serializar y deserializar objetos de tipo Partida.
- * Maneja la serialización/deserialización de los objetos Partida evitando
- * referencias circulares con Usuari.
+ * Adaptador per serialitzar y deserialitzar objectes de tipus Partida.
  */
 public class PartidaAdapter implements JsonSerializer<Partida>, JsonDeserializer<Partida> {
     
+    /**
+     * Funció per serialitzar un objecte de tipus Partida a JSON.
+     */
     @Override
     public JsonElement serialize(Partida src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
@@ -84,6 +85,9 @@ public class PartidaAdapter implements JsonSerializer<Partida>, JsonDeserializer
         return result;
     }
     
+    /**
+     * Funció per deserialitzar un JSON a un objecte de tipus Partida.
+     */
     @Override
     public Partida deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) 
             throws JsonParseException {

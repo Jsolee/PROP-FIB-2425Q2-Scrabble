@@ -69,11 +69,19 @@ public class Partida {
         return nom;
     }
 
+    /**
+     * Estableix el nom de la partida.
+     * @param nom Nom de la partida.
+     */
     public void setNom(String nom)
     {
         this.nom = nom;
     }
 
+    /**
+     * Estableix la llista de jugadors de la partida.
+     * @param jugadors Llista d'objectes Usuari que representen els jugadors de la partida.
+     */
     public void borrarJugadors()
     {
         this.jugadors = new ArrayList<>();
@@ -88,6 +96,10 @@ public class Partida {
         return bossa;
     }
 
+    /**
+     * Afegeix un jugador a la llista de jugadors de la partida (funcio feta per la persistencia).
+     * @param jugador objecte Usuari que representa el jugador a afegir.
+     */
     public void addJugadorPersistencia(Usuari jugador)
     {
         jugadors.add(jugador);
@@ -102,6 +114,10 @@ public class Partida {
         return jugadors.get(jugadorActual);
     }
 
+    /**
+     * Obté l'índex del jugador actual.
+     * @return índex del jugador actual.
+     */
     public Integer getTornActualIndex()
     {
         return jugadorActual;
@@ -124,26 +140,41 @@ public class Partida {
         return taulell;
     }
 
+    /**
+     * Estableix el taulell de la partida.
+     * @param taulell objecte Taulell que es vol assignar a la partida.
+     */
     public void setTaulell(Taulell taulell) {
         this.taulell = taulell;
     }
 
+    
+    /**
+     * Estableix els atrils de la partida
+     * @param atrils llista de llistes de fitxes que representen els atrils dels jugadors.
+     */    
     public void setAtrils(List<List<Fitxa>> atrils)
     {
         this.atrils = atrils;
     }
 
+    /**
+     * Estabeix l'index corresponent al jugador actual.
+     * @param tornActual index del jugador actual.
+     */
     public void setTornActual(int tornActual)
     {
         this.jugadorActual = tornActual;
     }
 
+    /**
+     * Estableix la puntuació dels jugadors de la partida.
+     * @param puntuacions llista d'enters que representen les puntuacions dels jugadors.
+     */
     public void setPuntuacions(List<Integer> puntuacions)
     {
         this.puntuacioJugadors = puntuacions;
     }
-
-
 
     /**
      * Obté la llista de jugadors de la partida.
@@ -185,7 +216,6 @@ public class Partida {
         return partidaAcabada;
     }
 
-
     /**
      * Obté els índexs de les fitxes seleccionades per canviar.
      * @return llista amb els índexs de les fitxes a canviar.
@@ -213,7 +243,6 @@ public class Partida {
         return atrils;
     }
 
-
     /**
      * Afegeix el jugador a la llista de jugadors de la partida. Transforma a classe Persona si l'usuari no es un d'objecte Bot. Omple l'atril del jugador especificat
      * @param jugador objecte Usuari que representa el jugador a afegir.
@@ -232,6 +261,10 @@ public class Partida {
         }
     }
 
+    /**
+     * Afegeix el jugador a la llista de jugadors de la partida (funcio feta per la persistencia). Transforma a classe Persona si l'usuari no es un d'objecte Bot. Omple l'atril del jugador especificat
+     * @param jugador objecte Usuari que representa el jugador a afegir.
+     */
     public void afegirJugadorPersistencia(Usuari jugador)
     {
         jugadors.add(jugador);
@@ -273,7 +306,6 @@ public class Partida {
     }
 
     
-
     /**
      * Estableix una bossa de fitxes per la partida.
      * @param bossa objecte Bossa que es vol assignar a la partida.
@@ -282,8 +314,6 @@ public class Partida {
     {
         this.bossa = bossa;
     }
-
-    
 
     /**
      * Passa el torn al següent jugador.
@@ -327,14 +357,12 @@ public class Partida {
         partidaPausada = true;
     }
 
-
     /**
      * Marca la partida com a finalitzada.
      */
     public void acabarPartida() {
         partidaAcabada = true;
     }
-
 
     /**
      * Estableix la puntuació d'un jugador específic.
@@ -426,15 +454,11 @@ public class Partida {
             fitxesUsades.add(false);
         }
 
-//        System.out.println("index a false   " + indexsUsats.size() + "  " + fitxesUsades.size());
-
         for (int i = 0; i < indexsUsats.size(); i++) {
             int index = indexsUsats.get(i);
-//            System.out.println("index a false   " + index + "  " + fitxesUsades.get(index));
             if (fitxesUsades.get(index))
                 return -1;
             fitxesUsades.set(index, true);
-//            System.out.println("index a true   " + index + "  " + fitxesUsades.get(index));
         }
 
 
