@@ -1,18 +1,21 @@
 package Persistencia;
 
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
-
 import Domini.Ranking;
 import Domini.Persona;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Adaptador per serialitzar y deserialitzar objectes de tipus Ranking.
+ */
 public class RankingAdapter implements JsonSerializer<Ranking>, JsonDeserializer<Ranking> {
     
+    /**
+     * Funció per serialitzar un objecte de tipus Ranking a JSON.
+     */
     @Override
     public JsonElement serialize(Ranking src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
@@ -58,6 +61,9 @@ public class RankingAdapter implements JsonSerializer<Ranking>, JsonDeserializer
         return result;
     }
     
+    /**
+     * Funció per deserialitzar un JSON a un objecte de tipus Ranking.
+     */
     @Override
     public Ranking deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) 
             throws JsonParseException {

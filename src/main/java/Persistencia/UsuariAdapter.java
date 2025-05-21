@@ -1,7 +1,6 @@
 package Persistencia;
 
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 
 import Domini.Partida;
 import Domini.Persona;
@@ -9,17 +8,14 @@ import Domini.Usuari;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
- * Adaptador para serializar y deserializar objetos de tipo Usuari.
- * Maneja la serialización/deserialización de las clases concretas (Persona, Bot)
- * que heredan de la clase abstracta Usuari.
+ * Adaptador per serialitzar y deserialitzar objectes de tipus Usuari.
  */
 public class UsuariAdapter implements JsonSerializer<Usuari>, JsonDeserializer<Usuari> {
     
     /**
-     * Serializa un objeto Usuari a formato JSON pasandolo a Persona (solo se almacenan objetos Persona)
+     * Funció per serialitzar un objecte de tipus Usuari a JSON (guarda Persones)
      */
     @Override
     public JsonElement serialize(Usuari src, Type typeOfSrc, JsonSerializationContext context) {
@@ -57,8 +53,7 @@ public class UsuariAdapter implements JsonSerializer<Usuari>, JsonDeserializer<U
     }
     
     /**
-     * Deserializa un objeto JSON a un objeto Usuari.
-     * Utiliza el campo "type" para determinar la clase concreta que debe instanciar.
+     * Funció per deserialitzar un JSON a un objecte de tipus Usuari
      */
     @Override
     public Usuari deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) 
