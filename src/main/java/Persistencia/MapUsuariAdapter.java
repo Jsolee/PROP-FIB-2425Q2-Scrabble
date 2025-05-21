@@ -9,15 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Adaptador para serializar y deserializar el mapa de usuarios (HashMap<String, Usuari>).
- * Asegura que las claves del mapa se preserven correctamente y que coincidan con los nombres de usuario.
+ * Adaptador per serialitzar y deserialitzar objectes de tipus HashMap<String, Usuari>.
  */
 public class MapUsuariAdapter implements JsonSerializer<HashMap<String, Usuari>>, JsonDeserializer<HashMap<String, Usuari>> {
     
     /**
-     * Serializa un mapa de usuarios a formato JSON.
-     * Mantiene la estructura de clave-valor donde cada clave es el nombre del usuario
-     * y cada valor es la representación JSON del objeto Usuari.
+     * Serialitza un mapa d'usuaris a un objecte JSON.
      */
     @Override
     public JsonElement serialize(HashMap<String, Usuari> src, Type typeOfSrc, JsonSerializationContext context) {
@@ -39,9 +36,7 @@ public class MapUsuariAdapter implements JsonSerializer<HashMap<String, Usuari>>
     }
     
     /**
-     * Deserializa un objeto JSON a un mapa de usuarios.
-     * Cada propiedad del objeto JSON se convierte en una entrada del mapa donde
-     * la clave es el nombre de la propiedad y el valor es un objeto Usuari.
+     * Deserialitza un objeto JSON a un mapa d'usuaris.
      */
     @Override
     public HashMap<String, Usuari> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) 

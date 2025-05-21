@@ -38,6 +38,11 @@ public class ControladorUsuari {
         this.usuaris.putAll(usuaris);
     }
 
+    /**
+     * Obté el bot del sistema.
+     * 
+     * @return objecte Bot del sistema
+     */
     public Bot getBot() {
         return Bot.getInstance();
     }
