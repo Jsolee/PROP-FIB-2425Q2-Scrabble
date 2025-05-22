@@ -203,6 +203,7 @@ public class ControladorPartida {
                 estadistiques.incrementarPuntTotal(partida.getPuntuacions().get(i));          
             }
         }
+        partides.remove(partida.getNom());
     }
 
 
