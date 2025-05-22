@@ -518,9 +518,10 @@ public class GamePanel extends JPanel {
         cp.getFrame().revalidate();
         cp.getFrame().repaint();
         // Clear the game data
+        cp.setCurrentUser(cp.getCurrentGame().getJugadors().getFirst());
         cp.setCurrentGame(null);
-        // Clear the placed tiles
 
+        // Clear the placed tiles
         placedTiles.clear();
         cp.showMainMenuPanel();
     }
@@ -533,7 +534,15 @@ public class GamePanel extends JPanel {
 
         if (confirm == JOptionPane.YES_OPTION) {
             cd.acabarPartida(cp.getCurrentGame());
-            Usuari winner = cp.getCurrentGame().determinarGuanyador();
+            List<Usuari> players = cp.getCurrentGame().getJugadors();
+
+            Usuari winner = null;
+            // choose the user who is not the current player
+            if (Objects.equals(players.get(0).getNom(), cp.getCurrentGame().getJugadorActual().getNom())) {
+                winner = players.get(1);
+            }
+            else { winner = players.get(0); }
+
             if (winner == null) {
                 JOptionPane.showMessageDialog(cp.getFrame(),
                         "Game over! It's a draw!",
