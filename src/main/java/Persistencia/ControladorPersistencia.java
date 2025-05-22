@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 /**
  * Controlador de persistencia que gestiona la lectura y escriptura de les dades en arxius JSON.
- * Utiliza Gson para serializar y deserializar objetos mitjançant els adaptadors corresponents.
+ * Utilitza Gson per a serialitzar y deserialitzar objectes mitjançant els adaptadors corresponents.
  */
 public class ControladorPersistencia {
     private static final String USUARI_JSON = "src/main/java/Persistencia/Usuaris.json";
@@ -72,7 +72,7 @@ public class ControladorPersistencia {
             Type type = new TypeToken<HashMap<String, Usuari>>() {}.getType();
             return gson.fromJson(reader, type);
         } catch (FileNotFoundException e) {
-            return new HashMap<>(); // Si el archivo no existe, devolvemos un HashMap vacío
+            return new HashMap<>();
         }
     }
 
@@ -97,7 +97,7 @@ public class ControladorPersistencia {
             Type type = new TypeToken<HashMap<String, Partida>>() {}.getType();
             return gson.fromJson(reader, type);
         } catch (FileNotFoundException e) {
-            return new HashMap<>(); // Si el archivo no existe, devolvemos un HashMap vacío
+            return new HashMap<>();
         }
     }
 
@@ -121,7 +121,7 @@ public class ControladorPersistencia {
         try (Reader reader = new FileReader(RANKING_JSON)) {
             return gson.fromJson(reader, Ranking.class);
         } catch (FileNotFoundException e) {
-            return new Ranking(); // Si el archivo no existe, devolvemos un Ranking vacío
+            return new Ranking();
         }
     }
 }

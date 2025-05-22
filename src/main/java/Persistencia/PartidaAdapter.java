@@ -14,7 +14,11 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Adaptador per serialitzar y deserialitzar objectes de tipus Partida.
+ * Adaptador per serialitzar y deserialitzar objectes de tipus Partida. Per a serialitzar guarda els noms dels
+ * jugadors (i no l'objecte Usuari La resta d'atributs es guarden de manera estandard, utilitzant els adaptadors 
+ * necessaris per atributs que representen objectes.
+ * Per deserialitzar, es reconstrueixen els objectes de tipus Usuari a partir dels noms guardats en el JSON i afegeix 
+ * uns Usuaris dummy inexistents, que desprès son reconstruits al ControladorDomini.
  */
 public class PartidaAdapter implements JsonSerializer<Partida>, JsonDeserializer<Partida> {
     

@@ -1,7 +1,6 @@
 package Persistencia;
 
 import com.google.gson.*;
-import Domini.Persona;
 import Domini.Usuari;
 
 import java.lang.reflect.Type;

@@ -10,8 +10,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
- * Adaptador per serialitzar y deserialitzar objectes de tipus Usuari.
- */
+     * Funció per deserialitzar un JSON a un objecte de tipus Usuari. Per a serialitzar guarda els atributs atòmics
+     * tal qual al JSON, i guarda l'ID de la les partides en curs que te el jugador, per tal de no generar bucles infinits.
+     *    Per a deserializar, crea un objecte Persona (ja que per definició del Sistema sempre seran Persones i no Bots) i li
+     * assigna els atributs atòmics, i per cada Partida en curs, crea un objecte Partida dummy amb el nom de la partida, per tal de 
+     * que despres al controladorDomini pugui assignar la partida real.
+     */
 public class UsuariAdapter implements JsonSerializer<Usuari>, JsonDeserializer<Usuari> {
     
     /**
@@ -53,7 +57,7 @@ public class UsuariAdapter implements JsonSerializer<Usuari>, JsonDeserializer<U
     }
     
     /**
-     * Funció per deserialitzar un JSON a un objecte de tipus Usuari
+     * Funció per deserialitzar un JSON a un objecte de tipus Usuari. 
      */
     @Override
     public Usuari deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) 
