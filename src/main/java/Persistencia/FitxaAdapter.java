@@ -6,10 +6,13 @@ import Domini.Fitxa;
 import java.lang.reflect.Type;
 
 /**
- * Adaptador para serializar y deserializar objetos de tipo Fitxa.
+ * Adaptador per serialitzar y deserialitzar objectes de tipus Fitxa.
  */
 public class FitxaAdapter implements JsonSerializer<Fitxa>, JsonDeserializer<Fitxa> {
     
+    /**
+     * Funció per serialitzar un objecte de tipus Fitxa a JSON.
+     */
     @Override
     public JsonElement serialize(Fitxa src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
@@ -36,6 +39,9 @@ public class FitxaAdapter implements JsonSerializer<Fitxa>, JsonDeserializer<Fit
         return result;
     }
     
+    /**
+     * Funció per deserialitzar un JSON a un objecte de tipus Fitxa.
+     */
     @Override
     public Fitxa deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) 
             throws JsonParseException {

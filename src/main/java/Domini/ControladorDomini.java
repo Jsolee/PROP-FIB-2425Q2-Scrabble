@@ -33,6 +33,12 @@ public class ControladorDomini {
         controladorPersistencia = new ControladorPersistencia();
     }
 
+    /**
+     * Inicialitza les dades des dels arxius de persistència.
+     * Carrega usuaris, partides i rànquings, i reconstrueix les relacions entre ells.
+     * 
+     * @return true si les dades s'han carregat correctament, false en cas contrari
+     */
     public boolean inicialitzarDadesPersistencia() 
     {
         try {
@@ -130,6 +136,12 @@ public class ControladorDomini {
         }
     }
 
+    /**
+     * Actualitza els arxius de persistència amb les dades actuals.
+     * Guarda els usuaris, partides i rànquings en els seus respectius arxius JSON.
+     * 
+     * @return true si les dades s'han guardat correctament, false en cas contrari
+     */
     public boolean actualitzarDadesPersistencia() 
     {
         try {
