@@ -70,20 +70,6 @@ public class ControladorDomini {
                 }
             }
 
-            /* 
-            for (Usuari jugador : usuaris.values()) {
-                Persona persona = (Persona) jugador;
-                List<Partida> partidesEnCurs = persona.getPartidesEnCurs();
-                persona.borrarPartidesEnCurs();
-                if (partidesEnCurs == null) {
-                    continue;
-                }
-                for (Partida partida : partidesEnCurs) {
-                    Partida partidaActual = partides.get(partida.getNom());
-                    persona.setPartidaEnCurs(partidaActual);
-                }
-            }*/
-
             List<Persona> puntsTotals = ranking.getRankingPuntsTotals();
             List<Persona> puntsTotalsReal = new ArrayList<>();
 
