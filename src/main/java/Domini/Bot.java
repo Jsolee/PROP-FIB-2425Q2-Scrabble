@@ -321,6 +321,7 @@ public class Bot extends Usuari{
     /**
      * Navega el DAWG segons la cadena i node inicial.
      * @param paraula    cadena a buscar
+     * @param node       node inicial
      * @return node final o null
      */
     private DAWGnode getNode(String paraula, DAWGnode node) {
