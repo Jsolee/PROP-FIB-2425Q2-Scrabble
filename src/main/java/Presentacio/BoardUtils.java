@@ -56,10 +56,7 @@ public class BoardUtils {
                         gamePanel.cp.getCurrentGame() != null &&
                         gamePanel.cp.getCurrentGame().getJugadorActual().equals(gamePanel.cp.getCurrentUser()) &&
                         gamePanel.cp.getCurrentGame().getTaulell().getCasella(row, col).getFitxa() == null;
-
-                if (canImport) {
-                    target.setBackground(CommonComponents.DRAG_HIGHLIGHT_COLOR);
-                }
+                        
                 return canImport;
             }
 
