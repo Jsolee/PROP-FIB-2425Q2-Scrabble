@@ -4,16 +4,39 @@ import Domini.*;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panell d'opcions per a la gestió del perfil de l'usuari.
+ * Permet canviar la contrasenya i eliminar el compte.
+ */
 public class OptionsPanel extends JPanel {
+    /** Controlador de presentació*/
     private ControladorPresentacio cp;
+    /** Controlador de domini per a la lògica del joc */
     private ControladorDomini cd;
 
+    /**
+     * Constructor del panell d'opcions.
+     * Inicialitza els components gràfics i els gestors d'esdeveniments.
+     *
+     * @param cp Controlador de presentació per a la navegació entre pantalles
+     * @param cd Controlador de domini per a la lògica del joc
+     */
     public OptionsPanel(ControladorPresentacio cp, ControladorDomini cd) {
         this.cp = cp;
         this.cd = cd;
         initialize();
     }
 
+    /**
+     * Inicialitza els components gràfics del panell d'opcions.
+     * Configura el disseny utilitzant BorderLayout per organitzar els elements.
+     * Crea i posiciona els components:
+     * - Botó per canviar la contrasenya
+     * - Botó per eliminar el compte
+     * - Botó per tornar al menú principal
+     *
+     * Els components s'estilitzen amb colors personalitzats per millorar la interfície d'usuari.
+     */
     private void initialize() {
         setLayout(new BorderLayout());
         setBackground(new Color(240, 240, 240));
@@ -39,6 +62,11 @@ public class OptionsPanel extends JPanel {
         add(backButton, BorderLayout.SOUTH);
     }
 
+    /**
+     * Mètode per canviar la contrasenya de l'usuari actual.
+     * Mostra un diàleg per introduir la contrasenya actual, la nova contrasenya i la confirmació.
+     * Si les contrasenyes coincideixen, s'intenta canviar la contrasenya a través del controlador de domini.
+     */
     private void changePassword() {
         JPanel panel = new JPanel(new GridLayout(0, 1));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -74,6 +102,11 @@ public class OptionsPanel extends JPanel {
         }
     }
 
+    /**
+     * Mètode per eliminar el compte de l'usuari actual.
+     * Mostra un diàleg de confirmació abans d'eliminar el compte.
+     * Si l'usuari confirma, s'elimina el compte i es redirigeix a la pantalla de login.
+     */
     private void deleteAccount() {
         int confirm = JOptionPane.showConfirmDialog(cp.getFrame(),
                 "Are you sure you want to delete your account? This cannot be undone.",

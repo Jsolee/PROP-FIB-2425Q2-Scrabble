@@ -6,7 +6,23 @@ import java.awt.datatransfer.*;
 import java.awt.dnd.*;
 import java.util.List;
 
+/**
+ * Classe utilitària per a la gestió de posicions especials al tauler del joc Scrabble.
+ * Proporciona mètodes per determinar si una posició és especial (triple paraula, doble paraula, etc.)
+ * i per configurar els botons del tauler per acceptar fitxes arrossegades.
+ *
+ * Aquesta classe inclou mètodes per verificar posicions especials i gestionar la interacció
+ * amb els botons del taulell durant el joc.
+ */
 public class BoardUtils {
+    /**
+     * Verifica si una posició donada és una posició especial al tauler del joc.
+     * Les posicions especials inclouen triple paraula, doble paraula, triple lletra i doble lletra.
+     *
+     * @param position La posició en format "fila,columna" (per exemple, "0,0").
+     * @param type El tipus de posició especial a verificar ("tripleWord", "doubleWord", "tripleLetter", "doubleLetter").
+     * @return true si la posició és especial segons el tipus especificat, false en cas contrari.
+     */
     public static boolean isSpecialPosition(String position, String type) {
         String[] coords = position.split(",");
         int row = Integer.parseInt(coords[0]);
@@ -48,6 +64,16 @@ public class BoardUtils {
         return false;
     }
 
+    /**
+     * Configura un botó per acceptar fitxes arrossegades i col·locar-les al tauler.
+     * El botó es configura amb un TransferHandler que gestiona la importació de dades
+     * i l'aparença del botó després de col·locar una fitxa.
+     *
+     * @param target El botó que actuarà com a destinació per a les fitxes arrossegades.
+     * @param row La fila del tauler on es col·locarà la fitxa.
+     * @param col La columna del tauler on es col·locarà la fitxa.
+     * @param gamePanel El panell del joc que conté la lògica del joc i l'estat actual.
+     */
     public static void setupDropTarget(JButton target, int row, int col, GamePanel gamePanel) {
         target.setTransferHandler(new TransferHandler() {
             @Override

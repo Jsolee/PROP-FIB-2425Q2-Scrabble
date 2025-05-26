@@ -5,18 +5,49 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Panell de registre per a l'aplicació Scrabble Game.
+ * Permet als nous usuaris crear un compte introduint la informació necessària:
+ * nom d'usuari, correu electrònic, edat, país i contrasenya.
+ * 
+ * Aquest panell inclou validacions bàsiques per garantir que les contrasenyes coincideixen
+ * i gestiona la creació d'usuaris mitjançant el ControladorDomini.
+ * Un cop registrat correctament, l'usuari és redirigit al panell de login.
+ */
 public class RegisterPanel extends JPanel {
+    /** Controlador de presentació */
     private ControladorPresentacio cp;
+    /** Controlador de domini per a la lògica del joc */
     private ControladorDomini cd;
+    /** Camps de text per a l'entrada de dades */
     private JTextField usernameField, emailField, ageField, countryField;
+    /** Camps de text per a l'entrada de la contrasenya */
     private JPasswordField passwordField, confirmPasswordField;
 
+    /**
+     * Constructor del panell de registre.
+     * Inicialitza els components gràfics i els gestors d'esdeveniments.
+     *
+     * @param cp Controlador de presentació per a la navegació entre pantalles
+     * @param cd Controlador de domini per a la lògica del joc
+     */
     public RegisterPanel(ControladorPresentacio cp, ControladorDomini cd) {
         this.cp = cp;
         this.cd = cd;
         initialize();
     }
 
+    /**
+     * Inicialitza els components gràfics del panell de registre.
+     * Configura el disseny utilitzant GridBagLayout per organitzar els elements.
+     * Crea i posiciona els components:
+     * - Títol del panell
+     * - Camps per introduir les dades de l'usuari
+     * - Botó per registrar l'usuari
+     * - Botó per tornar al panell de login
+     *
+     * Els components s'estilitzen amb fonts i colors per millorar la interfície d'usuari.
+     */
     private void initialize() {
         setLayout(new GridBagLayout());
         setBackground(new Color(240, 240, 240));
@@ -58,6 +89,13 @@ public class RegisterPanel extends JPanel {
         add(backButton, gbc);
     }
 
+    /**
+     * Afegeix un camp de text amb la seva etiqueta al panell.
+     * 
+     * @param label Etiqueta del camp de text
+     * @param field Camp de text a afegir
+     * @param gbc Constraints per a la posició del component
+     */
     private void addField(String label, JComponent field, GridBagConstraints gbc) {
         gbc.gridx = 0;
         JLabel jLabel = new JLabel(label);
@@ -68,6 +106,12 @@ public class RegisterPanel extends JPanel {
         add(field, gbc);
     }
 
+    /**
+     * Gestor d'esdeveniment per al botó de registre.
+     * Llegeix les dades introduïdes i intenta crear un nou usuari.
+     * Si les contrasenyes coincideixen i la creació és exitosa, redirigeix a l'usuari al panell de login.
+     * Si hi ha un error, mostra un missatge d'error.
+     */
     private void register() {
         String password = new String(passwordField.getPassword());
         String confirmPassword = new String(confirmPasswordField.getPassword());

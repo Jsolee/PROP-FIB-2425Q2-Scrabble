@@ -7,17 +7,44 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Panell del menú principal de l'aplicació Scrabble Game.
+ * Permet als usuaris accedir a les diferents funcionalitats del joc,
+ * com jugar, veure el perfil, rànquings, opcions i tancar sessió.
+ *
+ * També gestiona la benvinguda a l'usuari i les accions del menú.
+ */
 public class MainMenuPanel extends JPanel {
+    /** Controlador de presentació */
     private ControladorPresentacio cp;
+    /** Controlador de domini per a la lògica del joc */
     private ControladorDomini cd;
+    /** Etiqueta per mostrar el missatge de benvinguda */
     private JLabel welcomeLabel;
 
+    /**
+     * Constructor del panell del menú principal.
+     * Inicialitza els components gràfics i els gestors d'esdeveniments.
+     *
+     * @param cp Controlador de presentació per a la navegació entre pantalles
+     * @param cd Controlador de domini per a la lògica del joc
+     */
     public MainMenuPanel(ControladorPresentacio cp, ControladorDomini cd) {
         this.cp = cp;
         this.cd = cd;
         initialize();
     }
 
+    /**
+     * Inicialitza els components gràfics del panell del menú principal.
+     * Configura el disseny utilitzant GridBagLayout per organitzar els elements.
+     * Crea i posiciona els components:
+     * - Etiqueta de benvinguda
+     * - Botons per accedir a les diferents funcionalitats del joc
+     *
+     * Els components s'estilitzen amb fonts i colors per millorar la interfície d'usuari.
+     * S'afegeixen listeners als botons per gestionar les interaccions de l'usuari.
+     */
     private void initialize() {
         setLayout(new GridBagLayout());
         setBackground(new Color(240, 240, 240));
@@ -48,6 +75,14 @@ public class MainMenuPanel extends JPanel {
         addMenuButton("Logout", new Color(239, 83, 80), e -> logout(), gbc);
     }
 
+    /**
+     * Afegeix un botó al panell del menú principal amb estil i acció associada.
+     *
+     * @param text El text que es mostrarà al botó
+     * @param color El color de fons del botó
+     * @param listener L'acció que s'executarà quan es faci clic al botó
+     * @param gbc Les restriccions de disseny per al botó
+     */
     private void addMenuButton(String text, Color color, ActionListener listener, GridBagConstraints gbc) {
         JButton button = new JButton(text);
         CommonComponents.styleButton(button, color);
@@ -57,10 +92,19 @@ public class MainMenuPanel extends JPanel {
         add(button, gbc);
     }
 
+    /**
+     * Actualitza el missatge de benvinguda amb el nom de l'usuari actual.
+     * Si no hi ha cap usuari connectat, mostra "Guest".
+     */
     public void updateWelcomeMessage() {
         welcomeLabel.setText("Welcome, " + (cp.getCurrentUser() != null ? cp.getCurrentUser().getNom() : "Guest"));
     }
 
+    /**
+     * Mostra les opcions de joc disponibles per a l'usuari.
+     * Permet seleccionar entre jugar contra un altre jugador, jugar contra un bot,
+     * carregar una partida guardada o cancel·lar l'acció.
+     */
     private void showGameOptions() {
         Object[] options = {"1 vs 1", "1 vs Bot", "Load Game", "Cancel"};
         int choice = JOptionPane.showOptionDialog(cp.getFrame(),
@@ -81,6 +125,13 @@ public class MainMenuPanel extends JPanel {
         }
     }
 
+    /**
+     * Crea una partida de Scrabble contra un altre jugador.
+     * Permet registrar un nou usuari o iniciar sessió amb un usuari existent.
+     * Si es registra un nou usuari, es demanen les dades necessàries.
+     * Si s'inicia sessió, es verifiquen les credencials.
+     * Un cop l'usuari està registrat o ha iniciat sessió, es crea la partida.
+     */
     private void create1vs1Game() {
         // Primero preguntamos si quiere registrar o iniciar sesión
         Object[] loginOptions = {"Login with existing user", "Register new opponent", "Cancel"};
@@ -171,7 +222,15 @@ public class MainMenuPanel extends JPanel {
         }
     }
 
-    // Método auxiliar para crear la partida una vez que tenemos el oponente
+    /**
+     * Crea una partida de Scrabble contra un oponent.
+     * Permet seleccionar el nom de la partida i l'idioma.
+     * Un cop seleccionats, es crea la partida amb el opponent com a usuari.
+     * Si hi ha un error en la creació de la partida,
+     * es mostra un missatge d'error.
+     * 
+     * @param opponent L'usuari que serà l'oponent en la partida
+     */    
     private void createGameWithOpponent(Usuari opponent) {
         String gameName = JOptionPane.showInputDialog(cp.getFrame(), "Enter game name:");
         if (gameName == null || gameName.isEmpty()) return;
@@ -199,6 +258,13 @@ public class MainMenuPanel extends JPanel {
         }
     }
 
+    /**
+     * Crea una partida de Scrabble contra un bot.
+     * Permet seleccionar el nom de la partida i l'idioma.
+     * Un cop seleccionats, es crea la partida amb el bot com a oponent.
+     * Si hi ha un error en la creació de la partida,
+     * es mostra un missatge d'error.
+     */
     private void createBotGame() {
         String gameName = JOptionPane.showInputDialog(cp.getFrame(), "Enter game name:");
         if (gameName == null || gameName.isEmpty()) return;
@@ -226,6 +292,12 @@ public class MainMenuPanel extends JPanel {
         }
     }
 
+    /**
+     * Carrega una partida guardada per a l'usuari actual.
+     * Mostra un diàleg per seleccionar la partida a carregar.
+     * Si no hi ha partides guardades, mostra un missatge d'informació.
+     * Un cop seleccionada la partida, es carrega i es mostra al panell de joc.
+     */
     private void loadGame() {
         List<Partida> games = cd.getPartidesEnCurs(cp.getCurrentUser());
         if (games == null || games.isEmpty()) {
@@ -248,6 +320,11 @@ public class MainMenuPanel extends JPanel {
         }
     }
 
+    /**
+     * Tanca la sessió de l'usuari actual i mostra el panell de login.
+     * Elimina l'usuari actual del controlador de presentació
+     * i tanca la sessió al controlador de domini.
+     */
     private void logout() {
         cd.tancarSessio(cp.getCurrentUser().getNom());
         cp.setCurrentUser(null);

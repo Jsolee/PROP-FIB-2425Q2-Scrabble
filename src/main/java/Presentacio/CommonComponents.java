@@ -3,6 +3,10 @@ package Presentacio;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Classe utilitària per a components comuns de la interfície d'usuari.
+ * Proporciona constants de colors i mètodes per estilitzar botons.
+ */
 public class CommonComponents {
     // Colors for special board cells
     public static final Color TRIPLE_WORD_COLOR = new Color(239, 83, 80); // Red

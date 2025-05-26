@@ -10,20 +10,49 @@ import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.List;
 
+/**
+ * Panel principal del joc Scrabble.
+ * Aquest panell mostra el tauler de joc, l'atril del jugador,
+ * la informació dels jugadors, el torn i les opcions per jugar, intercanviar fitxes,
+ * passar torn, renunciar i guardar la partida.
+ * 
+ * Aquest panell també gestiona la inicialització del joc i l'actualització
+ * de la interfície d'usuari en funció de l'estat del joc.
+ * Permet la col·locació de fitxes al tauler mitjançant arrossegament i
+ * solta (Drag&Drop), així com la interacció amb les fitxes de l'atril i la gestió d'aquestes fitxes.
+ */
 public class GamePanel extends JPanel {
+
+    /** Controlador de presentació */
     protected ControladorPresentacio cp;
+
+    /** Controlador de domini */
     private ControladorDomini cd;
 
-    // Game UI components
+    /** Panell que conté el tauler de joc */
     private JPanel boardPanel;
+    /** Panell que conté l'atril del jugador */
     private JPanel rackPanel;
+    /** Panell que mostra la informació dels jugadors */
     private JPanel playerPanel;
+    /** Botons del tauler de joc */
     private JButton[][] boardButtons;
+    /** Botons de l'atril del jugador */
     private JButton[] rackButtons;
+    /** Llista de fitxes col·locades al tauler */
     protected List<int[]> placedTiles;
+    /** Etiqueta per msotrar el jugador actual */
     private JLabel currentPlayerLabel;
+    /** Etiqueta per mostrar el nombre de fitxes restants a la bossa */
     private JLabel remainingTilesLabel;
 
+    /**
+     * Constructor del panell de joc.
+     * Inicialitza els components gràfics i prepara el tauler i l'atril.
+     *
+     * @param cp Controlador de presentació
+     * @param cd Controlador de domini
+     */
     public GamePanel(ControladorPresentacio cp, ControladorDomini cd) {
         this.cp = cp;
         this.cd = cd;
@@ -39,6 +68,19 @@ public class GamePanel extends JPanel {
         });
     }
 
+
+    /**
+     * Inicialitza els components gràfics del panell de joc.
+     * Configura el disseny principal (BorderLayout), crea i posiciona tots els components:
+     * - El taulell de joc amb les seves 15x15 caselles i propietats especials
+     * - L'atril del jugador amb les fitxes disponibles
+     * - El panell d'informació dels jugadors amb puntuacions
+     * - Els botons de control per jugar paraula, intercanviar fitxes, passar torn, etc.
+     * - Les etiquetes informatives sobre el torn actual i les fitxes restants
+     * 
+     * També configura els gestors d'esdeveniments per al drag and drop de les fitxes
+     * i els esdeveniments de ratolí per facilitar la interacció amb el tauler.
+     */
     private void initialize() {
         setLayout(new BorderLayout());
         setBackground(new Color(240, 240, 240));
@@ -125,6 +167,11 @@ public class GamePanel extends JPanel {
         add(sidePanel, BorderLayout.EAST);
     }
 
+    /**
+     * Inicialitza el tauler de joc amb les seves caselles i propietats especials.
+     * Crea un panell de 15x15 caselles, assigna colors i etiquetes a les posicions especials
+     * (centre, triple/doble paraula, triple/doble lletra) i configura els listeners per al drag and drop.
+     */
     private void initializeBoard() {
         boardPanel = new JPanel(new GridLayout(15, 15, 1, 1));
         boardPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -184,6 +231,12 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Actualitza el tauler de joc amb la informació actual del joc.
+     * Mostra el jugador actual, les fitxes restants a la bossa,
+     * i actualitza les caselles del tauler amb les fitxes col·locades.
+     * També actualitza l'atril del jugador amb les fitxes disponibles.
+     */
     public void updateGameBoard() {
         if (cp.getCurrentGame() == null) return;
 
@@ -271,6 +324,9 @@ public class GamePanel extends JPanel {
         cp.getFrame().repaint();
     }
 
+    /** 
+     * Classe interna per gestionar el drag and drop de les fitxes del rack.
+     */
     private class TileTransferHandler extends TransferHandler {
         private final int tileIndex;
 
@@ -289,6 +345,13 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Mètode per eliminar una fitxa del tauler de joc.
+     * Busca la fitxa col·locada al tauler i la elimina, 
+     * restablint l'aparença del botó corresponent i fent visible la fitxa al rack (amb click dret).
+     *
+     * @param tileIndex Índex de la fitxa a eliminar
+     */
     private void removeTileFromBoard(int tileIndex) {
         // Find if this tile is placed on the board
         Iterator<int[]> iterator = placedTiles.iterator();
@@ -309,13 +372,26 @@ public class GamePanel extends JPanel {
         }
     }
 
-    // Nuevo método para ocultar la ficha del rack cuando se coloca en el tablero
+    /**
+     * Mètode per ocultar una fitxa específica a l'atril del jugador.
+     * Utilitzat quan una fitxa s'ha col·locat al tauler i ja no ha de ser visible a l'atril.
+     *
+     * @param tileIndex Índex de la fitxa a ocultar
+     */
     public void hideTileInRack(int tileIndex) {
         if (rackButtons != null && tileIndex < rackButtons.length) {
             rackButtons[tileIndex].setVisible(false);
         }
     }
 
+    /**
+     * Restableix l'aparença d'un botó del tauler de joc.
+     * Si la casella té una fitxa, es mostra amb el color de fitxa.
+     * Si no té fitxa, es mostra amb el color per defecte o un color especial si és una posició especial.
+     *
+     * @param row Fila de la casella
+     * @param col Columna de la casella
+     */
     protected void resetBoardButtonAppearance(int row, int col) {
         JButton button = boardButtons[row][col];
         String position = row + "," + col;
@@ -339,6 +415,13 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Mètode per confirmar la col·locació de les paraules al tauler.
+     * Verifica que les fitxes estiguin col·locades en línia recta (horitzontal o vertical),
+     * crea un mapa de moviments i intenta jugar la paraula.
+     * Si té èxit, actualitza el tauler i passa el torn al següent jugador.
+     * Si falla, mostra un missatge d'error i reinicia les fitxes col·locades.
+     */
     private void confirmWordPlacement() {
         if (placedTiles.isEmpty()) {
             JOptionPane.showMessageDialog(cp.getFrame(), "No tiles placed on board", "Error", JOptionPane.ERROR_MESSAGE);
@@ -393,6 +476,15 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Determina l'orientació de les fitxes col·locades (horitzontal o vertical).
+     * Si només hi ha una fitxa, es considera que pot ser en qualsevol orientació.
+     * Si totes les fitxes estan en la mateixa fila, retorna "H" (horitzontal).
+     * Si totes les fitxes estan en la mateixa columna, retorna "V" (vertical).
+     * Si no estan alineades, retorna null.
+     *
+     * @return "H", "V" o null si no estan alineades
+     */
     private String determineOrientation() {
         if (placedTiles.size() == 1) return "H"; // Single tile can be either
 
@@ -421,6 +513,12 @@ public class GamePanel extends JPanel {
         return null; // Not in a straight line
     }
 
+    /**
+     * Mètode per passar el torn al següent jugador.
+     * Mostra un diàleg de confirmació i, si s'accepta, neteja les fitxes col·locades,
+     * passa el torn al següent jugador i actualitza el tauler.
+     * Si el jugador actual és un bot, inicia el torn del bot.
+     */
     private void passTurn() {
         int confirm = JOptionPane.showConfirmDialog(cp.getFrame(),
                 "Are you sure you want to pass your turn?",
@@ -440,6 +538,13 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Mètode per intercanviar fitxes de l'atril del jugador.
+     * Mostra un diàleg per seleccionar les fitxes a intercanviar,
+     * i si es seleccionen, intenta realitzar l'intercanvi.
+     * Si té èxit, actualitza el tauler i passa el torn al següent jugador.
+     * Si falla, mostra un missatge d'error.
+     */
     private void exchangeTiles() {
         if (!cp.getCurrentGame().getJugadorActual().equals(cp.getCurrentUser())) {
             JOptionPane.showMessageDialog(cp.getFrame(), "It's not your turn", "Error", JOptionPane.ERROR_MESSAGE);
@@ -509,6 +614,12 @@ public class GamePanel extends JPanel {
         exchangeDialog.setVisible(true);
     }
 
+    /**
+     * Mètode per guardar la partida actual.
+     * Realitza la comprovació de si hi ha una partida en curs,
+     * guarda la partida i neteja les dades del joc i l'atril.
+     * Finalment, mostra un missatge de confirmació i torna al menú principal.
+     */
     private void saveGame() {
         cp.getCurrentGame().guardarPartida();
         JOptionPane.showMessageDialog(cp.getFrame(), "Game saved successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
@@ -573,6 +684,11 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Mètode per gestionar el torn del bot.
+     * El bot col·loca una paraula al tauler i actualitza el tauler de joc.
+     * Aquest mètode s'invoca quan el jugador actual és un bot.
+     */
     private void botTurn() {
         cd.posarParaulaBot(cp.getCurrentGame(), cp.getCurrentGame().getJugadorActual());
         updateGameBoard();
