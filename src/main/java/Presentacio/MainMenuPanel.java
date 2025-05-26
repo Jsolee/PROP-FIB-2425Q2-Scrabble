@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +33,8 @@ public class MainMenuPanel extends JPanel {
     private ControladorDomini cd;
     /** Etiqueta per mostrar el missatge de benvinguda */
     private JLabel welcomeLabel;
+    /** Panell de la targeta del menú principal */
+    private JPanel card;
 
     /**
      * Constructor del panell del menú principal.
@@ -60,17 +61,12 @@ public class MainMenuPanel extends JPanel {
      */
     private void initialize() {
         setLayout(new BorderLayout());
-        // Scrabble gradient background
         JPanel backgroundPanel = ModernUI.createScrabbleGradientPanel();
-        backgroundPanel.setLayout(new GridBagLayout());
-
-        // Card panel for menu content
-        JPanel card = ModernUI.createScrabbleCard();
+        backgroundPanel.setLayout(new java.awt.GridBagLayout());
+        card = ModernUI.createScrabbleCard();
         card.setLayout(new javax.swing.BoxLayout(card, javax.swing.BoxLayout.Y_AXIS));
         card.setPreferredSize(new Dimension(420, 520));
-
-        // Logo & title
-        JLabel logo = new JLabel("🟩🟦", JLabel.CENTER); // Scrabble tile colors
+        JLabel logo = new JLabel("🟩🟦", JLabel.CENTER);
         logo.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 60));
         logo.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel title = new JLabel("Scrabble", JLabel.CENTER);
@@ -81,38 +77,31 @@ public class MainMenuPanel extends JPanel {
         card.add(javax.swing.Box.createVerticalStrut(10));
         card.add(title);
         card.add(javax.swing.Box.createVerticalStrut(18));
-
-        // Welcome label
         welcomeLabel = new JLabel();
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        add(welcomeLabel, gbc);
-
-        gbc.gridwidth = 1;
-        gbc.gridy++;
-        addMenuButton("Play Game", new Color(66, 165, 245), e -> showGameOptions(), gbc);
-        gbc.gridy++;
-        addMenuButton("View Profile", new Color(129, 199, 132), e -> {
-            cp.showProfilePanel();
-        }, gbc);
-        gbc.gridy++;
-        addMenuButton("View Rankings", new Color(255, 183, 77), e -> {
-            cp.showRankingPanel();
-        }, gbc);
-        gbc.gridy++;
-        addMenuButton("Options", new Color(171, 71, 188), e -> cp.showOptionsPanel(), gbc);
-        gbc.gridy++;
-        addMenuButton("Logout", new Color(239, 83, 80), e -> logout(), gbc);
+        welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(welcomeLabel);
+        card.add(javax.swing.Box.createVerticalStrut(18));
+        addMenuButton("Play Game", new Color(66, 165, 245), this::showGameOptions);
+        card.add(javax.swing.Box.createVerticalStrut(10));
+        addMenuButton("View Profile", new Color(129, 199, 132), cp::showProfilePanel);
+        card.add(javax.swing.Box.createVerticalStrut(10));
+        addMenuButton("View Rankings", new Color(255, 183, 77), cp::showRankingPanel);
+        card.add(javax.swing.Box.createVerticalStrut(10));
+        addMenuButton("Options", new Color(171, 71, 188), cp::showOptionsPanel);
+        card.add(javax.swing.Box.createVerticalStrut(10));
+        addMenuButton("Logout", new Color(239, 83, 80), this::logout);
+        backgroundPanel.add(card, new java.awt.GridBagConstraints());
+        add(backgroundPanel, BorderLayout.CENTER);
     }
 
-    private void addMenuButton(String text, Color color, ActionListener listener, GridBagConstraints gbc) {
+    private void addMenuButton(String text, Color color, Runnable action) {
         JButton button = new JButton(text);
         CommonComponents.styleButton(button, color);
         button.setPreferredSize(new Dimension(200, 60));
         button.setFont(new Font("Arial", Font.BOLD, 16));
-        button.addActionListener(listener);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.addActionListener(e -> action.run());
         card.add(button);
     }
 
@@ -205,14 +194,14 @@ public class MainMenuPanel extends JPanel {
                 // Crear el nuevo usuario
                 Usuari opponent = cd.crearUsuari(username, email, password, age, country);
                 
-                // Continuar con la creación de la partida
+                // Continuar amb la creació de la partida
                 createGameWithOpponent(opponent);
                 
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(cp.getFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-        // Iniciar sesión con usuario existente
+        // Iniciar sesión amb usuari existent
         else {
             JTextField usernameField = new JTextField();
             JPasswordField passwordField = new JPasswordField();
@@ -237,7 +226,7 @@ public class MainMenuPanel extends JPanel {
                     return;
                 }
                 
-                // Continuar with la creación de la partida
+                // Continuar amb la creació de la partida
                 createGameWithOpponent(cd.getUsuari(username));
                 
             } catch (IllegalArgumentException ex) {
