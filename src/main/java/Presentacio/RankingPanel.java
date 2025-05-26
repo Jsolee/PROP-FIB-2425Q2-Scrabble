@@ -1,10 +1,25 @@
 package Presentacio;
 
-import Domini.*;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.List;
-import java.awt.event.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import Domini.ControladorDomini;
+import Domini.Persona;
 
 /**
  * Panell de rànquing per a mostrar les estadístiques dels jugadors.
@@ -53,32 +68,70 @@ public class RankingPanel extends JPanel {
      */
     private void initialize() {
         setLayout(new BorderLayout());
-        setBackground(new Color(240, 240, 240));
+        // Scrabble gradient background
+        JPanel backgroundPanel = ModernUI.createScrabbleGradientPanel();
+        backgroundPanel.setLayout(new GridBagLayout());
 
+        // Card panel for ranking content
+        JPanel card = ModernUI.createScrabbleCard();
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setPreferredSize(new Dimension(600, 600));
+
+        // Logo & title
+        JLabel logo = new JLabel("🏆", JLabel.CENTER);
+        logo.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 56));
+        logo.setAlignmentX(CENTER_ALIGNMENT);
+        JLabel title = new JLabel("Scrabble Rankings", JLabel.CENTER);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        title.setForeground(ModernUI.SCRABBLE_BLUE);
+        title.setAlignmentX(CENTER_ALIGNMENT);
+        card.add(Box.createVerticalStrut(10));
+        card.add(logo);
+        card.add(Box.createVerticalStrut(10));
+        card.add(title);
+        card.add(Box.createVerticalStrut(18));
+
+        // Filter panel (modern look, inside card)
         JPanel filterPanel = new JPanel();
+        filterPanel.setOpaque(false);
         filterPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
         String[] filters = {"Total Points", "Games Played", "Games Won", "Personal Record"};
         JComboBox<String> filterCombo = new JComboBox<>(filters);
-        filterCombo.addActionListener(e -> {
-            updateRankingInfo(filterCombo.getSelectedIndex() + 1);
-        });
+        filterCombo.addActionListener(e -> updateRankingInfo(filterCombo.getSelectedIndex() + 1));
         filterPanel.add(new JLabel("Filter by:"));
         filterPanel.add(filterCombo);
+        filterPanel.setAlignmentX(CENTER_ALIGNMENT);
+        card.add(filterPanel);
+        card.add(Box.createVerticalStrut(10));
 
-        add(filterPanel, BorderLayout.NORTH);
-
+        // Ranking text area (modern scroll pane)
         rankingText = new JTextArea();
         rankingText.setEditable(false);
         rankingText.setFont(new Font("Monospaced", Font.PLAIN, 14));
         rankingText.setBackground(new Color(240, 240, 240));
         JScrollPane scrollPane = new JScrollPane(rankingText);
-        add(scrollPane, BorderLayout.CENTER);
+        scrollPane.setPreferredSize(new Dimension(520, 350));
+        scrollPane.setMaximumSize(new Dimension(520, 350));
+        scrollPane.setAlignmentX(CENTER_ALIGNMENT);
+        card.add(scrollPane);
+        card.add(Box.createVerticalStrut(24));
 
-        JButton backButton = new JButton("Back to Menu");
-        CommonComponents.styleButton(backButton, new Color(66, 165, 245));
+        // Back button (modern Scrabble style)
+        JButton backButton = ModernUI.createScrabbleButton("⬅ Back to Menu", ModernUI.SCRABBLE_BLUE);
+        backButton.setAlignmentX(CENTER_ALIGNMENT);
         backButton.addActionListener(e -> cp.showMainMenuPanel());
-        add(backButton, BorderLayout.SOUTH);
+        card.add(backButton);
+        card.add(Box.createVerticalStrut(10));
+
+        // Center card in background
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        backgroundPanel.add(card, gbc);
+        add(backgroundPanel, BorderLayout.CENTER);
     }
 
     /**

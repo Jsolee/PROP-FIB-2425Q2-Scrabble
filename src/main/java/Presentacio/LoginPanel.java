@@ -1,106 +1,126 @@
 package Presentacio;
 
-import Domini.*;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.RenderingHints;
 
-/**
- * Panell de login per a l'aplicació Scrabble Game.
- * Permet als usuaris iniciar sessió amb el seu nom d'usuari i contrasenya.
- * També proporciona una opció per registrar un nou usuari.
- */
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import Domini.ControladorDomini;
+
 public class LoginPanel extends JPanel {
-
-    /** Controlador de presentació  */
     private ControladorPresentacio cp;
-    /** Controlador de domini per a la lògica del joc */
     private ControladorDomini cd;
-    /** Camps de text per a l'entrada de dades */
     private JTextField usernameField;
-    /** Camp de text per a l'entrada de la contrasenya */
     private JPasswordField passwordField;
 
-    /**
-     * Constructor del panell de login.
-     * Inicialitza els components gràfics i els gestors d'esdeveniments.
-     *
-     * @param cp Controlador de presentació per a la navegació entre pantalles
-     * @param cd Controlador de domini per a la lògica del joc
-     */
     public LoginPanel(ControladorPresentacio cp, ControladorDomini cd) {
         this.cp = cp;
         this.cd = cd;
         initialize();
     }
 
-    /**
-     * Inicialitza els components gràfics del panell de login.
-     * Configura el disseny utilitzant GridBagLayout per organitzar els elements.
-     * Crea i posiciona els components:
-     * - Títol de l'aplicació
-     * - Camp per introduir el nom d'usuari
-     * - Camp per introduir la contrasenya
-     * - Botó de login que valida les credencials
-     * - Botó de registre que redirigeix al panell de registre
-     * 
-     * Els components s'estilitzen amb fonts i colors per millorar la interfície d'usuari.
-     * S'afegeixen listeners als botons per gestionar les interaccions de l'usuari.
-     */
     private void initialize() {
-        setLayout(new GridBagLayout());
-        setBackground(new Color(240, 240, 240));
+        setLayout(new BorderLayout());
+        // Gradient background
+        JPanel backgroundPanel = ModernUI.createGradientPanel(
+            new Color(63, 81, 181), new Color(233, 30, 99)
+        );
+        backgroundPanel.setLayout(new GridBagLayout());
+        // Card panel
+        JPanel card = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(0,0,0,40));
+                g2.fillRoundRect(8,8,getWidth()-8,getHeight()-8,32,32);
+                g2.setColor(Color.WHITE);
+                g2.fillRoundRect(0,0,getWidth()-8,getHeight()-8,32,32);
+                g2.dispose();
+            }
+        };
+        card.setOpaque(false);
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
+        card.setPreferredSize(new Dimension(400, 480));
+        // Logo & title
+        JLabel logo = new JLabel("🎯", JLabel.CENTER);
+        logo.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 64));
+        logo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel title = new JLabel("Scrabble Login", JLabel.CENTER);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        title.setForeground(new Color(63,81,181));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(logo);
+        card.add(Box.createVerticalStrut(10));
+        card.add(title);
+        card.add(Box.createVerticalStrut(30));
+        // Username
+        JLabel userLabel = new JLabel("👤 Username");
+        userLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        userLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        card.add(userLabel);
+        card.add(Box.createVerticalStrut(5));
+        usernameField = ModernUI.createModernTextField("Enter your username");
+        usernameField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        card.add(usernameField);
+        card.add(Box.createVerticalStrut(20));
+        // Password
+        JLabel passLabel = new JLabel("🔒 Password");
+        passLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        passLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        card.add(passLabel);
+        card.add(Box.createVerticalStrut(5));
+        passwordField = new JPasswordField();
+        passwordField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        passwordField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(224,224,224), 1),
+            BorderFactory.createEmptyBorder(10, 16, 10, 16)));
+        passwordField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        card.add(passwordField);
+        card.add(Box.createVerticalStrut(30));
+        // Login button
+        JButton loginBtn = ModernUI.createModernButton("🚀 Sign In", new Color(63,81,181));
+        loginBtn.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        loginBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        loginBtn.setPreferredSize(new Dimension(200, 45));
+        loginBtn.setForeground(Color.BLACK); // Ensure text is visible
+        loginBtn.setBackground(new Color(63,81,181));
+        loginBtn.addActionListener(e -> login());
+        card.add(loginBtn);
+        card.add(Box.createVerticalStrut(15));
+        // Register link
+        JButton regBtn = ModernUI.createModernButton("📝 Register", new Color(233,30,99));
+        regBtn.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        regBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        regBtn.setPreferredSize(new Dimension(200, 40));
+        regBtn.setForeground(Color.BLACK); // Ensure text is visible
+        regBtn.setBackground(new Color(233,30,99));
+        regBtn.addActionListener(e -> cp.showRegisterPanel());
+        card.add(regBtn);
+        // Add card to background
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-
-        JLabel titleLabel = new JLabel("Scrabble Login");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        add(titleLabel, gbc);
-
-        gbc.gridwidth = 1;
-        gbc.gridy++;
-        JLabel usernameLabel = new JLabel("Username:");
-        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        add(usernameLabel, gbc);
-        gbc.gridx++;
-        usernameField = new JTextField(15);
-        usernameField.setFont(new Font("Arial", Font.PLAIN, 14));
-        add(usernameField, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy++;
-        JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        add(passwordLabel, gbc);
-        gbc.gridx++;
-        passwordField = new JPasswordField(15);
-        passwordField.setFont(new Font("Arial", Font.PLAIN, 14));
-        add(passwordField, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy++;
-        gbc.gridwidth = 2;
-        JButton loginButton = new JButton("Login");
-        CommonComponents.styleButton(loginButton, new Color(66, 165, 245));
-        loginButton.addActionListener(e -> login());
-        add(loginButton, gbc);
-
-        gbc.gridy++;
-        JButton registerButton = new JButton("Register New User");
-        CommonComponents.styleButton(registerButton, new Color(129, 199, 132));
-        registerButton.addActionListener(e -> cp.showRegisterPanel());
-        add(registerButton, gbc);
+        gbc.gridx = 0; gbc.gridy = 0;
+        backgroundPanel.add(card, gbc);
+        add(backgroundPanel, BorderLayout.CENTER);
     }
 
-    /**
-     * Gestor d'esdeveniment per al botó de login.
-     * Llegeix les credencials introduïdes i intenta iniciar sessió.
-     * Si les credencials són vàlides, redirigeix a l'usuari al menú principal.
-     * Si hi ha un error, mostra un missatge d'error.
-     */
     private void login() {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());

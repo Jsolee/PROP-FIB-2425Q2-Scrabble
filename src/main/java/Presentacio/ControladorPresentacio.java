@@ -1,8 +1,30 @@
 package Presentacio;
 
-import Domini.*;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.UIManager;
+
+import Domini.ControladorDomini;
+import Domini.Partida;
+import Domini.Usuari;
 
 /**
  * Controlador principal de la capa de presentació de l'aplicació Scrabble Game.
@@ -56,7 +78,18 @@ public class ControladorPresentacio {
     public ControladorPresentacio() {
         cd = new ControladorDomini();
         cd.inicialitzarDadesPersistencia();
+        setLookAndFeel();
         initializeGUI();
+    }
+
+    private void setLookAndFeel() {
+        try {
+            // Set system look and feel for better integration
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            // Fallback to default if system look and feel fails
+            System.err.println("Could not set system look and feel: " + e.getMessage());
+        }
     }
 
     /**
@@ -74,39 +107,93 @@ public class ControladorPresentacio {
      * navegui cap a elles mitjançant les accions corresponents.
      */
     private void initializeGUI() {
-        frame = new JFrame("Scrabble Game");
+        // Get screen dimensions for responsive design
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int windowWidth = Math.max(1200, (int) (screenSize.width * 0.75));
+        int windowHeight = Math.max(900, (int) (screenSize.height * 0.8));
+
+        frame = new JFrame("🎯 Scrabble Game - Modern Edition");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        
+        // Set window icon (optional - would need an icon file)
+        // frame.setIconImage(Toolkit.getDefaultToolkit().getImage("icon.png"));
+        
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                // ask for confirmation
+                // Enhanced confirmation dialog with modern styling
+            JPanel confirmPanel = new JPanel();
+            confirmPanel.setLayout(new BoxLayout(confirmPanel, BoxLayout.Y_AXIS));
+            confirmPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            confirmPanel.setBackground(Color.WHITE);
+
+            JLabel iconLabel = new JLabel("🚪", JLabel.CENTER);
+            iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 48));
+            iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            JLabel titleLabel = new JLabel("Exit Application");
+            titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+            titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+
+            JLabel messageLabel = new JLabel("<html><center>Are you sure you want to close the application?<br/>Your progress will be saved automatically.</center></html>");
+            messageLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            confirmPanel.add(iconLabel);
+            confirmPanel.add(titleLabel);
+            confirmPanel.add(messageLabel);
+
             int response = JOptionPane.showConfirmDialog(frame,
-                "Estas segur que vols tancar l'aplicació?", 
-                "Tancar aplicació",
+                confirmPanel, 
+                "Exit Scrabble Game",
                 JOptionPane.YES_NO_OPTION, 
-                JOptionPane.QUESTION_MESSAGE);
+                JOptionPane.PLAIN_MESSAGE);
+                
             if (response == JOptionPane.YES_OPTION) {
+                // Show saving progress dialog
+                showSavingDialog();
+                
                 // actualitzem dades persistencia
                 boolean updated = cd.actualitzarDadesPersistencia(); 
                 
                 if (!updated) {
                     JOptionPane.showMessageDialog(frame, 
-                        "Error al guardar les dades.", 
+                        "❌ Error saving data.", 
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
                 } else  {
                     // Show confirmation after persistence update
                     JOptionPane.showMessageDialog(frame, 
-                        "Les dades s'han guardat correctament!", 
-                        "Informació", 
+                        "✅ Data saved successfully!\nSee you next time!", 
+                        "Goodbye", 
                         JOptionPane.INFORMATION_MESSAGE);
                         System.exit(0); 
                 }
             }
         }
         });
-        frame.setSize(1100, 850);
+
+        // Set responsive window size and make it resizable
+        frame.setSize(windowWidth, windowHeight);
+        frame.setMinimumSize(new Dimension(800, 600));
         frame.setLocationRelativeTo(null);
+        frame.setResizable(true);
+
+        // Add component listener for responsive behavior
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                // Notify panels about size changes for responsive updates
+                if (gamePanel != null) {
+                    gamePanel.revalidate();
+                    gamePanel.repaint();
+                }
+            }
+        });
+
+        // Set modern background color
+        frame.getContentPane().setBackground(new Color(245, 247, 250));
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
@@ -249,6 +336,38 @@ public class ControladorPresentacio {
      */
     public JFrame getFrame() {
         return frame;
+    }
+
+    private void showSavingDialog() {
+        // Create a simple saving dialog
+        JDialog savingDialog = new JDialog(frame, "Saving...", true);
+        savingDialog.setLayout(new BorderLayout());
+        savingDialog.setSize(300, 120);
+        savingDialog.setLocationRelativeTo(frame);
+        savingDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        
+        JPanel contentPanel = new JPanel();
+        contentPanel.setBackground(Color.WHITE);
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        
+        JLabel savingLabel = new JLabel("💾 Saving your progress...", JLabel.CENTER);
+        savingLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        
+        JProgressBar progressBar = new JProgressBar();
+        progressBar.setIndeterminate(true);
+        progressBar.setStringPainted(true);
+        progressBar.setString("Please wait...");
+        
+        contentPanel.add(savingLabel, BorderLayout.NORTH);
+        contentPanel.add(progressBar, BorderLayout.CENTER);
+        savingDialog.add(contentPanel);
+        
+        // Show dialog for a brief moment to indicate saving
+        Timer timer = new Timer(1000, e -> savingDialog.dispose());
+        timer.setRepeats(false);
+        timer.start();
+        
+        savingDialog.setVisible(true);
     }
 
     /**

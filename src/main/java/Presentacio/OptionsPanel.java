@@ -1,8 +1,24 @@
 package Presentacio;
 
-import Domini.*;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
+import Domini.ControladorDomini;
 
 /**
  * Panell d'opcions per a la gestió del perfil de l'usuari.
@@ -39,8 +55,54 @@ public class OptionsPanel extends JPanel {
      */
     private void initialize() {
         setLayout(new BorderLayout());
-        setBackground(new Color(240, 240, 240));
+        // Scrabble gradient background
+        JPanel backgroundPanel = ModernUI.createScrabbleGradientPanel();
+        backgroundPanel.setLayout(new GridBagLayout());
 
+        // Card panel for options content
+        JPanel card = ModernUI.createScrabbleCard();
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setPreferredSize(new Dimension(520, 520));
+
+        // Logo & title
+        JLabel logo = new JLabel("⚙️", JLabel.CENTER);
+        logo.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 54));
+        logo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel title = new JLabel("Options", JLabel.CENTER);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        title.setForeground(ModernUI.SCRABBLE_BLUE);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(Box.createVerticalStrut(10));
+        card.add(logo);
+        card.add(Box.createVerticalStrut(10));
+        card.add(title);
+        card.add(Box.createVerticalStrut(18));
+
+        // Options content (assume getOptionsComponent() returns a JPanel with the options UI)
+        JPanel optionsContent = getOptionsComponent();
+        optionsContent.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(optionsContent);
+        card.add(Box.createVerticalStrut(24));
+
+        // Back button
+        JButton backButton = ModernUI.createScrabbleButton("⬅ Back", ModernUI.SCRABBLE_BLUE);
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> cp.showMainMenuPanel());
+        card.add(backButton);
+        card.add(Box.createVerticalStrut(10));
+
+        // Center card in background
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        backgroundPanel.add(card, gbc);
+        add(backgroundPanel, BorderLayout.CENTER);
+    }
+
+    private JPanel getOptionsComponent() {
         JPanel optionsContent = new JPanel(new GridLayout(0, 1));
         optionsContent.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -54,12 +116,7 @@ public class OptionsPanel extends JPanel {
         deleteAccountButton.addActionListener(e -> deleteAccount());
         optionsContent.add(deleteAccountButton);
 
-        add(optionsContent, BorderLayout.CENTER);
-
-        JButton backButton = new JButton("Back to Menu");
-        CommonComponents.styleButton(backButton, new Color(66, 165, 245));
-        backButton.addActionListener(e -> cp.showMainMenuPanel());
-        add(backButton, BorderLayout.SOUTH);
+        return optionsContent;
     }
 
     /**

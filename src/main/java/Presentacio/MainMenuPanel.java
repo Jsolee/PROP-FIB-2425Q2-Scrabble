@@ -1,11 +1,24 @@
 package Presentacio;
 
-import Domini.*;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import Domini.ControladorDomini;
+import Domini.Partida;
+import Domini.Usuari;
 
 /**
  * Panell del menú principal de l'aplicació Scrabble Game.
@@ -46,11 +59,30 @@ public class MainMenuPanel extends JPanel {
      * S'afegeixen listeners als botons per gestionar les interaccions de l'usuari.
      */
     private void initialize() {
-        setLayout(new GridBagLayout());
-        setBackground(new Color(240, 240, 240));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(15, 15, 15, 15);
+        setLayout(new BorderLayout());
+        // Scrabble gradient background
+        JPanel backgroundPanel = ModernUI.createScrabbleGradientPanel();
+        backgroundPanel.setLayout(new GridBagLayout());
 
+        // Card panel for menu content
+        JPanel card = ModernUI.createScrabbleCard();
+        card.setLayout(new javax.swing.BoxLayout(card, javax.swing.BoxLayout.Y_AXIS));
+        card.setPreferredSize(new Dimension(420, 520));
+
+        // Logo & title
+        JLabel logo = new JLabel("🟩🟦", JLabel.CENTER); // Scrabble tile colors
+        logo.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 60));
+        logo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel title = new JLabel("Scrabble", JLabel.CENTER);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        title.setForeground(ModernUI.SCRABBLE_BLUE);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(logo);
+        card.add(javax.swing.Box.createVerticalStrut(10));
+        card.add(title);
+        card.add(javax.swing.Box.createVerticalStrut(18));
+
+        // Welcome label
         welcomeLabel = new JLabel();
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
         gbc.gridx = 0;
@@ -75,21 +107,13 @@ public class MainMenuPanel extends JPanel {
         addMenuButton("Logout", new Color(239, 83, 80), e -> logout(), gbc);
     }
 
-    /**
-     * Afegeix un botó al panell del menú principal amb estil i acció associada.
-     *
-     * @param text El text que es mostrarà al botó
-     * @param color El color de fons del botó
-     * @param listener L'acció que s'executarà quan es faci clic al botó
-     * @param gbc Les restriccions de disseny per al botó
-     */
     private void addMenuButton(String text, Color color, ActionListener listener, GridBagConstraints gbc) {
         JButton button = new JButton(text);
         CommonComponents.styleButton(button, color);
         button.setPreferredSize(new Dimension(200, 60));
         button.setFont(new Font("Arial", Font.BOLD, 16));
         button.addActionListener(listener);
-        add(button, gbc);
+        card.add(button);
     }
 
     /**
@@ -213,7 +237,7 @@ public class MainMenuPanel extends JPanel {
                     return;
                 }
                 
-                // Continuar con la creación de la partida
+                // Continuar with la creación de la partida
                 createGameWithOpponent(cd.getUsuari(username));
                 
             } catch (IllegalArgumentException ex) {
@@ -329,5 +353,13 @@ public class MainMenuPanel extends JPanel {
         cd.tancarSessio(cp.getCurrentUser().getNom());
         cp.setCurrentUser(null);
         cp.showLoginPanel();
+    }
+
+    @Override
+    public void setVisible(boolean aFlag) {
+        super.setVisible(aFlag);
+        if (aFlag && welcomeLabel != null) {
+            welcomeLabel.setForeground(ModernUI.PRIMARY_BLUE); // Always set visible color
+        }
     }
 }

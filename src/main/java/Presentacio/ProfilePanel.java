@@ -1,52 +1,97 @@
 package Presentacio;
 
-import Domini.*;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 
-/**
- * Panell d'opcions per a la gestió del perfil de l'usuari.
- * Aquest component mostra la informació personal i estadístiques de l'usuari actual.
- * Permet visualitzar dades com nom, correu electrònic, edat, país i estadístiques de joc.
- * Les estadístiques inclouen partides jugades, guanyades, perdudes, puntuació total,
- * rècord personal i nivell en el rànquing.
- * 
- * El panell proporciona una interfície clara per consultar el progrés de l'usuari
- * i permet tornar al menú principal mitjançant un botó.
- */
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import Domini.ControladorDomini;
+import Domini.Estadistiques;
+import Domini.Persona;
+
 public class ProfilePanel extends JPanel {
-    /** Controlador de presentació */
     private ControladorPresentacio cp;
-    /** Controlador de domini per a la lògica del joc */
     private ControladorDomini cd;
 
-    /**
-     * Constructor del panell de perfil.
-     * Inicialitza els components gràfics i els gestors d'esdeveniments.
-     *
-     * @param cp Controlador de presentació per a la navegació entre pantalles
-     * @param cd Controlador de domini per a la lògica del joc
-     */
     public ProfilePanel(ControladorPresentacio cp, ControladorDomini cd) {
         this.cp = cp;
         this.cd = cd;
         initialize();
     }
 
-    /**
-     * Inicialitza els components gràfics del panell de perfil.
-     * Configura el disseny utilitzant BorderLayout per organitzar els elements.
-     * Crea i posiciona els components:
-     * - Etiquetes per mostrar la informació personal de l'usuari
-     * - Estadístiques de joc
-     * - Botó per tornar al menú principal
-     *
-     * Els components s'estilitzen amb colors personalitzats per millorar la interfície d'usuari.
-     */
     private void initialize() {
         setLayout(new BorderLayout());
-        setBackground(new Color(240, 240, 240));
+        // Scrabble gradient background
+        JPanel backgroundPanel = ModernUI.createScrabbleGradientPanel();
+        backgroundPanel.setLayout(new GridBagLayout());
 
+        // Card panel for profile content
+        JPanel card = ModernUI.createScrabbleCard();
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setPreferredSize(new Dimension(440, 540));
+        card.setMaximumSize(new Dimension(440, 540));
+        card.setMinimumSize(new Dimension(340, 420));
+
+        // Logo & title
+        JLabel logo = new JLabel("👤", JLabel.CENTER);
+        logo.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 64));
+        logo.setAlignmentX(CENTER_ALIGNMENT);
+        card.add(Box.createVerticalStrut(18));
+        card.add(logo);
+        card.add(Box.createVerticalStrut(10));
+        JLabel title = new JLabel("Your Profile", JLabel.CENTER);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        title.setForeground(ModernUI.SCRABBLE_BLUE);
+        title.setAlignmentX(CENTER_ALIGNMENT);
+        card.add(title);
+        card.add(Box.createVerticalStrut(18));
+
+        // Profile info panel (assume getProfileInfoComponent() returns a JPanel with the info)
+        JPanel profileInfo = getProfileInfoComponent();
+        profileInfo.setOpaque(false);
+        profileInfo.setAlignmentX(CENTER_ALIGNMENT);
+        card.add(profileInfo);
+        card.add(Box.createVerticalStrut(24));
+
+        // Edit and Back buttons (modern Scrabble style)
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setAlignmentX(CENTER_ALIGNMENT);
+        JButton editButton = ModernUI.createScrabbleButton("✏️ Edit", ModernUI.SCRABBLE_GREEN);
+        editButton.setAlignmentY(CENTER_ALIGNMENT);
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(editButton);
+        buttonPanel.add(Box.createHorizontalStrut(16));
+        JButton backButton = ModernUI.createScrabbleButton("⬅ Back", ModernUI.SCRABBLE_BLUE);
+        backButton.setAlignmentY(CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> cp.showMainMenuPanel());
+        buttonPanel.add(backButton);
+        buttonPanel.add(Box.createHorizontalGlue());
+        card.add(buttonPanel);
+        card.add(Box.createVerticalStrut(18));
+
+        // Center card in background
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        backgroundPanel.add(card, gbc);
+        add(backgroundPanel, BorderLayout.CENTER);
+    }
+
+    private JPanel getProfileInfoComponent() {
         JPanel infoPanel = new JPanel(new GridLayout(0, 1));
         infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -63,32 +108,15 @@ public class ProfilePanel extends JPanel {
         addProfileField("Personal Record: ", infoPanel);
         addProfileField("Ranking Level: ", infoPanel);
 
-        add(infoPanel, BorderLayout.CENTER);
-
-        JButton backButton = new JButton("Back to Menu");
-        CommonComponents.styleButton(backButton, new Color(66, 165, 245));
-        backButton.addActionListener(e -> cp.showMainMenuPanel());
-        add(backButton, BorderLayout.SOUTH);
+        return infoPanel;
     }
 
-    /**
-     * Afegeix un camp d'informació al panell de perfil.
-     * Crea una etiqueta amb el text especificat i l'afegeix al panell.
-     *
-     * @param label El text de l'etiqueta a afegir
-     * @param panel El panell on s'afegirà la etiqueta
-     */
     private void addProfileField(String label, JPanel panel) {
         JLabel jLabel = new JLabel(label);
         jLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         panel.add(jLabel);
     }
 
-    /**
-     * Actualitza la informació del perfil de l'usuari actual.
-     * Recupera les dades de l'usuari i les estadístiques, i les mostra al panell.
-     * Si l'usuari actual no és una instància de Persona, no es realitza cap acció (en el cas d'un Bot).
-     */
     public void updateProfileInfo() {
         if (!(cp.getCurrentUser() instanceof Persona)) return;
 

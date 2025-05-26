@@ -1,14 +1,45 @@
 package Presentacio;
 
-import Domini.*;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.awt.dnd.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
+
+import Domini.Bot;
+import Domini.Casella;
+import Domini.ControladorDomini;
+import Domini.Fitxa;
+import Domini.Taulell;
+import Domini.Usuari;
 
 /**
  * Panel principal del joc Scrabble.
@@ -83,88 +114,124 @@ public class GamePanel extends JPanel {
      */
     private void initialize() {
         setLayout(new BorderLayout());
-        setBackground(new Color(240, 240, 240));
+        // Scrabble gradient background
+        JPanel backgroundPanel = ModernUI.createScrabbleGradientPanel();
+        backgroundPanel.setLayout(new GridBagLayout());
 
-        // Main game area panel
-        JPanel gameAreaPanel = new JPanel(new BorderLayout());
-        gameAreaPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // Card panel for game content
+        JPanel card = ModernUI.createScrabbleCard();
+        card.setLayout(new BoxLayout(card, BoxLayout.X_AXIS));
+        int screenW = Toolkit.getDefaultToolkit().getScreenSize().width;
+        int screenH = Toolkit.getDefaultToolkit().getScreenSize().height;
+        int cardWidth = Math.min(1100, (int)(screenW * 0.95));
+        int cardHeight = Math.min(850, (int)(screenH * 0.92));
+        card.setPreferredSize(new Dimension(cardWidth, cardHeight));
+        card.setMaximumSize(new Dimension(cardWidth, cardHeight));
+
+        // Main vertical panel for board + info
+        JPanel mainPanel = new JPanel();
+        mainPanel.setOpaque(false);
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+
+        // Make the board a bit smaller to ensure space for buttons
+        int controlsHeight = 120;
+        int boardSize = Math.min(cardHeight - controlsHeight - 32, cardWidth - 340 - 32); // 340 for side+button panel
+        boardSize = Math.max(boardSize, 420); // minimum size
 
         // Board panel
         initializeBoard();
-        JScrollPane boardScroll = new JScrollPane(boardPanel);
-        boardScroll.setPreferredSize(new Dimension(700, 700));
-        gameAreaPanel.add(boardScroll, BorderLayout.CENTER);
-
-        // Control panel
-        JPanel controlPanel = new JPanel(new BorderLayout());
-        controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        boardPanel.setPreferredSize(new Dimension(boardSize, boardSize));
+        boardPanel.setMaximumSize(new Dimension(boardSize, boardSize));
+        boardPanel.setMinimumSize(new Dimension(boardSize, boardSize));
+        mainPanel.add(boardPanel);
+        mainPanel.add(Box.createVerticalStrut(12));
 
         // Game info panel
         JPanel gameInfoPanel = new JPanel(new GridLayout(3, 1));
-
+        gameInfoPanel.setOpaque(false);
         currentPlayerLabel = new JLabel("", JLabel.CENTER);
-        currentPlayerLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        currentPlayerLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
         gameInfoPanel.add(currentPlayerLabel);
-
         remainingTilesLabel = new JLabel("", JLabel.CENTER);
-        remainingTilesLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        remainingTilesLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         gameInfoPanel.add(remainingTilesLabel);
-
         JLabel instructionLabel = new JLabel("Drag tiles from rack to board", JLabel.CENTER);
-        instructionLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+        instructionLabel.setFont(new Font("Segoe UI", Font.ITALIC, 12));
         gameInfoPanel.add(instructionLabel);
+        mainPanel.add(gameInfoPanel);
+        mainPanel.add(Box.createVerticalStrut(8));
 
-        controlPanel.add(gameInfoPanel, BorderLayout.NORTH);
-
-        // Button panel
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-
-        JButton playWordButton = new JButton("Play Word");
-        CommonComponents.styleButton(playWordButton, new Color(76, 175, 80));
+        // Button panel (vertical, right of board)
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 8, 20, 8));
+        JButton playWordButton = ModernUI.createScrabbleButton("✓ Play Word", ModernUI.SCRABBLE_GREEN);
+        playWordButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         playWordButton.addActionListener(e -> confirmWordPlacement());
         buttonPanel.add(playWordButton);
-
-        JButton exchangeButton = new JButton("Exchange Tiles");
-        CommonComponents.styleButton(exchangeButton, new Color(251, 192, 45));
+        buttonPanel.add(Box.createVerticalStrut(10));
+        JButton exchangeButton = ModernUI.createScrabbleButton("🔄 Exchange", ModernUI.SCRABBLE_TEAL);
+        exchangeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exchangeButton.addActionListener(e -> exchangeTiles());
         buttonPanel.add(exchangeButton);
-
-        JButton passButton = new JButton("Pass Turn");
-        CommonComponents.styleButton(passButton, new Color(66, 165, 245));
+        buttonPanel.add(Box.createVerticalStrut(10));
+        JButton passButton = ModernUI.createScrabbleButton("⏭️ Pass", ModernUI.SCRABBLE_BLUE);
+        passButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         passButton.addActionListener(e -> passTurn());
         buttonPanel.add(passButton);
-
-        JButton resignButton = new JButton("Resign");
-        CommonComponents.styleButton(resignButton, new Color(239, 83, 80));
+        buttonPanel.add(Box.createVerticalStrut(10));
+        JButton resignButton = ModernUI.createScrabbleButton("🏳️ Resign", ModernUI.ERROR_RED);
+        resignButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resignButton.addActionListener(e -> resignGame());
         buttonPanel.add(resignButton);
-
-        JButton saveButton = new JButton("Save Game");
-        CommonComponents.styleButton(saveButton, new Color(171, 71, 188));
+        buttonPanel.add(Box.createVerticalStrut(10));
+        JButton saveButton = ModernUI.createScrabbleButton("💾 Save", ModernUI.SCRABBLE_LIGHT_BLUE);
+        saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         saveButton.addActionListener(e -> saveGame());
         buttonPanel.add(saveButton);
+        buttonPanel.add(Box.createVerticalGlue());
 
-        controlPanel.add(buttonPanel, BorderLayout.CENTER);
-        gameAreaPanel.add(controlPanel, BorderLayout.SOUTH);
-
-        // Player and rack panel
-        JPanel sidePanel = new JPanel(new BorderLayout());
-        sidePanel.setPreferredSize(new Dimension(250, 0));
+        // Side panel (players + rack)
+        JPanel sidePanel = new JPanel();
+        sidePanel.setOpaque(false);
+        sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
+        sidePanel.setPreferredSize(new Dimension(160, cardHeight - 32));
+        sidePanel.setMaximumSize(new Dimension(160, cardHeight - 32));
         sidePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        // Player panel
         playerPanel = new JPanel(new GridLayout(0, 1));
+        playerPanel.setOpaque(false);
         playerPanel.setBorder(BorderFactory.createTitledBorder("Players"));
-        sidePanel.add(playerPanel, BorderLayout.NORTH);
-
-        // Rack panel
+        sidePanel.add(playerPanel);
+        sidePanel.add(Box.createVerticalStrut(16));
         rackPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 10));
+        rackPanel.setOpaque(false);
         rackPanel.setBorder(BorderFactory.createTitledBorder("Your Rack"));
-        rackPanel.setBackground(new Color(240, 240, 240));
-        sidePanel.add(rackPanel, BorderLayout.CENTER);
+        sidePanel.add(rackPanel);
+        sidePanel.add(Box.createVerticalGlue());
 
-        add(gameAreaPanel, BorderLayout.CENTER);
-        add(sidePanel, BorderLayout.EAST);
+        // Horizontal container for board+info, buttons, and side panel
+        JPanel hBox = new JPanel();
+        hBox.setOpaque(false);
+        hBox.setLayout(new BoxLayout(hBox, BoxLayout.X_AXIS));
+        hBox.add(mainPanel);
+        hBox.add(Box.createHorizontalStrut(18));
+        hBox.add(buttonPanel);
+        hBox.add(Box.createHorizontalStrut(18));
+        hBox.add(sidePanel);
+
+        card.add(hBox);
+
+        // Center card in background
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        backgroundPanel.add(card, gbc);
+        add(backgroundPanel, BorderLayout.CENTER);
     }
 
     /**
