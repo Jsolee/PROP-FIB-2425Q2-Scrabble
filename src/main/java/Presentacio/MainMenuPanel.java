@@ -79,6 +79,7 @@ public class MainMenuPanel extends JPanel {
         card.add(javax.swing.Box.createVerticalStrut(18));
         welcomeLabel = new JLabel();
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        //welcomeLabel.setForeground(Color.BLACK);
         welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(welcomeLabel);
         card.add(javax.swing.Box.createVerticalStrut(18));
@@ -101,6 +102,7 @@ public class MainMenuPanel extends JPanel {
         button.setPreferredSize(new Dimension(200, 60));
         button.setFont(new Font("Arial", Font.BOLD, 16));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setForeground(Color.BLACK);
         button.addActionListener(e -> action.run());
         card.add(button);
     }
@@ -348,7 +350,7 @@ public class MainMenuPanel extends JPanel {
     public void setVisible(boolean aFlag) {
         super.setVisible(aFlag);
         if (aFlag && welcomeLabel != null) {
-            welcomeLabel.setForeground(ModernUI.PRIMARY_BLUE); // Always set visible color
+            welcomeLabel.setForeground(Color.BLACK); // Always set visible color
         }
     }
 }
