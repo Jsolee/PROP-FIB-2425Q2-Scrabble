@@ -350,9 +350,9 @@ public class ControladorDomini {
      * 
      * @param partida objecte partida a finalitzar
      */
-    public void acabarPartida(Partida partida)
+    public void acabarPartida(Partida partida, Usuari rendido)
     {
-        controladorPartida.acabarPartida(partida);
+        controladorPartida.acabarPartida(partida, rendido);
     }
 
     /**

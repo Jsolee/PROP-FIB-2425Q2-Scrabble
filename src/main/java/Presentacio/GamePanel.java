@@ -711,7 +711,7 @@ public class GamePanel extends JPanel {
                 JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            cd.acabarPartida(cp.getCurrentGame());
+            cd.acabarPartida(cp.getCurrentGame(), cp.getCurrentGame().getJugadorActual());
             List<Usuari> players = cp.getCurrentGame().getJugadors();
 
             Usuari winner = null;

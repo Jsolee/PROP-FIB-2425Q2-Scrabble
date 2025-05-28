@@ -8,13 +8,29 @@
     "pais": "a",
     "estadistiques": {
       "paraulesTotals": 0,
-      "puntTotal": 0,
-      "partidesJugades": 6,
-      "partidesGuanyades": 0,
-      "recordPersonal": 0
+      "puntTotal": 6,
+      "partidesJugades": 7,
+      "partidesGuanyades": 1,
+      "recordPersonal": 6
     },
     "partidesEnCurs": [
       "o"
     ]
+  },
+  "dani": {
+    "type": "Persona",
+    "nom": "dani",
+    "correu": "correofalso",
+    "contrasenya": "1234",
+    "edat": "21",
+    "pais": "spain",
+    "estadistiques": {
+      "paraulesTotals": 0,
+      "puntTotal": 42,
+      "partidesJugades": 3,
+      "partidesGuanyades": 0,
+      "recordPersonal": 20
+    },
+    "partidesEnCurs": []
   }
 }

@@ -676,7 +676,7 @@ public class DriverDomini {
 
     public void finalitzarPartida(Partida partida)
     {
-        cd.acabarPartida(partida);
+        cd.acabarPartida(partida, null);
 
         Usuari guanyador = partida.determinarGuanyador();
         System.out.println("Partida finalitzada!");
@@ -693,7 +693,7 @@ public class DriverDomini {
     private void rendirse(Scanner scanner, Partida partida)
     {
         System.out.println(partida.getJugadorActual().getNom() + " s'ha rendit. Partida finalitzada.");
-        cd.acabarPartida(partida);
+        cd.acabarPartida(partida, partida.getJugadorActual());
         List<Usuari> jugadors = partida.getJugadors();
         for (Usuari jugador : jugadors) {
             if (jugador != partida.getJugadorActual())

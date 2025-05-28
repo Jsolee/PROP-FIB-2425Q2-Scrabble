@@ -185,14 +185,23 @@ public class ControladorPartida {
      * 
      * @param partida objecte partida.
      */
-    public void acabarPartida(Partida partida)
+    public void acabarPartida(Partida partida, Usuari rendido)
     {
         partida.acabarPartida();
         List<Usuari> jugadors = partida.getJugadors();
+        Usuari guanyador = partida.determinarGuanyador();
+
+        if (rendido != null)
+        {
+            if (rendido.equals(jugadors.get(0)))
+                guanyador = jugadors.get(1);
+            else if (rendido.equals(jugadors.get(1)))
+                guanyador = jugadors.get(0);
+        }
+
         for (int i = 0; i < 2; ++i)
         {
             Usuari jugador = jugadors.get(i);
-        
             if (jugador instanceof Persona)
             {
                 Persona persona = (Persona) jugador;
@@ -200,7 +209,11 @@ public class ControladorPartida {
                 Estadistiques estadistiques = persona.getEstadistiques();
                 estadistiques.incrementarPartidesJugades();
                 estadistiques.actualitzarRecordPersonal(partida.getPuntuacions().get(i));  
-                estadistiques.incrementarPuntTotal(partida.getPuntuacions().get(i));          
+                estadistiques.incrementarPuntTotal(partida.getPuntuacions().get(i));     
+
+                if (guanyador.equals(jugador))
+                    estadistiques.incrementarPartidesGuanyades();
+                
             }
         }
         partides.remove(partida.getNom());

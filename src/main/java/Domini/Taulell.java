@@ -308,8 +308,17 @@ public class Taulell {
             }
             return false;
         }
+        else 
+        {
+            for (var entry : jugades.entrySet()) {
+                int[] posicio = entry.getKey();
+                if (caselles[posicio[0]][posicio[1]].isEsCasellaInicial()) {
+                    return true; // Si és el primer moviment, només cal que col·loqui a la casella inicial
+                }
+            }
+            return false;
+        }
 
-        return true;
     }
 
     /**
