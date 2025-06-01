@@ -1,7 +1,6 @@
 package Presentacio;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -103,17 +102,27 @@ public class OptionsPanel extends JPanel {
     }
 
     private JPanel getOptionsComponent() {
-        JPanel optionsContent = new JPanel(new GridLayout(0, 1));
-        optionsContent.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel optionsContent = new JPanel();
+        optionsContent.setLayout(new BoxLayout(optionsContent, BoxLayout.Y_AXIS));
+        optionsContent.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        optionsContent.setOpaque(false);
 
-        JButton changePassButton = new JButton("Change Password");
-        CommonComponents.styleButton(changePassButton, new Color(76, 175, 80));
+        // Change Password Button
+        JButton changePassButton = ModernUI.createScrabbleButton("🔒 Change Password", ModernUI.SCRABBLE_GREEN);
+        changePassButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        changePassButton.setPreferredSize(new Dimension(280, 50));
+        changePassButton.setMaximumSize(new Dimension(280, 50));
         changePassButton.addActionListener(e -> changePassword());
-        optionsContent.add(changePassButton);
-
-        JButton deleteAccountButton = new JButton("Delete Account");
-        CommonComponents.styleButton(deleteAccountButton, new Color(239, 83, 80));
+        
+        // Delete Account Button
+        JButton deleteAccountButton = ModernUI.createScrabbleButton("🗑️ Delete Account", ModernUI.ERROR_RED);
+        deleteAccountButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        deleteAccountButton.setPreferredSize(new Dimension(280, 50));
+        deleteAccountButton.setMaximumSize(new Dimension(280, 50));
         deleteAccountButton.addActionListener(e -> deleteAccount());
+
+        optionsContent.add(changePassButton);
+        optionsContent.add(Box.createVerticalStrut(16));
         optionsContent.add(deleteAccountButton);
 
         return optionsContent;

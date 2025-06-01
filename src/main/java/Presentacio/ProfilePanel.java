@@ -21,6 +21,8 @@ import Domini.Persona;
 public class ProfilePanel extends JPanel {
     private ControladorPresentacio cp;
     private ControladorDomini cd;
+    private JPanel profileInfoPanel;
+    private JLabel[] profileLabels;
 
     public ProfilePanel(ControladorPresentacio cp, ControladorDomini cd) {
         this.cp = cp;
@@ -45,9 +47,7 @@ public class ProfilePanel extends JPanel {
         JLabel logo = new JLabel("👤", JLabel.CENTER);
         logo.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 64));
         logo.setAlignmentX(CENTER_ALIGNMENT);
-        card.add(Box.createVerticalStrut(18));
         card.add(logo);
-        card.add(Box.createVerticalStrut(10));
         JLabel title = new JLabel("Your Profile", JLabel.CENTER);
         title.setFont(new Font("Segoe UI", Font.BOLD, 28));
         title.setForeground(ModernUI.SCRABBLE_BLUE);
@@ -56,10 +56,10 @@ public class ProfilePanel extends JPanel {
         card.add(Box.createVerticalStrut(18));
 
         // Profile info panel (assume getProfileInfoComponent() returns a JPanel with the info)
-        JPanel profileInfo = getProfileInfoComponent();
-        profileInfo.setOpaque(false);
-        profileInfo.setAlignmentX(CENTER_ALIGNMENT);
-        card.add(profileInfo);
+        profileInfoPanel = getProfileInfoComponent();
+        profileInfoPanel.setOpaque(false);
+        profileInfoPanel.setAlignmentX(CENTER_ALIGNMENT);
+        card.add(profileInfoPanel);
         card.add(Box.createVerticalStrut(24));
 
         // Edit and Back buttons (modern Scrabble style)
@@ -92,29 +92,40 @@ public class ProfilePanel extends JPanel {
     }
 
     private JPanel getProfileInfoComponent() {
-        JPanel infoPanel = new JPanel(new GridLayout(0, 1));
-        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel infoPanel = new JPanel(new GridLayout(0, 1, 0, 8));
+        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        infoPanel.setOpaque(false);
 
-        addProfileField("Name: ", infoPanel);
-        addProfileField("Email: ", infoPanel);
-        addProfileField("Age: ", infoPanel);
-        addProfileField("Country: ", infoPanel);
-        infoPanel.add(new JLabel("Statistics:"));
-        infoPanel.getComponent(4).setFont(new Font("Arial", Font.BOLD, 16));
-        addProfileField("Games Played: ", infoPanel);
-        addProfileField("Games Won: ", infoPanel);
-        addProfileField("Games Lost: ", infoPanel);
-        addProfileField("Total Score: ", infoPanel);
-        addProfileField("Personal Record: ", infoPanel);
-        addProfileField("Ranking Level: ", infoPanel);
+        // Initialize profile labels array
+        profileLabels = new JLabel[10];
+        
+        profileLabels[0] = addProfileField("Name: ", infoPanel);
+        profileLabels[1] = addProfileField("Email: ", infoPanel);
+        profileLabels[2] = addProfileField("Age: ", infoPanel);
+        profileLabels[3] = addProfileField("Country: ", infoPanel);
+        
+        // Statistics header
+        JLabel statsHeader = new JLabel("Statistics:");
+        statsHeader.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        statsHeader.setForeground(ModernUI.SCRABBLE_BLUE);
+        infoPanel.add(statsHeader);
+        
+        profileLabels[4] = addProfileField("Games Played: ", infoPanel);
+        profileLabels[5] = addProfileField("Games Won: ", infoPanel);
+        profileLabels[6] = addProfileField("Games Lost: ", infoPanel);
+        profileLabels[7] = addProfileField("Total Score: ", infoPanel);
+        profileLabels[8] = addProfileField("Personal Record: ", infoPanel);
+        profileLabels[9] = addProfileField("Ranking Level: ", infoPanel);
 
         return infoPanel;
     }
 
-    private void addProfileField(String label, JPanel panel) {
+    private JLabel addProfileField(String label, JPanel panel) {
         JLabel jLabel = new JLabel(label);
-        jLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        jLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        jLabel.setForeground(ModernUI.TEXT_DARK);
         panel.add(jLabel);
+        return jLabel;
     }
 
     public void updateProfileInfo() {
@@ -123,18 +134,21 @@ public class ProfilePanel extends JPanel {
         Persona persona = (Persona) cp.getCurrentUser();
         Estadistiques stats = persona.getEstadistiques();
 
-        JPanel infoPanel = (JPanel) getComponent(0);
+        // Update profile labels with current user data
+        profileLabels[0].setText("Name: " + persona.getNom());
+        profileLabels[1].setText("Email: " + persona.getCorreu());
+        profileLabels[2].setText("Age: " + persona.getEdat());
+        profileLabels[3].setText("Country: " + persona.getPais());
 
-        ((JLabel) infoPanel.getComponent(0)).setText("Name: " + persona.getNom());
-        ((JLabel) infoPanel.getComponent(1)).setText("Email: " + persona.getCorreu());
-        ((JLabel) infoPanel.getComponent(2)).setText("Age: " + persona.getEdat());
-        ((JLabel) infoPanel.getComponent(3)).setText("Country: " + persona.getPais());
-
-        ((JLabel) infoPanel.getComponent(5)).setText("Games Played: " + stats.getPartidesJugades());
-        ((JLabel) infoPanel.getComponent(6)).setText("Games Won: " + stats.getPartidesGuanyades());
-        ((JLabel) infoPanel.getComponent(7)).setText("Games Lost: " + stats.getPartidesPerdudes());
-        ((JLabel) infoPanel.getComponent(8)).setText("Total Score: " + stats.getPuntuacioTotal());
-        ((JLabel) infoPanel.getComponent(9)).setText("Personal Record: " + stats.getRecordPersonal());
-        ((JLabel) infoPanel.getComponent(10)).setText("Ranking Level: " + stats.getNivellRanking());
+        profileLabels[4].setText("Games Played: " + stats.getPartidesJugades());
+        profileLabels[5].setText("Games Won: " + stats.getPartidesGuanyades());
+        profileLabels[6].setText("Games Lost: " + stats.getPartidesPerdudes());
+        profileLabels[7].setText("Total Score: " + stats.getPuntuacioTotal());
+        profileLabels[8].setText("Personal Record: " + stats.getRecordPersonal());
+        profileLabels[9].setText("Ranking Level: " + stats.getNivellRanking());
+        
+        // Refresh the panel
+        profileInfoPanel.revalidate();
+        profileInfoPanel.repaint();
     }
 }

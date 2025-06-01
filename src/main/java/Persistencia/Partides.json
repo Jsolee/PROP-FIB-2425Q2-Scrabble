@@ -7030,11 +7030,11 @@
     "nom": "r",
     "idioma": "catalan",
     "partidaAcabada": false,
-    "partidaPausada": false,
+    "partidaPausada": true,
     "tornActual": 0,
     "puntuacions": [
-      6,
-      30
+      20,
+      84
     ],
     "jugadorsIds": [
       "a",
@@ -7048,7 +7048,12 @@
             "y": 0,
             "multiplicador_letra": 1,
             "multiplicador_paraula": 3,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "R",
+              "valor": 0,
+              "blank": false
+            },
             "esCasellaInicial": false,
             "esAnchor": false,
             "necessitaCrossCheckAcross": false,
@@ -7063,11 +7068,14 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
+            "esAnchor": true,
             "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
+            "necessitaCrossCheckDown": true,
             "crossChecksAcross": [],
-            "crossChecksDown": []
+            "crossChecksDown": [
+              "E",
+              "O"
+            ]
           },
           {
             "x": 0,
@@ -7245,7 +7253,12 @@
             "y": 0,
             "multiplicador_letra": 1,
             "multiplicador_paraula": 1,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "E",
+              "valor": 1,
+              "blank": false
+            },
             "esCasellaInicial": false,
             "esAnchor": false,
             "necessitaCrossCheckAcross": false,
@@ -7260,11 +7273,24 @@
             "multiplicador_paraula": 2,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
+            "esAnchor": true,
             "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
+            "necessitaCrossCheckDown": true,
             "crossChecksAcross": [],
-            "crossChecksDown": []
+            "crossChecksDown": [
+              "C",
+              "H",
+              "I",
+              "L",
+              "M",
+              "N",
+              "O",
+              "P",
+              "S",
+              "T",
+              "U",
+              "X"
+            ]
           },
           {
             "x": 1,
@@ -7442,7 +7468,12 @@
             "y": 0,
             "multiplicador_letra": 1,
             "multiplicador_paraula": 1,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "A",
+              "valor": 0,
+              "blank": false
+            },
             "esCasellaInicial": false,
             "esAnchor": false,
             "necessitaCrossCheckAcross": false,
@@ -7457,11 +7488,21 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
+            "esAnchor": true,
             "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
+            "necessitaCrossCheckDown": true,
             "crossChecksAcross": [],
-            "crossChecksDown": []
+            "crossChecksDown": [
+              "D",
+              "H",
+              "I",
+              "NY",
+              "L",
+              "M",
+              "S",
+              "U",
+              "V"
+            ]
           },
           {
             "x": 2,
@@ -7639,7 +7680,12 @@
             "y": 0,
             "multiplicador_letra": 2,
             "multiplicador_paraula": 1,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "D",
+              "valor": 2,
+              "blank": false
+            },
             "esCasellaInicial": false,
             "esAnchor": false,
             "necessitaCrossCheckAcross": false,
@@ -7654,11 +7700,17 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
+            "esAnchor": true,
             "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
+            "necessitaCrossCheckDown": true,
             "crossChecksAcross": [],
-            "crossChecksDown": []
+            "crossChecksDown": [
+              "A",
+              "E",
+              "I",
+              "O",
+              "U"
+            ]
           },
           {
             "x": 3,
@@ -7719,8 +7771,8 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
             "necessitaCrossCheckDown": false,
             "crossChecksAcross": [],
             "crossChecksDown": []
@@ -7836,7 +7888,12 @@
             "y": 0,
             "multiplicador_letra": 1,
             "multiplicador_paraula": 1,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "M",
+              "valor": 2,
+              "blank": false
+            },
             "esCasellaInicial": false,
             "esAnchor": false,
             "necessitaCrossCheckAcross": false,
@@ -7851,11 +7908,21 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
+            "necessitaCrossCheckDown": true,
+            "crossChecksAcross": [
+              "A",
+              "E",
+              "I",
+              "O",
+              "U"
+            ],
+            "crossChecksDown": [
+              "A",
+              "E",
+              "I"
+            ]
           },
           {
             "x": 4,
@@ -7903,18 +7970,26 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
+            "esAnchor": true,
             "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
+            "necessitaCrossCheckDown": true,
             "crossChecksAcross": [],
-            "crossChecksDown": []
+            "crossChecksDown": [
+              "E",
+              "U"
+            ]
           },
           {
             "x": 4,
             "y": 6,
             "multiplicador_letra": 1,
             "multiplicador_paraula": 1,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "T",
+              "valor": 1,
+              "blank": false
+            },
             "esCasellaInicial": false,
             "esAnchor": false,
             "necessitaCrossCheckAcross": false,
@@ -7929,11 +8004,16 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
+            "esAnchor": true,
             "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
+            "necessitaCrossCheckDown": true,
             "crossChecksAcross": [],
-            "crossChecksDown": []
+            "crossChecksDown": [
+              "A",
+              "E",
+              "O",
+              "U"
+            ]
           },
           {
             "x": 4,
@@ -7942,8 +8022,8 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
             "necessitaCrossCheckDown": false,
             "crossChecksAcross": [],
             "crossChecksDown": []
@@ -8033,7 +8113,12 @@
             "y": 0,
             "multiplicador_letra": 1,
             "multiplicador_paraula": 1,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "E",
+              "valor": 1,
+              "blank": false
+            },
             "esCasellaInicial": false,
             "esAnchor": false,
             "necessitaCrossCheckAcross": false,
@@ -8046,7 +8131,12 @@
             "y": 1,
             "multiplicador_letra": 3,
             "multiplicador_paraula": 1,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "S",
+              "valor": 1,
+              "blank": false
+            },
             "esCasellaInicial": false,
             "esAnchor": false,
             "necessitaCrossCheckAcross": false,
@@ -8061,11 +8151,15 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
+            "esAnchor": true,
             "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
+            "necessitaCrossCheckDown": true,
             "crossChecksAcross": [],
-            "crossChecksDown": []
+            "crossChecksDown": [
+              "C",
+              "M",
+              "T"
+            ]
           },
           {
             "x": 5,
@@ -8098,20 +8192,45 @@
             "y": 5,
             "multiplicador_letra": 3,
             "multiplicador_paraula": 1,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "G",
+              "valor": 3,
+              "blank": false
+            },
             "esCasellaInicial": false,
-            "esAnchor": false,
+            "esAnchor": true,
             "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
+            "necessitaCrossCheckDown": true,
             "crossChecksAcross": [],
-            "crossChecksDown": []
+            "crossChecksDown": [
+              "B",
+              "C",
+              "D",
+              "F",
+              "G",
+              "H",
+              "M",
+              "N",
+              "P",
+              "R",
+              "S",
+              "T",
+              "V",
+              "X"
+            ]
           },
           {
             "x": 5,
             "y": 6,
             "multiplicador_letra": 1,
             "multiplicador_paraula": 1,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "E",
+              "valor": 1,
+              "blank": false
+            },
             "esCasellaInicial": false,
             "esAnchor": false,
             "necessitaCrossCheckAcross": false,
@@ -8126,18 +8245,25 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
+            "esAnchor": true,
             "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
+            "necessitaCrossCheckDown": true,
             "crossChecksAcross": [],
-            "crossChecksDown": []
+            "crossChecksDown": [
+              "S"
+            ]
           },
           {
             "x": 5,
             "y": 8,
             "multiplicador_letra": 1,
             "multiplicador_paraula": 1,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "C",
+              "valor": 2,
+              "blank": false
+            },
             "esCasellaInicial": false,
             "esAnchor": false,
             "necessitaCrossCheckAcross": false,
@@ -8152,11 +8278,15 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
+            "esAnchor": true,
             "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
+            "necessitaCrossCheckDown": true,
             "crossChecksAcross": [],
-            "crossChecksDown": []
+            "crossChecksDown": [
+              "A",
+              "E",
+              "U"
+            ]
           },
           {
             "x": 5,
@@ -8230,12 +8360,23 @@
             "y": 0,
             "multiplicador_letra": 1,
             "multiplicador_paraula": 1,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "T",
+              "valor": 1,
+              "blank": false
+            },
             "esCasellaInicial": false,
             "esAnchor": false,
             "necessitaCrossCheckAcross": false,
             "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
+            "crossChecksAcross": [
+              "A",
+              "E",
+              "I",
+              "O",
+              "U"
+            ],
             "crossChecksDown": []
           },
           {
@@ -8245,11 +8386,18 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
+            "necessitaCrossCheckDown": true,
+            "crossChecksAcross": [
+              "U"
+            ],
+            "crossChecksDown": [
+              "A",
+              "E",
+              "O",
+              "U"
+            ]
           },
           {
             "x": 6,
@@ -8258,67 +8406,19 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
             "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
+            "crossChecksAcross": [
+              "E",
+              "O",
+              "U"
+            ],
             "crossChecksDown": []
           },
           {
             "x": 6,
             "y": 3,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 5,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 6,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 7,
             "multiplicador_letra": 1,
             "multiplicador_paraula": 1,
             "ocupada": false,
@@ -8327,19 +8427,129 @@
             "necessitaCrossCheckAcross": true,
             "necessitaCrossCheckDown": false,
             "crossChecksAcross": [
-              "A"
+              "O",
+              "U"
             ],
             "crossChecksDown": []
+          },
+          {
+            "x": 6,
+            "y": 4,
+            "multiplicador_letra": 1,
+            "multiplicador_paraula": 1,
+            "ocupada": false,
+            "esCasellaInicial": false,
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
+            "necessitaCrossCheckDown": false,
+            "crossChecksAcross": [
+              "B",
+              "C",
+              "D",
+              "F",
+              "G",
+              "H",
+              "M",
+              "N",
+              "P",
+              "R",
+              "S",
+              "T",
+              "V",
+              "X"
+            ],
+            "crossChecksDown": []
+          },
+          {
+            "x": 6,
+            "y": 5,
+            "multiplicador_letra": 1,
+            "multiplicador_paraula": 1,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "E",
+              "valor": 1,
+              "blank": false
+            },
+            "esCasellaInicial": false,
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
+            "necessitaCrossCheckDown": true,
+            "crossChecksAcross": [
+              "E",
+              "U"
+            ],
+            "crossChecksDown": [
+              "E",
+              "U"
+            ]
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "multiplicador_letra": 2,
+            "multiplicador_paraula": 1,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "T",
+              "valor": 1,
+              "blank": false
+            },
+            "esCasellaInicial": false,
+            "esAnchor": false,
+            "necessitaCrossCheckAcross": false,
+            "necessitaCrossCheckDown": false,
+            "crossChecksAcross": [
+              "C",
+              "D",
+              "F",
+              "Ç",
+              "H",
+              "J",
+              "L",
+              "M",
+              "N",
+              "P",
+              "S",
+              "T",
+              "V",
+              "X"
+            ],
+            "crossChecksDown": []
+          },
+          {
+            "x": 6,
+            "y": 7,
+            "multiplicador_letra": 1,
+            "multiplicador_paraula": 1,
+            "ocupada": false,
+            "esCasellaInicial": false,
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
+            "necessitaCrossCheckDown": true,
+            "crossChecksAcross": [
+              "A"
+            ],
+            "crossChecksDown": [
+              "A",
+              "E",
+              "O"
+            ]
           },
           {
             "x": 6,
             "y": 8,
             "multiplicador_letra": 2,
             "multiplicador_paraula": 1,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "U",
+              "valor": 1,
+              "blank": false
+            },
             "esCasellaInicial": false,
-            "esAnchor": true,
-            "necessitaCrossCheckAcross": true,
+            "esAnchor": false,
+            "necessitaCrossCheckAcross": false,
             "necessitaCrossCheckDown": false,
             "crossChecksAcross": [
               "C",
@@ -8366,11 +8576,20 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
+            "esAnchor": true,
             "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
+            "necessitaCrossCheckDown": true,
             "crossChecksAcross": [],
-            "crossChecksDown": []
+            "crossChecksDown": [
+              "C",
+              "F",
+              "I",
+              "N",
+              "P",
+              "R",
+              "S",
+              "T"
+            ]
           },
           {
             "x": 6,
@@ -8559,9 +8778,9 @@
               "blank": false
             },
             "esCasellaInicial": false,
-            "esAnchor": true,
+            "esAnchor": false,
             "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": true,
+            "necessitaCrossCheckDown": false,
             "crossChecksAcross": [],
             "crossChecksDown": [
               "O"
@@ -8614,15 +8833,7 @@
             "necessitaCrossCheckAcross": false,
             "necessitaCrossCheckDown": true,
             "crossChecksAcross": [],
-            "crossChecksDown": [
-              "NY",
-              "M",
-              "N",
-              "R",
-              "S",
-              "T",
-              "U"
-            ]
+            "crossChecksDown": []
           },
           {
             "x": 7,
@@ -8698,8 +8909,8 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
             "necessitaCrossCheckDown": false,
             "crossChecksAcross": [],
             "crossChecksDown": []
@@ -8711,10 +8922,23 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
             "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
+            "crossChecksAcross": [
+              "C",
+              "H",
+              "I",
+              "L",
+              "M",
+              "N",
+              "O",
+              "P",
+              "S",
+              "T",
+              "U",
+              "X"
+            ],
             "crossChecksDown": []
           },
           {
@@ -8724,10 +8948,14 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
             "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
+            "crossChecksAcross": [
+              "A",
+              "E",
+              "U"
+            ],
             "crossChecksDown": []
           },
           {
@@ -8737,10 +8965,13 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
             "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
+            "crossChecksAcross": [
+              "E",
+              "O"
+            ],
             "crossChecksDown": []
           },
           {
@@ -8750,10 +8981,23 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
             "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
+            "crossChecksAcross": [
+              "C",
+              "H",
+              "I",
+              "L",
+              "M",
+              "N",
+              "O",
+              "P",
+              "S",
+              "T",
+              "U",
+              "X"
+            ],
             "crossChecksDown": []
           },
           {
@@ -8761,12 +9005,22 @@
             "y": 5,
             "multiplicador_letra": 1,
             "multiplicador_paraula": 1,
-            "ocupada": false,
+            "ocupada": true,
+            "fitxa": {
+              "lletra": "S",
+              "valor": 1,
+              "blank": false
+            },
             "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
             "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
+            "crossChecksAcross": [
+              "A",
+              "E",
+              "O",
+              "U"
+            ],
             "crossChecksDown": []
           },
           {
@@ -8776,10 +9030,12 @@
             "multiplicador_paraula": 1,
             "ocupada": false,
             "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
+            "esAnchor": true,
+            "necessitaCrossCheckAcross": true,
             "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
+            "crossChecksAcross": [
+              "N"
+            ],
             "crossChecksDown": []
           },
           {
@@ -8812,15 +9068,7 @@
             "necessitaCrossCheckAcross": true,
             "necessitaCrossCheckDown": false,
             "crossChecksAcross": [
-              "D",
-              "H",
-              "I",
-              "NY",
-              "L",
-              "M",
-              "S",
-              "U",
-              "V"
+              "T"
             ],
             "crossChecksDown": []
           },
@@ -10091,8 +10339,18 @@
     "atrils": [
       [
         {
-          "lletra": "C",
-          "valor": 2,
+          "lletra": "O",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "H",
+          "valor": 8,
+          "blank": false
+        },
+        {
+          "lletra": "O",
+          "valor": 1,
           "blank": false
         },
         {
@@ -10101,12 +10359,7 @@
           "blank": false
         },
         {
-          "lletra": "T",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "O",
+          "lletra": "I",
           "valor": 1,
           "blank": false
         },
@@ -10116,49 +10369,44 @@
           "blank": false
         },
         {
-          "lletra": "S",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "H",
+          "lletra": "Q",
           "valor": 8,
           "blank": false
         }
       ],
       [
         {
-          "lletra": "#",
-          "valor": 0,
-          "blank": false
-        },
-        {
-          "lletra": "D",
-          "valor": 2,
-          "blank": false
-        },
-        {
-          "lletra": "E",
+          "lletra": "A",
           "valor": 1,
           "blank": false
         },
         {
-          "lletra": "#",
-          "valor": 0,
-          "blank": false
-        },
-        {
-          "lletra": "T",
+          "lletra": "R",
           "valor": 1,
           "blank": false
         },
         {
-          "lletra": "M",
-          "valor": 2,
+          "lletra": "I",
+          "valor": 1,
           "blank": false
         },
         {
-          "lletra": "E",
+          "lletra": "S",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "A",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "A",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "R",
           "valor": 1,
           "blank": false
         }
@@ -10173,33 +10421,23 @@
           "blank": false
         },
         {
-          "lletra": "E",
+          "lletra": "L",
           "valor": 1,
           "blank": false
         },
         {
-          "lletra": "X",
-          "valor": 10,
-          "blank": false
-        },
-        {
-          "lletra": "E",
+          "lletra": "R",
           "valor": 1,
           "blank": false
         },
         {
-          "lletra": "N",
+          "lletra": "I",
           "valor": 1,
           "blank": false
         },
         {
-          "lletra": "U",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "S",
-          "valor": 1,
+          "lletra": "M",
+          "valor": 2,
           "blank": false
         },
         {
@@ -10213,13 +10451,18 @@
           "blank": false
         },
         {
-          "lletra": "I",
+          "lletra": "S",
           "valor": 1,
           "blank": false
         },
         {
-          "lletra": "R",
+          "lletra": "N",
           "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "Z",
+          "valor": 8,
           "blank": false
         },
         {
@@ -10228,12 +10471,32 @@
           "blank": false
         },
         {
+          "lletra": "U",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "A",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "E",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "I",
+          "valor": 1,
+          "blank": false
+        },
+        {
           "lletra": "L",
           "valor": 1,
           "blank": false
         },
         {
-          "lletra": "N",
+          "lletra": "L",
           "valor": 1,
           "blank": false
         },
@@ -10243,6 +10506,16 @@
           "blank": false
         },
         {
+          "lletra": "V",
+          "valor": 4,
+          "blank": false
+        },
+        {
+          "lletra": "P",
+          "valor": 3,
+          "blank": false
+        },
+        {
           "lletra": "A",
           "valor": 1,
           "blank": false
@@ -10253,43 +10526,13 @@
           "blank": false
         },
         {
-          "lletra": "S",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "N",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "L",
+          "lletra": "A",
           "valor": 1,
           "blank": false
         },
         {
           "lletra": "A",
           "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "S",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "J",
-          "valor": 8,
           "blank": false
         },
         {
@@ -10298,8 +10541,28 @@
           "blank": false
         },
         {
-          "lletra": "NY",
-          "valor": 10,
+          "lletra": "I",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "P",
+          "valor": 3,
+          "blank": false
+        },
+        {
+          "lletra": "J",
+          "valor": 8,
+          "blank": false
+        },
+        {
+          "lletra": "U",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "R",
+          "valor": 1,
           "blank": false
         },
         {
@@ -10318,32 +10581,7 @@
           "blank": false
         },
         {
-          "lletra": "L·L",
-          "valor": 10,
-          "blank": false
-        },
-        {
-          "lletra": "T",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "Ç",
-          "valor": 10,
-          "blank": false
-        },
-        {
-          "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "L",
+          "lletra": "O",
           "valor": 1,
           "blank": false
         },
@@ -10353,97 +10591,7 @@
           "blank": false
         },
         {
-          "lletra": "U",
-          "valor": 1,
-          "blank": false
-        },
-        {
           "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "N",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "B",
-          "valor": 3,
-          "blank": false
-        },
-        {
-          "lletra": "S",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "G",
-          "valor": 3,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "P",
-          "valor": 3,
-          "blank": false
-        },
-        {
-          "lletra": "U",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "L",
           "valor": 1,
           "blank": false
         },
@@ -10454,3124 +10602,6 @@
         },
         {
           "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "N",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "O",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "F",
-          "valor": 4,
-          "blank": false
-        },
-        {
-          "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "M",
-          "valor": 2,
-          "blank": false
-        },
-        {
-          "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "P",
-          "valor": 3,
-          "blank": false
-        },
-        {
-          "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "V",
-          "valor": 4,
-          "blank": false
-        },
-        {
-          "lletra": "G",
-          "valor": 3,
-          "blank": false
-        },
-        {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "M",
-          "valor": 2,
-          "blank": false
-        },
-        {
-          "lletra": "O",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "Q",
-          "valor": 8,
-          "blank": false
-        },
-        {
-          "lletra": "Z",
-          "valor": 8,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        }
-      ],
-      "alfabet": [
-        "L·L",
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "Ç",
-        "H",
-        "I",
-        "J",
-        "NY",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "X",
-        "Z",
-        "#"
-      ]
-    }
-  },
-  "o": {
-    "nom": "o",
-    "idioma": "catalan",
-    "partidaAcabada": false,
-    "partidaPausada": true,
-    "tornActual": 0,
-    "puntuacions": [
-      0,
-      0
-    ],
-    "jugadorsIds": [
-      "a",
-      "bot"
-    ],
-    "taulell": {
-      "caselles": [
-        [
-          {
-            "x": 0,
-            "y": 0,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 3,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 1,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 2,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 3,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 5,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 6,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 7,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 3,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 8,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 9,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 11,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 12,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 13,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 0,
-            "y": 14,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 3,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 1,
-            "y": 0,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 1,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 2,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 3,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 5,
-            "multiplicador_letra": 3,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 6,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 7,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 8,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 9,
-            "multiplicador_letra": 3,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 11,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 12,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 13,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 1,
-            "y": 14,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 2,
-            "y": 0,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 1,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 2,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 3,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 5,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 6,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 7,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 8,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 9,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 11,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 12,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 13,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 2,
-            "y": 14,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 3,
-            "y": 0,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 1,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 2,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 3,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 5,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 6,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 7,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 8,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 9,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 11,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 12,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 13,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 3,
-            "y": 14,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 4,
-            "y": 0,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 1,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 2,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 3,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 5,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 6,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 7,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 8,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 9,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 11,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 12,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 13,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 4,
-            "y": 14,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 5,
-            "y": 0,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 1,
-            "multiplicador_letra": 3,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 2,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 3,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 5,
-            "multiplicador_letra": 3,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 6,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 7,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 8,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 9,
-            "multiplicador_letra": 3,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 11,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 12,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 13,
-            "multiplicador_letra": 3,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 5,
-            "y": 14,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 6,
-            "y": 0,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 1,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 2,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 3,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 5,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 6,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 7,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 8,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 9,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 11,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 12,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 13,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 6,
-            "y": 14,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 7,
-            "y": 0,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 3,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 1,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 2,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 3,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 5,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 6,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 7,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": true,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 8,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 9,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 11,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 12,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 13,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 7,
-            "y": 14,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 3,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 8,
-            "y": 0,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 1,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 2,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 3,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 5,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 6,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 7,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 8,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 9,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 11,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 12,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 13,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 8,
-            "y": 14,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 9,
-            "y": 0,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 1,
-            "multiplicador_letra": 3,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 2,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 3,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 5,
-            "multiplicador_letra": 3,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 6,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 7,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 8,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 9,
-            "multiplicador_letra": 3,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 11,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 12,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 13,
-            "multiplicador_letra": 3,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 9,
-            "y": 14,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 10,
-            "y": 0,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 1,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 2,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 3,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 5,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 6,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 7,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 8,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 9,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 11,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 12,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 13,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 10,
-            "y": 14,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 11,
-            "y": 0,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 1,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 2,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 3,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 5,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 6,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 7,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 8,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 9,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 11,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 12,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 13,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 11,
-            "y": 14,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 12,
-            "y": 0,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 1,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 2,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 3,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 5,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 6,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 7,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 8,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 9,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 11,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 12,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 13,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 12,
-            "y": 14,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 13,
-            "y": 0,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 1,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 2,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 3,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 5,
-            "multiplicador_letra": 3,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 6,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 7,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 8,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 9,
-            "multiplicador_letra": 3,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 11,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 12,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 13,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 2,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 13,
-            "y": 14,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ],
-        [
-          {
-            "x": 14,
-            "y": 0,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 3,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 1,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 2,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 3,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 4,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 5,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 6,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 7,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 3,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 8,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 9,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 10,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 11,
-            "multiplicador_letra": 2,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 12,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 13,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 1,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          },
-          {
-            "x": 14,
-            "y": 14,
-            "multiplicador_letra": 1,
-            "multiplicador_paraula": 3,
-            "ocupada": false,
-            "esCasellaInicial": false,
-            "esAnchor": false,
-            "necessitaCrossCheckAcross": false,
-            "necessitaCrossCheckDown": false,
-            "crossChecksAcross": [],
-            "crossChecksDown": []
-          }
-        ]
-      ],
-      "primerMoviment": true
-    },
-    "atrils": [
-      [
-        {
-          "lletra": "M",
-          "valor": 2,
-          "blank": false
-        },
-        {
-          "lletra": "N",
           "valor": 1,
           "blank": false
         },
@@ -13581,69 +10611,7 @@
           "blank": false
         },
         {
-          "lletra": "G",
-          "valor": 3,
-          "blank": false
-        },
-        {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "O",
-          "valor": 1,
-          "blank": false
-        }
-      ],
-      [
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "V",
-          "valor": 4,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "C",
-          "valor": 2,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        }
-      ]
-    ],
-    "bossa": {
-      "nom": "catalan",
-      "fitxes": [
-        {
-          "lletra": "U",
+          "lletra": "R",
           "valor": 1,
           "blank": false
         },
@@ -13653,197 +10621,12 @@
           "blank": false
         },
         {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "M",
-          "valor": 2,
-          "blank": false
-        },
-        {
-          "lletra": "H",
-          "valor": 8,
-          "blank": false
-        },
-        {
-          "lletra": "Q",
-          "valor": 8,
-          "blank": false
-        },
-        {
-          "lletra": "T",
-          "valor": 1,
-          "blank": false
-        },
-        {
           "lletra": "E",
           "valor": 1,
           "blank": false
         },
         {
-          "lletra": "L",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "P",
-          "valor": 3,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "F",
-          "valor": 4,
-          "blank": false
-        },
-        {
-          "lletra": "S",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "O",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "D",
-          "valor": 2,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
           "lletra": "N",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "S",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "L",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "S",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "S",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "N",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "J",
-          "valor": 8,
-          "blank": false
-        },
-        {
-          "lletra": "M",
-          "valor": 2,
-          "blank": false
-        },
-        {
-          "lletra": "S",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "P",
-          "valor": 3,
-          "blank": false
-        },
-        {
-          "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "C",
-          "valor": 2,
-          "blank": false
-        },
-        {
-          "lletra": "NY",
-          "valor": 10,
-          "blank": false
-        },
-        {
-          "lletra": "B",
-          "valor": 3,
-          "blank": false
-        },
-        {
-          "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "N",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "T",
           "valor": 1,
           "blank": false
         },
@@ -13858,6 +10641,86 @@
           "blank": false
         },
         {
+          "lletra": "G",
+          "valor": 3,
+          "blank": false
+        },
+        {
+          "lletra": "B",
+          "valor": 3,
+          "blank": false
+        },
+        {
+          "lletra": "S",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "N",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "Ç",
+          "valor": 10,
+          "blank": false
+        },
+        {
+          "lletra": "E",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "F",
+          "valor": 4,
+          "blank": false
+        },
+        {
+          "lletra": "R",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "#",
+          "valor": 0,
+          "blank": false
+        },
+        {
+          "lletra": "N",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "NY",
+          "valor": 10,
+          "blank": false
+        },
+        {
+          "lletra": "I",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "M",
+          "valor": 2,
+          "blank": false
+        },
+        {
+          "lletra": "E",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "I",
+          "valor": 1,
+          "blank": false
+        },
+        {
+          "lletra": "E",
+          "valor": 1,
+          "blank": false
+        },
+        {
           "lletra": "L·L",
           "valor": 10,
           "blank": false
@@ -13868,208 +10731,8 @@
           "blank": false
         },
         {
-          "lletra": "T",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "D",
-          "valor": 2,
-          "blank": false
-        },
-        {
-          "lletra": "S",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "Ç",
-          "valor": 10,
-          "blank": false
-        },
-        {
-          "lletra": "I",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "G",
-          "valor": 3,
-          "blank": false
-        },
-        {
-          "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "T",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "S",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "T",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "O",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "R",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "C",
-          "valor": 2,
-          "blank": false
-        },
-        {
-          "lletra": "L",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "O",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "U",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "O",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "U",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "A",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "B",
-          "valor": 3,
-          "blank": false
-        },
-        {
           "lletra": "N",
           "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "#",
-          "valor": 0,
-          "blank": false
-        },
-        {
-          "lletra": "E",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "N",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "S",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "D",
-          "valor": 2,
-          "blank": false
-        },
-        {
-          "lletra": "U",
-          "valor": 1,
-          "blank": false
-        },
-        {
-          "lletra": "Z",
-          "valor": 8,
           "blank": false
         }
       ],
