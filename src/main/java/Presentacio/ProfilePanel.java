@@ -43,7 +43,7 @@ public class ProfilePanel extends JPanel {
         card.setMaximumSize(new Dimension(440, 540));
         card.setMinimumSize(new Dimension(340, 420));
 
-        // Logo & title
+        // Logo & title 
         JLabel logo = new JLabel("👤", JLabel.CENTER);
         logo.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 64));
         logo.setAlignmentX(CENTER_ALIGNMENT);

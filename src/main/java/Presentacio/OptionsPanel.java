@@ -77,7 +77,7 @@ public class OptionsPanel extends JPanel {
         card.add(title);
         card.add(Box.createVerticalStrut(18));
 
-        // Options content (assume getOptionsComponent() returns a JPanel with the options UI)
+        // Options content (assume getOptionsComponent() returns a JPanel with the options UI
         JPanel optionsContent = getOptionsComponent();
         optionsContent.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(optionsContent);
